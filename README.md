@@ -4,13 +4,13 @@
 O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 
 #### Bibliotecas utilizadas: ####
-- requests
-- BeautifulSoup
-- lxml
+- [requests](https://pypi.org/project/requests/)
+- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
+- [lxml](https://pypi.org/project/lxml/)
 
 #### Plataforma onde o Bot está operando: ####
-- [ ] Twitter
 - [ ] Discord
+- [ ] Twitter
 
 ###### Minhas informações para contato: ######
 - E-mail: allan.capistrano3@gmail.com
