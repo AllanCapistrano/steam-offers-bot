@@ -20,7 +20,8 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 # Comandos do Bot no Discord
 Comando | Descrição
 ------- | ---------
-.help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
-.promocao | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
-.destaque | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
-.botinfo | Exibe as informações do Bot e do criador do mesmo.
+$help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
+$convite | Gera o convite para que o Bot possa ser adicionado em outros servidores.
+$promocao | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
+$destaque | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
+$botinfo | Exibe as informações do Bot e do criador do mesmo.
