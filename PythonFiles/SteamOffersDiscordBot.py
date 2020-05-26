@@ -62,7 +62,6 @@ async def on_message(message):
         list_gamesURl, list_gamesIMG = catchOffers.getDailyGamesOffers()
         list_gamesOP, list_gamesFP = catchOffers.getDailyGamesOffersPrices()
         x = len(list_gamesURl)
-        print("debug: " + str(x)) #Apagar depois
 
         while(x > 0):
             embedDailyGames = discord.Embed(
