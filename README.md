@@ -9,7 +9,7 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 - [lxml](https://pypi.org/project/lxml/)
 
 #### Plataforma onde o Bot está operando: ####
-- [ ] Discord
+- [x] Discord
 - [ ] Twitter
 
 ###### Minhas informações para contato: ######
