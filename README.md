@@ -7,6 +7,7 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 - [requests](https://pypi.org/project/requests/)
 - [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
 - [lxml](https://pypi.org/project/lxml/)
+- [discord.py](https://pypi.org/project/discord.py/)
 
 #### Plataforma onde o Bot está operando: ####
 - [x] Discord
