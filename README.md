@@ -23,4 +23,4 @@ Comando | Descrição
 .help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
 .destaque | Exibe quais os jogos em promoção estão em destaque.
 .promocao | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
-.botinfo | Exibe as informações do criador do Bot.
+.botinfo | Exibe as informações do Bot e do criador do mesmo.
