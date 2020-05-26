@@ -18,7 +18,7 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 - Twitter: [@ArticZoldyck](https://twitter.com/ArticZoldyck)
 - Discord: ArticZ#1081
 
-#### Convite ####
+#### Convite para o Discord ####
 [SteamOffersDiscordBot](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 # Comandos do Bot no Discord
