@@ -66,4 +66,6 @@ async def on_message(message):
             x = x - 1
             print("debug " + str(len(list_gamesURl)))
 
+        #Colocar o comando para gerar o convite
+
 client.run(TOKEN)
