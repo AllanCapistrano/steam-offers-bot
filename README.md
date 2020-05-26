@@ -21,6 +21,6 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 Comando | Descrição
 ------- | ---------
 .help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
-.destaque | Exibe quais os jogos em promoção estão em destaque.
 .promocao | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
+.destaque | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
 .botinfo | Exibe as informações do Bot e do criador do mesmo.
