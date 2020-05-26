@@ -40,9 +40,11 @@ class CatchOffers:
             
         return gameOriginalPrice, gameFinalPrice
 
+    #Função que retorna três listas, uma contendo a URL, outra contendo as imagens, e por fim, outra contendo a descrição do evento/jogo em destaque.
     def getSpotlightOffers(self):
         gamesURL = []
         gamesIMG = []
+        gamesH2 = []
         url = 'https://store.steampowered.com/specials?l=brazilian'
         soup = self.reqUrl(url)
 
@@ -52,17 +54,15 @@ class CatchOffers:
             gamesURL.append(x[1])
             gamesIMG.append(x[7])
 
-        return gamesURL, gamesIMG
-
-    def getSpotlightOffersContentH2(self):
-        gamesH2 = []
-        url = 'https://store.steampowered.com/specials?l=brazilian'
-        soup = self.reqUrl(url)
-
         for list_content in soup.find_all('div', class_='spotlight_content'):
             list_c = list_content.find_all('h2')
             x = str(list_c).split('>')
-            y = x[1].split('</h2')
+            #Caso não tenha uma descrição para o evento/jogo dentro de uma tag h2.
+            try:
+                y = x[1].split('</h2')
+            except:
+                y = ["Não há descrição"]
+
             gamesH2.append(y[0])
 
-        return gamesH2
+        return gamesURL, gamesIMG, gamesH2
