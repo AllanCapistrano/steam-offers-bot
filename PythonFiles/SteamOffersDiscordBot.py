@@ -70,9 +70,9 @@ async def on_message(message):
             )
             embedDailyGames.set_image(url = list_gamesIMG[x - 1])
             embedDailyGames.add_field(name = "**Link:**", value = "**" + list_gamesURl[x - 1] + "**", inline = False)
-            embedDailyGames.add_field(name = "**Preço Original:**", value = "**" + list_gamesOP[x - 1] + "**", inline = True)
-            embedDailyGames.add_field(name = "**Preço com Desconto:**", value = "**" + list_gamesFP[x - 1] + "**", inline = True)
-            embedDailyGames.set_footer()
+            embedDailyGames.add_field(name = "**Preço Original:**", value = "**US" + list_gamesOP[x - 1] + "**", inline = True)
+            embedDailyGames.add_field(name = "**Preço com Desconto:**", value = "**US" + list_gamesFP[x - 1] + "**", inline = True)
+            embedDailyGames.set_footer(text = "⚠️Atenção, os preços estão em Dólar") #Pois o Bot está rodando em uma máquina Norte America.
 
             await message.channel.send(embed = embedDailyGames)
 
