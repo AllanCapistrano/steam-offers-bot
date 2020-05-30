@@ -33,8 +33,16 @@ class CatchOffers:
         for list_prices in soup.find_all('div', class_='dailydeal_ctn'):
             list_p = list_prices.find_all('div', class_='discount_prices')
             x = str(list_p).split('>')
-            y = x[2].split('</div')
-            z = x[4].split('</div')
+            #Caso não tenha nenhum preço para o jogo.
+            try:
+                y = x[2].split('</div')
+                z = x[4].split('</div')
+                y[0] = "US" + y[0]
+                z[0] = "US" + z[0]
+            except:
+                y = ["Não disponível!"]
+                z = ["Não disponível!"]
+
             gameOriginalPrice.append(y[0])
             gameFinalPrice.append(z[0])
             
