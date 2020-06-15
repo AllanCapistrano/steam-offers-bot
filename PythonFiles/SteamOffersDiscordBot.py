@@ -44,18 +44,22 @@ async def on_message(message):
         list_gamesURl, list_gamesIMG, list_H2 = catchOffers.getSpotlightOffers()
         x = len(list_gamesURl)
 
-        while(x > 0):
-            embedSpotlightGames = discord.Embed(
-                title = "🎮 Jogo/Evento em Destaque 🎮",
-                color = color
-            )
-            embedSpotlightGames.set_image(url = list_gamesIMG[x - 1])
-            embedSpotlightGames.add_field(name = "**Link:**", value = "**" + list_gamesURl[x - 1] + "**", inline = False)
-            embedSpotlightGames.add_field(name = "**Descrição:**", value = "**" +  list_H2[x - 1] + "**", inline = False)
+        if(x == 0):
+            await message.channel.send('😟 **Nenhum destaque encontrado no momento, tente novamente mais tarde!**')
 
-            await message.channel.send(embed = embedSpotlightGames)
+        else:
+            while(x > 0):
+                embedSpotlightGames = discord.Embed(
+                    title = "🎮 Jogo/Evento em Destaque 🎮",
+                    color = color
+                )
+                embedSpotlightGames.set_image(url = list_gamesIMG[x - 1])
+                embedSpotlightGames.add_field(name = "**Link:**", value = "**" + list_gamesURl[x - 1] + "**", inline = False)
+                embedSpotlightGames.add_field(name = "**Descrição:**", value = "**" +  list_H2[x - 1] + "**", inline = False)
+                
+                await message.channel.send(embed = embedSpotlightGames)
 
-            x = x - 1
+                x = x - 1
 
     if(message.content.lower().startswith("$promocao")):
         catchOffers = CatchOffers()
@@ -63,21 +67,25 @@ async def on_message(message):
         list_gamesOP, list_gamesFP = catchOffers.getDailyGamesOffersPrices()
         x = len(list_gamesURl)
 
-        while(x > 0):
-            embedDailyGames = discord.Embed(
-                title = "🕹️ Oferta do Dia 🕹️",
-                color = color
-            )
-            embedDailyGames.set_image(url = list_gamesIMG[x - 1])
-            embedDailyGames.add_field(name = "**Link:**", value = "**" + list_gamesURl[x - 1] + "**", inline = False)
-            embedDailyGames.add_field(name = "**Preço Original:**", value = "**"+ list_gamesOP[x - 1] + "**", inline = True)
-            embedDailyGames.add_field(name = "**Preço com Desconto:**", value = "**" + list_gamesFP[x - 1] + "**", inline = True)
-            #Só há a necessidade do rodapé caso o jogo possua um preço disponível.
-            if(list_gamesOP[x - 1] != "Não disponível!" and list_gamesFP[x - 1] != "Não disponível!"):
-                embedDailyGames.set_footer(text = "⚠️Atenção, os preços estão em Dólar") #Pois o Bot está rodando em uma máquina Norte America.
+        if(x == 0):
+            await message.channel.send('😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**')
 
-            await message.channel.send(embed = embedDailyGames)
-            x = x - 1
+        else:
+            while(x > 0):
+                embedDailyGames = discord.Embed(
+                    title = "🕹️ Oferta do Dia 🕹️",
+                    color = color
+                )
+                embedDailyGames.set_image(url = list_gamesIMG[x - 1])
+                embedDailyGames.add_field(name = "**Link:**", value = "**" + list_gamesURl[x - 1] + "**", inline = False)
+                embedDailyGames.add_field(name = "**Preço Original:**", value = "**"+ list_gamesOP[x - 1] + "**", inline = True)
+                embedDailyGames.add_field(name = "**Preço com Desconto:**", value = "**" + list_gamesFP[x - 1] + "**", inline = True)
+                #Só há a necessidade do rodapé caso o jogo possua um preço disponível.
+                if(list_gamesOP[x - 1] != "Não disponível!" and list_gamesFP[x - 1] != "Não disponível!"):
+                    embedDailyGames.set_footer(text = "⚠️Atenção, os preços estão em Dólar") #Pois o Bot está rodando em uma máquina Norte America.
+
+                await message.channel.send(embed = embedDailyGames)
+                x = x - 1
 
     if(message.content.lower().startswith("$botinfo")):
         embedBotInfo = discord.Embed(
