@@ -74,3 +74,35 @@ class CatchOffers:
             gamesH2.append(y[0])
 
         return gamesURL, gamesIMG, gamesH2
+
+    #Função que retorna quatro listas que possuem respectivamente as seguintes informações: nome, URL, preço original, e preço com desconto; dos jogos/DLCs que são classificados pela Steam como "Novidades populares".
+    def getNewAndTrending(self):
+        gamesNames = []
+        gamesURL = []
+        gameOriginalPrice = []
+        gameFinalPrice = []
+        url = 'https://store.steampowered.com/specials#p=0&tab=NewReleases'
+        soup = self.reqUrl(url)
+
+        for list_games in soup.find_all('div', id='NewReleasesRows'):
+            #Responsável por pegar os nomes dos jogos/DLCs que estão promoção.
+            for list_g in list_games.find_all('div', class_='tab_item_name'):
+                x = str(list_g).split('>')
+                y = x[1].split('</div')
+                gamesNames.append(y[0])
+            #Responsável por pegar as URLs do jogos/DLsC que estão em promoção.
+            for list_g in list_games.find_all('a', class_='tab_item'):
+                x = str(list_g).split('href=')
+                y = x[1].split(' ')
+                gamesURL.append(y[0])
+            #Responsável por pegar os preços originais e com desconto dos jogos/DLCs que estão em promoção.
+            for list_prices in list_games.find_all('div', class_='discount_prices'):
+                x = str(list_prices).split('>')
+                y = x[2].split('</div')
+                z = x[4].split('</div')
+                y[0] = "US" + y[0]
+                z[0] = "US" + z[0]
+                gameOriginalPrice.append(y[0])
+                gameFinalPrice.append(z[0])
+
+        return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice
