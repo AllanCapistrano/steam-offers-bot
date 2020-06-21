@@ -26,6 +26,7 @@ Comando | Descrição
 ------- | ---------
 $help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
 $convite | Gera o convite para que o Bot possa ser adicionado em outros servidores.
-$promocao | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
-$destaque | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
+$promocao ou $pr | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
+$destaque ou $dt | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
+$novidades ou $populares ou $np | Exibe quais jogos da categoria "Novidades Populares" estão em promoção na loja.
 $botinfo | Exibe as informações do Bot.
