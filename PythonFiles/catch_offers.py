@@ -92,8 +92,8 @@ class CatchOffers:
                 gamesNames.append(y[0])
             #Responsável por pegar as URLs do jogos/DLsC que estão em promoção.
             for list_g in list_games.find_all('a', class_='tab_item'):
-                x = str(list_g).split('href=')
-                y = x[1].split(' ')
+                x = str(list_g).split('href="')
+                y = x[1].split('"')
                 gamesURL.append(y[0])
             #Responsável por pegar os preços originais e com desconto dos jogos/DLCs que estão em promoção.
             for list_prices in list_games.find_all('div', class_='discount_prices'):

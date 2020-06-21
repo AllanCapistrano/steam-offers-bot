@@ -22,8 +22,9 @@ async def on_message(message):
             color = color
         )
         embedHelp.set_author(name = "SteamOffersBot lista de comandos:", icon_url = icon)
-        embedHelp.add_field(name = "```$promocao```", value = "**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**", inline = False)
-        embedHelp.add_field(name = "```$destaque```", value = "**Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.**", inline = False)
+        embedHelp.add_field(name = "```$promocao``` ou ```$pr```", value = "**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**", inline = False)
+        embedHelp.add_field(name = "```$destaque``` ou ```$dt```", value = "**Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.**", inline = False)
+        embedHelp.add_field(name = "```$novidades``` ou ```$populares``` ou ```$np```", value = "**Exibe quais jogos da categoria \"Novidades Populares\" estão em promoção na loja.**", inline = False)
         embedHelp.add_field(name = "```$convite```", value = "**Gera o convite para que o Bot possa ser adicionado em outros servidores.**", inline = False)
         embedHelp.add_field(name = "```$botinfo```", value = "**Exibe as informações do Bot.**", inline = False)
 
@@ -39,7 +40,7 @@ async def on_message(message):
 
         await message.channel.send(embed = embedInvite)
 
-    if(message.content.lower().startswith("$destaque")):
+    if(message.content.lower().startswith("$destaque") or message.content.lower().startswith("$dt")):
         catchOffers = CatchOffers()
         list_gamesURl, list_gamesIMG, list_H2 = catchOffers.getSpotlightOffers()
         x = len(list_gamesURl)
@@ -61,7 +62,7 @@ async def on_message(message):
 
                 x = x - 1
 
-    if(message.content.lower().startswith("$promocao")):
+    if(message.content.lower().startswith("$promocao") or message.content.lower().startswith("$pr")):
         catchOffers = CatchOffers()
         list_gamesURl, list_gamesIMG = catchOffers.getDailyGamesOffers()
         list_gamesOP, list_gamesFP = catchOffers.getDailyGamesOffersPrices()
@@ -98,5 +99,30 @@ async def on_message(message):
         embedBotInfo.set_footer(text = "Criado em 26 de Maio de 2020!")
 
         await message.channel.send(embed = embedBotInfo)
+
+    if(message.content.lower().startswith("$novidades") or message.content.lower().startswith("$populares") or message.content.lower().startswith("$np")):
+        messageConcat_1 = ''
+        messageConcat_2 = ''
+        member = message.author
+        catchOffers = CatchOffers()
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getNewAndTrending()
+        list_gamesNames.reverse(), list_gamesURL.reverse(), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
+        x = len(list_gamesNames)
+
+        if(x == 0):
+            await message.channel.send('😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**')
+
+        else:
+            while(x > 0):
+                if(x >= 8):
+                    messageConcat_1 = messageConcat_1 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                else:
+                    messageConcat_2 = messageConcat_2 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                x = x - 1
+
+            await message.channel.send(member.mention + "** Cheque sua DM** 😃")
+            await member.send(messageConcat_1)
+            await member.send(messageConcat_2)
+            await member.send("\n**⚠️Atenção, os preços estão em Dólar**")
 
 client.run(TOKEN)
