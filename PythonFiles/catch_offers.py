@@ -76,15 +76,17 @@ class CatchOffers:
         return gamesURL, gamesIMG, gamesH2
 
     #Função que retorna quatro listas que possuem respectivamente as seguintes informações: nome, URL, preço original, e preço com desconto; dos jogos/DLCs que são classificados pela Steam como "Novidades populares".
-    def getNewAndTrending(self):
+    def getTabContent(self, url, divId):
         gamesNames = []
         gamesURL = []
         gameOriginalPrice = []
         gameFinalPrice = []
-        url = 'https://store.steampowered.com/specials#p=0&tab=NewReleases'
+        #url = 'https://store.steampowered.com/specials#p=0&tab=NewReleases'
+        #url = 'https://store.steampowered.com/specials#p=0&tab=TopSellers'
         soup = self.reqUrl(url)
 
-        for list_games in soup.find_all('div', id='NewReleasesRows'):
+        #for list_games in soup.find_all('div', id='NewReleasesRows'):
+        for list_games in soup.find_all('div', id=divId):
             #Responsável por pegar os nomes dos jogos/DLCs que estão promoção.
             for list_g in list_games.find_all('div', class_='tab_item_name'):
                 x = str(list_g).split('>')

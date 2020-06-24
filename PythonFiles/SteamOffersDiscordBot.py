@@ -17,7 +17,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if(message.content.lower().startswith("$help")):
+    if(message.content.lower().startswith("$help") or message.content.lower().startswith("$ajuda") or message.content.lower().startswith("$comandos")):
         embedHelp = discord.Embed(
             color = color
         )
@@ -25,6 +25,9 @@ async def on_message(message):
         embedHelp.add_field(name = "```$promocao``` ou ```$pr```", value = "**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**", inline = False)
         embedHelp.add_field(name = "```$destaque``` ou ```$dt```", value = "**Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.**", inline = False)
         embedHelp.add_field(name = "```$novidades``` ou ```$populares``` ou ```$np```", value = "**Exibe quais jogos da categoria \"Novidades Populares\" estão em promoção na loja.**", inline = False)
+        embedHelp.add_field(name = "```$maisvendidos``` ou ```$mv```", value = "**Exibe quais jogos da categoria \"Mais Vendidos\" estão em promoção na loja.**", inline = False)
+        embedHelp.add_field(name = "```$maisjogados``` ou ```$mj```", value = "**Exibe quais jogos da categoria \"Mais Jogados\" estão em promoção na loja.**", inline = False)
+        embedHelp.add_field(name = "```$precompra``` ou ```$pc```", value = "**Exibe quais jogos da categoria \"Pré-compra\" estão em promoção na loja.**", inline = False)
         embedHelp.add_field(name = "```$convite```", value = "**Gera o convite para que o Bot possa ser adicionado em outros servidores.**", inline = False)
         embedHelp.add_field(name = "```$botinfo```", value = "**Exibe as informações do Bot.**", inline = False)
 
@@ -101,20 +104,95 @@ async def on_message(message):
         await message.channel.send(embed = embedBotInfo)
 
     if(message.content.lower().startswith("$novidades") or message.content.lower().startswith("$populares") or message.content.lower().startswith("$np")):
-        messageConcat_1 = ''
-        messageConcat_2 = ''
-        member = message.author
         catchOffers = CatchOffers()
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getNewAndTrending()
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent('https://store.steampowered.com/specials#p=0&tab=NewReleases', 'NewReleasesRows')
         list_gamesNames.reverse(), list_gamesURL.reverse(), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
-        x = len(list_gamesNames)
+        num = x = len(list_gamesNames)
 
         if(x == 0):
             await message.channel.send('😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**')
 
         else:
+            messageConcat_1 = ''
+            messageConcat_2 = ''
+            member = message.author
             while(x > 0):
-                if(x >= 8):
+                if(x >= num/2):
+                    messageConcat_1 = messageConcat_1 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                else:
+                    messageConcat_2 = messageConcat_2 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                x = x - 1
+
+            await message.channel.send(member.mention + "** Cheque sua DM** 😃")
+            await member.send(messageConcat_1)
+            await member.send(messageConcat_2)
+            await member.send("\n**⚠️Atenção, os preços estão em Dólar**")
+
+    if(message.content.lower().startswith("$maisvendidos") or message.content.lower().startswith("$mv")):
+        catchOffers = CatchOffers()
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent('https://store.steampowered.com/specials#p=0&tab=TopSellers', 'TopSellersRows')
+        list_gamesNames.reverse(), list_gamesURL.reverse(), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
+        num = x = len(list_gamesNames)
+
+        if(x == 0):
+            await message.channel.send('😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**')
+
+        else:
+            messageConcat_1 = ''
+            messageConcat_2 = ''
+            member = message.author
+            while(x > 0):
+                if(x >= num/2):
+                    messageConcat_1 = messageConcat_1 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                else:
+                    messageConcat_2 = messageConcat_2 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                x = x - 1
+
+            await message.channel.send(member.mention + "** Cheque sua DM** 😃")
+            await member.send(messageConcat_1)
+            await member.send(messageConcat_2)
+            await member.send("\n**⚠️Atenção, os preços estão em Dólar**")
+
+    if(message.content.lower().startswith("$maisjogados") or message.content.lower().startswith("$mj")):
+        catchOffers = CatchOffers()
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent('https://store.steampowered.com/specials#p=0&tab=ConcurrentUsers', 'ConcurrentUsersRows')
+        list_gamesNames.reverse(), list_gamesURL.reverse(), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
+        num = x = len(list_gamesNames)
+
+        if(x == 0):
+            await message.channel.send('😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**')
+
+        else:
+            messageConcat_1 = ''
+            messageConcat_2 = ''
+            member = message.author
+            while(x > 0):
+                if(x >= num/2):
+                    messageConcat_1 = messageConcat_1 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                else:
+                    messageConcat_2 = messageConcat_2 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
+                x = x - 1
+
+            await message.channel.send(member.mention + "** Cheque sua DM** 😃")
+            await member.send(messageConcat_1)
+            await member.send(messageConcat_2)
+            await member.send("\n**⚠️Atenção, os preços estão em Dólar**")
+
+    if(message.content.lower().startswith("$precompra") or message.content.lower().startswith("$pc")):
+        catchOffers = CatchOffers()
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent('https://store.steampowered.com/specials#p=0&tab=ComingSoon', 'ComingSoonRows')
+        list_gamesNames.reverse(), list_gamesURL.reverse(), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
+        num = x = len(list_gamesNames)
+
+        if(x == 0):
+            await message.channel.send('😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**')
+
+        else:
+            messageConcat_1 = ''
+            messageConcat_2 = ''
+            member = message.author
+            while(x > 0):
+                if(x >= num/2):
                     messageConcat_1 = messageConcat_1 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
                 else:
                     messageConcat_2 = messageConcat_2 + "**Nome: **" + list_gamesNames[x - 1] + "\n**Link:** <" + list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + list_gamesFinalPrice[x - 1] + "\n\n"
