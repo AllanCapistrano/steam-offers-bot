@@ -29,4 +29,7 @@ $convite | Gera o convite para que o Bot possa ser adicionado em outros servidor
 $promocao ou $pr | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
 $destaque ou $dt | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
 $novidades ou $populares ou $np | Exibe quais jogos da categoria "Novidades Populares" estão em promoção na loja.
+$maisvendidos ou $mv | Exibe quais jogos da categoria "Mais Vendidos" estão em promoção na loja.
+$maisjogados ou $mj | Exibe quais jogos da categoria "Mais Jogados" estão em promoção na loja.
+$precompra ou $pc | Exibe quais jogos da categoria "Pré-compra" estão em promoção na loja.
 $botinfo | Exibe as informações do Bot.
