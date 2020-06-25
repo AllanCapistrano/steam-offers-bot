@@ -21,7 +21,7 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 #### Convite para o Discord ####
 [SteamOffersDiscordBot](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
-# Comandos do Bot no Discord
+# Lista de Comandos para o Discord
 Comando | Descrição
 ------- | ---------
 $help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
