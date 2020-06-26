@@ -1,4 +1,5 @@
 # SteamOffersBot
+![BotStatus](https://img.shields.io/badge/status-online-success) ![Build](https://img.shields.io/badge/build-passing-success) [![BotStatus](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 ## Bot criado para notificar quando tiver uma nova promoção de jogo na Steam. ##
 
 O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
@@ -17,9 +18,6 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 - E-mail: allan.capistrano3@gmail.com
 - Twitter: [@ArticZoldyck](https://twitter.com/ArticZoldyck)
 - Discord: ArticZ#1081
-
-#### Convite para o Discord ####
-[SteamOffersDiscordBot](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 # Lista de Comandos para o Discord
 Comando | Descrição
