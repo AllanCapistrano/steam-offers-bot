@@ -5,11 +5,13 @@
   <img src="assets/SteamOS_Logo_Edit.png">
 </p>
 
-## Bot criado para notificar quando tiver uma nova promoção de jogo na Steam. ##
+## Descrição ##
 
-O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
+Bot criado para notificar quando haver uma nova promoção de jogo na Steam, não sendo necessário sair do Discord para poder verificar. Está sendo desenvolvido utilizando a linguagem de programação Python 3.
 
-#### Bibliotecas utilizadas: ####
+Futuramente operando também na rede social Twitter.
+
+#### Bibliotecas externas utilizadas: ####
 - [requests](https://pypi.org/project/requests/)
 - [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
 - [lxml](https://pypi.org/project/lxml/)
@@ -24,7 +26,7 @@ O Bot está sendo desenvolvido utilizando a linguagem de programação Python 3.
 - Twitter: [@ArticZoldyck](https://twitter.com/ArticZoldyck)
 - Discord: ArticZ#1081
 
-# Lista de Comandos para o Discord
+## Lista de Comandos para o Discord ##
 Comando | Descrição
 ------- | ---------
 $help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
