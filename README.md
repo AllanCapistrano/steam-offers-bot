@@ -1,5 +1,5 @@
 # SteamOffersBot
-![BotStatus](https://img.shields.io/badge/status-online-success) ![Build](https://img.shields.io/badge/build-passing-success) [![BotStatus](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
+![BotStatus](https://img.shields.io/badge/status-offline-critical) ![Build](https://img.shields.io/badge/build-passing-success) [![BotStatus](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 <p align="center">
   <img src="assets/SteamOS_Logo_Edit.png">
