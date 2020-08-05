@@ -6,10 +6,9 @@
 </p>
 
 ## Descrição ##
+Bot criado para notificar quando haver uma nova promoção de jogo na Steam, não sendo necessário sair do Discord para poder verificar. Está sendo desenvolvido utilizando a linguagem de programação [Python 3](https://www.python.org/downloads/).
 
-Bot criado para notificar quando haver uma nova promoção de jogo na Steam, não sendo necessário sair do Discord para poder verificar. Está sendo desenvolvido utilizando a linguagem de programação Python 3.
-
-Futuramente operando também na rede social Twitter.
+**Futuramente operando também na rede social Twitter.**
 
 #### Bibliotecas externas utilizadas: ####
 - [requests](https://pypi.org/project/requests/)
@@ -20,11 +19,6 @@ Futuramente operando também na rede social Twitter.
 #### Plataforma onde o Bot está operando: ####
 - [x] Discord
 - [ ] Twitter
-
-###### Minhas informações para contato: ######
-- E-mail: allan.capistrano3@gmail.com
-- Twitter: [@ArticZoldyck](https://twitter.com/ArticZoldyck)
-- Discord: ArticZ#1081
 
 ## Lista de Comandos para o Discord ##
 Comando | Descrição
@@ -38,3 +32,12 @@ $maisvendidos ou $mv | Exibe quais jogos da categoria "Mais Vendidos" estão em 
 $maisjogados ou $mj | Exibe quais jogos da categoria "Mais Jogados" estão em promoção na loja.
 $precompra ou $pc | Exibe quais jogos da categoria "Pré-compra" estão em promoção na loja.
 $botinfo | Exibe as informações do Bot.
+
+## Contribuições ##
+Sinta-se avontade para contribuir com este projeto, fork este projeto, faça as modificações que deseja ou adicione novas funcionalidades e crie um pull request.
+
+## Autor ##
+- Allan Capistrano - Idealizador e Desenvolvedor do código | [Github](https://github.com/AllanCapistrano) - [Linkedin](https://www.linkedin.com/in/allancapistrano/) - [Twitter](https://twitter.com/ArticZoldyck) - [E-mail](https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=allan.capistrano3@gmail.com) - Discord: ArticZ#1081
+
+## Licença ##
+[MIT License (MIT)](https://github.com/AllanCapistrano/SteamOffersBot/blob/master/LICENSE)
