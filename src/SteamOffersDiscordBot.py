@@ -1,7 +1,7 @@
-from catch_offers import CatchOffers
+from myUtils.catch_offers import CatchOffers
 import asyncio
 import discord
-import discordToken
+from myUtils import discordToken
 
 TOKEN = discordToken.myToken()
 client = discord.Client()
