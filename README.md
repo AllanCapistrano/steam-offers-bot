@@ -2,11 +2,11 @@
 ![BotStatus](https://img.shields.io/badge/status-offline-critical) ![Build](https://img.shields.io/badge/build-passing-success) [![BotStatus](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 <p align="center">
-  <a href="https://github.com/AllanCapistrano/SteamOffersBot#descrição">Descrição</a> |
-  <a href="https://github.com/AllanCapistrano/SteamOffersBot#lista-de-comandos-para-o-discord">Comandos</a> |
-  <a href="https://github.com/AllanCapistrano/SteamOffersBot#contribuições">Como contribuir</a> |
-  <a href="https://github.com/AllanCapistrano/SteamOffersBot#autor">Autor</a> |
-  <a href="https://github.com/AllanCapistrano/SteamOffersBot#licença">Licença</a>
+  <a href="#descrição">Descrição</a> |
+  <a href="#lista-de-comandos-para-o-discord">Comandos</a> |
+  <a href="#contribuições">Como contribuir</a> |
+  <a href="#autor">Autor</a> |
+  <a href="#licença">Licença</a>
 </p>
 
 <p align="center">
