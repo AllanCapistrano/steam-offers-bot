@@ -109,7 +109,7 @@ async def on_message(message):
                 if(list_gamesOP[x - 1] != "Não disponível!" and list_gamesFP[x - 1] != "Não disponível!"):
                     # Pois o Bot está rodando em uma máquina Norte America.
                     embedDailyGames.set_footer(
-                        text=messages.priceAlert())
+                        text=messages.currencyAlert())
 
                 await message.channel.send(embed=embedDailyGames)
                 x = x - 1
@@ -159,7 +159,7 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.priceAlert()))
+            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     if(message.content.lower().startswith("$maisvendidos") or message.content.lower().startswith("$mv")):
         catchOffers = CatchOffers()
@@ -192,7 +192,7 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.priceAlert()))
+            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     if(message.content.lower().startswith("$maisjogados") or message.content.lower().startswith("$mj")):
         catchOffers = CatchOffers()
@@ -225,7 +225,7 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.priceAlert()))
+            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     if(message.content.lower().startswith("$precompra") or message.content.lower().startswith("$pc")):
         catchOffers = CatchOffers()
@@ -258,6 +258,6 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.priceAlert()))
+            await member.send("\n**{}**".format(messages.currencyAlert()))
 
 client.run(TOKEN)

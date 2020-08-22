@@ -1,3 +1,4 @@
+# Mensagens para quando não existem promoções ou jogos em destaque.
 def noOffers():
     msgList = []
 
@@ -8,11 +9,11 @@ def noOffers():
 
     return msgList
 
-
+# Mensagem para as promoções que são enviadas para o privado.
 def checkDm():
     return "** Cheque sua DM** 😃"
 
-
+# Títulos das embeds.
 def title():
     titleList = []
 
@@ -23,6 +24,6 @@ def title():
 
     return titleList
 
-
-def priceAlert():
+# Alerta dos valores exibidos.
+def currencyAlert():
     return "⚠️Atenção, os preços estão em Dólar"
