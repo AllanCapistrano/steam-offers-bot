@@ -55,7 +55,7 @@ Sinta-se avontade para contribuir com este projeto, fork este projeto, faça as 
 ------------
 
 ## Autor ##
-- Allan Capistrano - Idealizador e Desenvolvedor do código | [Github](https://github.com/AllanCapistrano) - [Linkedin](https://www.linkedin.com/in/allancapistrano/) - [Twitter](https://twitter.com/ArticZoldyck) - [E-mail](https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=allan.capistrano3@gmail.com) - Discord: ArticZ#1081
+- Allan Capistrano - Idealizador e Desenvolvedor do código | [Github](https://github.com/AllanCapistrano) - [Linkedin](https://www.linkedin.com/in/allancapistrano/) - [Twitter](https://twitter.com/ArticZoldyck) - [E-mail](https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=asantos@ecomp.uefs.br) - Discord: ArticZ#1081
 
 ------------
 
