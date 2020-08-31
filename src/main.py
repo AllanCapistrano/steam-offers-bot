@@ -7,11 +7,12 @@ from myUtils import messages
 
 COLOR = 0xa82fd2
 ICON = "https://cdn.discordapp.com/app-icons/714852360241020929/b8dcc72cfc7708a4efd31787dceb5350.png?size=64"
-INVITE= "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
+INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials#p=0&tab="
 TOKEN = discordToken.myToken()
 
 client = discord.Client()
+catchOffers = CatchOffers()
 
 
 @client.event
@@ -24,6 +25,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    # Comando: $help ou $ajuda ou $comandos
     if(message.content.lower().startswith("$help") or message.content.lower().startswith("$ajuda") or message.content.lower().startswith("$comandos")):
         embedHelp = discord.Embed(
             color=COLOR
@@ -31,24 +33,25 @@ async def on_message(message):
         embedHelp.set_author(
             name="SteamOffersBot lista de comandos:", icon_url=ICON)
         embedHelp.add_field(name="```$promocao``` ou ```$pr```",
-                            value="**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**", inline=False)
+                            value=messages.helpValues()[0], inline=False)
         embedHelp.add_field(name="```$destaque``` ou ```$dt```",
-                            value="**Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.**", inline=False)
+                            value=messages.helpValues()[1], inline=False)
         embedHelp.add_field(name="```$novidades``` ou ```$populares``` ou ```$np```",
-                            value="**Exibe quais jogos da categoria \"Novidades Populares\" estão em promoção na loja.**", inline=False)
+                            value=messages.helpValues()[2], inline=False)
         embedHelp.add_field(name="```$maisvendidos``` ou ```$mv```",
-                            value="**Exibe quais jogos da categoria \"Mais Vendidos\" estão em promoção na loja.**", inline=False)
+                            value=messages.helpValues()[3], inline=False)
         embedHelp.add_field(name="```$maisjogados``` ou ```$mj```",
-                            value="**Exibe quais jogos da categoria \"Mais Jogados\" estão em promoção na loja.**", inline=False)
+                            value=messages.helpValues()[4], inline=False)
         embedHelp.add_field(name="```$precompra``` ou ```$pc```",
-                            value="**Exibe quais jogos da categoria \"Pré-compra\" estão em promoção na loja.**", inline=False)
-        embedHelp.add_field(
-            name="```$convite```", value="**Gera o convite para que o Bot possa ser adicionado em outros servidores.**", inline=False)
-        embedHelp.add_field(
-            name="```$botinfo```", value="**Exibe as informações do Bot.**", inline=False)
+                            value=messages.helpValues()[5], inline=False)
+        embedHelp.add_field(name="```$convite```",
+                            value=messages.helpValues()[6], inline=False)
+        embedHelp.add_field(name="```$botinfo```",
+                            value=messages.helpValues()[7], inline=False)
 
         await message.channel.send(embed=embedHelp)
 
+    # Comando: $convite
     if(message.content.lower().startswith("$convite")):
         embedInvite = discord.Embed(
             title=messages.title()[0],
@@ -59,8 +62,8 @@ async def on_message(message):
 
         await message.channel.send(embed=embedInvite)
 
+    # Comando: $destaque ou $dt
     if(message.content.lower().startswith("$destaque") or message.content.lower().startswith("$dt")):
-        catchOffers = CatchOffers()
         list_gamesURl, list_gamesIMG, list_H2 = catchOffers.getSpotlightOffers()
         x = len(list_gamesURl)
 
@@ -75,16 +78,16 @@ async def on_message(message):
                 )
                 embedSpotlightGames.set_image(url=list_gamesIMG[x - 1])
                 embedSpotlightGames.add_field(
-                    name="**Link:**", value="**" + list_gamesURl[x - 1] + "**", inline=False)
+                    name="**Link:**", value="**{}**".format(list_gamesURl[x - 1]), inline=False)
                 embedSpotlightGames.add_field(
-                    name="**Descrição:**", value="**" + list_H2[x - 1] + "**", inline=False)
+                    name="**Descrição:**", value="**{}**".format(list_H2[x - 1]), inline=False)
 
                 await message.channel.send(embed=embedSpotlightGames)
 
                 x = x - 1
 
+    # Comando: $promocao ou $pr
     if(message.content.lower().startswith("$promocao") or message.content.lower().startswith("$pr")):
-        catchOffers = CatchOffers()
         list_gamesURl, list_gamesIMG = catchOffers.getDailyGamesOffers()
         list_gamesOP, list_gamesFP = catchOffers.getDailyGamesOffersPrices()
         x = len(list_gamesURl)
@@ -100,11 +103,11 @@ async def on_message(message):
                 )
                 embedDailyGames.set_image(url=list_gamesIMG[x - 1])
                 embedDailyGames.add_field(
-                    name="**Link:**", value="**" + list_gamesURl[x - 1] + "**", inline=False)
+                    name="**Link:**", value="**{}**".format(list_gamesURl[x - 1]), inline=False)
                 embedDailyGames.add_field(
-                    name="**Preço Original:**", value="**" + list_gamesOP[x - 1] + "**", inline=True)
+                    name="**Preço Original:**", value="**{}**".format(list_gamesOP[x - 1]), inline=True)
                 embedDailyGames.add_field(
-                    name="**Preço com Desconto:**", value="**" + list_gamesFP[x - 1] + "**", inline=True)
+                    name="**Preço com Desconto:**", value="**{}**".format(list_gamesFP[x - 1]), inline=True)
                 # Só há a necessidade do rodapé caso o jogo possua um preço disponível.
                 if(list_gamesOP[x - 1] != "Não disponível!" and list_gamesFP[x - 1] != "Não disponível!"):
                     # Pois o Bot está rodando em uma máquina Norte America.
@@ -114,22 +117,22 @@ async def on_message(message):
                 await message.channel.send(embed=embedDailyGames)
                 x = x - 1
 
+    # Comando: $botinfo
     if(message.content.lower().startswith("$botinfo")):
         embedBotInfo = discord.Embed(
             title=messages.title()[3],
             color=COLOR
         )
-        embedBotInfo.add_field(name="Python", value="**3.7.7**", inline=True)
-        embedBotInfo.add_field(
-            name="discord.py", value="**1.3.3**", inline=True)
-        embedBotInfo.add_field(name="Sobre SteamOffersBot",
-                               value="**Bot feito para notificar os jogos que estão em promoção, sem a necessidade de abrir a Steam ou sair do Discord. Foi criado por ArticZ#1081**", inline=False)
+        embedBotInfo.add_field(name="Python", value=messages.infoValues()[0], inline=True)
+        embedBotInfo.add_field(name="discord.py", value=messages.infoValues()[1], inline=True)
+        embedBotInfo.add_field(name="Sobre SteamOffersBot", value=messages.infoValues()[2], inline=False)
         embedBotInfo.set_footer(text="Criado em 26 de Maio de 2020!")
 
         await message.channel.send(embed=embedBotInfo)
 
-    if(message.content.lower().startswith("$novidades") or message.content.lower().startswith("$populares") or message.content.lower().startswith("$np")):
-        catchOffers = CatchOffers()
+    # Comando: $novidades ou $populares ou $np
+    if(message.content.lower().startswith("$novidades") or message.content.lower().
+      startswith("$populares") or message.content.lower().startswith("$np")):
         list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
             URL+'=NewReleases', 'NewReleasesRows')
         list_gamesNames.reverse(), list_gamesURL.reverse(
@@ -161,8 +164,8 @@ async def on_message(message):
             await member.send(messageConcat_2)
             await member.send("\n**{}**".format(messages.currencyAlert()))
 
+    # Comando: $maisvendidos ou $mv
     if(message.content.lower().startswith("$maisvendidos") or message.content.lower().startswith("$mv")):
-        catchOffers = CatchOffers()
         list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
             URL+'=TopSellers', 'TopSellersRows')
         list_gamesNames.reverse(), list_gamesURL.reverse(
@@ -194,8 +197,8 @@ async def on_message(message):
             await member.send(messageConcat_2)
             await member.send("\n**{}**".format(messages.currencyAlert()))
 
+    # Comando: $maisjogados ou $mj
     if(message.content.lower().startswith("$maisjogados") or message.content.lower().startswith("$mj")):
-        catchOffers = CatchOffers()
         list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
             URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
         list_gamesNames.reverse(), list_gamesURL.reverse(
@@ -227,8 +230,8 @@ async def on_message(message):
             await member.send(messageConcat_2)
             await member.send("\n**{}**".format(messages.currencyAlert()))
 
+    # Comando: $precompra ou $pc
     if(message.content.lower().startswith("$precompra") or message.content.lower().startswith("$pc")):
-        catchOffers = CatchOffers()
         list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
             URL+'=ComingSoon', 'ComingSoonRows')
         list_gamesNames.reverse(), list_gamesURL.reverse(

@@ -20,17 +20,14 @@
 ## Descrição ##
 Bot criado para notificar quando haver uma nova promoção de jogo na Steam, não sendo necessário sair do Discord para poder verificar. Está sendo desenvolvido utilizando a linguagem de programação [Python 3](https://www.python.org/downloads/).
 
-**Futuramente operando também na rede social Twitter.**
-
 #### Bibliotecas externas utilizadas: ####
-- [requests](https://pypi.org/project/requests/)
+- [Requests](https://pypi.org/project/requests/)
 - [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
-- [lxml](https://pypi.org/project/lxml/)
-- [discord.py](https://pypi.org/project/discord.py/)
+- [LXML](https://pypi.org/project/lxml/)
+- [Discord.py](https://pypi.org/project/discord.py/)
 
 #### Plataforma onde o Bot está operando: ####
 - [x] Discord
-- [ ] Twitter
 
 ------------
 
