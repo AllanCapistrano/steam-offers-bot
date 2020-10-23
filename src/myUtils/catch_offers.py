@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 
 URL = 'https://store.steampowered.com/specials?l=brazilian'
-CURRENCY = 'US'
 
 
 class CatchOffers:
@@ -39,8 +38,6 @@ class CatchOffers:
             try:
                 y = x[2].split('</div')
                 z = x[4].split('</div')
-                y[0] = CURRENCY + y[0]
-                z[0] = CURRENCY + z[0]
             except:
                 y = ["Não disponível!"]
                 z = ["Não disponível!"]

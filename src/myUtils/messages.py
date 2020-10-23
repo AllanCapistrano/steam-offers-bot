@@ -26,7 +26,7 @@ def title():
 
 # Alerta dos valores exibidos.
 def currencyAlert():
-    return "⚠️Atenção, os preços estão em Dólar"
+    return "⚠️Atenção, os preços estão em Dólar canadense"
 
 # Conteúdo do comando $help.
 def helpValues():
