@@ -59,21 +59,11 @@ class CatchOffers:
         soup = self.reqUrl(URL)
 
         for list_games in soup.find_all('div', class_='spotlight_img'):
-            list_g = list_games.find_all('a')
-            x = str(list_g).split('"')
-            gamesURL.append(x[1])
-            gamesIMG.append(x[7])
+            gamesURL.append(list_games.contents[1].attrs['href'])
+            gamesIMG.append(list_games.contents[1].contents[1].attrs['src'])
 
         for list_content in soup.find_all('div', class_='spotlight_content'):
-            list_c = list_content.find_all('h2')
-            x = str(list_c).split('>')
-            # Caso não tenha uma descrição para o evento/jogo dentro de uma tag h2.
-            try:
-                y = x[1].split('</h2')
-            except:
-                y = ["Não há descrição"]
-
-            gamesH2.append(y[0])
+            gamesH2.append(list_content.contents[1].contents[0])
 
         return gamesURL, gamesIMG, gamesH2
 
