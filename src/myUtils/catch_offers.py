@@ -20,10 +20,8 @@ class CatchOffers:
         soup = self.reqUrl(URL)
 
         for list_games in soup.find_all('div', class_='dailydeal_cap'):
-            list_g = list_games.find_all('a')
-            x = str(list_g).split('"')
-            gamesURL.append(x[1])
-            gamesIMG.append(x[3])
+            gamesURL.append(list_games.contents[1].attrs['href'])
+            gamesIMG.append(list_games.contents[1].contents[1].attrs['src'])
 
         return gamesURL, gamesIMG
 
