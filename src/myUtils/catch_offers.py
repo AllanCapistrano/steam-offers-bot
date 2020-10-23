@@ -79,22 +79,13 @@ class CatchOffers:
         for list_games in soup.find_all('div', id=divId):
             # Responsável por pegar os nomes dos jogos/DLCs que estão promoção.
             for list_g in list_games.find_all('div', class_='tab_item_name'):
-                x = str(list_g).split('>')
-                y = x[1].split('</div')
-                gamesNames.append(y[0])
-            # Responsável por pegar as URLs do jogos/DLsC que estão em promoção.
+                gamesNames.append(list_g.contents[0])
+            # Responsável por pegar as URLs do jogos/DLCs que estão em promoção.
             for list_g in list_games.find_all('a', class_='tab_item'):
-                x = str(list_g).split('href="')
-                y = x[1].split('"')
-                gamesURL.append(y[0])
+                gamesURL.append(list_g.attrs['href'])
             # Responsável por pegar os preços originais e com desconto dos jogos/DLCs que estão em promoção.
             for list_prices in list_games.find_all('div', class_='discount_prices'):
-                x = str(list_prices).split('>')
-                y = x[2].split('</div')
-                z = x[4].split('</div')
-                y[0] = CURRENCY + y[0]
-                z[0] = CURRENCY + z[0]
-                gameOriginalPrice.append(y[0])
-                gameFinalPrice.append(z[0])
+                gameOriginalPrice.append(list_prices.contents[0].contents[0])
+                gameFinalPrice.append(list_prices.contents[1].contents[0])
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice
