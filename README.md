@@ -18,20 +18,17 @@
 </p>
 
 ## 📚 Descrição ##
-Bot criado para notificar quando haver uma nova promoção de jogo na Steam, não sendo necessário sair do Discord para poder verificar. Está sendo desenvolvido utilizando a linguagem de programação [Python 3](https://www.python.org/downloads/).
+Bot criado para notificar quando haver uma nova promoção de jogo na loja da Steam, não sendo necessário sair do Discord para poder verificar. Desenvolvido utilizando [Python 3](https://www.python.org/downloads/).
 
-#### 🔗 Bibliotecas externas utilizadas: ####
+#### 🔗 Dependências: ####
 - [Requests](https://pypi.org/project/requests/)
 - [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
 - [LXML](https://pypi.org/project/lxml/)
 - [Discord.py](https://pypi.org/project/discord.py/)
 
-#### 📊 Plataforma onde o Bot está operando: ####
-- [x] Discord
-
 ------------
 
-## 📋 Lista de Comandos para o Discord ##
+## 📋 Lista de Comandos ##
 Comando | Descrição
 ------- | ---------
 $help | Exibe todos os comandos que o Bot pode executar com uma breve explicação.
@@ -47,12 +44,12 @@ $botinfo | Exibe as informações do Bot.
 ------------
 
 ## 📁 Contribuições ##
-Sinta-se avontade para contribuir com este projeto, fork este projeto, faça as modificações que deseja ou adicione novas funcionalidades e crie um pull request.
+Sinta-se a vontade para contribuir com este projeto, fork este projeto, faça as modificações que deseja ou adicione novas funcionalidades e crie um pull request.
 
 ------------
 
 ## 📌 Autor ##
-- Allan Capistrano - Idealizador e Desenvolvedor do código | [Github](https://github.com/AllanCapistrano) - [Linkedin](https://www.linkedin.com/in/allancapistrano/) - [Twitter](https://twitter.com/ArticZoldyck) - [E-mail](https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=asantos@ecomp.uefs.br) - Discord: ArticZ#1081
+- Allan Capistrano - Idealizador e Desenvolvedor do Bot | [Github](https://github.com/AllanCapistrano) - [Linkedin](https://www.linkedin.com/in/allancapistrano/) - [Twitter](https://twitter.com/ArticZoldyck) - [E-mail](https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=asantos@ecomp.uefs.br) - Discord: ArticZ#1081
 
 ------------
 
