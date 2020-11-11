@@ -1,3 +1,11 @@
+from random import randint
+
+# Randomiza uma mensagem de uma lista de mensagens.
+def randomMessage(msg, size):
+    msgR = msg[randint(0, size - 1)]
+
+    return msgR
+
 # Mensagens para quando não existem promoções ou jogos em destaque.
 def noOffers():
     msgList = []
@@ -54,9 +62,23 @@ def helpValues():
 def infoValues():
     msgList = []
 
-    msgList.append("**3.8.5**")
-    msgList.append("**1.4.1**")
-    msgList.append("**Bot feito para notificar os jogos que estão em promoção," 
-      "sem a necessidade de abrir a Steam ou sair do Discord. Criado por ArticZ#1081**")
+    msgList.append("**3.9.0**") # Versão Python
+    msgList.append("**1.5.1**") # Versão Discord.py
+    msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
+        "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
+        "Criado por ArticZ#1081**") # Versão Mensagem.
+    msgList.append("11 de Novembro de 2020") # Data da última atualização.
 
     return msgList
+
+# Mensagens de status do Bot.
+def status(numServers):
+    statusList = []
+
+    statusList.append("$help | {} Servidores".format(numServers))
+    statusList.append("$destaque | {} Servidores".format(numServers))
+    statusList.append("$promocao | {} Servidores".format(numServers))
+    statusList.append("$botinfo | {} Servidores".format(numServers))
+    statusList.append("$convite | {} Servidores".format(numServers))
+
+    return statusList

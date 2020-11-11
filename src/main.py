@@ -1,9 +1,10 @@
 import asyncio
 import discord
+import time
 
-from myUtils import discordToken
 from myUtils.catch_offers import CatchOffers
 from myUtils import messages
+from myUtils import discordToken
 
 COLOR = 0xa82fd2
 ICON = "https://cdn.discordapp.com/app-icons/714852360241020929/b8dcc72cfc7708a4efd31787dceb5350.png?size=64"
@@ -17,9 +18,13 @@ catchOffers = CatchOffers()
 
 @client.event
 async def on_ready():
-    print("\n{} está online".format(client.user.name))
-    game = discord.Game("$help")
+    numServers = len(client.guilds)
+
+    print("\n{} está online em {} servidores".format(client.user.name, numServers))
+
+    game = discord.Game("Online em {} Servidores".format(numServers))
     online = discord.Status.online
+
     await client.change_presence(status=online, activity=game)
 
 
@@ -126,7 +131,8 @@ async def on_message(message):
         embedBotInfo.add_field(name="Python", value=messages.infoValues()[0], inline=True)
         embedBotInfo.add_field(name="discord.py", value=messages.infoValues()[1], inline=True)
         embedBotInfo.add_field(name="Sobre SteamOffersBot", value=messages.infoValues()[2], inline=False)
-        embedBotInfo.set_footer(text="Criado em 26 de Maio de 2020!")
+        embedBotInfo.set_footer(text="Criado em 26 de Maio de 2020! | Última atualização em {}."
+            .format(messages.infoValues()[3]))
 
         await message.channel.send(embed=embedBotInfo)
 
@@ -262,5 +268,23 @@ async def on_message(message):
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
             await member.send("\n**{}**".format(messages.currencyAlert()))
+
+# Mudar o Status do bot automaticamente e de forma aleatória.
+async def changeStatus():
+    await client.wait_until_ready()
+    await asyncio.sleep(20)
+    
+    while not client.is_closed():
+        numServers = len(client.guilds)
+        msgStatus = messages.status(numServers)
+        randomStatus = messages.randomMessage(msgStatus, len(msgStatus))
+        game = discord.Game(randomStatus)
+        online = discord.Status.online
+
+        await client.change_presence(status=online, activity=game)
+        await asyncio.sleep(20)
+
+
+client.loop.create_task(changeStatus())
 
 client.run(TOKEN)
