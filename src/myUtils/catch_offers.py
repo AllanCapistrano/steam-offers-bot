@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = 'https://store.steampowered.com/specials?l=brazilian'
+URL_MAIN = 'https://store.steampowered.com/?l=brazilian'
+URL_SPECIALS = 'https://store.steampowered.com/specials?l=brazilian'
 
 
 class CatchOffers:
@@ -16,7 +17,7 @@ class CatchOffers:
     def getDailyGamesOffers(self):
         gamesURL = []
         gamesIMG = []
-        soup = self.reqUrl(URL)
+        soup = self.reqUrl(URL_SPECIALS)
 
         for list_games in soup.find_all('div', class_='dailydeal_cap'):
             gamesURL.append(list_games.contents[1].attrs['href'])
@@ -29,7 +30,7 @@ class CatchOffers:
     def getDailyGamesOffersPrices(self):
         gameOriginalPrice = []
         gameFinalPrice = []
-        soup = self.reqUrl(URL)
+        soup = self.reqUrl(URL_SPECIALS)
 
         for list_prices in soup.find_all('div', class_='dailydeal_ctn'):
             list_p = list_prices.find_all('div', class_='discount_prices')
@@ -53,7 +54,7 @@ class CatchOffers:
         gamesURL = []
         gamesIMG = []
         gamesH2 = []
-        soup = self.reqUrl(URL)
+        soup = self.reqUrl(URL_SPECIALS)
 
         for list_games in soup.find_all('div', class_='spotlight_img'):
             gamesURL.append(list_games.contents[1].attrs['href'])
