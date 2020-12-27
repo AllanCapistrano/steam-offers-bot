@@ -40,6 +40,7 @@ $maisvendidos ou $mv | Exibe quais jogos da categoria "Mais Vendidos" estão em 
 $maisjogados ou $mj | Exibe quais jogos da categoria "Mais Jogados" estão em promoção na loja.
 $precompra ou $pc | Exibe quais jogos da categoria "Pré-compra" estão em promoção na loja.
 $botinfo | Exibe as informações do Bot.
+$game nomeDoJogo | Busca um jogo pelo nome e exibe as suas informações.
 
 ------------
 
