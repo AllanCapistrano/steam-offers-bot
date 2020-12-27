@@ -61,7 +61,7 @@ def helpValues():
     msgList.append(
         "**Gera o convite para que o Bot possa ser adicionado em outros servidores.**")
     msgList.append("**Exibe as informações do Bot.**")
-    msgList.append("**Busca um jogo pelo nome e exibe as suas informações.**")
+    msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
 
     return msgList
 
@@ -87,6 +87,7 @@ def status(numServers):
     statusList.append("$promocao | {} Servidores".format(numServers))
     statusList.append("$botinfo | {} Servidores".format(numServers))
     statusList.append("$convite | {} Servidores".format(numServers))
+    statusList.append("$game [nome] | {} Servidores".format(numServers))
 
     return statusList
 
