@@ -1,8 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
+import re
+
 URL_MAIN = 'https://store.steampowered.com/?l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?l=brazilian'
+URL_GAME = 'https://store.steampowered.com/search/?l=brazilian&term='
 
 
 class CatchOffers:
@@ -87,3 +90,34 @@ class CatchOffers:
                 gameFinalPrice.append(list_prices.contents[1].contents[0])
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice
+
+    #Função que retorna o nome, o preço, o link e a imagem de um jogo específico.
+    def getSpecificGame(self, gameName):
+        gamePrice = []
+        searchUrl = URL_GAME + gameName
+        soup = self.reqUrl(searchUrl)
+
+        try:
+            game = soup.find(id='search_resultsRows').find(class_='search_result_row ds_collapse_flag')
+
+            gameURL = game.attrs['href']
+            gameIMG = game.find('img').attrs['srcset'].split(" ")[2]
+            gameName = game.find(class_='search_name').contents[1].contents[0]
+
+            haveDiscount = True if len(game.find(class_='search_price').contents) > 1 else False
+
+            if(haveDiscount):
+                gamePrice.append(game.find(class_='search_price').contents[1].contents[0].contents[0])
+                temp = re.sub(r"\s+", "" , game.find(class_='search_price').contents[3])
+                gamePrice.append(temp)
+            else:
+                temp = re.sub(r"\s+", "" , game.find(class_='search_price').contents[0])
+                
+                if(temp.find('Gratuito') != -1):
+                    temp = "Gratuiro p/ Jogar"
+
+                gamePrice.append(temp)
+        except:
+            gameName = gameURL = gameIMG = gamePrice = None
+
+        return gameName, gameURL, gameIMG, gamePrice, searchUrl.replace(" ", "%20")
