@@ -61,6 +61,7 @@ def helpValues():
     msgList.append(
         "**Gera o convite para que o Bot possa ser adicionado em outros servidores.**")
     msgList.append("**Exibe as informações do Bot.**")
+    msgList.append("**Busca um jogo pelo nome e exibe as suas informações.**")
 
     return msgList
 
@@ -89,9 +90,14 @@ def status(numServers):
 
     return statusList
 
+# Mensagens de erros durante o envio do comando.
 def commandAlert():
     alertList = []
 
     alertList.append("⚠️ **Informe o nome do jogo!**")
 
     return alertList
+
+# Mensagem de busca pelo jogo errado.
+def wrongGame(url):
+    return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
