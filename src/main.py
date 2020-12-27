@@ -53,6 +53,8 @@ async def on_message(message):
                             value=messages.helpValues()[6], inline=False)
         embedHelp.add_field(name="```$botinfo```",
                             value=messages.helpValues()[7], inline=False)
+        embedHelp.add_field(name="```$game nomeDoJogo```",
+                            value=messages.helpValues()[8], inline=False)
 
         await message.channel.send(embed=embedHelp)
 
@@ -83,7 +85,7 @@ async def on_message(message):
                 )
                 embedSpotlightGames.set_image(url=list_gamesIMG[x - 1])
                 embedSpotlightGames.add_field(
-                    name="**Link:**", value="**{}**".format(list_gamesURl[x - 1]), inline=False)
+                    name="**Link:**", value="**[Clique Aqui]({})**".format(list_gamesURl[x - 1]), inline=False)
                 embedSpotlightGames.add_field(
                     name="**Descrição:**", value="**{}**".format(list_H2[x - 1]), inline=False)
 
@@ -108,7 +110,7 @@ async def on_message(message):
                 )
                 embedDailyGames.set_image(url=list_gamesIMG[x - 1])
                 embedDailyGames.add_field(
-                    name="**Link:**", value="**{}**".format(list_gamesURl[x - 1]), inline=False)
+                    name="**Link:**", value="**[Clique Aqui]({})**".format(list_gamesURl[x - 1]), inline=False)
                 embedDailyGames.add_field(
                     name="**Preço Original:**", value="**{}**".format(list_gamesOP[x - 1]), inline=True)
                 embedDailyGames.add_field(
@@ -268,6 +270,45 @@ async def on_message(message):
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
             await member.send("\n**{}**".format(messages.currencyAlert()))
+
+    # Comando: $game
+    if(message.content.lower().startswith("$game")):
+        gameName = message.content.split("$game ")
+
+        if(len(gameName) == 1):
+            await message.channel.send(messages.commandAlert()[0])
+        else:
+            gameName, gameURL, gameIMG, gamePrice, searchUrl = catchOffers.getSpecificGame(gameName[len(gameName) - 1])
+
+            if(gameName != None):
+                embedSpecificGame =  discord.Embed(
+                    title="👾 Jogo: {} 👾".format(gameName),
+                    color=COLOR
+                )
+
+                embedSpecificGame.set_image(url=gameIMG)
+                embedSpecificGame.add_field(
+                    name="**Link:**", value="**[Clique Aqui]({})**".format(gameURL), inline=False)
+
+                if(len(gamePrice) > 1):
+                    embedSpecificGame.add_field(
+                        name="**Preço Original:**", value="**{}**".format(gamePrice[0]), inline=True)
+                    embedSpecificGame.add_field(
+                        name="**Preço com Desconto:**", value="**{}**".format(gamePrice[1]), inline=True)
+                else:
+                    embedSpecificGame.add_field(
+                        name="**Preço:**", value="**{}**".format(gamePrice[0]), inline=False)
+
+                if(gamePrice[0].find('Gratuito') == -1):
+                    embedSpecificGame.set_footer(text=messages.currencyAlert())
+
+                embedSpecificGame.add_field(
+                    name="**Obs:**", value=messages.wrongGame(searchUrl), inline=False)
+
+                await message.channel.send(embed=embedSpecificGame)
+            
+            else:
+                await message.channel.send(messages.noOffers()[2])
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
