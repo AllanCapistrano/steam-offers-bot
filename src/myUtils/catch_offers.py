@@ -1,7 +1,7 @@
+import re
+
 import requests
 from bs4 import BeautifulSoup
-
-import re
 
 URL_MAIN = 'https://store.steampowered.com/?l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?l=brazilian'
