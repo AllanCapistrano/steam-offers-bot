@@ -10,10 +10,16 @@ def randomMessage(msg, size):
 def noOffers():
     msgList = []
 
+    # Mensagem de destaque.
     msgList.append(
         "😟 **Nenhum destaque encontrado no momento, tente novamente mais tarde!**")
+    # Mensagem de promção.
     msgList.append(
         "😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**")
+    # Mensagem de jogo específico
+    msgList.append(
+        "😟 **Jogo não encontrado! Por favor verifique o nome digitado.**"
+    )
 
     return msgList
 
