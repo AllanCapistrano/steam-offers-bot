@@ -88,3 +88,10 @@ def status(numServers):
     statusList.append("$convite | {} Servidores".format(numServers))
 
     return statusList
+
+def commandAlert():
+    alertList = []
+
+    alertList.append("⚠️ **Informe o nome do jogo!**")
+
+    return alertList
