@@ -53,7 +53,7 @@ async def on_message(message):
                             value=messages.helpValues()[6], inline=False)
         embedHelp.add_field(name="```$botinfo```",
                             value=messages.helpValues()[7], inline=False)
-        embedHelp.add_field(name="```$game nomeDoJogo```",
+        embedHelp.add_field(name="```$game [nome do jogo]```",
                             value=messages.helpValues()[8], inline=False)
 
         await message.channel.send(embed=embedHelp)
