@@ -6,6 +6,7 @@ from myUtils.catch_offers import CatchOffers
 from myUtils import messages
 from myUtils import discordToken
 
+AUTHOR_ICON = "https://cdn.discordapp.com/avatars/259443927441080330/a_b3fd4c5cfda6b7ad19bcf212a549fed5.png"
 COLOR = 0xa82fd2
 ICON = "https://cdn.discordapp.com/app-icons/714852360241020929/b8dcc72cfc7708a4efd31787dceb5350.png?size=64"
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
@@ -157,9 +158,11 @@ async def on_message(message):
             title=messages.title()[3],
             color=COLOR
         )
+        embedBotInfo.set_thumbnail(url=ICON)
         embedBotInfo.add_field(name="Python", value=messages.infoValues()[0], inline=True)
         embedBotInfo.add_field(name="discord.py", value=messages.infoValues()[1], inline=True)
         embedBotInfo.add_field(name="Sobre SteamOffersBot", value=messages.infoValues()[2], inline=False)
+        embedBotInfo.set_author(name="ArticZ#1081", icon_url=AUTHOR_ICON)
         embedBotInfo.set_footer(text="Criado em 26 de Maio de 2020! | Última atualização em {}."
             .format(messages.infoValues()[3]))
 
