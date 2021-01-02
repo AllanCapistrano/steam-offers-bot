@@ -335,6 +335,46 @@ async def on_message(message):
             else:
                 await message.channel.send(messages.noOffers()[2])
 
+    # Comando: $genre
+    if(message.content.lower().startswith("$genre")):
+        gameGenre = message.content.split("$genre ")
+
+        if(len(gameGenre) == 1):
+            await message.channel.send(messages.commandAlert()[1])
+        else:
+            gameName, gameURL, gameOriginalPrice , gameFinalPrice, gameIMG = catchOffers.getGameRecommendationByGenre(gameGenre[1])
+
+            if(gameName != None):
+                embedGameRecommendation = discord.Embed(
+                    title = messages.title(gameGenre[1])[5],
+                    color = COLOR
+                )
+                embedGameRecommendation.set_image(url=gameIMG)
+                embedGameRecommendation.add_field(
+                    name="**Nome:**", value="**{}**".format(gameName), inline=False)
+                embedGameRecommendation.add_field(
+                    name="**Link:**", value="**[Clique Aqui]({})**".format(gameURL), inline=False)
+
+                if(gameOriginalPrice == gameFinalPrice and gameOriginalPrice != "Gratuiro p/ Jogar"):
+                    embedGameRecommendation.add_field(
+                    name="**Preço:**", value="**{}**".format(gameOriginalPrice), inline=True)
+                    embedGameRecommendation.set_footer(text=messages.currencyAlert())
+                else:
+                    if(gameOriginalPrice != "Gratuiro p/ Jogar"):
+                        embedGameRecommendation.add_field(
+                            name="**Preço Original:**", value="**{}**".format(gameOriginalPrice), inline=True)
+                        embedGameRecommendation.add_field(
+                            name="**Preço com Desconto:**", value="**{}**".format(gameFinalPrice), inline=True)
+                        embedGameRecommendation.set_footer(text=messages.currencyAlert())
+                    else:
+                        embedGameRecommendation.add_field(
+                            name="**Preço:**", value="**{}**".format(gameOriginalPrice), inline=True)
+
+                await message.channel.send(embed = embedGameRecommendation)
+            else:
+                await message.channel.send(messages.noOffers()[3])
+
+
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
     await client.wait_until_ready()
