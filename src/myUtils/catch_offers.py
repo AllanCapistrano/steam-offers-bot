@@ -105,7 +105,10 @@ class CatchOffers:
                     gameFinalPrice.append('Preço indisponível!')
             # Responsável por pegar as imagens dos jogos/DLCs de uma categoria.
             for list_gamesIMG in list_games.find_all('img', class_='tab_item_cap_img'):
-                gameIMG.append(list_gamesIMG.attrs['src'])
+                # Mudando o tamanho da imagem.
+                img = list_gamesIMG.attrs['src'].replace("184x69", "231x87")
+
+                gameIMG.append(img)
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
