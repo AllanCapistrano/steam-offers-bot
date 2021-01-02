@@ -32,31 +32,56 @@ async def on_ready():
 async def on_message(message):
     # Comando: $help ou $ajuda ou $comandos
     if(message.content.lower().startswith("$help") or message.content.lower().startswith("$ajuda") or message.content.lower().startswith("$comandos")):
-        embedHelp = discord.Embed(
-            color=COLOR
-        )
-        embedHelp.set_author(
-            name="SteamOffersBot lista de comandos:", icon_url=ICON)
-        embedHelp.add_field(name="```$promocao``` ou ```$pr```",
-                            value=messages.helpValues()[0], inline=False)
-        embedHelp.add_field(name="```$destaque``` ou ```$dt```",
-                            value=messages.helpValues()[1], inline=False)
-        embedHelp.add_field(name="```$novidades``` ou ```$populares``` ou ```$np```",
-                            value=messages.helpValues()[2], inline=False)
-        embedHelp.add_field(name="```$maisvendidos``` ou ```$mv```",
-                            value=messages.helpValues()[3], inline=False)
-        embedHelp.add_field(name="```$maisjogados``` ou ```$mj```",
-                            value=messages.helpValues()[4], inline=False)
-        embedHelp.add_field(name="```$precompra``` ou ```$pc```",
-                            value=messages.helpValues()[5], inline=False)
-        embedHelp.add_field(name="```$convite```",
-                            value=messages.helpValues()[6], inline=False)
-        embedHelp.add_field(name="```$botinfo```",
-                            value=messages.helpValues()[7], inline=False)
-        embedHelp.add_field(name="```$game [nome do jogo]```",
-                            value=messages.helpValues()[8], inline=False)
+        help_ = message.content.split(" ")
 
-        await message.channel.send(embed=embedHelp)
+        if(len(help_) != 2):
+            embedHelp = discord.Embed(
+                color = COLOR
+            )
+            embedHelp.set_author(
+                name = "SteamOffersBot lista de comandos:", icon_url=ICON)
+            embedHelp.add_field(name="```$promocao``` ou ```$pr```",
+                                value=messages.helpValues()[0], inline=False)
+            embedHelp.add_field(name="```$destaque``` ou ```$dt```",
+                                value=messages.helpValues()[1], inline=False)
+            embedHelp.add_field(name="```$novidades``` ou ```$populares``` ou ```$np```",
+                                value=messages.helpValues()[2], inline=False)
+            embedHelp.add_field(name="```$maisvendidos``` ou ```$mv```",
+                                value=messages.helpValues()[3], inline=False)
+            embedHelp.add_field(name="```$maisjogados``` ou ```$mj```",
+                                value=messages.helpValues()[4], inline=False)
+            embedHelp.add_field(name="```$precompra``` ou ```$pc```",
+                                value=messages.helpValues()[5], inline=False)
+            embedHelp.add_field(name="```$convite```",
+                                value=messages.helpValues()[6], inline=False)
+            embedHelp.add_field(name="```$botinfo```",
+                                value=messages.helpValues()[7], inline=False)
+            embedHelp.add_field(name="```$game [nome do jogo]```",
+                                value=messages.helpValues()[8], inline=False)
+
+            await message.channel.send(embed=embedHelp)
+        else:
+            # $help genre
+            if(help_[1] == "genre"):
+                embedHelp = discord.Embed(
+                    title = messages.title()[4],
+                    color = COLOR,
+                )
+                embedHelp.add_field(name=messages.emojisGameGenres()[0], value=messages.gameGenres()[0], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[1], value=messages.gameGenres()[1], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[2], value=messages.gameGenres()[2], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[3], value=messages.gameGenres()[3], inline=False)
+                embedHelp.add_field(name=messages.emojisGameGenres()[4], value=messages.gameGenres()[4], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[5], value=messages.gameGenres()[5], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[6], value=messages.gameGenres()[6], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[7], value=messages.gameGenres()[7], inline=False)
+                embedHelp.add_field(name=messages.emojisGameGenres()[8], value=messages.gameGenres()[8], inline=True)
+                embedHelp.add_field(name=messages.emojisGameGenres()[9], value=messages.gameGenres()[9], inline=True)
+                embedHelp.set_footer(text="Utilize $genre [um dos gêneros acima]")
+
+                await message.channel.send(embed=embedHelp)
+            else:
+                await message.channel.send(messages.commandAlert()[2])
 
     # Comando: $convite
     if(message.content.lower().startswith("$convite")):
