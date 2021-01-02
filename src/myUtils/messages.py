@@ -39,6 +39,7 @@ def title():
     titleList.append("🎮 Jogo/Evento em Destaque 🎮")
     titleList.append("🕹️ Oferta do Dia 🕹️")
     titleList.append("📊 Informações 📊")
+    titleList.append("🎮 Gêneros dos Jogos 🕹️")
 
     return titleList
 
@@ -101,9 +102,43 @@ def commandAlert():
 
     alertList.append("⚠️ **Informe o nome do jogo!**")
     alertList.append("⚠️ **Informe o gênero do jogo!**")
+    alertList.append("⚠️ **Comando inválido!**")
 
     return alertList
 
 # Mensagem de busca pelo jogo errado.
 def wrongGame(url):
     return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
+
+# Gêneros dos jogos.
+def gameGenres():
+    genreList = []
+
+    genreList.append("**Aventura**")
+    genreList.append("**Ação**")
+    genreList.append("**Casual**")
+    genreList.append("**Corrida**")
+    genreList.append("**Esportes**")
+    genreList.append("**Estratégia**")
+    genreList.append("**Indie**")
+    genreList.append("**Multijogador Massivo**")
+    genreList.append("**RPG**")
+    genreList.append("**Simulação**")
+
+    return genreList
+
+def emojisGameGenres():
+    emojisList = []
+    
+    emojisList.append("🤠")
+    emojisList.append("🔫")
+    emojisList.append("💻")
+    emojisList.append("🏎️")
+    emojisList.append("🏆")
+    emojisList.append("🧠")
+    emojisList.append("🕹️")
+    emojisList.append("🌐")
+    emojisList.append("🧙")
+    emojisList.append("🖱️")
+
+    return emojisList
