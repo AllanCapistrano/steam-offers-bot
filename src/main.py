@@ -58,6 +58,8 @@ async def on_message(message):
                                 value=messages.helpValues()[7], inline=False)
             embedHelp.add_field(name="```$game [nome do jogo]```",
                                 value=messages.helpValues()[8], inline=False)
+            embedHelp.add_field(name="```$genre [gênero do jogo]```",
+                                value=messages.helpValues()[9], inline=False)
 
             await message.channel.send(embed=embedHelp)
         else:

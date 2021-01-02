@@ -73,6 +73,7 @@ def helpValues():
         "**Gera o convite para que o Bot possa ser adicionado em outros servidores.**")
     msgList.append("**Exibe as informações do Bot.**")
     msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
+    msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
 
     return msgList
 
