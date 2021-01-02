@@ -86,8 +86,17 @@ class CatchOffers:
                 gamesURL.append(list_g.attrs['href'])
             # Responsável por pegar os preços originais e com desconto dos jogos/DLCs que estão em promoção.
             for list_prices in list_games.find_all('div', class_='discount_prices'):
-                gameOriginalPrice.append(list_prices.contents[0].contents[0])
-                gameFinalPrice.append(list_prices.contents[1].contents[0])
+                if(len(list_prices) == 2):
+                    gameOriginalPrice.append(list_prices.contents[0].contents[0])
+                    gameFinalPrice.append(list_prices.contents[1].contents[0])
+                else:
+                    temp = list_prices.contents[0].contents[0]
+
+                    if(temp.find('Free to Play') != -1):
+                        temp = "Gratuiro p/ Jogar"
+
+                    gameOriginalPrice.append(temp)
+                    gameFinalPrice.append(temp)
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice
 
