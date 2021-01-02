@@ -49,10 +49,6 @@ def title(genre = None):
 
     return titleList
 
-# Alerta dos valores exibidos.
-def currencyAlert():
-    return "⚠️Atenção, os preços estão em Dólar."
-
 # Conteúdo do comando $help.
 def helpValues():
     msgList = []

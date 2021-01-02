@@ -10,7 +10,7 @@ AUTHOR_ICON = "https://cdn.discordapp.com/avatars/259443927441080330/a_b3fd4c5cf
 COLOR = 0xa82fd2
 ICON = "https://cdn.discordapp.com/app-icons/714852360241020929/b8dcc72cfc7708a4efd31787dceb5350.png?size=64"
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
-URL = "https://store.steampowered.com/specials#p=0&tab="
+URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 TOKEN = discordToken.myToken()
 
 client = discord.Client()
@@ -143,11 +143,6 @@ async def on_message(message):
                     name="**Preço Original:**", value="**{}**".format(list_gamesOP[x - 1]), inline=True)
                 embedDailyGames.add_field(
                     name="**Preço com Desconto:**", value="**{}**".format(list_gamesFP[x - 1]), inline=True)
-                # Só há a necessidade do rodapé caso o jogo possua um preço disponível.
-                if(list_gamesOP[x - 1] != "Não disponível!" and list_gamesFP[x - 1] != "Não disponível!"):
-                    # Pois o Bot está rodando em uma máquina Norte America.
-                    embedDailyGames.set_footer(
-                        text=messages.currencyAlert())
 
                 await message.channel.send(embed=embedDailyGames)
                 x = x - 1
@@ -200,7 +195,6 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     # Comando: $maisvendidos ou $mv
     if(message.content.lower().startswith("$maisvendidos") or message.content.lower().startswith("$mv")):
@@ -233,7 +227,6 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     # Comando: $maisjogados ou $mj
     if(message.content.lower().startswith("$maisjogados") or message.content.lower().startswith("$mj")):
@@ -266,7 +259,6 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     # Comando: $precompra ou $pc
     if(message.content.lower().startswith("$precompra") or message.content.lower().startswith("$pc")):
@@ -299,7 +291,6 @@ async def on_message(message):
             await message.channel.send(member.mention + messages.checkDm())
             await member.send(messageConcat_1)
             await member.send(messageConcat_2)
-            await member.send("\n**{}**".format(messages.currencyAlert()))
 
     # Comando: $game
     if(message.content.lower().startswith("$game")):
@@ -328,9 +319,6 @@ async def on_message(message):
                 else:
                     embedSpecificGame.add_field(
                         name="**Preço:**", value="**{}**".format(gamePrice[0]), inline=False)
-
-                if(gamePrice[0].find('Gratuito') == -1):
-                    embedSpecificGame.set_footer(text=messages.currencyAlert())
 
                 embedSpecificGame.add_field(
                     name="**Obs:**", value=messages.wrongGame(searchUrl), inline=False)
@@ -363,14 +351,12 @@ async def on_message(message):
                 if(gameOriginalPrice == gameFinalPrice and gameOriginalPrice != "Gratuiro p/ Jogar"):
                     embedGameRecommendation.add_field(
                     name="**Preço:**", value="**{}**".format(gameOriginalPrice), inline=True)
-                    embedGameRecommendation.set_footer(text=messages.currencyAlert())
                 else:
                     if(gameOriginalPrice != "Gratuiro p/ Jogar"):
                         embedGameRecommendation.add_field(
                             name="**Preço Original:**", value="**{}**".format(gameOriginalPrice), inline=True)
                         embedGameRecommendation.add_field(
                             name="**Preço com Desconto:**", value="**{}**".format(gameFinalPrice), inline=True)
-                        embedGameRecommendation.set_footer(text=messages.currencyAlert())
                     else:
                         embedGameRecommendation.add_field(
                             name="**Preço:**", value="**{}**".format(gameOriginalPrice), inline=True)

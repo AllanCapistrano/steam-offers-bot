@@ -4,9 +4,9 @@ from random import randint
 import requests
 from bs4 import BeautifulSoup
 
-URL_MAIN = 'https://store.steampowered.com/?l=brazilian'
-URL_SPECIALS = 'https://store.steampowered.com/specials?l=brazilian'
-URL_GAME = 'https://store.steampowered.com/search/?l=brazilian&term='
+URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
+URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
+URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
 
 
@@ -154,7 +154,7 @@ class CatchOffers:
         elif(genre == 'simulacao'):
             genre = 'simulação'
 
-        url = URL_GENRE + '{}/#p=0&tab=TopSellers'.format(genre)
+        url = URL_GENRE + '{}/?cc=br#p=0&tab=TopSellers'.format(genre)
 
         try:
             list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = self.getTabContent(url, 'TopSellersRows')
