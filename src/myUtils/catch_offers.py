@@ -1,4 +1,5 @@
 import re
+from random import randint
 
 import requests
 from bs4 import BeautifulSoup
@@ -6,6 +7,7 @@ from bs4 import BeautifulSoup
 URL_MAIN = 'https://store.steampowered.com/?l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?l=brazilian&term='
+URL_GENDER = 'https://store.steampowered.com/tags/pt-br/'
 
 
 class CatchOffers:
@@ -68,7 +70,7 @@ class CatchOffers:
 
         return gamesURL, gamesIMG, gamesH2
 
-    # Função que retorna quatro listas que possuem respectivamente as seguintes
+    # Função que retorna cinco listas que possuem respectivamente as seguintes
     # informações: nome, URL, preço original, preço com desconto e imagens; dos jogos/DLCs de uma categoria.
     def getTabContent(self, url, divId):
         gamesNames = []
@@ -137,3 +139,22 @@ class CatchOffers:
             gameName = gameURL = gameIMG = gamePrice = None
 
         return gameName, gameURL, gameIMG, gamePrice, searchUrl.replace(" ", "%20")
+
+    # Função que retorna um jogo recomendado de um gênero específico.
+    def getGameRecommendationByGender(self, gender):
+        url = URL_GENDER + '{}/#p=0&tab=TopSellers'.format(gender)
+
+        try:
+            list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = self.getTabContent(url, 'TopSellersRows')
+            number = randint(0, len(list_gameNames) - 1)
+
+            gameName = list_gameNames[number]
+            gameURL = list_gameURLs[number]
+            gameOriginalPrice = list_gameOriginalPrices[number]
+            gameFinalPrice = list_gameFinalPrices[number]
+            gameIMG = list_gameIMGs[number]
+
+        except:
+            gameName = gameURL = gameOriginalPrice = gameFinalPrice = gameIMG = None
+
+        return gameName, gameURL, gameOriginalPrice, gameFinalPrice, gameIMG
