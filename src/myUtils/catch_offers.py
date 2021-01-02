@@ -145,6 +145,15 @@ class CatchOffers:
 
     # Função que retorna um jogo recomendado de um gênero específico.
     def getGameRecommendationByGenre(self, genre):
+        if(genre == 'acao'):
+            genre = 'ação'
+        elif(genre == 'estrategia'):
+            genre = 'estratégia'
+        elif(genre == 'multijogador massivo'):
+            genre = 'multijogador%20massivo'
+        elif(genre == 'simulacao'):
+            genre = 'simulação'
+
         url = URL_GENRE + '{}/#p=0&tab=TopSellers'.format(genre)
 
         try:
