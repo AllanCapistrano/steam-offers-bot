@@ -141,7 +141,7 @@ class CatchOffers:
         return gameName, gameURL, gameIMG, gamePrice, searchUrl.replace(" ", "%20")
 
     # Função que retorna um jogo recomendado de um gênero específico.
-    def getGameRecommendationByGender(self, gender):
+    def getGameRecommendationByGenre(self, gender):
         url = URL_GENDER + '{}/#p=0&tab=TopSellers'.format(gender)
 
         try:
