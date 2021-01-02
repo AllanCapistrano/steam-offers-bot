@@ -108,8 +108,8 @@ def status(numServers):
 def commandAlert():
     alertList = []
 
-    alertList.append("⚠️ **Informe o nome do jogo!**")
-    alertList.append("⚠️ **Informe o gênero do jogo!**")
+    alertList.append("⚠️ **Informe o nome do jogo! Ex: `$game undertale`**")
+    alertList.append("⚠️ **Informe o gênero do jogo! Ex: `$genre casual`**")
     alertList.append("⚠️ **Comando inválido!**")
 
     return alertList
