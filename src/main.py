@@ -141,8 +141,8 @@ async def on_message(message):
     # Comando: $novidades ou $populares ou $np
     if(message.content.lower().startswith("$novidades") or message.content.lower().
       startswith("$populares") or message.content.lower().startswith("$np")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
-            URL+'=NewReleases', 'NewReleasesRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
+        
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
         num = x = len(list_gamesNames)
@@ -174,8 +174,8 @@ async def on_message(message):
 
     # Comando: $maisvendidos ou $mv
     if(message.content.lower().startswith("$maisvendidos") or message.content.lower().startswith("$mv")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
-            URL+'=TopSellers', 'TopSellersRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=TopSellers', 'TopSellersRows')
+        
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
         num = x = len(list_gamesNames)
@@ -207,8 +207,8 @@ async def on_message(message):
 
     # Comando: $maisjogados ou $mj
     if(message.content.lower().startswith("$maisjogados") or message.content.lower().startswith("$mj")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
-            URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
+        
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
         num = x = len(list_gamesNames)
@@ -240,8 +240,8 @@ async def on_message(message):
 
     # Comando: $precompra ou $pc
     if(message.content.lower().startswith("$precompra") or message.content.lower().startswith("$pc")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice = catchOffers.getTabContent(
-            URL+'=ComingSoon', 'ComingSoonRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
+        
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
         num = x = len(list_gamesNames)
