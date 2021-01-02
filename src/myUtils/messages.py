@@ -16,9 +16,13 @@ def noOffers():
     # Mensagem de promção.
     msgList.append(
         "😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**")
-    # Mensagem de jogo específico
+    # Mensagem de jogo específico.
     msgList.append(
         "😟 **Jogo não encontrado! Por favor verifique o nome digitado.**"
+    )
+    # Mensagem de gênero do jogo.
+    msgList.append(
+        "😟 **Gênero não encontrado! Por favor verifique o que foi digitado.**"
     )
 
     return msgList
@@ -96,6 +100,7 @@ def commandAlert():
     alertList = []
 
     alertList.append("⚠️ **Informe o nome do jogo!**")
+    alertList.append("⚠️ **Informe o gênero do jogo!**")
 
     return alertList
 
