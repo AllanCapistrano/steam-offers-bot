@@ -69,22 +69,23 @@ class CatchOffers:
         return gamesURL, gamesIMG, gamesH2
 
     # Função que retorna quatro listas que possuem respectivamente as seguintes
-    # informações: nome, URL, preço original, e preço com desconto; dos jogos/DLCs que estão em promoção.
+    # informações: nome, URL, preço original, preço com desconto e imagens; dos jogos/DLCs de uma categoria.
     def getTabContent(self, url, divId):
         gamesNames = []
         gamesURL = []
         gameOriginalPrice = []
         gameFinalPrice = []
+        gameIMG = []
         soup = self.reqUrl(url)
 
         for list_games in soup.find_all('div', id=divId):
-            # Responsável por pegar os nomes dos jogos/DLCs que estão promoção.
+            # Responsável por pegar os nomes dos jogos/DLCs de uma categoria.
             for list_g in list_games.find_all('div', class_='tab_item_name'):
                 gamesNames.append(list_g.contents[0])
-            # Responsável por pegar as URLs do jogos/DLCs que estão em promoção.
+            # Responsável por pegar as URLs do jogos/DLCs de uma categoria.
             for list_g in list_games.find_all('a', class_='tab_item'):
                 gamesURL.append(list_g.attrs['href'])
-            # Responsável por pegar os preços originais e com desconto dos jogos/DLCs que estão em promoção.
+            # Responsável por pegar os preços originais e com desconto (caso exista) dos jogos/DLCs de uma categoria.
             for list_prices in list_games.find_all('div', class_='discount_prices'):
                 if(len(list_prices) == 2):
                     gameOriginalPrice.append(list_prices.contents[0].contents[0])
@@ -100,8 +101,11 @@ class CatchOffers:
                 else:
                     gameOriginalPrice.append('Preço indisponível!')
                     gameFinalPrice.append('Preço indisponível!')
+            # Responsável por pegar as imagens dos jogos/DLCs de uma categoria.
+            for list_gamesIMG in list_games.find_all('img', class_='tab_item_cap_img'):
+                gameIMG.append(list_gamesIMG.attrs['src'])
 
-        return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice
+        return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
     #Função que retorna o nome, o preço, o link e a imagem de um jogo específico.
     def getSpecificGame(self, gameName):
