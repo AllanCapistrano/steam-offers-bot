@@ -149,7 +149,7 @@ class CatchOffers:
             genre = 'ação'
         elif(genre == 'estrategia'):
             genre = 'estratégia'
-        elif(genre == 'multijogador massivo'):
+        elif(genre == 'multijogador massivo' or genre == 'Multijogador massivo' or genre == 'multijogador Massivo' or genre == 'Multijogador Massivo'):
             genre = 'multijogador%20massivo'
         elif(genre == 'simulacao'):
             genre = 'simulação'
