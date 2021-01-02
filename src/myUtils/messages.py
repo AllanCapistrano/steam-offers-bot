@@ -32,7 +32,7 @@ def checkDm():
     return "** Cheque sua DM** 😃"
 
 # Títulos das embeds.
-def title():
+def title(genre = None):
     titleList = []
 
     titleList.append("Aqui está o link para o convite:")
@@ -40,6 +40,11 @@ def title():
     titleList.append("🕹️ Oferta do Dia 🕹️")
     titleList.append("📊 Informações 📊")
     titleList.append("🎮 Gêneros dos Jogos 🕹️")
+    
+    if(genre == "casual" or genre == "indie" or genre == "multijogador massivo" or genre == "rpg"):
+        titleList.append("🎮 Jogo {} recomendado 🕹️".format(genre))
+    else:
+        titleList.append("🎮 Jogo de {} recomendado 🕹️".format(genre))
 
     return titleList
 
