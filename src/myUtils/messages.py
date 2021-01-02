@@ -86,7 +86,7 @@ def infoValues():
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Versão Mensagem.
-    msgList.append("27 de Dezembro de 2020") # Data da última atualização.
+    msgList.append("02 de Janeiro de 2021") # Data da última atualização.
 
     return msgList
 
@@ -100,6 +100,7 @@ def status(numServers):
     statusList.append("$botinfo | {} Servidores".format(numServers))
     statusList.append("$convite | {} Servidores".format(numServers))
     statusList.append("$game [nome] | {} Servidores".format(numServers))
+    statusList.append("$genre [gênero] | {} Servidores".format(numServers))
 
     return statusList
 
@@ -134,6 +135,7 @@ def gameGenres():
 
     return genreList
 
+# Emojis dos gêneros dos jogos.
 def emojisGameGenres():
     emojisList = []
     
