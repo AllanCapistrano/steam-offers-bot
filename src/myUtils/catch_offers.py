@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 URL_MAIN = 'https://store.steampowered.com/?l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?l=brazilian&term='
-URL_GENDER = 'https://store.steampowered.com/tags/pt-br/'
+URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
 
 
 class CatchOffers:
@@ -141,8 +141,8 @@ class CatchOffers:
         return gameName, gameURL, gameIMG, gamePrice, searchUrl.replace(" ", "%20")
 
     # Função que retorna um jogo recomendado de um gênero específico.
-    def getGameRecommendationByGenre(self, gender):
-        url = URL_GENDER + '{}/#p=0&tab=TopSellers'.format(gender)
+    def getGameRecommendationByGenre(self, genre):
+        url = URL_GENRE + '{}/#p=0&tab=TopSellers'.format(genre)
 
         try:
             list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = self.getTabContent(url, 'TopSellersRows')
