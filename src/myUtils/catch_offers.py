@@ -89,7 +89,7 @@ class CatchOffers:
                 if(len(list_prices) == 2):
                     gameOriginalPrice.append(list_prices.contents[0].contents[0])
                     gameFinalPrice.append(list_prices.contents[1].contents[0])
-                else:
+                elif(len(list_prices) == 1):
                     temp = list_prices.contents[0].contents[0]
 
                     if(temp.find('Free to Play') != -1):
@@ -97,6 +97,9 @@ class CatchOffers:
 
                     gameOriginalPrice.append(temp)
                     gameFinalPrice.append(temp)
+                else:
+                    gameOriginalPrice.append('Preço indisponível!')
+                    gameFinalPrice.append('Preço indisponível!')
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice
 
