@@ -4,11 +4,11 @@
 ------------
 
 <p align="center">
-  <a href="#descrição">Descrição</a> |
-  <a href="#lista-de-comandos-para-o-discord">Comandos</a> |
-  <a href="#contribuições">Como contribuir</a> |
-  <a href="#autor">Autor</a> |
-  <a href="#licença">Licença</a>
+  <a href="#-descrição">Descrição</a> |
+  <a href="#-lista-de-comandos-para-o-discord">Comandos</a> |
+  <a href="#-contribuições">Como contribuir</a> |
+  <a href="#-autor">Autor</a> |
+  <a href="#%EF%B8%8F-licença">Licença</a>
 </p>
 
 ------------
