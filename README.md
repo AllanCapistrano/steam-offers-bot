@@ -42,7 +42,7 @@ Comando | Descrição
 `$precompra` ou `$pc` | Exibe quais jogos da categoria "Pré-compra" estão em promoção na loja.
 `$botinfo` | Exibe as informações do Bot.
 `$game [nome do jogo]` | Busca um jogo pelo nome e exibe as suas informações.
-`$genre [gênero do fogo]` | Recomenda um jogo a partir do gênero especificado.
+`$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
 
 ------------
 
