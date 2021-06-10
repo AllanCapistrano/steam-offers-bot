@@ -52,4 +52,4 @@ Comando | Descrição
 ------------
 
 ## ⚖️ Licença ##
-[MIT License (MIT)](https://github.com/AllanCapistrano/SteamOffersBot/blob/master/LICENSE)
+[GPL-3.0 License](https://github.com/AllanCapistrano/SteamOffersBot/blob/master/LICENSE)
