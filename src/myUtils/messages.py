@@ -78,12 +78,12 @@ def helpValues():
 def infoValues():
     msgList = []
 
-    msgList.append("**3.9.0**") # Versão Python
-    msgList.append("**1.5.1**") # Versão Discord.py
+    msgList.append("**3.9.5**") # Versão Python
+    msgList.append("**1.7.2**") # Versão Discord.py
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("02 de Janeiro de 2021") # Data da última atualização.
+    msgList.append("13 de Junho de 2021") # Data da última atualização.
 
     return msgList
 
