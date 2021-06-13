@@ -7,7 +7,6 @@ from myUtils import discordToken
 
 AUTHOR_ICON = "https://cdn.discordapp.com/avatars/259443927441080330/a_b3fd4c5cfda6b7ad19bcf212a549fed5.png"
 COLOR = 0xa82fd2
-ICON = "https://cdn.discordapp.com/app-icons/714852360241020929/b8dcc72cfc7708a4efd31787dceb5350.png?size=64"
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 TOKEN = discordToken.myToken()
@@ -42,7 +41,7 @@ async def on_message(message):
             )
             embedHelp.set_author(
                 name = "SteamOffersBot lista de comandos:", 
-                icon_url=ICON
+                icon_url=client.user.avatar_url
             )
             embedHelp.add_field(
                 name="```$promocao``` ou ```$pr```",
@@ -166,7 +165,7 @@ async def on_message(message):
             color=COLOR,
             description='**{}**'.format(INVITE)
         )
-        embedInvite.set_thumbnail(url=ICON)
+        embedInvite.set_thumbnail(url=client.user.avatar_url)
 
         await message.channel.send(embed=embedInvite)
 
@@ -250,7 +249,7 @@ async def on_message(message):
             title=messages.title()[3],
             color=COLOR
         )
-        embedBotInfo.set_thumbnail(url=ICON)
+        embedBotInfo.set_thumbnail(url=client.user.avatar_url)
         embedBotInfo.add_field(
             name="Python", 
             value=messages.infoValues()[0], 
