@@ -99,7 +99,7 @@ async def on_message(message):
 
     # Comando: $destaque ou $dt
     if(message.content.lower().startswith("$destaque") or message.content.lower().startswith("$dt")):
-        list_gamesURl, list_gamesIMG, list_H2 = catchOffers.getSpotlightOffers()
+        list_gamesURl, list_gamesIMG, list_H2 = await catchOffers.getSpotlightOffers()
         x = len(list_gamesURl)
 
         if(x == 0):
@@ -123,8 +123,9 @@ async def on_message(message):
 
     # Comando: $promocao ou $pr
     if(message.content.lower().startswith("$promocao") or message.content.lower().startswith("$pr")):
-        list_gamesURl, list_gamesIMG = catchOffers.getDailyGamesOffers()
-        list_gamesOP, list_gamesFP = catchOffers.getDailyGamesOffersPrices()
+        list_gamesURl, list_gamesIMG = await catchOffers.getDailyGamesOffers()
+        list_gamesOP, list_gamesFP = await catchOffers.getDailyGamesOffersPrices()
+        
         x = len(list_gamesURl)
 
         if(x == 0):
@@ -166,7 +167,7 @@ async def on_message(message):
     # Comando: $novidades ou $populares ou $np
     if(message.content.lower().startswith("$novidades") or message.content.lower().
       startswith("$populares") or message.content.lower().startswith("$np")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = await catchOffers.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
         
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
@@ -198,7 +199,7 @@ async def on_message(message):
 
     # Comando: $maisvendidos ou $mv
     if(message.content.lower().startswith("$maisvendidos") or message.content.lower().startswith("$mv")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=TopSellers', 'TopSellersRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = await catchOffers.getTabContent(URL+'=TopSellers', 'TopSellersRows')
         
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
@@ -230,7 +231,7 @@ async def on_message(message):
 
     # Comando: $maisjogados ou $mj
     if(message.content.lower().startswith("$maisjogados") or message.content.lower().startswith("$mj")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = await catchOffers.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
         
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
@@ -262,7 +263,7 @@ async def on_message(message):
 
     # Comando: $precompra ou $pc
     if(message.content.lower().startswith("$precompra") or message.content.lower().startswith("$pc")):
-        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = catchOffers.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
+        list_gamesNames, list_gamesURL, list_gamesOriginalPrice, list_gamesFinalPrice, list_gamesIMG = await catchOffers.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
         
         list_gamesNames.reverse(), list_gamesURL.reverse(
         ), list_gamesOriginalPrice.reverse(), list_gamesFinalPrice.reverse()
@@ -299,7 +300,7 @@ async def on_message(message):
         if(len(gameName) == 1):
             await message.channel.send(messages.commandAlert()[0])
         else:
-            gameName, gameURL, gameIMG, gamePrice, searchUrl = catchOffers.getSpecificGame(gameName[len(gameName) - 1])
+            gameName, gameURL, gameIMG, gamePrice, searchUrl = await catchOffers.getSpecificGame(gameName[len(gameName) - 1])
 
             if(gameName != None):
                 embedSpecificGame =  discord.Embed(
@@ -335,7 +336,7 @@ async def on_message(message):
         if(len(gameGenre) == 1):
             await message.channel.send(messages.commandAlert()[1])
         else:
-            gameName, gameURL, gameOriginalPrice , gameFinalPrice, gameIMG = catchOffers.getGameRecommendationByGenre(gameGenre[1])
+            gameName, gameURL, gameOriginalPrice , gameFinalPrice, gameIMG = await catchOffers.getGameRecommendationByGenre(gameGenre[1])
 
             if(gameName != None):
                 embedGameRecommendation = discord.Embed(
