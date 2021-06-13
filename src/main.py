@@ -5,13 +5,15 @@ from myUtils.catch_offers import CatchOffers
 from myUtils import messages
 from myUtils import discordToken
 
-AUTHOR_ICON = "https://cdn.discordapp.com/avatars/259443927441080330/a_b3fd4c5cfda6b7ad19bcf212a549fed5.png"
 COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 TOKEN = discordToken.myToken()
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
+
+client = discord.Client(intents=intents)
 catchOffers = CatchOffers()
 
 @client.event
@@ -267,7 +269,7 @@ async def on_message(message):
         )
         embedBotInfo.set_author(
             name="ArticZ#1081", 
-            icon_url=AUTHOR_ICON
+            icon_url=client.get_user(259443927441080330).avatar_url
         )
         embedBotInfo.set_footer(
             text="Criado em 26 de Maio de 2020! | Última atualização em {}."
