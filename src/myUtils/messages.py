@@ -23,7 +23,8 @@ def noOffers():
     # Mensagem de gênero do jogo.
     msgList.append(
         "😟 **Gênero não encontrado! Por favor verifique o que foi digitado ou " + \
-        "utilize `$help genre` para verificar a lista completa dos gêneros dos jogos.**"
+        "utilize o comando `$help genre` para verificar a lista completa dos " + \
+        "gêneros disponíveis.**"
     )
 
     return msgList
