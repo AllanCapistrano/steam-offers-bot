@@ -19,7 +19,7 @@ class CatchOffers:
 
     # Função que retorna duas listas, uma contendo a URL dos jogos que estão na
     # promoção diária, e a outra contendo a imagem do banner dos jogos que estão na promoção diária.
-    def getDailyGamesOffers(self):
+    async def getDailyGamesOffers(self):
         gamesURL = []
         gamesIMG = []
         soup = self.reqUrl(URL_SPECIALS)
@@ -32,7 +32,7 @@ class CatchOffers:
 
     # Função que retorna duas listas, uma contendo o preço original dos jogos, e
     # a outra contendo o preço com o desconto aplicado.
-    def getDailyGamesOffersPrices(self):
+    async def getDailyGamesOffersPrices(self):
         gameOriginalPrice = []
         gameFinalPrice = []
         soup = self.reqUrl(URL_SPECIALS)
@@ -55,7 +55,7 @@ class CatchOffers:
 
     # Função que retorna três listas, uma contendo a URL, outra contendo as imagens,
     # e por fim, outra contendo a descrição do evento/jogo em destaque.
-    def getSpotlightOffers(self):
+    async def getSpotlightOffers(self):
         gamesURL = []
         gamesIMG = []
         gamesH2 = []
@@ -72,7 +72,7 @@ class CatchOffers:
 
     # Função que retorna cinco listas que possuem respectivamente as seguintes
     # informações: nome, URL, preço original, preço com desconto e imagens; dos jogos/DLCs de uma categoria.
-    def getTabContent(self, url, divId):
+    async def getTabContent(self, url, divId):
         gamesNames = []
         gamesURL = []
         gameOriginalPrice = []
@@ -113,7 +113,7 @@ class CatchOffers:
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
     #Função que retorna o nome, o preço, o link e a imagem de um jogo específico.
-    def getSpecificGame(self, gameName):
+    async def getSpecificGame(self, gameName):
         gamePrice = []
         searchUrl = URL_GAME + gameName
         soup = self.reqUrl(searchUrl)
@@ -144,7 +144,7 @@ class CatchOffers:
         return gameName, gameURL, gameIMG, gamePrice, searchUrl.replace(" ", "%20")
 
     # Função que retorna um jogo recomendado de um gênero específico.
-    def getGameRecommendationByGenre(self, genre):
+    async def getGameRecommendationByGenre(self, genre):
         if(genre == 'acao'):
             genre = 'ação'
         elif(genre == 'estrategia'):
@@ -157,7 +157,7 @@ class CatchOffers:
         url = URL_GENRE + '{}/?cc=br#p=0&tab=TopSellers'.format(genre)
 
         try:
-            list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = self.getTabContent(url, 'TopSellersRows')
+            list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = await self.getTabContent(url, 'TopSellersRows')
             number = randint(0, len(list_gameNames) - 1)
 
             gameName = list_gameNames[number]
