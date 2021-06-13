@@ -157,7 +157,7 @@ class CatchOffers:
         url = URL_GENRE + '{}/?cc=br#p=0&tab=TopSellers'.format(genre)
 
         try:
-            list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = self.getTabContent(url, 'TopSellersRows')
+            list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = await self.getTabContent(url, 'TopSellersRows')
             number = randint(0, len(list_gameNames) - 1)
 
             gameName = list_gameNames[number]
