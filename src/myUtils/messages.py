@@ -44,9 +44,9 @@ def title(genre = None):
     titleList.append("🎮 Gêneros dos Jogos 🕹️")
     
     if(genre == "casual" or genre == "indie" or genre == "multijogador massivo" or genre == "rpg"):
-        titleList.append("🎮 Jogo {} recomendado 🕹️".format(genre))
+        titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
     else:
-        titleList.append("🎮 Jogo de {} recomendado 🕹️".format(genre))
+        titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
 
     return titleList
 
@@ -151,4 +151,11 @@ def emojisGameGenres():
 
 # Mensagem de busca.
 def searchMessage():
-    return "**🔎 Procurando.**"
+    msgList = []
+
+    msgList.append("**🔎 Procurando.**")
+    msgList.append("**🔎 Procurando pelo jogo")
+    msgList.append("**🔎 Procurando por um jogo do gênero")
+
+
+    return msgList
