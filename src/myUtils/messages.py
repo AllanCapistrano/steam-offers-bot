@@ -148,3 +148,7 @@ def emojisGameGenres():
     emojisList.append("🖱️")
 
     return emojisList
+
+# Mensagem de busca.
+def searchMessage():
+    return "**🔎 Procurando.**"
