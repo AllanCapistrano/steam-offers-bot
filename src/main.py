@@ -178,7 +178,7 @@ async def on_message(message):
         message.content.lower().startswith("$dt")
     ):
         # Mensagem de busca, com efeito de carregamento.
-        message_content = messages.searchMessage()
+        message_content = messages.searchMessage()[0]
         search_message = await message.channel.send(message_content)
         
         sleep(0.5)
@@ -231,7 +231,7 @@ async def on_message(message):
     ):
 
         # Mensagem de busca, com efeito de carregamento.
-        message_content = messages.searchMessage()
+        message_content = messages.searchMessage()[0]
         search_message = await message.channel.send(message_content)
         
         sleep(0.5)
@@ -505,18 +505,30 @@ async def on_message(message):
 
     # Comando: $game
     if(message.content.lower().startswith("$game")):
-        gameName = message.content.split("$game ")
+        game_name_message = message.content.split("$game ")
 
-        if(len(gameName) == 1):
+        if(len(game_name_message) == 1):
             await message.channel.send(messages.commandAlert()[0])
         else:
+            game_name = game_name_message[1]
+            
+            # Mensagem de busca de jogo, com efeito de carregamento.
+            message_content = messages.searchMessage()[1]
+            search_game_message = await message.channel.send(message_content + " __"+ game_name + "__**")
+            
+            sleep(0.5)
+            await search_game_message.edit(content=message_content + " __" + game_name + "__ .**")
+            
+            sleep(0.5)
+            await search_game_message.edit(content=message_content + " __"+ game_name + "__ . .**")
+
             (
                 gameName, 
                 gameURL, 
                 gameIMG, 
                 gamePrice, 
                 searchUrl
-            ) = await catchOffers.getSpecificGame(gameName[len(gameName) - 1])
+            ) = await catchOffers.getSpecificGame(game_name)
 
             if(gameName != None):
                 embedSpecificGame =  discord.Embed(
@@ -554,28 +566,40 @@ async def on_message(message):
                     inline=False
                 )
 
-                await message.channel.send(embed=embedSpecificGame)
+                await search_game_message.edit(content="", embed=embedSpecificGame)
             else:
-                await message.channel.send(messages.noOffers()[2])
+                await search_game_message.edit(content=messages.noOffers()[2])
 
     # Comando: $genre
     if(message.content.lower().startswith("$genre")):
-        gameGenre = message.content.split("$genre ")
+        game_genre_message = message.content.split("$genre ")
 
-        if(len(gameGenre) == 1):
+        if(len(game_genre_message) == 1):
             await message.channel.send(messages.commandAlert()[1])
         else:
+            game_genre = game_genre_message[1]
+
+            # Mensagem de busca, com efeito de carregamento.
+            message_content = messages.searchMessage()[2]
+            search_genre_message = await message.channel.send(message_content + " __"+ game_genre +"__**")
+            
+            sleep(0.5)
+            await search_genre_message.edit(content=message_content + " __" + game_genre + "__ .**")
+            
+            sleep(0.5)
+            await search_genre_message.edit(content=message_content + " __" + game_genre + "__ . .**")
+
             (
                 gameName, 
                 gameURL, 
                 gameOriginalPrice , 
                 gameFinalPrice, 
                 gameIMG
-            ) = await catchOffers.getGameRecommendationByGenre(gameGenre[1])
+            ) = await catchOffers.getGameRecommendationByGenre(game_genre)
 
             if(gameName != None):
                 embedGameRecommendation = discord.Embed(
-                    title = messages.title(gameGenre[1])[5],
+                    title = messages.title(game_genre)[5],
                     color = COLOR
                 )
                 embedGameRecommendation.set_image(url=gameIMG)
@@ -618,9 +642,9 @@ async def on_message(message):
                             inline=True
                         )
 
-                await message.channel.send(embed = embedGameRecommendation)
+                await search_genre_message.edit(content="", embed=embedGameRecommendation)
             else:
-                await message.channel.send(messages.noOffers()[3])
+                await search_genre_message.edit(content=messages.noOffers()[3])
 
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
