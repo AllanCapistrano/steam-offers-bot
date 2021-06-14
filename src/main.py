@@ -1,5 +1,6 @@
 import asyncio
 import discord
+from time import sleep
 
 from myUtils.catch_offers import CatchOffers
 from myUtils import messages
@@ -176,12 +177,24 @@ async def on_message(message):
         message.content.lower().startswith("$destaque") or 
         message.content.lower().startswith("$dt")
     ):
+        # Mensagem de busca, com efeito de carregamento.
+        message_content = messages.searchMessage()
+        search_message = await message.channel.send(message_content)
+        
+        sleep(0.5)
+        await search_message.edit(content=message_content+" **.**")
+        
+        sleep(0.5)
+        await search_message.edit(content=message_content+" **. .**")
+
         list_gamesURl, list_gamesIMG, list_H2 = await catchOffers.getSpotlightOffers()
         x = len(list_gamesURl)
 
         if(x == 0):
-            await message.channel.send(messages.noOffers()[0])
+            await search_message.edit(content=messages.noOffers()[0])
         else:
+            first_iteration = True
+
             while(x > 0):
                 embedSpotlightGames = discord.Embed(
                     title=messages.title()[1],
@@ -199,7 +212,12 @@ async def on_message(message):
                     inline=False
                 )
 
-                await message.channel.send(embed=embedSpotlightGames)
+                if(first_iteration):
+                    first_iteration = False
+                    
+                    await search_message.edit(content="", embed=embedSpotlightGames)
+                else:
+                    await message.channel.send(embed=embedSpotlightGames)
 
                 x = x - 1
 
@@ -212,13 +230,25 @@ async def on_message(message):
         )
     ):
 
+        # Mensagem de busca, com efeito de carregamento.
+        message_content = messages.searchMessage()
+        search_message = await message.channel.send(message_content)
+        
+        sleep(0.5)
+        await search_message.edit(content=message_content+" **.**")
+        
+        sleep(0.5)
+        await search_message.edit(content=message_content+" **. .**")
+
         list_gamesURl, list_gamesIMG = await catchOffers.getDailyGamesOffers()
         list_gamesOP, list_gamesFP = await catchOffers.getDailyGamesOffersPrices()
         x = len(list_gamesURl)
 
         if(x == 0):
-            await message.channel.send(messages.noOffers()[1])
+            await search_message.edit(content=messages.noOffers()[1])
         else:
+            first_iteration = True
+
             while(x > 0):
                 embedDailyGames = discord.Embed(
                     title=messages.title()[2],
@@ -241,7 +271,12 @@ async def on_message(message):
                     inline=True
                 )
 
-                await message.channel.send(embed=embedDailyGames)
+                if(first_iteration):
+                    first_iteration = False
+
+                    await search_message.edit(content="", embed=embedDailyGames)
+                else:
+                    await message.channel.send(embed=embedDailyGames)
                 
                 x = x - 1
 
