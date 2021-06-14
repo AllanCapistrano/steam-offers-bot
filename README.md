@@ -1,4 +1,6 @@
 # SteamOffersBot
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/allancapistrano) 
+
 ![BotStatus](https://img.shields.io/badge/status-online-success) ![Build](https://img.shields.io/badge/build-passing-success) [![python](https://img.shields.io/badge/python-3.9.5-informational?logo=python)](https://www.python.org/) [![discord.py](https://img.shields.io/badge/discord.py-1.7.2-informational?logo=discord)](https://pypi.org/project/discord.py/) [![BotInvite](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 ------------
@@ -6,7 +8,6 @@
 <p align="center">
   <a href="#-descrição">Descrição</a> |
   <a href="#-lista-de-comandos">Comandos</a> |
-  <a href="#-contribuições">Como contribuir</a> |
   <a href="#-autor">Autor</a> |
   <a href="#%EF%B8%8F-licença">Licença</a>
 </p>
