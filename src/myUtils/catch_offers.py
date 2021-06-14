@@ -1,4 +1,4 @@
-import re
+from re import sub
 from random import randint
 
 import requests
@@ -129,10 +129,10 @@ class CatchOffers:
 
             if(haveDiscount):
                 gamePrice.append(game.find(class_='search_price').contents[1].contents[0].contents[0])
-                temp = re.sub(r"\s+", "" , game.find(class_='search_price').contents[3])
+                temp = sub(r"\s+", "" , game.find(class_='search_price').contents[3])
                 gamePrice.append(temp)
             else:
-                temp = re.sub(r"\s+", "" , game.find(class_='search_price').contents[0])
+                temp = sub(r"\s+", "" , game.find(class_='search_price').contents[0])
                 
                 if(temp.find('Gratuito') != -1):
                     temp = "Gratuiro p/ Jogar"
