@@ -514,13 +514,13 @@ async def on_message(message):
             
             # Mensagem de busca de jogo, com efeito de carregamento.
             message_content = messages.searchMessage()[1]
-            search_game_message = await message.channel.send(message_content + " __"+ game_name + "__**")
+            search_game_message = await message.channel.send(message_content + " __"+ game_name + "__ .**")
             
             sleep(0.5)
-            await search_game_message.edit(content=message_content + " __" + game_name + "__ .**")
+            await search_game_message.edit(content=message_content + " __" + game_name + "__ . .**")
             
             sleep(0.5)
-            await search_game_message.edit(content=message_content + " __"+ game_name + "__ . .**")
+            await search_game_message.edit(content=message_content + " __"+ game_name + "__ . . .**")
 
             (
                 gameName, 
@@ -581,13 +581,13 @@ async def on_message(message):
 
             # Mensagem de busca, com efeito de carregamento.
             message_content = messages.searchMessage()[2]
-            search_genre_message = await message.channel.send(message_content + " __"+ game_genre +"__**")
-            
-            sleep(0.5)
-            await search_genre_message.edit(content=message_content + " __" + game_genre + "__ .**")
+            search_genre_message = await message.channel.send(message_content + " __"+ game_genre +"__ .**")
             
             sleep(0.5)
             await search_genre_message.edit(content=message_content + " __" + game_genre + "__ . .**")
+            
+            sleep(0.5)
+            await search_genre_message.edit(content=message_content + " __" + game_genre + "__ . . .**")
 
             (
                 gameName, 
