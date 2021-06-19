@@ -18,7 +18,8 @@ class CatchOffers:
         return soup
 
     # Função que retorna duas listas, uma contendo a URL dos jogos que estão na
-    # promoção diária, e a outra contendo a imagem do banner dos jogos que estão na promoção diária.
+    # promoção diária, e a outra contendo a imagem do banner dos jogos que estão 
+    # na promoção diária.
     async def getDailyGamesOffers(self):
         gamesURL = []
         gamesIMG = []
@@ -71,8 +72,11 @@ class CatchOffers:
         return gamesURL, gamesIMG, gamesH2
 
     # Função que retorna cinco listas que possuem respectivamente as seguintes
-    # informações: nome, URL, preço original, preço com desconto e imagens; dos jogos/DLCs de uma categoria.
+    # informações: nome, URL, preço original, preço com desconto e imagens; 
+    # dos jogos/DLCs de uma categoria.
     async def getTabContent(self, url, divId):
+        hasPrice = []
+        gameWithoutPricing = False
         gamesNames = []
         gamesURL = []
         gameOriginalPrice = []
@@ -87,8 +91,20 @@ class CatchOffers:
             # Responsável por pegar as URLs do jogos/DLCs de uma categoria.
             for list_g in list_games.find_all('a', class_='tab_item'):
                 gamesURL.append(list_g.attrs['href'])
-            # Responsável por pegar os preços originais e com desconto (caso exista) dos jogos/DLCs de uma categoria.
-            for list_prices in list_games.find_all('div', class_='discount_prices'):
+
+            # Responsável por verificar se existe a classe empty em algum jogo. 
+            # Se existir, o jogo não possui precificação, e o mesmo é marcado.
+            for listHasPrice in list_games.find_all('div', class_='discount_block'):
+                try:
+                    listHasPrice['class'].index("empty")
+                    hasPrice.append(False)
+                    gameWithoutPricing = True
+                except:
+                    hasPrice.append(True)
+
+            # Responsável por pegar os preços originais e com desconto 
+            # (caso exista) dos jogos/DLCs de uma categoria.
+            for list_prices in list_games.find_all('div', class_='discount_prices'):                
                 if(len(list_prices) == 2):
                     gameOriginalPrice.append(list_prices.contents[0].contents[0])
                     gameFinalPrice.append(list_prices.contents[1].contents[0])
@@ -100,15 +116,21 @@ class CatchOffers:
 
                     gameOriginalPrice.append(temp)
                     gameFinalPrice.append(temp)
-                else:
-                    gameOriginalPrice.append('Preço indisponível!')
-                    gameFinalPrice.append('Preço indisponível!')
+
             # Responsável por pegar as imagens dos jogos/DLCs de uma categoria.
             for list_gamesIMG in list_games.find_all('img', class_='tab_item_cap_img'):
                 # Mudando o tamanho da imagem.
                 img = list_gamesIMG.attrs['src'].replace("184x69", "231x87")
 
                 gameIMG.append(img)
+
+        # Verifica se há pelo menos um jogo sem preço. Em caso positivo, adiciona
+        # essa infomaçã na posição correta da lista.
+        if(gameWithoutPricing):
+            for x in range(len(hasPrice) - 1):
+                if(not hasPrice[x]):
+                    gameOriginalPrice.insert(x, 'Preço indisponível!')
+                    gameFinalPrice.insert(x, 'Preço indisponível!')
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
@@ -165,7 +187,6 @@ class CatchOffers:
             gameOriginalPrice = list_gameOriginalPrices[number]
             gameFinalPrice = list_gameFinalPrices[number]
             gameIMG = list_gameIMGs[number]
-
         except:
             gameName = gameURL = gameOriginalPrice = gameFinalPrice = gameIMG = None
 
