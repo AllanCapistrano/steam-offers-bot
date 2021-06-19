@@ -182,13 +182,11 @@ class CatchOffers:
         elif(genre == 'simulacao'):
             genre = 'simulação'
 
-        pos = randint(0, 3)
+        pos = randint(0, len(TabContent) - 1)
         tabContent = TabContent(pos).name
         tabContentRow = TabContentRow(pos).name
 
         url = URL_GENRE + '{}/?cc=br#p=0&tab={}'.format(genre, tabContent)
-
-        print("url: " + url)
 
         try:
             (
