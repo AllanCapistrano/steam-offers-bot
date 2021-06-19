@@ -4,12 +4,13 @@ from random import randint
 import requests
 from bs4 import BeautifulSoup
 
+from myUtils.tabContent import TabContent
+from myUtils.tabContentRow import TabContentRow
+
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
-
-
 class CatchOffers:
     # Função para buscar o site pela URL
     def reqUrl(self, url):
@@ -111,7 +112,7 @@ class CatchOffers:
                 elif(len(list_prices) == 1):
                     temp = list_prices.contents[0].contents[0]
 
-                    if(temp.find('Free to Play') != -1):
+                    if(temp.find('Free to Play') != -1 or temp.find('Free') != -1):
                         temp = "Gratuiro p/ Jogar"
 
                     gameOriginalPrice.append(temp)
@@ -171,15 +172,32 @@ class CatchOffers:
             genre = 'ação'
         elif(genre == 'estrategia'):
             genre = 'estratégia'
-        elif(genre == 'multijogador massivo' or genre == 'Multijogador massivo' or genre == 'multijogador Massivo' or genre == 'Multijogador Massivo'):
+        elif(
+            genre == 'multijogador massivo' or 
+            genre == 'Multijogador massivo' or 
+            genre == 'multijogador Massivo' or 
+            genre == 'Multijogador Massivo'
+        ):
             genre = 'multijogador%20massivo'
         elif(genre == 'simulacao'):
             genre = 'simulação'
 
-        url = URL_GENRE + '{}/?cc=br#p=0&tab=TopSellers'.format(genre)
+        pos = randint(0, 3)
+        tabContent = TabContent(pos).name
+        tabContentRow = TabContentRow(pos).name
+
+        url = URL_GENRE + '{}/?cc=br#p=0&tab={}'.format(genre, tabContent)
+
+        print("url: " + url)
 
         try:
-            list_gameNames, list_gameURLs, list_gameOriginalPrices, list_gameFinalPrices, list_gameIMGs = await self.getTabContent(url, 'TopSellersRows')
+            (
+                list_gameNames, 
+                list_gameURLs, 
+                list_gameOriginalPrices, 
+                list_gameFinalPrices, list_gameIMGs
+            ) = await self.getTabContent(url, tabContentRow)
+            
             number = randint(0, len(list_gameNames) - 1)
 
             gameName = list_gameNames[number]
