@@ -411,10 +411,10 @@ async def on_message(message):
                 await member.send(messageConcat_1)
                 await member.send(messageConcat_2)
 
-        # Comando: $maisjogados ou $mj
+        # Comando: $jogospopulares ou $jp
         if(
-            message.content.lower().startswith("$maisjogados") or 
-            message.content.lower().startswith("$mj")
+            message.content.lower().startswith("$jogospopulares") or 
+            message.content.lower().startswith("$jp")
         ):
             (
                 list_gamesNames, 
@@ -458,10 +458,10 @@ async def on_message(message):
                 await member.send(messageConcat_1)
                 await member.send(messageConcat_2)
 
-        # Comando: $precompra ou $pc
+        # Comando: $prevenda ou $pv
         if(
-            message.content.lower().startswith("$precompra") or 
-            message.content.lower().startswith("$pc")
+            message.content.lower().startswith("$prevenda") or 
+            message.content.lower().startswith("$pv")
         ):
             (
                 list_gamesNames, 
