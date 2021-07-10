@@ -34,7 +34,7 @@ def checkDm():
     return "** Cheque sua DM** 😃"
 
 # Títulos das embeds.
-def title(genre = None):
+def title(genre = None, gameName = None):
     titleList = []
 
     titleList.append("Aqui está o link para o convite:")
@@ -47,6 +47,8 @@ def title(genre = None):
         titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
     else:
         titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
+
+    titleList.append("💰 Jogo: {} 💰".format(gameName))
 
     return titleList
 
@@ -166,8 +168,11 @@ def recommendationByPrice():
     msgList = []
 
     msgList.append(
-        "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
-        "Logo pode aparecer um jogo de qualquer preço aqui."
+        "**A faixa máxima de preço para o filtro é de R$ 120,00. " + \
+        "Logo pode aparecer um jogo de qualquer preço aqui.**"
+    )
+    msgList.append(
+        "**Faixa de preço inválida! Tente novamente.**"
     )
 
     return msgList
