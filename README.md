@@ -44,6 +44,7 @@ Comando | Descrição
 `$botinfo` | Exibe as informações do Bot.
 `$game [nome do jogo]` | Busca um jogo pelo nome e exibe as suas informações.
 `$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
+`$maxprice [preço]` | Recomenda um jogo dada uma faixa máxima de preço.
 
 ------------
 
