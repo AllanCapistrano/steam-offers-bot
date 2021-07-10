@@ -34,9 +34,9 @@ async def on_message(message):
     if(not message.author.bot):
         # Comando: $help ou $ajuda ou $comandos
         if(
-            message.content.lower().startswith(">>help") or 
-            message.content.lower().startswith(">>ajuda") or 
-            message.content.lower().startswith(">>comandos")
+            message.content.lower().startswith("$help") or 
+            message.content.lower().startswith("$ajuda") or 
+            message.content.lower().startswith("$comandos")
         ):
             help_ = message.content.split(" ")
 
@@ -164,7 +164,7 @@ async def on_message(message):
                     await message.channel.send(messages.commandAlert()[2])
 
         # Comando: $convite
-        if(message.content.lower().startswith(">>convite")):
+        if(message.content.lower().startswith("$convite")):
             embedInvite = discord.Embed(
                 title=messages.title()[0],
                 color=COLOR,
@@ -176,8 +176,8 @@ async def on_message(message):
 
         # Comando: $destaque ou $dt
         if(
-            message.content.lower().startswith(">>destaque") or 
-            message.content.lower().startswith(">>dt")
+            message.content.lower().startswith("$destaque") or 
+            message.content.lower().startswith("$dt")
         ):
             # Mensagem de busca, com efeito de carregamento.
             message_content = messages.searchMessage()[0]
@@ -225,9 +225,9 @@ async def on_message(message):
 
         # Comando: $promocao ou $pr
         if(
-            message.content.lower().startswith(">>promocao") or 
+            message.content.lower().startswith("$promocao") or 
             (
-                message.content.lower().startswith(">>pr") and
+                message.content.lower().startswith("$pr") and
                 message.content == "$pr"
             )
         ):
@@ -283,7 +283,7 @@ async def on_message(message):
                     x = x - 1
 
         # Comando: $botinfo
-        if(message.content.lower().startswith(">>botinfo")):
+        if(message.content.lower().startswith("$botinfo")):
             embedBotInfo = discord.Embed(
                 title=messages.title()[3],
                 color=COLOR
@@ -317,9 +317,9 @@ async def on_message(message):
 
         # Comando: $novidades ou $populares ou $np
         if(
-            message.content.lower().startswith(">>novidades") or 
-            message.content.lower().startswith(">>populares") or 
-            message.content.lower().startswith(">>np")
+            message.content.lower().startswith("$novidades") or 
+            message.content.lower().startswith("$populares") or 
+            message.content.lower().startswith("$np")
         ):
             (
                 list_gamesNames, 
@@ -366,8 +366,8 @@ async def on_message(message):
 
         # Comando: $maisvendidos ou $mv
         if(
-            message.content.lower().startswith(">>maisvendidos") or 
-            message.content.lower().startswith(">>mv")
+            message.content.lower().startswith("$maisvendidos") or 
+            message.content.lower().startswith("$mv")
         ):
             (
                 list_gamesNames, 
@@ -413,8 +413,8 @@ async def on_message(message):
 
         # Comando: $jogospopulares ou $jp
         if(
-            message.content.lower().startswith(">>jogospopulares") or 
-            message.content.lower().startswith(">>jp")
+            message.content.lower().startswith("$jogospopulares") or 
+            message.content.lower().startswith("$jp")
         ):
             (
                 list_gamesNames, 
@@ -460,8 +460,8 @@ async def on_message(message):
 
         # Comando: $prevenda ou $pv
         if(
-            message.content.lower().startswith(">>prevenda") or 
-            message.content.lower().startswith(">>pv")
+            message.content.lower().startswith("$prevenda") or 
+            message.content.lower().startswith("$pv")
         ):
             (
                 list_gamesNames, 
@@ -506,8 +506,8 @@ async def on_message(message):
                 await member.send(messageConcat_2)
 
         # Comando: $game
-        if(message.content.lower().startswith(">>game")):
-            game_name_message = message.content.split(">>game ")
+        if(message.content.lower().startswith("$game")):
+            game_name_message = message.content.split("$game ")
 
             if(len(game_name_message) == 1):
                 await message.channel.send(messages.commandAlert()[0])
@@ -573,8 +573,8 @@ async def on_message(message):
                     await search_game_message.edit(content=messages.noOffers()[2])
 
         # Comando: $genre
-        if(message.content.lower().startswith(">>genre")):
-            game_genre_message = message.content.split(">>genre ")
+        if(message.content.lower().startswith("$genre")):
+            game_genre_message = message.content.split("$genre ")
 
             if(len(game_genre_message) == 1):
                 await message.channel.send(messages.commandAlert()[1])
@@ -649,9 +649,9 @@ async def on_message(message):
                     await search_genre_message.edit(content=messages.noOffers()[3])
 
         if(
-            message.content.lower().startswith(">>price")
+            message.content.lower().startswith("$price")
         ):
-            max_price_message = message.content.split(">>price ")
+            max_price_message = message.content.split("$price ")
             max_price = max_price_message[1]
             
             if(max_price_message[1].isnumeric()):
@@ -667,6 +667,8 @@ async def on_message(message):
 
                 if(int(max_price_message[1]) > 120):
                     max_price = "rZ04j"
+                elif(int(max_price_message[1]) < 10):
+                    max_price = "19Jfc"
                 
                 (
                     gameName,
@@ -707,13 +709,16 @@ async def on_message(message):
 
                 if(int(max_price_message[1]) > 120):
                     embedGameRecommendationByPrice.set_footer(
-                        text=messages.recommendationByPrice()[0]
+                        text=messages.recommendationByPrice()[1]
+                    )
+                elif(int(max_price_message[1]) < 10):
+                    embedGameRecommendationByPrice.set_footer(
+                        text=messages.recommendationByPrice()[2]
                     )
                 
-                # await message.channel.send(embed=embedGameRecommendationByPrice)
                 await search_game_message.edit(content="", embed=embedGameRecommendationByPrice)
             else:
-                await message.channel.send(messages.recommendationByPrice()[1])
+                await message.channel.send(messages.recommendationByPrice()[0])
 
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
