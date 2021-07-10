@@ -11,7 +11,8 @@ URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
-URL_PRICE_RANGE = 'https://store.steampowered.com/search/?maxprice='
+# URL_PRICE_RANGE = 'https://store.steampowered.com/search/?maxprice='
+URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 class CatchOffers:
     # Função para buscar o site pela URL
     def reqUrl(self, url):
@@ -211,7 +212,11 @@ class CatchOffers:
 
     # Função que retorna um jogo recomendado a partir de uma faixa de preço.
     async def getGameRecommendationByPriceRange(self, maxPrice):
-        url = URL_PRICE_RANGE + '{}&cc=br'.format(maxPrice)
+        if(maxPrice == "rZ04j"):
+            url = URL_PRICE_RANGE
+        else:
+            url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
+        
         soup = self.reqUrl(url)
 
         list_gamesNames = []
@@ -233,13 +238,21 @@ class CatchOffers:
         
         for listDivGamesPrices in soup.find_all('div', class_='search_price'):
             if(listDivGamesPrices.contents[0] == '\n'):
-                temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
-                list_gameFinalPrice.append(temp)
-
-                for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
-                    list_gameOriginalPrice.append(listSpanGamesPrices.contents[0].contents[0])
+                if(len(listDivGamesPrices.contents) == 4):
+                    temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
+                    list_gameFinalPrice.append(temp)
+                    
+                    for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
+                        list_gameOriginalPrice.append(listSpanGamesPrices.contents[0].contents[0])
+                else:
+                    list_gameFinalPrice.append("Não disponível!")
+                    list_gameOriginalPrice.append("Não disponível!")
             else:
                 temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
+
+                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
+                    temp = "Gratuito para jogar"
+                    
                 list_gameOriginalPrice.append(temp)
                 list_gameFinalPrice.append(temp)
 
