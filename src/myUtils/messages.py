@@ -168,8 +168,8 @@ def recommendationByPrice():
     msgList = []
 
     msgList.append(
-        "**A faixa máxima de preço para o filtro é de R$ 120,00. " + \
-        "Logo pode aparecer um jogo de qualquer preço aqui.**"
+        "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
+        "Logo pode aparecer um jogo de qualquer preço aqui."
     )
     msgList.append(
         "**Faixa de preço inválida! Tente novamente.**"
