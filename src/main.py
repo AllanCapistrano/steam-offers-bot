@@ -98,6 +98,11 @@ async def on_message(message):
                     value=messages.helpValues()[9], 
                     inline=False
                 )
+                embedHelp.add_field(
+                    name="```$maxprice [preço]```",
+                    value=messages.helpValues()[10], 
+                    inline=False
+                )
 
                 await message.channel.send(embed=embedHelp)
             else:
@@ -649,9 +654,9 @@ async def on_message(message):
                     await search_genre_message.edit(content=messages.noOffers()[3])
 
         if(
-            message.content.lower().startswith("$price")
+            message.content.lower().startswith("$maxprice")
         ):
-            max_price_message = message.content.split("$price ")
+            max_price_message = message.content.split("$maxprice ")
             max_price = max_price_message[1]
             
             if(max_price_message[1].isnumeric()):
