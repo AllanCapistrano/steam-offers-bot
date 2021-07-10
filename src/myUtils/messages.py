@@ -73,6 +73,7 @@ def helpValues():
     msgList.append("**Exibe as informações do Bot.**")
     msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
     msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
+    msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
 
     return msgList
 
@@ -85,7 +86,7 @@ def infoValues():
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("09 de Julho de 2021") # Data da última atualização.
+    msgList.append("10 de Julho de 2021") # Data da última atualização.
 
     return msgList
 
@@ -100,6 +101,7 @@ def status(numServers):
     statusList.append("$convite | {} Servidores".format(numServers))
     statusList.append("$game [nome] | {} Servidores".format(numServers))
     statusList.append("$genre [gênero] | {} Servidores".format(numServers))
+    statusList.append("$maxprice [preço] | {} Servidores".format(numServers))
 
     return statusList
 
