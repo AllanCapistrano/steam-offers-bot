@@ -654,8 +654,17 @@ async def on_message(message):
             message.content.lower().startswith(">>price")
         ):
             max_price_message = message.content.split(">>price ")
-
             max_price = max_price_message[1]
+            
+            # Mensagem de busca de jogo, com efeito de carregamento.
+            message_content = messages.searchMessage()[3]
+            search_game_message = await message.channel.send(message_content + " "+ max_price + "__ .**")
+            
+            sleep(0.5)
+            await search_game_message.edit(content=message_content + " " + max_price + "__ . .**")
+            
+            sleep(0.5)
+            await search_game_message.edit(content=message_content + " "+ max_price + "__ . . .**")
 
             if(int(max_price_message[1]) > 120):
                 max_price = "rZ04j"
@@ -699,11 +708,11 @@ async def on_message(message):
 
             if(int(max_price_message[1]) > 120):
                 embedGameRecommendationByPrice.set_footer(
-                    text="A faixa máxima de preço para o filtro é de R$ 120,00. " + \
-                    "Logo pode aparecer um jogo de qualquer preço aqui."
+                    text=messages.recommendationByPrice()[0]
                 )
             
-            await message.channel.send(embed=embedGameRecommendationByPrice)
+            # await message.channel.send(embed=embedGameRecommendationByPrice)
+            await search_game_message.edit(content="", embed=embedGameRecommendationByPrice)
 
 
 
