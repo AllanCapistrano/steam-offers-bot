@@ -214,8 +214,16 @@ class CatchOffers:
     async def getGameRecommendationByPriceRange(self, maxPrice):
         if(maxPrice == "rZ04j"):
             url = URL_PRICE_RANGE
+            
+            maxPriceFloat = None
+        elif(maxPrice == "19Jfc"):
+            url = URL_PRICE_RANGE + '&maxprice=10&cc=br'
+            
+            maxPriceFloat = 10.0
         else:
             url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
+            
+            maxPriceFloat = float(maxPrice)
         
         soup = self.reqUrl(url)
 
@@ -260,6 +268,33 @@ class CatchOffers:
             list_gamesUrls.append(listAGamesUrls.attrs['href'])
 
         number = randint(0, len(list_gamesNames) - 1)
+
+        # Verificando se o jogo está na faixa de preço indicada.
+        # Isso é necessário, pois em alguns casos, mesmo definindo a faixa, a
+        # Steam deixa passar alguns jogos.
+        
+        if(
+            list_gameFinalPrice[number] != "Gratuito para jogar" or 
+            list_gameFinalPrice[number] != "Não disponível!"
+        ):
+            if(maxPriceFloat != None):
+                while(True):
+                    temp = list_gameFinalPrice[number]
+
+                    if(
+                        temp == "Gratuito para jogar" or 
+                        temp == "Não disponível!"
+                    ):
+                        break
+
+                    temp2 = temp.split("R$")[1]
+                    finalPrice = float(temp2.replace(",", "."))
+                    
+                    if(finalPrice < maxPriceFloat):
+                        break
+                    
+                    number = randint(0, len(list_gamesNames) - 1)
+                    
 
         gameName = list_gamesNames[number]
         gameImg = list_gamesImgs[number]
