@@ -601,7 +601,7 @@ async def on_message(message):
 
                 if(gameName != None):
                     embedGameRecommendationByGender = discord.Embed(
-                        title = messages.title(game_genre)[5],
+                        title = messages.title(genre=game_genre)[5],
                         color = COLOR
                     )
                     embedGameRecommendationByGender.set_image(url=gameIMG)
@@ -645,10 +645,8 @@ async def on_message(message):
                             )
 
                     await search_genre_message.edit(content="", embed=embedGameRecommendationByGender)
-                    # await search_genre_message.edit(content="Olhe o terminal")
                 else:
                     await search_genre_message.edit(content=messages.noOffers()[3])
-                    # await search_genre_message.edit(content="Olhe o terminal")
 
         if(
             message.content.lower().startswith(">>price")
@@ -656,64 +654,66 @@ async def on_message(message):
             max_price_message = message.content.split(">>price ")
             max_price = max_price_message[1]
             
-            # Mensagem de busca de jogo, com efeito de carregamento.
-            message_content = messages.searchMessage()[3]
-            search_game_message = await message.channel.send(message_content + " "+ max_price + "__ .**")
-            
-            sleep(0.5)
-            await search_game_message.edit(content=message_content + " " + max_price + "__ . .**")
-            
-            sleep(0.5)
-            await search_game_message.edit(content=message_content + " "+ max_price + "__ . . .**")
-
-            if(int(max_price_message[1]) > 120):
-                max_price = "rZ04j"
-            
-            (
-                gameName,
-                gameIMG, 
-                gameURL, 
-                gamePrice
+            if(max_price_message[1].isnumeric()):
+                # Mensagem de busca de jogo, com efeito de carregamento.
+                message_content = messages.searchMessage()[3]
+                search_game_message = await message.channel.send(message_content + " "+ max_price + "__ .**")
                 
-            ) = await catchOffers.getGameRecommendationByPriceRange(max_price)
+                sleep(0.5)
+                await search_game_message.edit(content=message_content + " " + max_price + "__ . .**")
+                
+                sleep(0.5)
+                await search_game_message.edit(content=message_content + " "+ max_price + "__ . . .**")
 
-            embedGameRecommendationByPrice = discord.Embed(
-                title = "💰 Jogo: {} 💰".format(gameName),
-                color = COLOR
-            )
-            embedGameRecommendationByPrice.set_image(url=gameIMG)
-            embedGameRecommendationByPrice.add_field(
-                name="**Link:**", 
-                value="**[Clique Aqui]({})**".format(gameURL), 
-                inline=False
-            )
-            
-            if(gamePrice[0] != gamePrice[1]): # Caso o jogo esteja em promoção.
-                embedGameRecommendationByPrice.add_field(
-                    name="**Preço Original:**", 
-                    value="**{}**".format(gamePrice[0]), 
-                    inline=True
+                if(int(max_price_message[1]) > 120):
+                    max_price = "rZ04j"
+                
+                (
+                    gameName,
+                    gameIMG, 
+                    gameURL, 
+                    gamePrice
+                    
+                ) = await catchOffers.getGameRecommendationByPriceRange(max_price)
+
+                embedGameRecommendationByPrice = discord.Embed(
+                    title = messages.title(gameName=gameName)[6],
+                    color = COLOR
                 )
+                embedGameRecommendationByPrice.set_image(url=gameIMG)
                 embedGameRecommendationByPrice.add_field(
-                    name="**Preço com Desconto:**", 
-                    value="**{}**".format(gamePrice[1]), 
-                    inline=True
-                )
-            else: # Caso o jogo não esteja em promoção.
-                embedGameRecommendationByPrice.add_field(
-                    name="**Preço:**", 
-                    value="**{}**".format(gamePrice[0]), 
+                    name="**Link:**", 
+                    value="**[Clique Aqui]({})**".format(gameURL), 
                     inline=False
                 )
+                
+                if(gamePrice[0] != gamePrice[1]): # Caso o jogo esteja em promoção.
+                    embedGameRecommendationByPrice.add_field(
+                        name="**Preço Original:**", 
+                        value="**{}**".format(gamePrice[0]), 
+                        inline=True
+                    )
+                    embedGameRecommendationByPrice.add_field(
+                        name="**Preço com Desconto:**", 
+                        value="**{}**".format(gamePrice[1]), 
+                        inline=True
+                    )
+                else: # Caso o jogo não esteja em promoção.
+                    embedGameRecommendationByPrice.add_field(
+                        name="**Preço:**", 
+                        value="**{}**".format(gamePrice[0]), 
+                        inline=False
+                    )
 
-            if(int(max_price_message[1]) > 120):
-                embedGameRecommendationByPrice.set_footer(
-                    text=messages.recommendationByPrice()[0]
-                )
-            
-            # await message.channel.send(embed=embedGameRecommendationByPrice)
-            await search_game_message.edit(content="", embed=embedGameRecommendationByPrice)
-
+                if(int(max_price_message[1]) > 120):
+                    embedGameRecommendationByPrice.set_footer(
+                        text=messages.recommendationByPrice()[0]
+                    )
+                
+                # await message.channel.send(embed=embedGameRecommendationByPrice)
+                await search_game_message.edit(content="", embed=embedGameRecommendationByPrice)
+            else:
+                await message.channel.send(messages.recommendationByPrice()[1])
 
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
