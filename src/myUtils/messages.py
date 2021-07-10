@@ -34,7 +34,7 @@ def checkDm():
     return "** Cheque sua DM** 😃"
 
 # Títulos das embeds.
-def title(genre = None):
+def title(genre = None, gameName = None):
     titleList = []
 
     titleList.append("Aqui está o link para o convite:")
@@ -47,6 +47,8 @@ def title(genre = None):
         titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
     else:
         titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
+
+    titleList.append("💰 Jogo: {} 💰".format(gameName))
 
     return titleList
 
@@ -83,7 +85,7 @@ def infoValues():
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("19 de Junho de 2021") # Data da última atualização.
+    msgList.append("09 de Julho de 2021") # Data da última atualização.
 
     return msgList
 
@@ -156,6 +158,25 @@ def searchMessage():
     msgList.append("**🔎 Procurando.**")
     msgList.append("**🔎 Procurando pelo jogo")
     msgList.append("**🔎 Procurando por um jogo do gênero")
+    msgList.append("**🔎 Procurando por um jogo de até __R$")
 
+
+    return msgList
+
+# Mensagem de recomendação de jogo por preço.
+def recommendationByPrice():
+    msgList = []
+
+    msgList.append(
+        "**Faixa de preço inválida! Tente novamente.**"
+    )
+    msgList.append(
+        "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
+        "Logo pode aparecer um jogo de qualquer preço aqui."
+    )
+    msgList.append(
+        "A faixa mínima de preço para o filtro é de R$ 10,00. " + \
+        "Logo o jogo acima está nessa faixa."
+    )
 
     return msgList

@@ -11,6 +11,8 @@ URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
+# URL_PRICE_RANGE = 'https://store.steampowered.com/search/?maxprice='
+URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 class CatchOffers:
     # Função para buscar o site pela URL
     def reqUrl(self, url):
@@ -207,3 +209,97 @@ class CatchOffers:
             gameName = gameURL = gameOriginalPrice = gameFinalPrice = gameIMG = None
 
         return gameName, gameURL, gameOriginalPrice, gameFinalPrice, gameIMG
+
+    # Função que retorna um jogo recomendado a partir de uma faixa de preço.
+    async def getGameRecommendationByPriceRange(self, maxPrice):
+        if(maxPrice == "rZ04j"):
+            url = URL_PRICE_RANGE
+            
+            maxPriceFloat = None
+        elif(maxPrice == "19Jfc"):
+            url = URL_PRICE_RANGE + '&maxprice=10&cc=br'
+            
+            maxPriceFloat = 10.0
+        else:
+            url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
+            
+            maxPriceFloat = float(maxPrice)
+        
+        soup = self.reqUrl(url)
+
+        list_gamesNames = []
+        list_gamesImgs = []
+        list_gameOriginalPrice = []
+        list_gameFinalPrice = []
+        list_gamesUrls = []
+
+        gamePrice = []
+
+        for listDivGamesNames in soup.find_all('div', class_="search_name"):
+            for listSpanGamesNames in listDivGamesNames.find_all('span', class_="title"):
+                list_gamesNames.append(listSpanGamesNames.contents[0])
+
+        for listDivGamesImages in soup.find_all('div', class_="search_capsule"):
+            for listImgGamesImages in listDivGamesImages.find_all('img'):
+                img = listImgGamesImages.attrs['srcset'].split(" ")[2]
+                list_gamesImgs.append(img)
+        
+        for listDivGamesPrices in soup.find_all('div', class_='search_price'):
+            if(listDivGamesPrices.contents[0] == '\n'):
+                if(len(listDivGamesPrices.contents) == 4):
+                    temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
+                    list_gameFinalPrice.append(temp)
+                    
+                    for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
+                        list_gameOriginalPrice.append(listSpanGamesPrices.contents[0].contents[0])
+                else:
+                    list_gameFinalPrice.append("Não disponível!")
+                    list_gameOriginalPrice.append("Não disponível!")
+            else:
+                temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
+
+                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
+                    temp = "Gratuito para jogar"
+                    
+                list_gameOriginalPrice.append(temp)
+                list_gameFinalPrice.append(temp)
+
+        for listAGamesUrls in soup.find_all('a', class_="search_result_row"):
+            list_gamesUrls.append(listAGamesUrls.attrs['href'])
+
+        number = randint(0, len(list_gamesNames) - 1)
+
+        # Verificando se o jogo está na faixa de preço indicada.
+        # Isso é necessário, pois em alguns casos, mesmo definindo a faixa, a
+        # Steam deixa passar alguns jogos.
+        
+        if(
+            list_gameFinalPrice[number] != "Gratuito para jogar" or 
+            list_gameFinalPrice[number] != "Não disponível!"
+        ):
+            if(maxPriceFloat != None):
+                while(True):
+                    temp = list_gameFinalPrice[number]
+
+                    if(
+                        temp == "Gratuito para jogar" or 
+                        temp == "Não disponível!"
+                    ):
+                        break
+
+                    temp2 = temp.split("R$")[1]
+                    finalPrice = float(temp2.replace(",", "."))
+                    
+                    if(finalPrice < maxPriceFloat):
+                        break
+                    
+                    number = randint(0, len(list_gamesNames) - 1)
+                    
+
+        gameName = list_gamesNames[number]
+        gameImg = list_gamesImgs[number]
+        gameUrl = list_gamesUrls[number]
+        gamePrice.append(list_gameOriginalPrice[number])
+        gamePrice.append(list_gameFinalPrice[number])
+
+        return gameName, gameImg, gameUrl, gamePrice
