@@ -83,7 +83,7 @@ def infoValues():
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("19 de Junho de 2021") # Data da última atualização.
+    msgList.append("09 de Julho de 2021") # Data da última atualização.
 
     return msgList
 
@@ -156,6 +156,18 @@ def searchMessage():
     msgList.append("**🔎 Procurando.**")
     msgList.append("**🔎 Procurando pelo jogo")
     msgList.append("**🔎 Procurando por um jogo do gênero")
+    msgList.append("**🔎 Procurando por um jogo de até __R$")
 
+
+    return msgList
+
+# Mensagem de recomendação de jogo por preço.
+def recommendationByPrice():
+    msgList = []
+
+    msgList.append(
+        "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
+        "Logo pode aparecer um jogo de qualquer preço aqui."
+    )
 
     return msgList
