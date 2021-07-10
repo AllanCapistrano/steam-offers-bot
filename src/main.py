@@ -600,17 +600,17 @@ async def on_message(message):
                 ) = await catchOffers.getGameRecommendationByGenre(game_genre)
 
                 if(gameName != None):
-                    embedGameRecommendationByGender = discord.Embed(
+                    embedGameRecommendationByGenre = discord.Embed(
                         title = messages.title(genre=game_genre)[5],
                         color = COLOR
                     )
-                    embedGameRecommendationByGender.set_image(url=gameIMG)
-                    embedGameRecommendationByGender.add_field(
+                    embedGameRecommendationByGenre.set_image(url=gameIMG)
+                    embedGameRecommendationByGenre.add_field(
                         name="**Nome:**", 
                         value="**{}**".format(gameName), 
                         inline=False
                     )
-                    embedGameRecommendationByGender.add_field(
+                    embedGameRecommendationByGenre.add_field(
                         name="**Link:**", 
                         value="**[Clique Aqui]({})**".format(gameURL), 
                         inline=False
@@ -620,31 +620,31 @@ async def on_message(message):
                         (gameOriginalPrice == gameFinalPrice) and 
                         (gameOriginalPrice != "Gratuiro p/ Jogar")
                     ):
-                        embedGameRecommendationByGender.add_field(
+                        embedGameRecommendationByGenre.add_field(
                             name="**Preço:**", 
                             value="**{}**".format(gameOriginalPrice), 
                             inline=True
                         )
                     else:
                         if(gameOriginalPrice != "Gratuiro p/ Jogar"):
-                            embedGameRecommendationByGender.add_field(
+                            embedGameRecommendationByGenre.add_field(
                                 name="**Preço Original:**", 
                                 value="**{}**".format(gameOriginalPrice), 
                                 inline=True
                             )
-                            embedGameRecommendationByGender.add_field(
+                            embedGameRecommendationByGenre.add_field(
                                 name="**Preço com Desconto:**", 
                                 value="**{}**".format(gameFinalPrice), 
                                 inline=True
                             )
                         else:
-                            embedGameRecommendationByGender.add_field(
+                            embedGameRecommendationByGenre.add_field(
                                 name="**Preço:**", 
                                 value="**{}**".format(gameOriginalPrice), 
                                 inline=True
                             )
 
-                    await search_genre_message.edit(content="", embed=embedGameRecommendationByGender)
+                    await search_genre_message.edit(content="", embed=embedGameRecommendationByGenre)
                 else:
                     await search_genre_message.edit(content=messages.noOffers()[3])
 
