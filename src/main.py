@@ -69,12 +69,12 @@ async def on_message(message):
                     inline=False
                 )
                 embedHelp.add_field(
-                    name="```$maisjogados``` ou ```$mj```",
+                    name="```$jogospopulares``` ou ```$jp```",
                     value=messages.helpValues()[4], 
                     inline=False
                 )
                 embedHelp.add_field(
-                    name="```$precompra``` ou ```$pc```",
+                    name="```$prevenda``` ou ```$pv```",
                     value=messages.helpValues()[5], 
                     inline=False
                 )
