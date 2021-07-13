@@ -6,6 +6,7 @@ from myUtils.catch_offers import CatchOffers
 from myUtils import messages
 from myUtils import discordToken
 
+PREFIX = "$"
 COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
@@ -34,9 +35,9 @@ async def on_message(message):
     if(not message.author.bot):
         # Comando: $help ou $ajuda ou $comandos
         if(
-            message.content.lower().startswith("$help") or 
-            message.content.lower().startswith("$ajuda") or 
-            message.content.lower().startswith("$comandos")
+            message.content.lower().startswith(PREFIX + "help") or 
+            message.content.lower().startswith(PREFIX + "ajuda") or 
+            message.content.lower().startswith(PREFIX + "comandos")
         ):
             help_ = message.content.split(" ")
 
@@ -168,8 +169,11 @@ async def on_message(message):
                 else:
                     await message.channel.send(messages.commandAlert()[2])
 
-        # Comando: $convite
-        if(message.content.lower().startswith("$convite")):
+        # Comando: $invite ou $convite
+        if(
+            message.content.lower().startswith(PREFIX + "invite") or
+            message.content.lower().startswith(PREFIX + "convite")
+        ):
             embedInvite = discord.Embed(
                 title=messages.title()[0],
                 color=COLOR,
@@ -181,8 +185,8 @@ async def on_message(message):
 
         # Comando: $destaque ou $dt
         if(
-            message.content.lower().startswith("$destaque") or 
-            message.content.lower().startswith("$dt")
+            message.content.lower().startswith(PREFIX + "destaque") or 
+            message.content.lower().startswith(PREFIX + "dt")
         ):
             # Mensagem de busca, com efeito de carregamento.
             message_content = messages.searchMessage()[0]
@@ -230,10 +234,11 @@ async def on_message(message):
 
         # Comando: $promocao ou $pr
         if(
-            message.content.lower().startswith("$promocao") or 
+            message.content.lower().startswith(PREFIX + "promocao") or 
+            message.content.lower().startswith(PREFIX + "promoção") or 
             (
-                message.content.lower().startswith("$pr") and
-                message.content == "$pr"
+                message.content.lower().startswith(PREFIX + "pr") and
+                message.content == PREFIX + "pr"
             )
         ):
 
@@ -288,7 +293,7 @@ async def on_message(message):
                     x = x - 1
 
         # Comando: $botinfo
-        if(message.content.lower().startswith("$botinfo")):
+        if(message.content.lower().startswith(PREFIX + "botinfo")):
             embedBotInfo = discord.Embed(
                 title=messages.title()[3],
                 color=COLOR
@@ -322,9 +327,9 @@ async def on_message(message):
 
         # Comando: $novidades ou $populares ou $np
         if(
-            message.content.lower().startswith("$novidades") or 
-            message.content.lower().startswith("$populares") or 
-            message.content.lower().startswith("$np")
+            message.content.lower().startswith(PREFIX + "novidades") or 
+            message.content.lower().startswith(PREFIX + "populares") or 
+            message.content.lower().startswith(PREFIX + "np")
         ):
             (
                 list_gamesNames, 
@@ -371,8 +376,8 @@ async def on_message(message):
 
         # Comando: $maisvendidos ou $mv
         if(
-            message.content.lower().startswith("$maisvendidos") or 
-            message.content.lower().startswith("$mv")
+            message.content.lower().startswith(PREFIX + "maisvendidos") or 
+            message.content.lower().startswith(PREFIX + "mv")
         ):
             (
                 list_gamesNames, 
@@ -418,8 +423,8 @@ async def on_message(message):
 
         # Comando: $jogospopulares ou $jp
         if(
-            message.content.lower().startswith("$jogospopulares") or 
-            message.content.lower().startswith("$jp")
+            message.content.lower().startswith(PREFIX + "jogospopulares") or 
+            message.content.lower().startswith(PREFIX + "jp")
         ):
             (
                 list_gamesNames, 
@@ -465,8 +470,8 @@ async def on_message(message):
 
         # Comando: $prevenda ou $pv
         if(
-            message.content.lower().startswith("$prevenda") or 
-            message.content.lower().startswith("$pv")
+            message.content.lower().startswith(PREFIX + "prevenda") or 
+            message.content.lower().startswith(PREFIX + "pv")
         ):
             (
                 list_gamesNames, 
@@ -511,8 +516,8 @@ async def on_message(message):
                 await member.send(messageConcat_2)
 
         # Comando: $game
-        if(message.content.lower().startswith("$game")):
-            game_name_message = message.content.split("$game ")
+        if(message.content.lower().startswith(PREFIX + "game")):
+            game_name_message = message.content.split(PREFIX + "game ")
 
             if(len(game_name_message) == 1):
                 await message.channel.send(messages.commandAlert()[0])
@@ -578,8 +583,8 @@ async def on_message(message):
                     await search_game_message.edit(content=messages.noOffers()[2])
 
         # Comando: $genre
-        if(message.content.lower().startswith("$genre")):
-            game_genre_message = message.content.split("$genre ")
+        if(message.content.lower().startswith(PREFIX + "genre")):
+            game_genre_message = message.content.split(PREFIX + "genre ")
 
             if(len(game_genre_message) == 1):
                 await message.channel.send(messages.commandAlert()[1])
@@ -654,9 +659,9 @@ async def on_message(message):
                     await search_genre_message.edit(content=messages.noOffers()[3])
 
         if(
-            message.content.lower().startswith("$maxprice")
+            message.content.lower().startswith(PREFIX + "maxprice")
         ):
-            max_price_message = message.content.split("$maxprice ")
+            max_price_message = message.content.split(PREFIX + "maxprice ")
             max_price = max_price_message[1]
             
             if(max_price_message[1].isnumeric()):
@@ -733,7 +738,7 @@ async def changeStatus():
     
     while not client.is_closed():
         numServers = len(client.guilds)
-        msgStatus = messages.status(numServers)
+        msgStatus = messages.status(PREFIX, numServers)
         randomStatus = messages.randomMessage(msgStatus, len(msgStatus))
         game = discord.Game(randomStatus)
         online = discord.Status.online

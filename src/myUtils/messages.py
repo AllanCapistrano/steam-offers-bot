@@ -86,22 +86,22 @@ def infoValues():
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("10 de Julho de 2021") # Data da última atualização.
+    msgList.append("13 de Julho de 2021") # Data da última atualização.
 
     return msgList
 
 # Mensagens de status do Bot.
-def status(numServers):
+def status(prefix, numServers):
     statusList = []
 
-    statusList.append("$help | {} Servidores".format(numServers))
-    statusList.append("$destaque | {} Servidores".format(numServers))
-    statusList.append("$promocao | {} Servidores".format(numServers))
-    statusList.append("$botinfo | {} Servidores".format(numServers))
-    statusList.append("$convite | {} Servidores".format(numServers))
-    statusList.append("$game [nome] | {} Servidores".format(numServers))
-    statusList.append("$genre [gênero] | {} Servidores".format(numServers))
-    statusList.append("$maxprice [preço] | {} Servidores".format(numServers))
+    statusList.append("{}help | {} Servidores".format(prefix, numServers))
+    statusList.append("{}destaque | {} Servidores".format(prefix, numServers))
+    statusList.append("{}promocao | {} Servidores".format(prefix, numServers))
+    statusList.append("{}botinfo | {} Servidores".format(prefix, numServers))
+    statusList.append("{}convite | {} Servidores".format(prefix, numServers))
+    statusList.append("{}game [nome] | {} Servidores".format(prefix, numServers))
+    statusList.append("{}genre [gênero] | {} Servidores".format(prefix, numServers))
+    statusList.append("{}maxprice [preço] | {} Servidores".format(prefix, numServers))
 
     return statusList
 
