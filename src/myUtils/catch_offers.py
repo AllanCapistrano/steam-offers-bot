@@ -133,7 +133,7 @@ class CatchOffers:
     # Função que retorna cinco listas que possuem respectivamente as seguintes
     # informações: nome, URL, preço original, preço com desconto e imagens; 
     # dos jogos/DLCs de uma categoria.
-    async def getTabContent(self, url, divId):
+    async def getTabContent(self, url: str, divId: str):
         hasPrice = []
         gameWithoutPricing = False
         gamesNames = []
@@ -302,7 +302,7 @@ class CatchOffers:
         return gameName, gameURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
     # Função que retorna um jogo recomendado a partir de uma faixa de preço.
-    async def getGameRecommendationByPriceRange(self, maxPrice):
+    async def getGameRecommendationByPriceRange(self, maxPrice: str):
         if(maxPrice == "rZ04j"):
             url           = URL_PRICE_RANGE
             maxPriceFloat = None
