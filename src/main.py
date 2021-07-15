@@ -252,8 +252,13 @@ async def on_message(message):
             sleep(0.5)
             await search_message.edit(content=message_content+" **. .**")
 
-            list_gamesURl, list_gamesIMG = await catchOffers.getDailyGamesOffers()
-            list_gamesOP, list_gamesFP = await catchOffers.getDailyGamesOffersPrices()
+            (
+                list_gamesURl, 
+                list_gamesIMG,
+                list_gamesOP,
+                list_gamesFP
+            ) = await catchOffers.getDailyGamesOffers()
+            # list_gamesOP, list_gamesFP = await catchOffers.getDailyGamesOffersPrices()
             x = len(list_gamesURl)
 
             if(x == 0):
@@ -538,7 +543,8 @@ async def on_message(message):
                     gameName, 
                     gameURL, 
                     gameIMG, 
-                    gamePrice, 
+                    gameOriginalPrice,
+                    gameFinalPrice,
                     searchUrl
                 ) = await catchOffers.getSpecificGame(game_name)
 
@@ -554,21 +560,21 @@ async def on_message(message):
                         inline=False
                     )
 
-                    if(len(gamePrice) > 1): # Caso o jogo esteja em promoção.
+                    if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
                         embedSpecificGame.add_field(
                             name="**Preço Original:**", 
-                            value="**{}**".format(gamePrice[0]), 
+                            value="**{}**".format(gameOriginalPrice), 
                             inline=True
                         )
                         embedSpecificGame.add_field(
                             name="**Preço com Desconto:**", 
-                            value="**{}**".format(gamePrice[1]), 
+                            value="**{}**".format(gameFinalPrice), 
                             inline=True
                         )
                     else: # Caso o jogo não esteja em promoção.
                         embedSpecificGame.add_field(
                             name="**Preço:**", 
-                            value="**{}**".format(gamePrice[0]), 
+                            value="**{}**".format(gameOriginalPrice), 
                             inline=False
                         )
 
@@ -684,7 +690,8 @@ async def on_message(message):
                     gameName,
                     gameIMG, 
                     gameURL, 
-                    gamePrice
+                    gameOriginalPrice,
+                    gameFinalPrice
                     
                 ) = await catchOffers.getGameRecommendationByPriceRange(max_price)
 
@@ -699,21 +706,21 @@ async def on_message(message):
                     inline=False
                 )
                 
-                if(gamePrice[0] != gamePrice[1]): # Caso o jogo esteja em promoção.
+                if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
                     embedGameRecommendationByPrice.add_field(
                         name="**Preço Original:**", 
-                        value="**{}**".format(gamePrice[0]), 
+                        value="**{}**".format(gameOriginalPrice), 
                         inline=True
                     )
                     embedGameRecommendationByPrice.add_field(
                         name="**Preço com Desconto:**", 
-                        value="**{}**".format(gamePrice[1]), 
+                        value="**{}**".format(gameFinalPrice), 
                         inline=True
                     )
                 else: # Caso o jogo não esteja em promoção.
                     embedGameRecommendationByPrice.add_field(
                         name="**Preço:**", 
-                        value="**{}**".format(gamePrice[0]), 
+                        value="**{}**".format(gameOriginalPrice), 
                         inline=False
                     )
 

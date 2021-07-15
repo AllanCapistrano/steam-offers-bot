@@ -1,6 +1,6 @@
 from re import sub
 from random import randint
-
+import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 
@@ -11,68 +11,124 @@ URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
-# URL_PRICE_RANGE = 'https://store.steampowered.com/search/?maxprice='
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 class CatchOffers:
     # Função para buscar o site pela URL
-    def reqUrl(self, url):
-        r = requests.get(url)
+    def reqUrl(self, url: str):
+        r    = requests.get(url)
         soup = BeautifulSoup(r.text, 'lxml')
+        
         return soup
 
-    # Função que retorna duas listas, uma contendo a URL dos jogos que estão na
-    # promoção diária, e a outra contendo a imagem do banner dos jogos que estão 
-    # na promoção diária.
+    # Função que retorna quatro listas, uma contendo a URL dos jogos que estão na
+    # promoção diária, outra contendo a imagem do banner dos jogos que estão 
+    # na promoção diária, outra contendo o preço original dos jogos, e por fim 
+    # uma contendo preço com o desconto aplicado.
     async def getDailyGamesOffers(self):
-        gamesURL = []
-        gamesIMG = []
         soup = self.reqUrl(URL_SPECIALS)
 
-        for list_games in soup.find_all('div', class_='dailydeal_cap'):
-            gamesURL.append(list_games.contents[1].attrs['href'])
-            gamesIMG.append(list_games.contents[1].contents[1].attrs['src'])
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            thread0 = executor.submit(self.__getDailyGamesUrls__, soup)
+            thread1 = executor.submit(self.__getDailyGamesImages__, soup)
+            thread2 = executor.submit(self.__getDailyGamesOriginalPrice__, soup)
+            thread3 = executor.submit(self.__getDailyGamesFinalPrice__, soup)
+            
 
-        return gamesURL, gamesIMG
+        urls           = thread0.result()
+        images         = thread1.result()
+        originalPrices = thread2.result()
+        finalPrices    = thread3.result()
 
-    # Função que retorna duas listas, uma contendo o preço original dos jogos, e
-    # a outra contendo o preço com o desconto aplicado.
-    async def getDailyGamesOffersPrices(self):
-        gameOriginalPrice = []
-        gameFinalPrice = []
-        soup = self.reqUrl(URL_SPECIALS)
+        return urls, images, originalPrices, finalPrices
 
-        for list_prices in soup.find_all('div', class_='dailydeal_ctn'):
-            list_p = list_prices.find_all('div', class_='discount_prices')
-            x = str(list_p).split('>')
+    def __getDailyGamesUrls__(self, soup: BeautifulSoup):
+        urls = []
+
+        for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
+            urls.append(dailyGames.contents[1].attrs['href'])
+
+        return urls
+
+    def __getDailyGamesImages__(self, soup: BeautifulSoup):
+        images = []
+
+        for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
+            images.append(dailyGames.contents[1].contents[1].attrs['src'])
+
+        return images
+
+    def __getDailyGamesOriginalPrice__(self, soup: BeautifulSoup):
+        originalPrice = []
+
+        for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
+            dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
+            temp = str(dailyGamesPrices).split('>')
+            
             # Caso não tenha nenhum preço para o jogo.
             try:
-                y = x[2].split('</div')
-                z = x[4].split('</div')
+                temp1 = temp[2].split('</div')
             except:
-                y = ["Não disponível!"]
-                z = ["Não disponível!"]
+                temp1 = ["Não disponível!"]
 
-            gameOriginalPrice.append(y[0])
-            gameFinalPrice.append(z[0])
+            originalPrice.append(temp1[0])
 
-        return gameOriginalPrice, gameFinalPrice
+        return originalPrice
+
+    def __getDailyGamesFinalPrice__(self, soup: BeautifulSoup):
+        finalPrice = []
+
+        for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
+            dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
+            temp = str(dailyGamesPrices).split('>')
+            # Caso não tenha nenhum preço para o jogo.
+            try:
+                temp1 = temp[4].split('</div')
+            except:
+                temp1 = ["Não disponível!"]
+
+            finalPrice.append(temp1[0])
+
+        return finalPrice
 
     # Função que retorna três listas, uma contendo a URL, outra contendo as imagens,
     # e por fim, outra contendo a descrição do evento/jogo em destaque.
     async def getSpotlightOffers(self):
-        gamesURL = []
-        gamesIMG = []
-        gamesH2 = []
         soup = self.reqUrl(URL_SPECIALS)
 
-        for list_games in soup.find_all('div', class_='spotlight_img'):
-            gamesURL.append(list_games.contents[1].attrs['href'])
-            gamesIMG.append(list_games.contents[1].contents[1].attrs['src'])
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            thread0 = executor.submit(self.__getSpotlightUrls__, soup)
+            thread1 = executor.submit(self.__getSpotlightImages__, soup)
+            thread2 = executor.submit(self.__getSpotlightContents__, soup)
 
-        for list_content in soup.find_all('div', class_='spotlight_content'):
-            gamesH2.append(list_content.contents[1].contents[0])
+        urls     = thread0.result()
+        images   = thread1.result()
+        contents = thread2.result()
 
-        return gamesURL, gamesIMG, gamesH2
+        return urls, images, contents
+    
+    def __getSpotlightUrls__(self, soup: BeautifulSoup):
+        urls = []
+
+        for spotlightGames in soup.find_all('div', class_='spotlight_img'):
+            urls.append(spotlightGames.contents[1].attrs['href'])
+
+        return urls
+
+    def __getSpotlightImages__(self, soup: BeautifulSoup):
+        images = []
+
+        for spotlightGames in soup.find_all('div', class_='spotlight_img'):
+            images.append(spotlightGames.contents[1].contents[1].attrs['src'])
+
+        return images
+
+    def __getSpotlightContents__(self, soup: BeautifulSoup):
+        contents = []
+
+        for spotlightGames in soup.find_all('div', class_='spotlight_content'):
+            contents.append(spotlightGames.contents[1].contents[0])
+
+        return contents
 
     # Função que retorna cinco listas que possuem respectivamente as seguintes
     # informações: nome, URL, preço original, preço com desconto e imagens; 
@@ -137,48 +193,83 @@ class CatchOffers:
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
-    #Função que retorna o nome, o preço, o link e a imagem de um jogo específico.
-    async def getSpecificGame(self, gameName):
-        gamePrice = []
+    #Função que retorna o nome, o preço, a url e a imagem de um jogo específico.
+    async def getSpecificGame(self, gameName: str):
         searchUrl = URL_GAME + gameName
         soup = self.reqUrl(searchUrl)
 
         try:
-            game = soup.find(id='search_resultsRows').find(class_='search_result_row ds_collapse_flag')
-
-            gameURL = game.attrs['href']
-            gameIMG = game.find('img').attrs['srcset'].split(" ")[2]
-            gameName = game.find(class_='search_name').contents[1].contents[0]
-
+            game         = soup.find(id='search_resultsRows').find(class_='search_result_row ds_collapse_flag')
             haveDiscount = True if len(game.find(class_='search_price').contents) > 1 else False
 
-            if(haveDiscount):
-                gamePrice.append(game.find(class_='search_price').contents[1].contents[0].contents[0])
-                temp = sub(r"\s+", "" , game.find(class_='search_price').contents[3])
-                gamePrice.append(temp)
-            else:
-                temp = sub(r"\s+", "" , game.find(class_='search_price').contents[0])
-                
-                if(temp.find('Gratuito') != -1):
-                    temp = "Gratuiro p/ Jogar"
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                thread0 = executor.submit(self.__getSpecifcGameUrl__, game)
+                thread1 = executor.submit(self.__getSpecifcGameImage__, game)
+                thread2 = executor.submit(self.__getSpecifcGameName__, game)
+                thread3 = executor.submit(self.__getSpecifcGameOriginalPrice__, game, haveDiscount)
+                thread4 = executor.submit(self.__getSpecifcGameFinalPrice__, game, haveDiscount)
 
-                gamePrice.append(temp)
+            url          = thread0.result()
+            image        = thread1.result()
+            name         = thread2.result()
+            orginalPrice = thread3.result()
+            finalPrice   = thread4.result()
         except:
-            gameName = gameURL = gameIMG = gamePrice = None
+            url = image = name = orginalPrice = orginalPrice = None
 
-        return gameName, gameURL, gameIMG, gamePrice, searchUrl.replace(" ", "%20")
+        return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20")
+
+    def __getSpecifcGameUrl__(self, game: BeautifulSoup):
+        return game.attrs['href']
+
+    def __getSpecifcGameImage__(self, game: BeautifulSoup):
+        return game.find('img').attrs['srcset'].split(" ")[2]
+
+    def __getSpecifcGameName__(self, game: BeautifulSoup):
+        return game.find(class_='search_name').contents[1].contents[0]
+
+    def __getSpecifcGameOriginalPrice__(self, game: BeautifulSoup, haveDiscount: bool):
+        if(haveDiscount):
+            return game.find(class_='search_price').contents[1].contents[0].contents[0]
+        else:
+            temp = sub(r"\s+", "" , game.find(class_='search_price').contents[0])
+            
+            if(not temp.isnumeric()):
+                return "Não disponível!"
+            
+            if(temp.find('Gratuito') != -1):
+                temp = "Gratuiro p/ Jogar"
+
+            return temp
+
+    def __getSpecifcGameFinalPrice__(self, game: BeautifulSoup, haveDiscount: bool):
+        if(haveDiscount):
+            temp = sub(r"\s+", "" , game.find(class_='search_price').contents[3])
+
+            return temp
+        else:
+            temp = sub(r"\s+", "" , game.find(class_='search_price').contents[0])
+
+            if(not temp.isnumeric()):
+                return "Não disponível!"
+            
+            if(temp.find('Gratuito') != -1):
+                temp = "Gratuiro p/ Jogar"
+
+            return temp
+
 
     # Função que retorna um jogo recomendado de um gênero específico.
-    async def getGameRecommendationByGenre(self, genre):
+    async def getGameRecommendationByGenre(self, genre: str):
+        # Convertendo para lower case
+        genre = genre.lower()
+
         if(genre == 'acao'):
             genre = 'ação'
         elif(genre == 'estrategia'):
             genre = 'estratégia'
         elif(
-            genre == 'multijogador massivo' or 
-            genre == 'Multijogador massivo' or 
-            genre == 'multijogador Massivo' or 
-            genre == 'Multijogador Massivo'
+            genre == 'multijogador massivo'
         ):
             genre = 'multijogador%20massivo'
         elif(genre == 'simulacao'):
@@ -213,73 +304,47 @@ class CatchOffers:
     # Função que retorna um jogo recomendado a partir de uma faixa de preço.
     async def getGameRecommendationByPriceRange(self, maxPrice):
         if(maxPrice == "rZ04j"):
-            url = URL_PRICE_RANGE
-            
+            url           = URL_PRICE_RANGE
             maxPriceFloat = None
         elif(maxPrice == "19Jfc"):
-            url = URL_PRICE_RANGE + '&maxprice=10&cc=br'
-            
+            url           = URL_PRICE_RANGE + '&maxprice=10&cc=br'
             maxPriceFloat = 10.0
         else:
-            url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
-            
+            url           = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
             maxPriceFloat = float(maxPrice)
         
-        soup = self.reqUrl(url)
+        soup             = self.reqUrl(url)
+        gameNames        = []
+        gameImages       = []
+        gameUrls         = []
+        gameOrinalPrices = []
+        gameFinalPrices  = []
 
-        list_gamesNames = []
-        list_gamesImgs = []
-        list_gameOriginalPrice = []
-        list_gameFinalPrice = []
-        list_gamesUrls = []
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+                thread0 = executor.submit(self.__getRecommendationByPriceRangeNames__, soup)
+                thread1 = executor.submit(self.__getRecommendationByPriceRangeImages__, soup)
+                thread2 = executor.submit(self.__getRecommendationByPriceRangeOriginalPrices__, soup)
+                thread3 = executor.submit(self.__getRecommendationByPriceRangeFinalPrices__, soup)
+                thread4 = executor.submit(self.__getRecommendationByPriceRangeUrls__, soup)
 
-        gamePrice = []
+        gameNames        = thread0.result()
+        gameImages       = thread1.result()
+        gameOrinalPrices = thread2.result()
+        gameFinalPrices  = thread3.result()
+        gameUrls        = thread4.result()
 
-        for listDivGamesNames in soup.find_all('div', class_="search_name"):
-            for listSpanGamesNames in listDivGamesNames.find_all('span', class_="title"):
-                list_gamesNames.append(listSpanGamesNames.contents[0])
-
-        for listDivGamesImages in soup.find_all('div', class_="search_capsule"):
-            for listImgGamesImages in listDivGamesImages.find_all('img'):
-                img = listImgGamesImages.attrs['srcset'].split(" ")[2]
-                list_gamesImgs.append(img)
-        
-        for listDivGamesPrices in soup.find_all('div', class_='search_price'):
-            if(listDivGamesPrices.contents[0] == '\n'):
-                if(len(listDivGamesPrices.contents) == 4):
-                    temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
-                    list_gameFinalPrice.append(temp)
-                    
-                    for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
-                        list_gameOriginalPrice.append(listSpanGamesPrices.contents[0].contents[0])
-                else:
-                    list_gameFinalPrice.append("Não disponível!")
-                    list_gameOriginalPrice.append("Não disponível!")
-            else:
-                temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
-
-                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
-                    temp = "Gratuito para jogar"
-                    
-                list_gameOriginalPrice.append(temp)
-                list_gameFinalPrice.append(temp)
-
-        for listAGamesUrls in soup.find_all('a', class_="search_result_row"):
-            list_gamesUrls.append(listAGamesUrls.attrs['href'])
-
-        number = randint(0, len(list_gamesNames) - 1)
+        number = randint(0, len(gameNames) - 1)
 
         # Verificando se o jogo está na faixa de preço indicada.
         # Isso é necessário, pois em alguns casos, mesmo definindo a faixa, a
         # Steam deixa passar alguns jogos.
-        
         if(
-            list_gameFinalPrice[number] != "Gratuito para jogar" or 
-            list_gameFinalPrice[number] != "Não disponível!"
+            gameFinalPrices[number] != "Gratuito para jogar" or 
+            gameFinalPrices[number] != "Não disponível!"
         ):
             if(maxPriceFloat != None):
                 while(True):
-                    temp = list_gameFinalPrice[number]
+                    temp = gameFinalPrices[number]
 
                     if(
                         temp == "Gratuito para jogar" or 
@@ -287,19 +352,87 @@ class CatchOffers:
                     ):
                         break
 
-                    temp2 = temp.split("R$")[1]
-                    finalPrice = float(temp2.replace(",", "."))
+                    temp1      = temp.split("R$")[1]
+                    finalPrice = float(temp1.replace(",", "."))
                     
                     if(finalPrice < maxPriceFloat):
                         break
                     
-                    number = randint(0, len(list_gamesNames) - 1)
+                    number = randint(0, len(gameNames) - 1)
                     
 
-        gameName = list_gamesNames[number]
-        gameImg = list_gamesImgs[number]
-        gameUrl = list_gamesUrls[number]
-        gamePrice.append(list_gameOriginalPrice[number])
-        gamePrice.append(list_gameFinalPrice[number])
+        gameName        = gameNames[number]
+        gameImage       = gameImages[number]
+        gameUrl         = gameUrls[number]
+        gameOrinalPrice = gameOrinalPrices[number]
+        gameFinalPrice  = gameFinalPrices[number]
 
-        return gameName, gameImg, gameUrl, gamePrice
+        return gameName, gameImage, gameUrl, gameOrinalPrice, gameFinalPrice
+
+    def __getRecommendationByPriceRangeNames__(self, soup: BeautifulSoup):
+        names = []
+
+        for listDivGamesNames in soup.find_all('div', class_="search_name"):
+            for listSpanGamesNames in listDivGamesNames.find_all('span', class_="title"):
+                names.append(listSpanGamesNames.contents[0])
+
+        return names
+
+    def __getRecommendationByPriceRangeImages__(self, soup: BeautifulSoup):
+        images = []
+
+        for listDivGamesImages in soup.find_all('div', class_="search_capsule"):
+            for listImgGamesImages in listDivGamesImages.find_all('img'):
+                img = listImgGamesImages.attrs['srcset'].split(" ")[2]
+                images.append(img)
+
+        return images
+
+    def __getRecommendationByPriceRangeOriginalPrices__(self, soup: BeautifulSoup):
+        originalPrices = []
+
+        for listDivGamesPrices in soup.find_all('div', class_='search_price'):
+            if(listDivGamesPrices.contents[0] == '\n'):
+                if(len(listDivGamesPrices.contents) == 4):
+                    
+                    for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
+                        originalPrices.append(listSpanGamesPrices.contents[0].contents[0])
+                else:
+                    originalPrices.append("Não disponível!")
+            else:
+                temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
+
+                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
+                    temp = "Gratuito para jogar"
+                    
+                originalPrices.append(temp)
+
+        return originalPrices
+
+    def __getRecommendationByPriceRangeFinalPrices__(self, soup: BeautifulSoup):
+        finalPrices = []
+
+        for listDivGamesPrices in soup.find_all('div', class_='search_price'):
+            if(listDivGamesPrices.contents[0] == '\n'):
+                if(len(listDivGamesPrices.contents) == 4):
+                    temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
+                    finalPrices.append(temp)
+                else:
+                    finalPrices.append("Não disponível!")
+            else:
+                temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
+
+                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
+                    temp = "Gratuito para jogar"
+                    
+                finalPrices.append(temp)
+
+        return finalPrices
+
+    def __getRecommendationByPriceRangeUrls__(self, soup: BeautifulSoup):
+        urls = []
+
+        for listAGamesUrls in soup.find_all('a', class_="search_result_row"):
+            urls.append(listAGamesUrls.attrs['href'])
+
+        return urls
