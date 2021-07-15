@@ -258,7 +258,6 @@ class CatchOffers:
 
             return temp
 
-
     # Função que retorna um jogo recomendado de um gênero específico.
     async def getGameRecommendationByGenre(self, genre: str):
         # Convertendo para lower case
