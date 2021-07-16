@@ -258,7 +258,6 @@ async def on_message(message):
                 list_gamesOP,
                 list_gamesFP
             ) = await catchOffers.getDailyGamesOffers()
-            # list_gamesOP, list_gamesFP = await catchOffers.getDailyGamesOffersPrices()
             x = len(list_gamesURl)
 
             if(x == 0):
