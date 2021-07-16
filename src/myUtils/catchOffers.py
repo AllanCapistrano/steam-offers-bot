@@ -161,8 +161,6 @@ class CatchOffers:
 
         return finalPrices
 
-    # Função que retorna três listas, uma contendo a URL, outra contendo as imagens,
-    # e por fim, outra contendo a descrição do evento/jogo em destaque.
     async def getSpotlightOffers(self) -> tuple[list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em destaque.
