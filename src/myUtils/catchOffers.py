@@ -13,18 +13,40 @@ URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 class CatchOffers:
-    # Função para buscar o site pela URL
-    def reqUrl(self, url: str):
+    def reqUrl(self, url: str) -> BeautifulSoup:
+        """ Função responsável por buscar as Urls.
+
+        Parameters
+        -----------
+        url: :class:`str`
+            Url do site.
+
+        Returns
+        -----------
+        soup: :class:`BeautifulSoup`
+        """
+
         r    = requests.get(url)
         soup = BeautifulSoup(r.text, 'lxml')
         
         return soup
 
-    # Função que retorna quatro listas, uma contendo a URL dos jogos que estão na
-    # promoção diária, outra contendo a imagem do banner dos jogos que estão 
-    # na promoção diária, outra contendo o preço original dos jogos, e por fim 
-    # uma contendo preço com o desconto aplicado.
-    async def getDailyGamesOffers(self):
+    async def getDailyGamesOffers(self) -> tuple[list, list, list, list]:
+        """Função responsável por retornar as informações dos jogos que estão
+        em promoção.
+
+        Returns
+        -----------
+        urls: :class:`list`
+            Lista com as urls dos jogos.
+        images: :class:`list`
+            Lista com as imagens dos jogos.
+        originalPrices: :class:`list`
+            Lista com os preços originais dos jogos.
+        finalPrices: :class:`list`
+            Lista com os preços com o desconto aplicado dos jogos.
+        """
+        
         soup = self.reqUrl(URL_SPECIALS)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -41,7 +63,19 @@ class CatchOffers:
 
         return urls, images, originalPrices, finalPrices
 
-    def __getDailyGamesUrls__(self, soup: BeautifulSoup):
+    def __getDailyGamesUrls__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as urls dos jogos
+        que estão em promoção.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        urls: :class:`list`
+        """
+
         urls = []
 
         for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
@@ -49,7 +83,19 @@ class CatchOffers:
 
         return urls
 
-    def __getDailyGamesImages__(self, soup: BeautifulSoup):
+    def __getDailyGamesImages__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as imagens dos 
+        jogos que estão em promoção.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        images: :class:`list`
+        """
+        
         images = []
 
         for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
@@ -57,8 +103,20 @@ class CatchOffers:
 
         return images
 
-    def __getDailyGamesOriginalPrice__(self, soup: BeautifulSoup):
-        originalPrice = []
+    def __getDailyGamesOriginalPrice__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os preços originais
+        dos jogos que estão em promoção.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        originalPrices: :class:`list`
+        """
+        
+        originalPrices = []
 
         for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
             dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
@@ -70,29 +128,55 @@ class CatchOffers:
             except:
                 temp1 = ["Não disponível!"]
 
-            originalPrice.append(temp1[0])
+            originalPrices.append(temp1[0])
 
-        return originalPrice
+        return originalPrices
 
-    def __getDailyGamesFinalPrice__(self, soup: BeautifulSoup):
-        finalPrice = []
+    def __getDailyGamesFinalPrice__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os preços com o 
+        desconto aplicado dos jogos que estão em promoção.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        finalPrices: :class:`list`
+        """
+        
+        finalPrices = []
 
         for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
             dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
             temp = str(dailyGamesPrices).split('>')
+            
             # Caso não tenha nenhum preço para o jogo.
             try:
                 temp1 = temp[4].split('</div')
             except:
                 temp1 = ["Não disponível!"]
 
-            finalPrice.append(temp1[0])
+            finalPrices.append(temp1[0])
 
-        return finalPrice
+        return finalPrices
 
     # Função que retorna três listas, uma contendo a URL, outra contendo as imagens,
     # e por fim, outra contendo a descrição do evento/jogo em destaque.
-    async def getSpotlightOffers(self):
+    async def getSpotlightOffers(self) -> tuple[list, list, list]:
+        """Função responsável por retornar as informações dos jogos que estão
+        em destaque.
+
+        Returns
+        -----------
+        urls: :class:`list`
+            Lista com as urls dos jogos.
+        images: :class:`list`
+            Lista com as imagens dos jogos.
+        contents: :class:`list`
+            Lista contento as informações dos jogos.
+        """
+        
         soup = self.reqUrl(URL_SPECIALS)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -106,7 +190,19 @@ class CatchOffers:
 
         return urls, images, contents
     
-    def __getSpotlightUrls__(self, soup: BeautifulSoup):
+    def __getSpotlightUrls__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as urls dos jogos
+        que estão em destaque.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        urls: :class:`list`
+        """
+
         urls = []
 
         for spotlightGames in soup.find_all('div', class_='spotlight_img'):
@@ -114,7 +210,19 @@ class CatchOffers:
 
         return urls
 
-    def __getSpotlightImages__(self, soup: BeautifulSoup):
+    def __getSpotlightImages__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as imagens dos 
+        jogos que estão em destaque.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        images: :class:`list`
+        """
+        
         images = []
 
         for spotlightGames in soup.find_all('div', class_='spotlight_img'):
@@ -122,7 +230,19 @@ class CatchOffers:
 
         return images
 
-    def __getSpotlightContents__(self, soup: BeautifulSoup):
+    def __getSpotlightContents__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as informações dos 
+        jogos que estão em destaque.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        contents: :class:`list`
+        """
+        
         contents = []
 
         for spotlightGames in soup.find_all('div', class_='spotlight_content'):
@@ -193,8 +313,30 @@ class CatchOffers:
 
         return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
-    #Função que retorna o nome, o preço, a url e a imagem de um jogo específico.
-    async def getSpecificGame(self, gameName: str):
+    async def getSpecificGame(self, gameName: str) -> tuple[str, str, str, str, str, str]:
+        """Função responsável por retornar as informações e um jogo específico.
+
+        Parameters
+        -----------
+        gameName: :class:`str`
+            Nome do jogo que se deseja obter informações.
+
+        Returns
+        -----------
+        name: :class:`str`
+            Nome do jogo.
+        url: :class:`str`
+            Url do jogo.
+        image: :class:`str`
+            Imagem do jogo.
+        orginalPrice: :class:`str`
+            Preço original do jogo.
+        finalPrice: :class:`str`
+            Preço com desconto do jogo.
+        searchUrl: :class:`str`
+            Url de busca do jogo, caso o jogo especificado não seja o encontrado.
+        """
+        
         searchUrl = URL_GAME + gameName
         soup = self.reqUrl(searchUrl)
 
@@ -219,16 +361,61 @@ class CatchOffers:
 
         return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20")
 
-    def __getSpecifcGameUrl__(self, game: BeautifulSoup):
+    def __getSpecifcGameUrl__(self, game: BeautifulSoup) -> str:
+        """ Função responsável a url do jogo.
+
+        Parameters
+        -----------
+        game: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        url: :class:`str`
+        """
+        
         return game.attrs['href']
 
-    def __getSpecifcGameImage__(self, game: BeautifulSoup):
+    def __getSpecifcGameImage__(self, game: BeautifulSoup) -> str:
+        """ Função responsável a imagem do jogo.
+
+        Parameters
+        -----------
+        game: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        image: :class:`str`
+        """
+        
         return game.find('img').attrs['srcset'].split(" ")[2]
 
-    def __getSpecifcGameName__(self, game: BeautifulSoup):
+    def __getSpecifcGameName__(self, game: BeautifulSoup) -> str:
+        """ Função responsável por retornar o nome do jogo como está na Steam.
+
+        Parameters
+        -----------
+        game: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        name: :class:`str`
+        """
+        
         return game.find(class_='search_name').contents[1].contents[0]
 
-    def __getSpecifcGameOriginalPrice__(self, game: BeautifulSoup, haveDiscount: bool):
+    def __getSpecifcGameOriginalPrice__(self, game: BeautifulSoup, haveDiscount: bool) -> str:
+        """ Função responsável o preço original do jogo.
+
+        Parameters
+        -----------
+        game: :class:`BeautifulSoup`,
+        haveDiscount :class:`bool`
+
+        Returns
+        -----------
+        url: :class:`str`
+        """
+        
         if(haveDiscount):
             return game.find(class_='search_price').contents[1].contents[0].contents[0]
         else:
@@ -242,7 +429,19 @@ class CatchOffers:
 
             return temp
 
-    def __getSpecifcGameFinalPrice__(self, game: BeautifulSoup, haveDiscount: bool):
+    def __getSpecifcGameFinalPrice__(self, game: BeautifulSoup, haveDiscount: bool) -> str:
+        """ Função responsável o preço com desconto do jogo.
+
+        Parameters
+        -----------
+        game: :class:`BeautifulSoup`,
+        haveDiscount :class:`bool`
+
+        Returns
+        -----------
+        url: :class:`str`
+        """
+        
         if(haveDiscount):
             temp = sub(r"\s+", "" , game.find(class_='search_price').contents[3])
 
@@ -300,8 +499,28 @@ class CatchOffers:
 
         return gameName, gameURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
-    # Função que retorna um jogo recomendado a partir de uma faixa de preço.
-    async def getGameRecommendationByPriceRange(self, maxPrice: str):
+    async def getGameRecommendationByPriceRange(self, maxPrice: str) -> tuple[str, str, str, str, str]:
+        """Função que retorna um jogo com base numa faixa de preço especificada.
+
+        Parameters
+        -----------
+        maxPrice: :class:`str`
+            Faixa de preço.
+
+        Returns
+        -----------
+        gameName: :class:`str`
+            Nome do jogo.
+        gameImage: :class:`str`
+            Imagem do jogo.
+        gameUrl: :class:`str`
+            Url do jogo.
+        gameOrinalPrice: :class:`str`
+            Preço original do jogo.
+        gameFinalPrice: :class:`str`
+            Preço com desconto do jogo.
+        """
+        
         if(maxPrice == "rZ04j"):
             url           = URL_PRICE_RANGE
             maxPriceFloat = None
@@ -368,7 +587,19 @@ class CatchOffers:
 
         return gameName, gameImage, gameUrl, gameOrinalPrice, gameFinalPrice
 
-    def __getRecommendationByPriceRangeNames__(self, soup: BeautifulSoup):
+    def __getRecommendationByPriceRangeNames__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os nomes dos jogos
+        que estão na faixa de preço especificada.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        names: :class:`list`
+        """
+        
         names = []
 
         for listDivGamesNames in soup.find_all('div', class_="search_name"):
@@ -377,7 +608,19 @@ class CatchOffers:
 
         return names
 
-    def __getRecommendationByPriceRangeImages__(self, soup: BeautifulSoup):
+    def __getRecommendationByPriceRangeImages__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as imagens dos 
+        jogos que estão na faixa de preço especificada.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        images: :class:`list`
+        """
+        
         images = []
 
         for listDivGamesImages in soup.find_all('div', class_="search_capsule"):
@@ -387,7 +630,19 @@ class CatchOffers:
 
         return images
 
-    def __getRecommendationByPriceRangeOriginalPrices__(self, soup: BeautifulSoup):
+    def __getRecommendationByPriceRangeOriginalPrices__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os preços originais 
+        dos jogos que estão na faixa de preço especificada.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        originalPrices: :class:`list`
+        """
+        
         originalPrices = []
 
         for listDivGamesPrices in soup.find_all('div', class_='search_price'):
@@ -408,7 +663,19 @@ class CatchOffers:
 
         return originalPrices
 
-    def __getRecommendationByPriceRangeFinalPrices__(self, soup: BeautifulSoup):
+    def __getRecommendationByPriceRangeFinalPrices__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os preços com 
+        desconto dos jogos que estão na faixa de preço especificada.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        finalPrices: :class:`list`
+        """
+        
         finalPrices = []
 
         for listDivGamesPrices in soup.find_all('div', class_='search_price'):
@@ -428,7 +695,19 @@ class CatchOffers:
 
         return finalPrices
 
-    def __getRecommendationByPriceRangeUrls__(self, soup: BeautifulSoup):
+    def __getRecommendationByPriceRangeUrls__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as urls dos jogos 
+        que estão na faixa de preço especificada.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        urls: :class:`list`
+        """
+        
         urls = []
 
         for listAGamesUrls in soup.find_all('a', class_="search_result_row"):
