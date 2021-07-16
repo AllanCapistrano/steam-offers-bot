@@ -745,7 +745,7 @@ async def changeStatus():
     while not client.is_closed():
         numServers = len(client.guilds)
         msgStatus = messages.status(PREFIX, numServers)
-        randomStatus = messages.randomMessage(msgStatus, len(msgStatus))
+        randomStatus = messages.randomMessage(msgStatus)
         game = discord.Game(randomStatus)
         online = discord.Status.online
 
