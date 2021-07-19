@@ -505,54 +505,54 @@ class CatchOffers:
 
         return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20")
 
-    def __getSpecifcGameUrl__(self, game: BeautifulSoup) -> str:
+    def __getSpecifcGameUrl__(self, soup: BeautifulSoup) -> str:
         """ Função responsável a url do jogo.
 
         Parameters
         -----------
-        game: :class:`BeautifulSoup`
+        soup: :class:`BeautifulSoup`
 
         Returns
         -----------
         url: :class:`str`
         """
         
-        return game.attrs['href']
+        return soup.attrs['href']
 
-    def __getSpecifcGameImage__(self, game: BeautifulSoup) -> str:
+    def __getSpecifcGameImage__(self, soup: BeautifulSoup) -> str:
         """ Função responsável a imagem do jogo.
 
         Parameters
         -----------
-        game: :class:`BeautifulSoup`
+        soup: :class:`BeautifulSoup`
 
         Returns
         -----------
         image: :class:`str`
         """
         
-        return game.find('img').attrs['srcset'].split(" ")[2]
+        return soup.find('img').attrs['srcset'].split(" ")[2]
 
-    def __getSpecifcGameName__(self, game: BeautifulSoup) -> str:
+    def __getSpecifcGameName__(self, soup: BeautifulSoup) -> str:
         """ Função responsável por retornar o nome do jogo como está na Steam.
 
         Parameters
         -----------
-        game: :class:`BeautifulSoup`
+        soup: :class:`BeautifulSoup`
 
         Returns
         -----------
         name: :class:`str`
         """
         
-        return game.find(class_='search_name').contents[1].contents[0]
+        return soup.find(class_='search_name').contents[1].contents[0]
 
-    def __getSpecifcGameOriginalPrice__(self, game: BeautifulSoup, haveDiscount: bool) -> str:
+    def __getSpecifcGameOriginalPrice__(self, soup: BeautifulSoup, haveDiscount: bool) -> str:
         """ Função responsável o preço original do jogo.
 
         Parameters
         -----------
-        game: :class:`BeautifulSoup`,
+        soup: :class:`BeautifulSoup`,
         haveDiscount :class:`bool`
 
         Returns
@@ -561,9 +561,9 @@ class CatchOffers:
         """
         
         if(haveDiscount):
-            return game.find(class_='search_price').contents[1].contents[0].contents[0]
+            return soup.find(class_='search_price').contents[1].contents[0].contents[0]
         else:
-            temp = sub(r"\s+", "" , game.find(class_='search_price').contents[0])
+            temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
             
             if(not temp.isnumeric()):
                 return "Não disponível!"
@@ -573,12 +573,12 @@ class CatchOffers:
 
             return temp
 
-    def __getSpecifcGameFinalPrice__(self, game: BeautifulSoup, haveDiscount: bool) -> str:
+    def __getSpecifcGameFinalPrice__(self, soup: BeautifulSoup, haveDiscount: bool) -> str:
         """ Função responsável o preço com desconto do jogo.
 
         Parameters
         -----------
-        game: :class:`BeautifulSoup`,
+        soup: :class:`BeautifulSoup`,
         haveDiscount :class:`bool`
 
         Returns
@@ -587,11 +587,11 @@ class CatchOffers:
         """
         
         if(haveDiscount):
-            temp = sub(r"\s+", "" , game.find(class_='search_price').contents[3])
+            temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[3])
 
             return temp
         else:
-            temp = sub(r"\s+", "" , game.find(class_='search_price').contents[0])
+            temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
 
             if(not temp.isnumeric()):
                 return "Não disponível!"
