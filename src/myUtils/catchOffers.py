@@ -7,11 +7,13 @@ from bs4 import BeautifulSoup
 from myUtils.tabContent import TabContent
 from myUtils.tabContentRow import TabContentRow
 
+# -------------------------- Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
+# ------------------------------------------------------------------------ #
 class CatchOffers:
     def reqUrl(self, url: str) -> BeautifulSoup:
         """ Função responsável por buscar as Urls.
@@ -31,6 +33,7 @@ class CatchOffers:
         
         return soup
 
+    # -------------------------- Daily Games --------------------------------- #
     async def getDailyGamesOffers(self) -> tuple[list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em promoção.
@@ -160,7 +163,9 @@ class CatchOffers:
             finalPrices.append(temp1[0])
 
         return finalPrices
+    # ------------------------------------------------------------------------ #
 
+    # -------------------------- Spotlight ----------------------------------- #
     async def getSpotlightOffers(self) -> tuple[list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em destaque.
@@ -247,70 +252,209 @@ class CatchOffers:
             contents.append(spotlightGames.contents[1].contents[0])
 
         return contents
+    # ------------------------------------------------------------------------ #
 
-    # Função que retorna cinco listas que possuem respectivamente as seguintes
-    # informações: nome, URL, preço original, preço com desconto e imagens; 
-    # dos jogos/DLCs de uma categoria.
-    async def getTabContent(self, url: str, divId: str):
-        hasPrice = []
-        gameWithoutPricing = False
-        gamesNames = []
-        gamesURL = []
-        gameOriginalPrice = []
-        gameFinalPrice = []
-        gameIMG = []
+    # ------------------------- Tab Content ---------------------------------- #
+    async def getTabContent(self, url: str, divId: str) -> tuple[list, list, list, list, list]:
+        """Função responsável por retornar as informações dos jogos que estão
+        em uma aba específica.
+
+        Parameters
+        -----------
+        url: :class:`str`
+        divId: :class:`str`
+
+        Returns
+        -----------
+        names: :class:`list`
+            Lista com os nomes dos jogos.
+        urls: :class:`list`
+            Lista com as urls dos jogos.
+        originalPrices: :class:`list`
+            Lista com os preços originais dos jogos.
+        finalPrices: :class:`list`
+            Lista com os preços com o desconto aplicado dos jogos.
+        images: :class:`list`
+            Lista com as imagens dos jogos.
+        """
+        
         soup = self.reqUrl(url)
 
-        for list_games in soup.find_all('div', id=divId):
-            # Responsável por pegar os nomes dos jogos/DLCs de uma categoria.
-            for list_g in list_games.find_all('div', class_='tab_item_name'):
-                gamesNames.append(list_g.contents[0])
-            # Responsável por pegar as URLs do jogos/DLCs de uma categoria.
-            for list_g in list_games.find_all('a', class_='tab_item'):
-                gamesURL.append(list_g.attrs['href'])
+        for tabContent in soup.find_all('div', id=divId):
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                thread0 = executor.submit(self.__getTabContentNames__, tabContent)
+                thread1 = executor.submit(self.__getTabContentUrls__, tabContent)
+                thread2 = executor.submit(self.__getTabContentHasPrice__, tabContent)
+                thread3 = executor.submit(self.__getTabContentOriginalPrices__, tabContent)
+                thread4 = executor.submit(self.__getTabContentFinalPrices__, tabContent)
+                thread5 = executor.submit(self.__getTabContentImages__, tabContent)
 
-            # Responsável por verificar se existe a classe empty em algum jogo. 
-            # Se existir, o jogo não possui precificação, e o mesmo é marcado.
-            for listHasPrice in list_games.find_all('div', class_='discount_block'):
-                try:
-                    listHasPrice['class'].index("empty")
-                    hasPrice.append(False)
-                    gameWithoutPricing = True
-                except:
-                    hasPrice.append(True)
+            names                          = thread0.result()
+            urls                           = thread1.result()
+            (hasPrice, gameWithoutPricing) = thread2.result()
+            originalPrices                 = thread3.result()
+            finalPrices                    = thread4.result()
+            images                         = thread5.result()
 
-            # Responsável por pegar os preços originais e com desconto 
-            # (caso exista) dos jogos/DLCs de uma categoria.
-            for list_prices in list_games.find_all('div', class_='discount_prices'):                
-                if(len(list_prices) == 2):
-                    gameOriginalPrice.append(list_prices.contents[0].contents[0])
-                    gameFinalPrice.append(list_prices.contents[1].contents[0])
-                elif(len(list_prices) == 1):
-                    temp = list_prices.contents[0].contents[0]
-
-                    if(temp.find('Free to Play') != -1 or temp.find('Free') != -1):
-                        temp = "Gratuiro p/ Jogar"
-
-                    gameOriginalPrice.append(temp)
-                    gameFinalPrice.append(temp)
-
-            # Responsável por pegar as imagens dos jogos/DLCs de uma categoria.
-            for list_gamesIMG in list_games.find_all('img', class_='tab_item_cap_img'):
-                # Mudando o tamanho da imagem.
-                img = list_gamesIMG.attrs['src'].replace("184x69", "231x87")
-
-                gameIMG.append(img)
-
-        # Verifica se há pelo menos um jogo sem preço. Em caso positivo, adiciona
-        # essa infomaçã na posição correta da lista.
+        # Verifica se há pelo menos um jogo sem preço. Em caso afirmativo, 
+        # adiciona essa infomação na posição correta da lista.
         if(gameWithoutPricing):
             for x in range(len(hasPrice) - 1):
                 if(not hasPrice[x]):
-                    gameOriginalPrice.insert(x, 'Preço indisponível!')
-                    gameFinalPrice.insert(x, 'Preço indisponível!')
+                    originalPrices.insert(x, 'Preço indisponível!')
+                    finalPrices.insert(x, 'Preço indisponível!')
 
-        return gamesNames, gamesURL, gameOriginalPrice, gameFinalPrice, gameIMG
+        return names, urls, originalPrices, finalPrices, images
 
+    def __getTabContentNames__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os nomes dos jogos
+        que estão em uma aba específica.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        names: :class:`list`
+        """
+        
+        names = []
+
+        for tabContent in soup.find_all('div', class_='tab_item_name'):
+            names.append(tabContent.contents[0])
+
+        return names
+    
+    def __getTabContentUrls__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as urls dos jogos
+        que estão em uma aba específica.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        urls: :class:`list`
+        """
+        
+        urls = []
+
+        for tabContent in soup.find_all('a', class_='tab_item'):
+            urls.append(tabContent.attrs['href'])
+
+        return urls
+    
+    def __getTabContentHasPrice__(self, soup: BeautifulSoup) -> tuple[list, bool]:
+        """ Função responsável por retornar uma lista que indica a posição dos
+        jogos que não possuem nenhuma precificação (caso exista).
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        hasPrice: :class:`list`
+        gameWithoutPricing: :class:`bool`
+        """
+        
+        hasPrice           = []
+        gameWithoutPricing = False
+
+        for tabContent in soup.find_all('div', class_='discount_block'):
+            try:
+                tabContent['class'].index("empty")
+                hasPrice.append(False)
+                
+                gameWithoutPricing = True
+            except:
+                hasPrice.append(True)
+
+        return hasPrice, gameWithoutPricing
+    
+    def __getTabContentOriginalPrices__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo os preços 
+        originais dos jogos que estão em uma aba específica.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        orginalPrices: :class:`list`
+        """
+        
+        orginalPrices = []
+
+        for tabContent in soup.find_all('div', class_='discount_prices'):                
+            if(len(tabContent) == 2):
+                orginalPrices.append(tabContent.contents[0].contents[0])
+            elif(len(tabContent) == 1):
+                temp = tabContent.contents[0].contents[0]
+
+                if(temp.find('Free to Play') != -1 or temp.find('Free') != -1):
+                    temp = "Gratuiro p/ Jogar"
+
+                orginalPrices.append(temp)
+
+        return orginalPrices
+
+    def __getTabContentFinalPrices__(self, soup: BeautifulSoup) ->list:
+        """ Função responsável por retornar uma lista contendo os preços dos 
+        jogos com o desconto aplicado, que estão em uma aba específica.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        finalPrices: :class:`list`
+        """
+        
+        finalPrices = []
+
+        for tabContent in soup.find_all('div', class_='discount_prices'):                
+            if(len(tabContent) == 2):
+                finalPrices.append(tabContent.contents[1].contents[0])
+            elif(len(tabContent) == 1):
+                temp = tabContent.contents[0].contents[0]
+
+                if(temp.find('Free') != -1):
+                    temp = "Gratuiro p/ Jogar"
+
+                finalPrices.append(temp)
+
+        return finalPrices
+
+    def __getTabContentImages__(self, soup: BeautifulSoup) -> list:
+        """ Função responsável por retornar uma lista contendo as imagens dos
+        jogos que estão em uma aba específica.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`
+
+        Returns
+        -----------
+        images: :class:`list`
+        """
+        
+        images = []
+
+        for tabContent in soup.find_all('img', class_='tab_item_cap_img'):
+            # Alterando a resolução da imagem.
+            imgResized = tabContent.attrs['src'].replace("184x69", "231x87")
+
+            images.append(imgResized)
+
+        return images
+    # ------------------------------------------------------------------------ #
+
+    # ------------------------ Specific Game --------------------------------- #
     async def getSpecificGame(self, gameName: str) -> tuple[str, str, str, str, str, str]:
         """Função responsável por retornar as informações e um jogo específico.
 
@@ -454,6 +598,7 @@ class CatchOffers:
                 temp = "Gratuiro p/ Jogar"
 
             return temp
+    # ------------------------------------------------------------------------ #
 
     # Função que retorna um jogo recomendado de um gênero específico.
     async def getGameRecommendationByGenre(self, genre: str):
@@ -497,6 +642,7 @@ class CatchOffers:
 
         return gameName, gameURL, gameOriginalPrice, gameFinalPrice, gameIMG
 
+    # ----------------- Recommendation By Price Range ------------------------ #
     async def getGameRecommendationByPriceRange(self, maxPrice: str) -> tuple[str, str, str, str, str]:
         """Função que retorna um jogo com base numa faixa de preço especificada.
 
@@ -712,3 +858,4 @@ class CatchOffers:
             urls.append(listAGamesUrls.attrs['href'])
 
         return urls
+    # ------------------------------------------------------------------------ #
