@@ -1,13 +1,28 @@
 from random import randint
 
-# Randomiza uma mensagem de uma lista de mensagens.
-def randomMessage(msg, size):
-    msgR = msg[randint(0, size - 1)]
+def randomMessage(msg: list) -> str:
+    """ Função retornar uma mensagem aleatória.
 
-    return msgR
+    Parameters
+    -----------
+    msg: :class:`list`
+        Lista de mensagens.
 
-# Mensagens para quando não existem promoções ou jogos em destaque.
-def noOffers():
+    Returns
+    -----------
+    message: :class:`str`
+    """
+
+    return msg[randint(0, len(msg) - 1)]
+
+def noOffers() -> list:
+    """ Mensagens para quando não existem promoções ou jogos em destaque.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+
     msgList = []
 
     # Mensagem de destaque.
@@ -29,12 +44,24 @@ def noOffers():
 
     return msgList
 
-# Mensagem para as promoções que são enviadas para o privado.
-def checkDm():
+def checkDm() -> list:
+    """ Mensagem para as promoções que são enviadas para o privado.
+
+    Returns
+    -----------
+    message: :class:`str`
+    """
+    
     return "** Cheque sua DM** 😃"
 
-# Títulos das embeds.
-def title(genre = None, gameName = None):
+def title(genre: str = None , gameName: str = None) -> list:
+    """ Títulos das embeds.
+
+    Returns
+    -----------
+    titleList: :class:`list`
+    """
+    
     titleList = []
 
     titleList.append("Aqui está o link para o convite:")
@@ -52,8 +79,14 @@ def title(genre = None, gameName = None):
 
     return titleList
 
-# Conteúdo do comando $help.
-def helpValues():
+def helpValues() -> list:
+    """ Conteúdo do comando $help.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+    
     msgList = []
 
     msgList.append(
@@ -77,8 +110,14 @@ def helpValues():
 
     return msgList
 
-# Conteúdo do comando $botinfo.
-def infoValues():
+def infoValues() -> list:
+    """ Conteúdo do comando $botinfo.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+    
     msgList = []
 
     msgList.append("**3.9.5**") # Versão Python
@@ -86,12 +125,18 @@ def infoValues():
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("13 de Julho de 2021") # Data da última atualização.
+    msgList.append("16 de Julho de 2021") # Data da última atualização.
 
     return msgList
 
-# Mensagens de status do Bot.
-def status(prefix, numServers):
+def status(prefix: str, numServers: int) -> list:
+    """ Mensagens de status do Bot.
+
+    Returns
+    -----------
+    statusList: :class:`list`
+    """
+    
     statusList = []
 
     statusList.append("{}help | {} Servidores".format(prefix, numServers))
@@ -105,8 +150,14 @@ def status(prefix, numServers):
 
     return statusList
 
-# Mensagens de erros durante o envio do comando.
-def commandAlert():
+def commandAlert() -> list:
+    """ Mensagens de erro durante o envio de um comando.
+
+    Returns
+    -----------
+    alertList: :class:`list`
+    """
+    
     alertList = []
 
     alertList.append("⚠️ **Informe o nome do jogo! Ex: `$game undertale`**")
@@ -115,12 +166,28 @@ def commandAlert():
 
     return alertList
 
-# Mensagem de busca pelo jogo errado.
-def wrongGame(url):
+def wrongGame(url: str) -> str:
+    """ Mensagem de erro ao buscar um jogo específico.
+
+    Parameters
+    -----------
+    url: :class:`str`
+
+    Returns
+    -----------
+    message: :class:`srt`
+    """
+
     return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
 
-# Gêneros dos jogos.
-def gameGenres():
+def gameGenres() -> list:
+    """ Gêneros dos jogos.
+
+    Returns
+    -----------
+    genreList: :class:`list`
+    """
+    
     genreList = []
 
     genreList.append("**Aventura**")
@@ -136,8 +203,14 @@ def gameGenres():
 
     return genreList
 
-# Emojis dos gêneros dos jogos.
-def emojisGameGenres():
+def emojisGameGenres() -> list:
+    """ Emojis dos gêneros dos jogos.
+
+    Returns
+    -----------
+    emojisList: :class:`list`
+    """
+    
     emojisList = []
     
     emojisList.append("🤠")
@@ -153,8 +226,14 @@ def emojisGameGenres():
 
     return emojisList
 
-# Mensagem de busca.
-def searchMessage():
+def searchMessage() -> list:
+    """ Mensagens de busca.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+    
     msgList = []
 
     msgList.append("**🔎 Procurando.**")
@@ -165,8 +244,14 @@ def searchMessage():
 
     return msgList
 
-# Mensagem de recomendação de jogo por preço.
-def recommendationByPrice():
+def recommendationByPrice() -> list:
+    """ Mensagens de recomendação de jogo por preço.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+    
     msgList = []
 
     msgList.append(
