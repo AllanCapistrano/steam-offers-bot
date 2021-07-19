@@ -7,14 +7,15 @@ from bs4 import BeautifulSoup
 from myUtils.tabContent import TabContent
 from myUtils.tabContentRow import TabContentRow
 
-# -------------------------- Constants ----------------------------------- #
+# ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
-# ------------------------------------------------------------------------ #
+# ---------------------------------------------------------------------------- #
 class CatchOffers:
+    # ------------------------#- Request Url --------------------------------- #
     def reqUrl(self, url: str) -> BeautifulSoup:
         """ Função responsável por buscar as Urls.
 
@@ -32,6 +33,7 @@ class CatchOffers:
         soup = BeautifulSoup(r.text, 'lxml')
         
         return soup
+    # ------------------------------------------------------------------------ #
 
     # -------------------------- Daily Games --------------------------------- #
     async def getDailyGamesOffers(self) -> tuple[list, list, list, list]:
@@ -600,47 +602,67 @@ class CatchOffers:
             return temp
     # ------------------------------------------------------------------------ #
 
-    # Função que retorna um jogo recomendado de um gênero específico.
-    async def getGameRecommendationByGenre(self, genre: str):
-        # Convertendo para lower case
+    # ---------------------- Recommendation By Genre ------------------------- #
+    async def getGameRecommendationByGenre(self, genre: str) -> tuple[list, list, list, list, list]:
+        """Função responsável por recomendar um jogo com base em gênero 
+        especificado.
+
+        Parameters
+        -----------
+        genre: :class:`str`
+            Gênero do jogo.
+
+        Returns
+        -----------
+        gameName: :class:`list`
+            Nome do jogo.
+        gameUrl: :class:`list`
+            Url do jogo.
+        gameOriginalPrice: :class:`list`
+            Preço original do jogo.
+        gameFinalPrice: :class:`list`
+            Preço com desconto do jogo.
+        gameImage: :class:`list`
+            Imagem do jogo.
+        """
+        
+        # Convertendo o gênero para lower case
         genre = genre.lower()
 
         if(genre == 'acao'):
             genre = 'ação'
         elif(genre == 'estrategia'):
             genre = 'estratégia'
-        elif(
-            genre == 'multijogador massivo'
-        ):
+        elif(genre == 'multijogador massivo'):
             genre = 'multijogador%20massivo'
         elif(genre == 'simulacao'):
             genre = 'simulação'
 
-        pos = randint(0, len(TabContent) - 1)
-        tabContent = TabContent(pos).name
+        pos           = randint(0, len(TabContent) - 1)
+        tabContent    = TabContent(pos).name
         tabContentRow = TabContentRow(pos).name
-
-        url = URL_GENRE + '{}/?cc=br#p=0&tab={}'.format(genre, tabContent)
+        url           = URL_GENRE + '{}/?cc=br#p=0&tab={}'.format(genre, tabContent)
 
         try:
             (
-                list_gameNames, 
-                list_gameURLs, 
-                list_gameOriginalPrices, 
-                list_gameFinalPrices, list_gameIMGs
+                gamesNames, 
+                gamesUrls, 
+                gamesOriginalPrices, 
+                gamesFinalPrices, 
+                gamesImages
             ) = await self.getTabContent(url, tabContentRow)
             
-            number = randint(0, len(list_gameNames) - 1)
-
-            gameName = list_gameNames[number]
-            gameURL = list_gameURLs[number]
-            gameOriginalPrice = list_gameOriginalPrices[number]
-            gameFinalPrice = list_gameFinalPrices[number]
-            gameIMG = list_gameIMGs[number]
+            number            = randint(0, len(gamesNames) - 1)
+            gameName          = gamesNames[number]
+            gameUrl           = gamesUrls[number]
+            gameOriginalPrice = gamesOriginalPrices[number]
+            gameFinalPrice    = gamesFinalPrices[number]
+            gameImage         = gamesImages[number]
         except:
-            gameName = gameURL = gameOriginalPrice = gameFinalPrice = gameIMG = None
+            gameName = gameUrl = gameOriginalPrice = gameFinalPrice = gameImage = None
 
-        return gameName, gameURL, gameOriginalPrice, gameFinalPrice, gameIMG
+        return gameName, gameUrl, gameOriginalPrice, gameFinalPrice, gameImage
+    # ------------------------------------------------------------------------ #
 
     # ----------------- Recommendation By Price Range ------------------------ #
     async def getGameRecommendationByPriceRange(self, maxPrice: str) -> tuple[str, str, str, str, str]:
