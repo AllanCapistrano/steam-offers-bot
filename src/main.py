@@ -6,11 +6,13 @@ from myUtils.catchOffers import CatchOffers
 from myUtils import messages
 from myUtils import discordToken
 
+# ------------------------------ Constants ----------------------------------- #
 PREFIX = "$"
 COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 TOKEN = discordToken.myToken()
+# ---------------------------------------------------------------------------- #
 
 intents = discord.Intents.default()
 intents.members = True
@@ -24,7 +26,7 @@ async def on_ready():
 
     print("\n{} está online em {} servidores".format(client.user.name, numServers))
 
-    game = discord.Game("Online em {} Servidores".format(numServers))
+    game   = discord.Game("Online em {} Servidores".format(numServers))
     online = discord.Status.online
 
     await client.change_presence(status=online, activity=game)
@@ -39,129 +41,129 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "ajuda") or 
             message.content.lower().startswith(PREFIX + "comandos")
         ):
-            help_ = message.content.split(" ")
+            __help__ = message.content.split(" ")
 
-            if(len(help_) != 2):
+            if(len(__help__) != 2):
                 embedHelp = discord.Embed(
                     color = COLOR
                 )
                 embedHelp.set_author(
-                    name = "SteamOffersBot lista de comandos:", 
-                    icon_url=client.user.avatar_url
+                    name     = "SteamOffersBot lista de comandos:", 
+                    icon_url = client.user.avatar_url
                 )
                 embedHelp.add_field(
-                    name="```$promocao``` ou ```$pr```",
-                    value=messages.helpValues()[0], 
-                    inline=False
+                    name   = "```$promocao``` ou ```$pr```",
+                    value  = messages.helpValues()[0], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$destaque``` ou ```$dt```",
-                    value=messages.helpValues()[1], 
-                    inline=False
+                    name   = "```$destaque``` ou ```$dt```",
+                    value  = messages.helpValues()[1], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$novidades``` ou ```$populares``` ou ```$np```",
-                    value=messages.helpValues()[2], 
-                    inline=False
+                    name   = "```$novidades``` ou ```$populares``` ou ```$np```",
+                    value  = messages.helpValues()[2], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$maisvendidos``` ou ```$mv```",
-                    value=messages.helpValues()[3], 
-                    inline=False
+                    name   = "```$maisvendidos``` ou ```$mv```",
+                    value  = messages.helpValues()[3], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$jogospopulares``` ou ```$jp```",
-                    value=messages.helpValues()[4], 
-                    inline=False
+                    name   = "```$jogospopulares``` ou ```$jp```",
+                    value  = messages.helpValues()[4], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$prevenda``` ou ```$pv```",
-                    value=messages.helpValues()[5], 
-                    inline=False
+                    name   = "```$prevenda``` ou ```$pv```",
+                    value  = messages.helpValues()[5], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$convite```",
-                    value=messages.helpValues()[6], 
-                    inline=False
+                    name   = "```$convite```",
+                    value  = messages.helpValues()[6], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$botinfo```",
-                    value=messages.helpValues()[7], 
-                    inline=False
+                    name   = "```$botinfo```",
+                    value  = messages.helpValues()[7], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$game [nome do jogo]```",
-                    value=messages.helpValues()[8], 
-                    inline=False
+                    name   = "```$game [nome do jogo]```",
+                    value  = messages.helpValues()[8], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$genre [gênero do jogo]```",
-                    value=messages.helpValues()[9], 
-                    inline=False
+                    name   = "```$genre [gênero do jogo]```",
+                    value  = messages.helpValues()[9], 
+                    inline = False
                 )
                 embedHelp.add_field(
-                    name="```$maxprice [preço]```",
-                    value=messages.helpValues()[10], 
-                    inline=False
+                    name   = "```$maxprice [preço]```",
+                    value  = messages.helpValues()[10], 
+                    inline = False
                 )
 
                 await message.channel.send(embed=embedHelp)
             else:
                 # $help genre
-                if(help_[1] == "genre"):
+                if(__help__[1] == "genre"):
                     embedHelp = discord.Embed(
                         title = messages.title()[4],
                         color = COLOR,
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[0], 
-                        value=messages.gameGenres()[0], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[0], 
+                        value  = messages.gameGenres()[0], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[1], 
-                        value=messages.gameGenres()[1], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[1], 
+                        value  = messages.gameGenres()[1], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[2], 
-                        value=messages.gameGenres()[2], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[2], 
+                        value  = messages.gameGenres()[2], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[3], 
-                        value=messages.gameGenres()[3], 
-                        inline=False
+                        name   = messages.emojisGameGenres()[3], 
+                        value  = messages.gameGenres()[3], 
+                        inline = False
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[4], 
-                        value=messages.gameGenres()[4], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[4], 
+                        value  = messages.gameGenres()[4], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[5], 
-                        value=messages.gameGenres()[5], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[5], 
+                        value  = messages.gameGenres()[5], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[6], 
-                        value=messages.gameGenres()[6], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[6], 
+                        value  = messages.gameGenres()[6], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[7], 
-                        value=messages.gameGenres()[7], 
-                        inline=False
+                        name   = messages.emojisGameGenres()[7], 
+                        value  = messages.gameGenres()[7], 
+                        inline = False
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[8], 
-                        value=messages.gameGenres()[8], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[8], 
+                        value  = messages.gameGenres()[8], 
+                        inline = True
                     )
                     embedHelp.add_field(
-                        name=messages.emojisGameGenres()[9], 
-                        value=messages.gameGenres()[9], 
-                        inline=True
+                        name   = messages.emojisGameGenres()[9], 
+                        value  = messages.gameGenres()[9], 
+                        inline = True
                     )
                     embedHelp.set_footer(text="Utilize $genre [um dos gêneros acima]")
 
@@ -175,9 +177,9 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "convite")
         ):
             embedInvite = discord.Embed(
-                title=messages.title()[0],
-                color=COLOR,
-                description='**{}**'.format(INVITE)
+                title       = messages.title()[0],
+                color       = COLOR,
+                description = '**{}**'.format(INVITE)
             )
             embedInvite.set_thumbnail(url=client.user.avatar_url)
 
@@ -189,44 +191,48 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "dt")
         ):
             # Mensagem de busca, com efeito de carregamento.
-            message_content = messages.searchMessage()[0]
-            search_message = await message.channel.send(message_content)
+            messageContent = messages.searchMessage()[0]
+            searchMessage  = await message.channel.send(messageContent)
             
             sleep(0.5)
-            await search_message.edit(content=message_content+" **.**")
+            await searchMessage.edit(content=messageContent+" **.**")
             
             sleep(0.5)
-            await search_message.edit(content=message_content+" **. .**")
+            await searchMessage.edit(content=messageContent+" **. .**")
 
-            list_gamesURl, list_gamesIMG, list_H2 = await catchOffers.getSpotlightOffers()
-            x = len(list_gamesURl)
+            (
+                gamesUrls, 
+                gamesImages, 
+                gamesContents
+            ) = await catchOffers.getSpotlightOffers()
+            x = len(gamesUrls)
 
             if(x == 0):
-                await search_message.edit(content=messages.noOffers()[0])
+                await searchMessage.edit(content=messages.noOffers()[0])
             else:
                 first_iteration = True
 
                 while(x > 0):
                     embedSpotlightGames = discord.Embed(
-                        title=messages.title()[1],
-                        color=COLOR
+                        title = messages.title()[1],
+                        color = COLOR
                     )
-                    embedSpotlightGames.set_image(url=list_gamesIMG[x - 1])
+                    embedSpotlightGames.set_image(url=gamesImages[x - 1])
                     embedSpotlightGames.add_field(
-                        name="**Link:**", 
-                        value="**[Clique Aqui]({})**".format(list_gamesURl[x - 1]), 
-                        inline=False
+                        name   = "**Link:**", 
+                        value  = "**[Clique Aqui]({})**".format(gamesUrls[x - 1]), 
+                        inline = False
                     )
                     embedSpotlightGames.add_field(
-                        name="**Descrição:**", 
-                        value="**{}**".format(list_H2[x - 1]), 
-                        inline=False
+                        name   = "**Descrição:**", 
+                        value  = "**{}**".format(gamesContents[x - 1]), 
+                        inline = False
                     )
 
                     if(first_iteration):
                         first_iteration = False
                         
-                        await search_message.edit(content="", embed=embedSpotlightGames)
+                        await searchMessage.edit(content="", embed=embedSpotlightGames)
                     else:
                         await message.channel.send(embed=embedSpotlightGames)
 
@@ -243,84 +249,87 @@ async def on_message(message):
         ):
 
             # Mensagem de busca, com efeito de carregamento.
-            message_content = messages.searchMessage()[0]
-            search_message = await message.channel.send(message_content)
+            messageContent = messages.searchMessage()[0]
+            searchMessage  = await message.channel.send(messageContent)
             
             sleep(0.5)
-            await search_message.edit(content=message_content+" **.**")
+            await searchMessage.edit(content=messageContent+" **.**")
             
             sleep(0.5)
-            await search_message.edit(content=message_content+" **. .**")
+            await searchMessage.edit(content=messageContent+" **. .**")
 
             (
-                list_gamesURl, 
-                list_gamesIMG,
-                list_gamesOP,
-                list_gamesFP
+                gamesUrls, 
+                gamesImages,
+                gamesOriginalPrices,
+                gamesFinalPrices
             ) = await catchOffers.getDailyGamesOffers()
-            x = len(list_gamesURl)
+            x = len(gamesUrls)
 
             if(x == 0):
-                await search_message.edit(content=messages.noOffers()[1])
+                await searchMessage.edit(content=messages.noOffers()[1])
             else:
                 first_iteration = True
 
                 while(x > 0):
                     embedDailyGames = discord.Embed(
-                        title=messages.title()[2],
-                        color=COLOR
+                        title = messages.title()[2],
+                        color = COLOR
                     )
-                    embedDailyGames.set_image(url=list_gamesIMG[x - 1])
+                    embedDailyGames.set_image(url=gamesImages[x - 1])
                     embedDailyGames.add_field(
-                        name="**Link:**", 
-                        value="**[Clique Aqui]({})**".format(list_gamesURl[x - 1]), 
-                        inline=False
-                    )
-                    embedDailyGames.add_field(
-                        name="**Preço Original:**", 
-                        value="**{}**".format(list_gamesOP[x - 1]), 
-                        inline=True
+                        name   = "**Link:**", 
+                        value  = "**[Clique Aqui]({})**".format(gamesUrls[x - 1]), 
+                        inline = False
                     )
                     embedDailyGames.add_field(
-                        name="**Preço com Desconto:**", 
-                        value="**{}**".format(list_gamesFP[x - 1]), 
-                        inline=True
+                        name   = "**Preço Original:**", 
+                        value  = "**{}**".format(gamesOriginalPrices[x - 1]), 
+                        inline = True
+                    )
+                    embedDailyGames.add_field(
+                        name   = "**Preço com Desconto:**", 
+                        value  = "**{}**".format(gamesFinalPrices[x - 1]), 
+                        inline = True
                     )
 
                     if(first_iteration):
                         first_iteration = False
 
-                        await search_message.edit(content="", embed=embedDailyGames)
+                        await searchMessage.edit(content="", embed=embedDailyGames)
                     else:
                         await message.channel.send(embed=embedDailyGames)
                     
                     x = x - 1
 
         # Comando: $botinfo
-        if(message.content.lower().startswith(PREFIX + "botinfo")):
+        if(
+            message.content.lower().startswith(PREFIX + "botinfo") or
+            message.content.lower().startswith(PREFIX + "info")
+        ):
             embedBotInfo = discord.Embed(
-                title=messages.title()[3],
-                color=COLOR
+                title = messages.title()[3],
+                color = COLOR
             )
             embedBotInfo.set_thumbnail(url=client.user.avatar_url)
             embedBotInfo.add_field(
-                name="Python", 
-                value=messages.infoValues()[0], 
-                inline=True
+                name   = "Python", 
+                value  = messages.infoValues()[0], 
+                inline = True
             )
             embedBotInfo.add_field(
-                name="discord.py", 
-                value=messages.infoValues()[1], 
-                inline=True
+                name   = "discord.py", 
+                value  = messages.infoValues()[1], 
+                inline = True
             )
             embedBotInfo.add_field(
-                name="Sobre SteamOffersBot", 
-                value=messages.infoValues()[2], 
-                inline=False
+                name   = "Sobre SteamOffersBot", 
+                value  = messages.infoValues()[2], 
+                inline = False
             )
             embedBotInfo.set_author(
-                name="ArticZ#1081", 
-                icon_url=client.get_user(259443927441080330).avatar_url
+                name     = "ArticZ#1081", 
+                icon_url = client.get_user(259443927441080330).avatar_url
             )
             embedBotInfo.set_footer(
                 text="Criado em 26 de Maio de 2020! | Última atualização em {}."
@@ -336,47 +345,46 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "np")
         ):
             (
-                list_gamesNames, 
-                list_gamesURL, 
-                list_gamesOriginalPrice, 
-                list_gamesFinalPrice, 
-                list_gamesIMG
+                gamesNames, 
+                gamesUrls, 
+                gamesOriginalPrices, 
+                gamesFinalPrices, 
+                gamesImages
             ) = await catchOffers.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
             
-            list_gamesNames.reverse() 
-            list_gamesURL.reverse() 
-            list_gamesOriginalPrice.reverse() 
-            list_gamesFinalPrice.reverse()
+            gamesNames.reverse() 
+            gamesUrls.reverse() 
+            gamesOriginalPrices.reverse() 
+            gamesFinalPrices.reverse()
             
-            num = x = len(list_gamesNames)
+            num = x = len(gamesNames)
 
             if(x == 0):
                 await message.channel.send(messages.noOffers()[1])
-
             else:
-                messageConcat_1 = ''
-                messageConcat_2 = ''
-                member = message.author
+                messageConcat0 = ''
+                messageConcat1 = ''
+                member          = message.author
                 
                 while(x > 0):
                     if(x >= (num/2)):
-                        messageConcat_1 = messageConcat_1 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat0 = messageConcat0 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     else:
-                        messageConcat_2 = messageConcat_2 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat1 = messageConcat1 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     
                     x = x - 1
 
                 await message.channel.send(member.mention + messages.checkDm())
-                await member.send(messageConcat_1)
-                await member.send(messageConcat_2)
+                await member.send(messageConcat0)
+                await member.send(messageConcat1)
 
         # Comando: $maisvendidos ou $mv
         if(
@@ -384,46 +392,46 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "mv")
         ):
             (
-                list_gamesNames, 
-                list_gamesURL, 
-                list_gamesOriginalPrice, 
-                list_gamesFinalPrice, 
-                list_gamesIMG
+                gamesNames, 
+                gamesUrls, 
+                gamesOriginalPrices, 
+                gamesFinalPrices, 
+                gamesImages
             ) = await catchOffers.getTabContent(URL+'=TopSellers', 'TopSellersRows')
             
-            list_gamesNames.reverse()
-            list_gamesURL.reverse()
-            list_gamesOriginalPrice.reverse()
-            list_gamesFinalPrice.reverse()
+            gamesNames.reverse()
+            gamesUrls.reverse()
+            gamesOriginalPrices.reverse()
+            gamesFinalPrices.reverse()
 
-            num = x = len(list_gamesNames)
+            num = x = len(gamesNames)
 
             if(x == 0):
                 await message.channel.send(messages.noOffers()[1])
             else:
-                messageConcat_1 = ''
-                messageConcat_2 = ''
-                member = message.author
+                messageConcat0 = ''
+                messageConcat1 = ''
+                member          = message.author
                 
                 while(x > 0):
                     if(x >= num/2):
-                        messageConcat_1 = messageConcat_1 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat0 = messageConcat0 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     else:
-                        messageConcat_2 = messageConcat_2 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat1 = messageConcat1 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     
                     x = x - 1
 
                 await message.channel.send(member.mention + messages.checkDm())
-                await member.send(messageConcat_1)
-                await member.send(messageConcat_2)
+                await member.send(messageConcat0)
+                await member.send(messageConcat1)
 
         # Comando: $jogospopulares ou $jp
         if(
@@ -431,46 +439,46 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "jp")
         ):
             (
-                list_gamesNames, 
-                list_gamesURL, 
-                list_gamesOriginalPrice, 
-                list_gamesFinalPrice, 
-                list_gamesIMG
+                gamesNames, 
+                gamesUrls, 
+                gamesOriginalPrices, 
+                gamesFinalPrices, 
+                gamesImages
             ) = await catchOffers.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
             
-            list_gamesNames.reverse()
-            list_gamesURL.reverse()
-            list_gamesOriginalPrice.reverse() 
-            list_gamesFinalPrice.reverse()
+            gamesNames.reverse()
+            gamesUrls.reverse()
+            gamesOriginalPrices.reverse() 
+            gamesFinalPrices.reverse()
             
-            num = x = len(list_gamesNames)
+            num = x = len(gamesNames)
 
             if(x == 0):
                 await message.channel.send(messages.noOffers()[1])
             else:
-                messageConcat_1 = ''
-                messageConcat_2 = ''
-                member = message.author
+                messageConcat0 = ''
+                messageConcat1 = ''
+                member          = message.author
                 
                 while(x > 0):
                     if(x >= num/2):
-                        messageConcat_1 = messageConcat_1 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat0 = messageConcat0 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     else:
-                        messageConcat_2 = messageConcat_2 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat1 = messageConcat1 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     
                     x = x - 1
 
                 await message.channel.send(member.mention + messages.checkDm())
-                await member.send(messageConcat_1)
-                await member.send(messageConcat_2)
+                await member.send(messageConcat0)
+                await member.send(messageConcat1)
 
         # Comando: $prevenda ou $pv
         if(
@@ -478,65 +486,65 @@ async def on_message(message):
             message.content.lower().startswith(PREFIX + "pv")
         ):
             (
-                list_gamesNames, 
-                list_gamesURL, 
-                list_gamesOriginalPrice, 
-                list_gamesFinalPrice, 
-                list_gamesIMG
+                gamesNames, 
+                gamesUrls, 
+                gamesOriginalPrices, 
+                gamesFinalPrices, 
+                gamesImages
             ) = await catchOffers.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
             
-            list_gamesNames.reverse()
-            list_gamesURL.reverse()
-            list_gamesOriginalPrice.reverse()
-            list_gamesFinalPrice.reverse()
+            gamesNames.reverse()
+            gamesUrls.reverse()
+            gamesOriginalPrices.reverse()
+            gamesFinalPrices.reverse()
             
-            num = x = len(list_gamesNames)
+            num = x = len(gamesNames)
 
             if(x == 0):
                 await message.channel.send(messages.noOffers()[1])
             else:
-                messageConcat_1 = ''
-                messageConcat_2 = ''
-                member = message.author
+                messageConcat0 = ''
+                messageConcat1 = ''
+                member          = message.author
                 
                 while(x > 0):
                     if(x >= num/2):
-                        messageConcat_1 = messageConcat_1 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat0 = messageConcat0 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     else:
-                        messageConcat_2 = messageConcat_2 + "**Nome: **" + \
-                            list_gamesNames[x - 1] + "\n**Link:** <" + \
-                            list_gamesURL[x - 1] + ">" + "\n**Preço Original: **" + \
-                            list_gamesOriginalPrice[x - 1] + "\n**Preço com Desconto: **" + \
-                            list_gamesFinalPrice[x - 1] + "\n\n"
+                        messageConcat1 = messageConcat1 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     
                     x = x - 1
 
                 await message.channel.send(member.mention + messages.checkDm())
-                await member.send(messageConcat_1)
-                await member.send(messageConcat_2)
+                await member.send(messageConcat0)
+                await member.send(messageConcat1)
 
         # Comando: $game
         if(message.content.lower().startswith(PREFIX + "game")):
-            game_name_message = message.content.split(PREFIX + "game ")
+            gameNameMessage = message.content.split(PREFIX + "game ")
 
-            if(len(game_name_message) == 1):
+            if(len(gameNameMessage) == 1):
                 await message.channel.send(messages.commandAlert()[0])
             else:
-                game_name = game_name_message[1]
+                gameNameToSearch = gameNameMessage[1]
                 
                 # Mensagem de busca de jogo, com efeito de carregamento.
-                message_content = messages.searchMessage()[1]
-                search_game_message = await message.channel.send(message_content + " __"+ game_name + "__ .**")
+                messageContent     = messages.searchMessage()[1]
+                searchGameMessage = await message.channel.send(messageContent + " __"+ gameNameToSearch + "__ .**")
                 
                 sleep(0.5)
-                await search_game_message.edit(content=message_content + " __" + game_name + "__ . .**")
+                await searchGameMessage.edit(content=messageContent + " __" + gameNameToSearch + "__ . .**")
                 
                 sleep(0.5)
-                await search_game_message.edit(content=message_content + " __"+ game_name + "__ . . .**")
+                await searchGameMessage.edit(content=messageContent + " __"+ gameNameToSearch + "__ . . .**")
 
                 (
                     gameName, 
@@ -545,66 +553,66 @@ async def on_message(message):
                     gameOriginalPrice,
                     gameFinalPrice,
                     searchUrl
-                ) = await catchOffers.getSpecificGame(game_name)
+                ) = await catchOffers.getSpecificGame(gameNameToSearch)
 
                 if(gameName != None):
                     embedSpecificGame =  discord.Embed(
-                        title="👾 Jogo: {} 👾".format(gameName),
-                        color=COLOR
+                        title = "👾 Jogo: {} 👾".format(gameName),
+                        color = COLOR
                     )
                     embedSpecificGame.set_image(url=gameIMG)
                     embedSpecificGame.add_field(
-                        name="**Link:**", 
-                        value="**[Clique Aqui]({})**".format(gameURL), 
-                        inline=False
+                        name   = "**Link:**", 
+                        value  = "**[Clique Aqui]({})**".format(gameURL), 
+                        inline = False
                     )
 
                     if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
                         embedSpecificGame.add_field(
-                            name="**Preço Original:**", 
-                            value="**{}**".format(gameOriginalPrice), 
-                            inline=True
+                            name   = "**Preço Original:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = True
                         )
                         embedSpecificGame.add_field(
-                            name="**Preço com Desconto:**", 
-                            value="**{}**".format(gameFinalPrice), 
-                            inline=True
+                            name   = "**Preço com Desconto:**", 
+                            value  = "**{}**".format(gameFinalPrice), 
+                            inline = True
                         )
                     else: # Caso o jogo não esteja em promoção.
                         embedSpecificGame.add_field(
-                            name="**Preço:**", 
-                            value="**{}**".format(gameOriginalPrice), 
-                            inline=False
+                            name   = "**Preço:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = False
                         )
 
                     embedSpecificGame.add_field(
-                        name="**Obs:**", 
-                        value=messages.wrongGame(searchUrl), 
-                        inline=False
+                        name   = "**Obs:**", 
+                        value  = messages.wrongGame(searchUrl), 
+                        inline = False
                     )
 
-                    await search_game_message.edit(content="", embed=embedSpecificGame)
+                    await searchGameMessage.edit(content="", embed=embedSpecificGame)
                 else:
-                    await search_game_message.edit(content=messages.noOffers()[2])
+                    await searchGameMessage.edit(content=messages.noOffers()[2])
 
         # Comando: $genre
         if(message.content.lower().startswith(PREFIX + "genre")):
-            game_genre_message = message.content.split(PREFIX + "genre ")
+            gameGenreMessage = message.content.split(PREFIX + "genre ")
 
-            if(len(game_genre_message) == 1):
+            if(len(gameGenreMessage) == 1):
                 await message.channel.send(messages.commandAlert()[1])
             else:
-                game_genre = game_genre_message[1]
+                gameGenreToSearch = gameGenreMessage[1]
 
                 # Mensagem de busca, com efeito de carregamento.
-                message_content = messages.searchMessage()[2]
-                search_genre_message = await message.channel.send(message_content + " __"+ game_genre +"__ .**")
+                messageContent      = messages.searchMessage()[2]
+                searchGenreMessage = await message.channel.send(messageContent + " __"+ gameGenreToSearch +"__ .**")
                 
                 sleep(0.5)
-                await search_genre_message.edit(content=message_content + " __" + game_genre + "__ . .**")
+                await searchGenreMessage.edit(content=messageContent + " __" + gameGenreToSearch + "__ . .**")
                 
                 sleep(0.5)
-                await search_genre_message.edit(content=message_content + " __" + game_genre + "__ . . .**")
+                await searchGenreMessage.edit(content=messageContent + " __" + gameGenreToSearch + "__ . . .**")
 
                 (
                     gameName, 
@@ -612,23 +620,23 @@ async def on_message(message):
                     gameOriginalPrice , 
                     gameFinalPrice, 
                     gameIMG
-                ) = await catchOffers.getGameRecommendationByGenre(game_genre)
+                ) = await catchOffers.getGameRecommendationByGenre(gameGenreToSearch)
 
                 if(gameName != None):
                     embedGameRecommendationByGenre = discord.Embed(
-                        title = messages.title(genre=game_genre)[5],
+                        title = messages.title(genre=gameGenreToSearch)[5],
                         color = COLOR
                     )
                     embedGameRecommendationByGenre.set_image(url=gameIMG)
                     embedGameRecommendationByGenre.add_field(
-                        name="**Nome:**", 
-                        value="**{}**".format(gameName), 
-                        inline=False
+                        name   = "**Nome:**", 
+                        value  = "**{}**".format(gameName), 
+                        inline = False
                     )
                     embedGameRecommendationByGenre.add_field(
-                        name="**Link:**", 
-                        value="**[Clique Aqui]({})**".format(gameURL), 
-                        inline=False
+                        name   = "**Link:**", 
+                        value  = "**[Clique Aqui]({})**".format(gameURL), 
+                        inline = False
                     )
 
                     if(
@@ -636,54 +644,54 @@ async def on_message(message):
                         (gameOriginalPrice != "Gratuiro p/ Jogar")
                     ):
                         embedGameRecommendationByGenre.add_field(
-                            name="**Preço:**", 
-                            value="**{}**".format(gameOriginalPrice), 
-                            inline=True
+                            name   = "**Preço:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = True
                         )
                     else:
                         if(gameOriginalPrice != "Gratuiro p/ Jogar"):
                             embedGameRecommendationByGenre.add_field(
-                                name="**Preço Original:**", 
-                                value="**{}**".format(gameOriginalPrice), 
-                                inline=True
+                                name   = "**Preço Original:**", 
+                                value  = "**{}**".format(gameOriginalPrice), 
+                                inline = True
                             )
                             embedGameRecommendationByGenre.add_field(
-                                name="**Preço com Desconto:**", 
-                                value="**{}**".format(gameFinalPrice), 
-                                inline=True
+                                name   = "**Preço com Desconto:**", 
+                                value  = "**{}**".format(gameFinalPrice), 
+                                inline = True
                             )
                         else:
                             embedGameRecommendationByGenre.add_field(
-                                name="**Preço:**", 
-                                value="**{}**".format(gameOriginalPrice), 
-                                inline=True
+                                name   = "**Preço:**", 
+                                value  = "**{}**".format(gameOriginalPrice), 
+                                inline = True
                             )
 
-                    await search_genre_message.edit(content="", embed=embedGameRecommendationByGenre)
+                    await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
                 else:
-                    await search_genre_message.edit(content=messages.noOffers()[3])
+                    await searchGenreMessage.edit(content=messages.noOffers()[3])
 
         if(
             message.content.lower().startswith(PREFIX + "maxprice")
         ):
-            max_price_message = message.content.split(PREFIX + "maxprice ")
-            max_price = max_price_message[1]
+            maxPriceMessage = message.content.split(PREFIX + "maxprice ")
+            maxPrice         = maxPriceMessage[1]
             
-            if(max_price_message[1].isnumeric()):
+            if(maxPriceMessage[1].isnumeric()):
                 # Mensagem de busca de jogo, com efeito de carregamento.
-                message_content = messages.searchMessage()[3]
-                search_game_message = await message.channel.send(message_content + " "+ max_price + "__ .**")
+                messageContent = messages.searchMessage()[3]
+                searchGameMessage = await message.channel.send(messageContent + " "+ maxPrice + "__ .**")
                 
                 sleep(0.5)
-                await search_game_message.edit(content=message_content + " " + max_price + "__ . .**")
+                await searchGameMessage.edit(content=messageContent + " " + maxPrice + "__ . .**")
                 
                 sleep(0.5)
-                await search_game_message.edit(content=message_content + " "+ max_price + "__ . . .**")
+                await searchGameMessage.edit(content=messageContent + " "+ maxPrice + "__ . . .**")
 
-                if(int(max_price_message[1]) > 120):
-                    max_price = "rZ04j"
-                elif(int(max_price_message[1]) < 10):
-                    max_price = "19Jfc"
+                if(int(maxPriceMessage[1]) > 120):
+                    maxPrice = "rZ04j"
+                elif(int(maxPriceMessage[1]) < 10):
+                    maxPrice = "19Jfc"
                 
                 (
                     gameName,
@@ -692,7 +700,7 @@ async def on_message(message):
                     gameOriginalPrice,
                     gameFinalPrice
                     
-                ) = await catchOffers.getGameRecommendationByPriceRange(max_price)
+                ) = await catchOffers.getGameRecommendationByPriceRange(maxPrice)
 
                 embedGameRecommendationByPrice = discord.Embed(
                     title = messages.title(gameName=gameName)[6],
@@ -723,16 +731,16 @@ async def on_message(message):
                         inline=False
                     )
 
-                if(int(max_price_message[1]) > 120):
+                if(int(maxPriceMessage[1]) > 120):
                     embedGameRecommendationByPrice.set_footer(
                         text=messages.recommendationByPrice()[1]
                     )
-                elif(int(max_price_message[1]) < 10):
+                elif(int(maxPriceMessage[1]) < 10):
                     embedGameRecommendationByPrice.set_footer(
                         text=messages.recommendationByPrice()[2]
                     )
                 
-                await search_game_message.edit(content="", embed=embedGameRecommendationByPrice)
+                await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
             else:
                 await message.channel.send(messages.recommendationByPrice()[0])
 
