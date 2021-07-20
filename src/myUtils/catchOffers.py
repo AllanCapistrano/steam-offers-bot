@@ -565,7 +565,7 @@ class CatchOffers:
         else:
             temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
             
-            if(not temp.isnumeric()):
+            if(not temp.replace("R$", "").split(",")[0].isnumeric()):
                 return "Não disponível!"
             
             if(temp.find('Gratuito') != -1):
@@ -587,13 +587,11 @@ class CatchOffers:
         """
         
         if(haveDiscount):
-            temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[3])
-
-            return temp
+            return  sub(r"\s+", "" , soup.find(class_='search_price').contents[3])
         else:
             temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
 
-            if(not temp.isnumeric()):
+            if(not temp.replace("R$", "").split(",")[0].isnumeric()):
                 return "Não disponível!"
             
             if(temp.find('Gratuito') != -1):
