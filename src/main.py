@@ -2,9 +2,9 @@ import asyncio
 import discord
 from time import sleep
 
-from myUtils.catchOffers import CatchOffers
-from myUtils import messages
-from myUtils import discordToken
+from services.catchOffers import CatchOffers
+from services import messages
+from services import discordToken
 
 # ------------------------------ Constants ----------------------------------- #
 PREFIX = "$"

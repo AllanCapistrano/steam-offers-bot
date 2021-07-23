@@ -4,9 +4,9 @@ import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 
-from myUtils.tabContent import TabContent
-from myUtils.tabContentRow import TabContentRow
-from myUtils.genreFormatting import genreFormatting
+from services.tabContent import TabContent
+from services.tabContentRow import TabContentRow
+from services.genreFormatting import genreFormatting
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
