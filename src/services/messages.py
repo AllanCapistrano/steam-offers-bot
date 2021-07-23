@@ -129,7 +129,7 @@ def infoValues() -> list:
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ArticZ#1081**") # Informações.
-    msgList.append("20 de Julho de 2021") # Data da última atualização.
+    msgList.append("23 de Julho de 2021") # Data da última atualização.
 
     return msgList
 
@@ -144,6 +144,7 @@ def status(prefix: str, numServers: int) -> list:
     statusList = []
 
     statusList.append("{}help | {} Servidores".format(prefix, numServers))
+    statusList.append("{}help genre | {} Servidores".format(prefix, numServers))
     statusList.append("{}destaque | {} Servidores".format(prefix, numServers))
     statusList.append("{}promocao | {} Servidores".format(prefix, numServers))
     statusList.append("{}botinfo | {} Servidores".format(prefix, numServers))
