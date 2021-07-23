@@ -52,57 +52,57 @@ async def on_message(message):
                     icon_url = client.user.avatar_url
                 )
                 embedHelp.add_field(
-                    name   = "```$promocao``` ou ```$pr```",
+                    name   = "```{}promocao``` ou ```{}pr```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[0], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$destaque``` ou ```$dt```",
+                    name   = "```{}destaque``` ou ```{}dt```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[1], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$novidades``` ou ```$populares``` ou ```$np```",
+                    name   = "```{}novidades``` ou ```{}populares``` ou ```{}np```".format(PREFIX, PREFIX, PREFIX),
                     value  = messages.helpValues()[2], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$maisvendidos``` ou ```$mv```",
+                    name   = "```{}maisvendidos``` ou ```{}mv```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[3], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$jogospopulares``` ou ```$jp```",
+                    name   = "```{}jogospopulares``` ou ```{}jp```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[4], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$prevenda``` ou ```$pv```",
+                    name   = "```{}prevenda``` ou ```{}pv```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[5], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$convite```",
+                    name   = "```{}convite```".format(PREFIX),
                     value  = messages.helpValues()[6], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$botinfo```",
+                    name   = "```{}botinfo```".format(PREFIX),
                     value  = messages.helpValues()[7], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$game [nome do jogo]```",
+                    name   = "```{}game [nome do jogo]```".format(PREFIX),
                     value  = messages.helpValues()[8], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$genre [gênero do jogo]```",
+                    name   = "```{}genre [gênero do jogo]```".format(PREFIX),
                     value  = messages.helpValues()[9], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```$maxprice [preço]```",
+                    name   = "```{}maxprice [preço]```".format(PREFIX),
                     value  = messages.helpValues()[10], 
                     inline = False
                 )
