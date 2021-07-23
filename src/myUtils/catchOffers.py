@@ -4,14 +4,16 @@ import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 
+
 from myUtils.tabContent import TabContent
 from myUtils.tabContentRow import TabContentRow
+from myUtils.genreFormatting import genreFormatting
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
 URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
-URL_GENRE = 'https://store.steampowered.com/tags/pt-br/'
+URL_GENRE = 'https://store.steampowered.com/category/'
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 # ---------------------------------------------------------------------------- #
 class CatchOffers:
@@ -624,22 +626,12 @@ class CatchOffers:
             Imagem do jogo.
         """
         
-        # Convertendo o gênero para lower case
-        genre = genre.lower()
-
-        if(genre == 'acao'):
-            genre = 'ação'
-        elif(genre == 'estrategia'):
-            genre = 'estratégia'
-        elif(genre == 'multijogador massivo'):
-            genre = 'multijogador%20massivo'
-        elif(genre == 'simulacao'):
-            genre = 'simulação'
+        genre = genreFormatting(genre)
 
         pos           = randint(0, len(TabContent) - 1)
         tabContent    = TabContent(pos).name
         tabContentRow = TabContentRow(pos).name
-        url           = URL_GENRE + '{}/?cc=br#p=0&tab={}'.format(genre, tabContent)
+        url           = URL_GENRE + '{}/?l=brazilian&cc=br#p=0&tab={}'.format(genre, tabContent)
 
         try:
             (
