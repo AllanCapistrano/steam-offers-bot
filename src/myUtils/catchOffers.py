@@ -4,7 +4,6 @@ import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 
-
 from myUtils.tabContent import TabContent
 from myUtils.tabContentRow import TabContentRow
 from myUtils.genreFormatting import genreFormatting
