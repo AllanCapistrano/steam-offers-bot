@@ -114,58 +114,14 @@ async def on_message(message):
                     embedHelp = discord.Embed(
                         title = messages.title()[4],
                         color = COLOR,
+                        description = messages.gameGenres()
                     )
                     embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[0], 
-                        value  = messages.gameGenres()[0], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[1], 
-                        value  = messages.gameGenres()[1], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[2], 
-                        value  = messages.gameGenres()[2], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[3], 
-                        value  = messages.gameGenres()[3], 
+                        name   = "Ficou confuso(a) ?",
+                        value  = messages.helpValues()[11],
                         inline = False
                     )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[4], 
-                        value  = messages.gameGenres()[4], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[5], 
-                        value  = messages.gameGenres()[5], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[6], 
-                        value  = messages.gameGenres()[6], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[7], 
-                        value  = messages.gameGenres()[7], 
-                        inline = False
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[8], 
-                        value  = messages.gameGenres()[8], 
-                        inline = True
-                    )
-                    embedHelp.add_field(
-                        name   = messages.emojisGameGenres()[9], 
-                        value  = messages.gameGenres()[9], 
-                        inline = True
-                    )
-                    embedHelp.set_footer(text="Utilize $genre [um dos gêneros acima]")
+                    embedHelp.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(PREFIX))
 
                     await message.channel.send(embed=embedHelp)
                 else:
