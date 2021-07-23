@@ -1,5 +1,8 @@
 from random import randint
 
+PREFIX = "$"
+IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
+
 def randomMessage(msg: list) -> str:
     """ Função retornar uma mensagem aleatória.
 
@@ -38,8 +41,8 @@ def noOffers() -> list:
     # Mensagem de gênero do jogo.
     msgList.append(
         "😟 **Gênero não encontrado! Por favor verifique o que foi digitado ou " + \
-        "utilize o comando `$help genre` para verificar a lista completa dos " + \
-        "gêneros disponíveis.**"
+        "utilize o comando `{}help genre` para verificar ".format(PREFIX) + \
+        "a lista completa dos gêneros disponíveis.**"
     )
 
     return msgList
@@ -107,6 +110,7 @@ def helpValues() -> list:
     msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
     msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
     msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
+    msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(IMG_GENRES))
 
     return msgList
 
@@ -160,8 +164,8 @@ def commandAlert() -> list:
     
     alertList = []
 
-    alertList.append("⚠️ **Informe o nome do jogo! Ex: `$game undertale`**")
-    alertList.append("⚠️ **Informe o gênero do jogo! Ex: `$genre casual`**")
+    alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}game undertale`**".format(PREFIX))
+    alertList.append("⚠️ **Informe o gênero do jogo! Ex: `{}genre casual`**".format(PREFIX))
     alertList.append("⚠️ **Comando inválido!**")
 
     return alertList
@@ -180,51 +184,28 @@ def wrongGame(url: str) -> str:
 
     return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
 
-def gameGenres() -> list:
+def gameGenres() -> str:
     """ Gêneros dos jogos.
 
     Returns
     -----------
-    genreList: :class:`list`
+    genres: :class:`str`
     """
     
-    genreList = []
-
-    genreList.append("**Aventura**")
-    genreList.append("**Ação**")
-    genreList.append("**Casual**")
-    genreList.append("**Corrida**")
-    genreList.append("**Esportes**")
-    genreList.append("**Estratégia**")
-    genreList.append("**Indie**")
-    genreList.append("**Multijogador Massivo**")
-    genreList.append("**RPG**")
-    genreList.append("**Simulação**")
-
-    return genreList
-
-def emojisGameGenres() -> list:
-    """ Emojis dos gêneros dos jogos.
-
-    Returns
-    -----------
-    emojisList: :class:`list`
-    """
-    
-    emojisList = []
-    
-    emojisList.append("🤠")
-    emojisList.append("🔫")
-    emojisList.append("💻")
-    emojisList.append("🏎️")
-    emojisList.append("🏆")
-    emojisList.append("🧠")
-    emojisList.append("🕹️")
-    emojisList.append("🌐")
-    emojisList.append("🧙")
-    emojisList.append("🖱️")
-
-    return emojisList
+    return "`Ação`, `Arcade e Ritmo`, `Luta e Artes Marciais`, `Plataformas e " + \
+        "Corridas Intermináveis`, `Porradaria`, `Roguelike de Ação`, `Tiro em " + \
+        "Terceira pessoa` ou `TPS`, `Tiro em Primeira Pessoa` ou `FPS`, `RPG`, " + \
+        "`JRPG`, `RPG de Ação`, `RPG de Estratégia`, `RPGs de Aventura`, `RPGs em " + \
+        "Grupos`, `RPGs em Turnos`, `Roguelike`, `Estratégia`, `Cidades e Colônias`, " + \
+        "`Defesa de Torres`, `Estratégia Baseada em Turnos`, `Estratégia em Tempo " + \
+        "Real` ou `RTS`, `Grande Estratégia e 4X`, `Militar`, `Tabuleiro e Cartas`, " + \
+        "`Aventura e Casual`, `Aventura`, `Casuais`, `Metroidvania`, `Quebra-Cabeça`, " + \
+        "`Romance Visual`, `Trama Excepcional`, `Simulador`, `Construção e Automação`, " + \
+        "`Encontros`, `Espaço e Aviação`, `Física e Faça o que quiser`, `Gestão " + \
+        "de Negócios`, `Rurais e de Fabricação`, `Vida e Imersivos`, `Esporte e " + \
+        "Corrida`, `Corrida`, `Esporte em Equipe`, `Esportes`, `Esportes " + \
+        "Individuais`, `Pescaria e Caça`, `Simuladores de Esporte`, `Simulação " + \
+        "de Corrida`"
 
 def searchMessage() -> list:
     """ Mensagens de busca.
