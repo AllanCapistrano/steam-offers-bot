@@ -194,6 +194,24 @@ class CatchOffers:
         images   = thread1.result()
         contents = thread2.result()
 
+        # Verificação se todos os destaque possuem descrição.
+        if(len(urls) != len(contents)):
+            noMatches = []
+
+            for i in range(0, len(urls)):
+                for j in range(0, len(contents)):
+                    if(urls[i]["id"] == contents[j]["id"]):
+                        break
+                    noMatches.append(i)
+
+            for index in noMatches:
+                tempDict = {
+                    "id": urls[index]["id"],
+                    "value": "Indisponível"
+                }
+
+                contents.insert(index, tempDict)
+
         return urls, images, contents
     
     def __getSpotlightUrls__(self, soup: BeautifulSoup) -> list:
@@ -212,7 +230,12 @@ class CatchOffers:
         urls = []
 
         for spotlightGames in soup.find_all('div', class_='spotlight_img'):
-            urls.append(spotlightGames.contents[1].attrs['href'])
+            urlDict = {
+                "id": spotlightGames.parent.attrs["id"], 
+                "value": spotlightGames.contents[1].attrs['href']
+            }
+
+            urls.append(urlDict)
 
         return urls
 
@@ -252,7 +275,12 @@ class CatchOffers:
         contents = []
 
         for spotlightGames in soup.find_all('div', class_='spotlight_content'):
-            contents.append(spotlightGames.contents[1].contents[0])
+            contentDict = {
+                "id": spotlightGames.parent.attrs["id"], 
+                "value": spotlightGames.contents[1].contents[0]
+            }
+
+            contents.append(contentDict)
 
         return contents
     # ------------------------------------------------------------------------ #

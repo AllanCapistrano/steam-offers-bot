@@ -176,12 +176,12 @@ async def on_message(message):
                     embedSpotlightGames.set_image(url=gamesImages[x - 1])
                     embedSpotlightGames.add_field(
                         name   = "**Link:**", 
-                        value  = "**[Clique Aqui]({})**".format(gamesUrls[x - 1]), 
+                        value  = "**[Clique Aqui]({})**".format(gamesUrls[x - 1]["value"]), 
                         inline = False
                     )
                     embedSpotlightGames.add_field(
                         name   = "**Descrição:**", 
-                        value  = "**{}**".format(gamesContents[x - 1]), 
+                        value  = "**{}**".format(gamesContents[x - 1]["value"]), 
                         inline = False
                     )
 
