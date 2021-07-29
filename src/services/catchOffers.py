@@ -202,7 +202,9 @@ class CatchOffers:
                 for j in range(0, len(contents)):
                     if(urls[i]["id"] == contents[j]["id"]):
                         break
-                    noMatches.append(i)
+                    # Somente quando não foi encontrado.
+                    if(j == len(contents) - 1):
+                        noMatches.append(i)
 
             for index in noMatches:
                 tempDict = {
