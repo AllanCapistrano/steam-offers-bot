@@ -13,6 +13,10 @@ from services.DailyGames.getDailyGamesImages import getDailyGamesImages
 from services.DailyGames.getDailyGamesOriginalPrice import getDailyGamesOriginalPrice
 from services.DailyGames.getDailyGamesFinalPrice import getDailyGamesFinalPrice
 
+from services.SpotlightOffers.getSpotlightUrls import getSpotlightUrls
+from services.SpotlightOffers.getSpotlightImages import getSpotlightImages
+from services.SpotlightOffers.getSpotlightContents import getSpotlightContents
+
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
@@ -93,9 +97,9 @@ class CatchOffers:
         soup = self.reqUrl(URL_SPECIALS)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            thread0 = executor.submit(self.__getSpotlightUrls__, soup)
-            thread1 = executor.submit(self.__getSpotlightImages__, soup)
-            thread2 = executor.submit(self.__getSpotlightContents__, soup)
+            thread0 = executor.submit(getSpotlightUrls, soup)
+            thread1 = executor.submit(getSpotlightImages, soup)
+            thread2 = executor.submit(getSpotlightContents, soup)
 
         urls     = thread0.result()
         images   = thread1.result()
@@ -122,76 +126,6 @@ class CatchOffers:
                 contents.insert(index, tempDict)
 
         return urls, images, contents
-    
-    def __getSpotlightUrls__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as urls dos jogos
-        que estão em destaque.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        urls: :class:`list`
-        """
-
-        urls = []
-
-        for spotlightGames in soup.find_all('div', class_='spotlight_img'):
-            urlDict = {
-                "id": spotlightGames.parent.attrs["id"], 
-                "value": spotlightGames.contents[1].attrs['href']
-            }
-
-            urls.append(urlDict)
-
-        return urls
-
-    def __getSpotlightImages__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as imagens dos 
-        jogos que estão em destaque.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        images: :class:`list`
-        """
-        
-        images = []
-
-        for spotlightGames in soup.find_all('div', class_='spotlight_img'):
-            images.append(spotlightGames.contents[1].contents[1].attrs['src'])
-
-        return images
-
-    def __getSpotlightContents__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as informações dos 
-        jogos que estão em destaque.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        contents: :class:`list`
-        """
-        
-        contents = []
-
-        for spotlightGames in soup.find_all('div', class_='spotlight_content'):
-            contentDict = {
-                "id": spotlightGames.parent.attrs["id"], 
-                "value": spotlightGames.contents[1].contents[0]
-            }
-
-            contents.append(contentDict)
-
-        return contents
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Tab Content ---------------------------------- #
