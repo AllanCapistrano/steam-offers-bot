@@ -17,6 +17,13 @@ from services.SpotlightOffers.getSpotlightUrls import getSpotlightUrls
 from services.SpotlightOffers.getSpotlightImages import getSpotlightImages
 from services.SpotlightOffers.getSpotlightContents import getSpotlightContents
 
+from services.TabContent.getTabContentNames import getTabContentNames
+from services.TabContent.getTabContentUrls import getTabContentUrls
+from services.TabContent.getTabContentHasPrice import getTabContentHasPrice
+from services.TabContent.getTabContentOriginalPrices import getTabContentOriginalPrices
+from services.TabContent.getTabContentFinalPrices import getTabContentFinalPrices
+from services.TabContent.getTabContentImages import getTabContentImages
+
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
@@ -156,13 +163,13 @@ class CatchOffers:
 
         for tabContent in soup.find_all('div', id=divId):
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                thread0 = executor.submit(self.__getTabContentNames__, tabContent)
-                thread1 = executor.submit(self.__getTabContentUrls__, tabContent)
-                thread2 = executor.submit(self.__getTabContentHasPrice__, tabContent)
-                thread3 = executor.submit(self.__getTabContentOriginalPrices__, tabContent)
-                thread4 = executor.submit(self.__getTabContentFinalPrices__, tabContent)
-                thread5 = executor.submit(self.__getTabContentImages__, tabContent)
-
+                thread0 = executor.submit(getTabContentNames, tabContent)
+                thread1 = executor.submit(getTabContentUrls, tabContent)
+                thread2 = executor.submit(getTabContentHasPrice, tabContent)
+                thread3 = executor.submit(getTabContentOriginalPrices, tabContent)
+                thread4 = executor.submit(getTabContentFinalPrices, tabContent)
+                thread5 = executor.submit(getTabContentImages, tabContent)
+                
             names                          = thread0.result()
             urls                           = thread1.result()
             (hasPrice, gameWithoutPricing) = thread2.result()
@@ -179,153 +186,6 @@ class CatchOffers:
                     finalPrices.insert(x, 'Preço indisponível!')
 
         return names, urls, originalPrices, finalPrices, images
-
-    def __getTabContentNames__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os nomes dos jogos
-        que estão em uma aba específica.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        names: :class:`list`
-        """
-        
-        names = []
-
-        for tabContent in soup.find_all('div', class_='tab_item_name'):
-            names.append(tabContent.contents[0])
-
-        return names
-    
-    def __getTabContentUrls__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as urls dos jogos
-        que estão em uma aba específica.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        urls: :class:`list`
-        """
-        
-        urls = []
-
-        for tabContent in soup.find_all('a', class_='tab_item'):
-            urls.append(tabContent.attrs['href'])
-
-        return urls
-    
-    def __getTabContentHasPrice__(self, soup: BeautifulSoup) -> tuple[list, bool]:
-        """ Função responsável por retornar uma lista que indica a posição dos
-        jogos que não possuem nenhuma precificação (caso exista).
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        hasPrice: :class:`list`
-        gameWithoutPricing: :class:`bool`
-        """
-        
-        hasPrice           = []
-        gameWithoutPricing = False
-
-        for tabContent in soup.find_all('div', class_='discount_block'):
-            try:
-                tabContent['class'].index("empty")
-                hasPrice.append(False)
-                
-                gameWithoutPricing = True
-            except:
-                hasPrice.append(True)
-
-        return hasPrice, gameWithoutPricing
-    
-    def __getTabContentOriginalPrices__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os preços 
-        originais dos jogos que estão em uma aba específica.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        orginalPrices: :class:`list`
-        """
-        
-        orginalPrices = []
-
-        for tabContent in soup.find_all('div', class_='discount_prices'):                
-            if(len(tabContent) == 2):
-                orginalPrices.append(tabContent.contents[0].contents[0])
-            elif(len(tabContent) == 1):
-                temp = tabContent.contents[0].contents[0]
-
-                if(temp.find('Free to Play') != -1 or temp.find('Free') != -1):
-                    temp = "Gratuiro p/ Jogar"
-
-                orginalPrices.append(temp)
-
-        return orginalPrices
-
-    def __getTabContentFinalPrices__(self, soup: BeautifulSoup) ->list:
-        """ Função responsável por retornar uma lista contendo os preços dos 
-        jogos com o desconto aplicado, que estão em uma aba específica.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        finalPrices: :class:`list`
-        """
-        
-        finalPrices = []
-
-        for tabContent in soup.find_all('div', class_='discount_prices'):                
-            if(len(tabContent) == 2):
-                finalPrices.append(tabContent.contents[1].contents[0])
-            elif(len(tabContent) == 1):
-                temp = tabContent.contents[0].contents[0]
-
-                if(temp.find('Free') != -1):
-                    temp = "Gratuiro p/ Jogar"
-
-                finalPrices.append(temp)
-
-        return finalPrices
-
-    def __getTabContentImages__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as imagens dos
-        jogos que estão em uma aba específica.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        images: :class:`list`
-        """
-        
-        images = []
-
-        for tabContent in soup.find_all('img', class_='tab_item_cap_img'):
-            # Alterando a resolução da imagem.
-            imgResized = tabContent.attrs['src'].replace("184x69", "231x87")
-
-            images.append(imgResized)
-
-        return images
     # ------------------------------------------------------------------------ #
 
     # ------------------------ Specific Game --------------------------------- #
