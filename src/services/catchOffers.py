@@ -1,4 +1,3 @@
-from re import sub
 from random import randint
 import concurrent.futures
 import requests
@@ -29,6 +28,12 @@ from services.SpecificGame.getSpecificGameImage import getSpecificGameImage
 from services.SpecificGame.getSpecificGameName import getSpecificGameName
 from services.SpecificGame.getSpecificGameOriginalPrice import getSpecificGameOriginalPrice
 from services.SpecificGame.getSpecificGameFinalPrice import getSpecificGameFinalPrice
+
+from services.RecommendationByPriceRange.getRecommendationByPriceRangeNames import getRecommendationByPriceRangeNames
+from services.RecommendationByPriceRange.getRecommendationByPriceRangeImages import getRecommendationByPriceRangeImages
+from services.RecommendationByPriceRange.getRecommendationByPriceRangeOriginalPrices import getRecommendationByPriceRangeOriginalPrices
+from services.RecommendationByPriceRange.getRecommendationByPriceRangeFinalPrices import getRecommendationByPriceRangeFinalPrices
+from services.RecommendationByPriceRange.getRecommendationByPriceRangeUrls import getRecommendationByPriceRangeUrls
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
@@ -337,12 +342,12 @@ class CatchOffers:
         gameFinalPrices  = []
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-                thread0 = executor.submit(self.__getRecommendationByPriceRangeNames__, soup)
-                thread1 = executor.submit(self.__getRecommendationByPriceRangeImages__, soup)
-                thread2 = executor.submit(self.__getRecommendationByPriceRangeOriginalPrices__, soup)
-                thread3 = executor.submit(self.__getRecommendationByPriceRangeFinalPrices__, soup)
-                thread4 = executor.submit(self.__getRecommendationByPriceRangeUrls__, soup)
-
+                thread0 = executor.submit(getRecommendationByPriceRangeNames, soup)
+                thread1 = executor.submit(getRecommendationByPriceRangeImages, soup)
+                thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup)
+                thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup)
+                thread4 = executor.submit(getRecommendationByPriceRangeUrls, soup)
+                
         gameNames        = thread0.result()
         gameImages       = thread1.result()
         gameOrinalPrices = thread2.result()
@@ -384,132 +389,4 @@ class CatchOffers:
         gameFinalPrice  = gameFinalPrices[number]
 
         return gameName, gameImage, gameUrl, gameOrinalPrice, gameFinalPrice
-
-    def __getRecommendationByPriceRangeNames__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os nomes dos jogos
-        que estão na faixa de preço especificada.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        names: :class:`list`
-        """
-        
-        names = []
-
-        for listDivGamesNames in soup.find_all('div', class_="search_name"):
-            for listSpanGamesNames in listDivGamesNames.find_all('span', class_="title"):
-                names.append(listSpanGamesNames.contents[0])
-
-        return names
-
-    def __getRecommendationByPriceRangeImages__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as imagens dos 
-        jogos que estão na faixa de preço especificada.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        images: :class:`list`
-        """
-        
-        images = []
-
-        for listDivGamesImages in soup.find_all('div', class_="search_capsule"):
-            for listImgGamesImages in listDivGamesImages.find_all('img'):
-                img = listImgGamesImages.attrs['srcset'].split(" ")[2]
-                images.append(img)
-
-        return images
-
-    def __getRecommendationByPriceRangeOriginalPrices__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os preços originais 
-        dos jogos que estão na faixa de preço especificada.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        originalPrices: :class:`list`
-        """
-        
-        originalPrices = []
-
-        for listDivGamesPrices in soup.find_all('div', class_='search_price'):
-            if(listDivGamesPrices.contents[0] == '\n'):
-                if(len(listDivGamesPrices.contents) == 4):
-                    
-                    for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
-                        originalPrices.append(listSpanGamesPrices.contents[0].contents[0])
-                else:
-                    originalPrices.append("Não disponível!")
-            else:
-                temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
-
-                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
-                    temp = "Gratuito para jogar"
-                    
-                originalPrices.append(temp)
-
-        return originalPrices
-
-    def __getRecommendationByPriceRangeFinalPrices__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os preços com 
-        desconto dos jogos que estão na faixa de preço especificada.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        finalPrices: :class:`list`
-        """
-        
-        finalPrices = []
-
-        for listDivGamesPrices in soup.find_all('div', class_='search_price'):
-            if(listDivGamesPrices.contents[0] == '\n'):
-                if(len(listDivGamesPrices.contents) == 4):
-                    temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
-                    finalPrices.append(temp)
-                else:
-                    finalPrices.append("Não disponível!")
-            else:
-                temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
-
-                if(temp == "Gratuitoparajogar" or temp == "Gratuitop/Jogar"):
-                    temp = "Gratuito para jogar"
-                    
-                finalPrices.append(temp)
-
-        return finalPrices
-
-    def __getRecommendationByPriceRangeUrls__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as urls dos jogos 
-        que estão na faixa de preço especificada.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        urls: :class:`list`
-        """
-        
-        urls = []
-
-        for listAGamesUrls in soup.find_all('a', class_="search_result_row"):
-            urls.append(listAGamesUrls.attrs['href'])
-
-        return urls
     # ------------------------------------------------------------------------ #
