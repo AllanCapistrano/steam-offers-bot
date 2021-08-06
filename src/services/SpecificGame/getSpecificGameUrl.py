@@ -1,15 +1,15 @@
 from bs4 import BeautifulSoup
 
 def getSpecificGameUrl(soup: BeautifulSoup) -> str:
-        """ Função responsável a url do jogo.
+    """ Função responsável a url do jogo.
 
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
+    Parameters
+    -----------
+    soup: :class:`BeautifulSoup`
 
-        Returns
-        -----------
-        url: :class:`str`
-        """
-        
-        return soup.attrs['href']
+    Returns
+    -----------
+    url: :class:`str`
+    """
+    
+    return soup.attrs['href']
