@@ -2,7 +2,7 @@ import asyncio
 import discord
 from time import sleep
 
-from services.catchOffers import CatchOffers
+from services.crawler import Crawler
 from services import messages
 from services import discordToken
 
@@ -18,7 +18,7 @@ intents = discord.Intents.default()
 intents.members = True
 
 client = discord.Client(intents=intents)
-catchOffers = CatchOffers()
+crawler = Crawler()
 
 @client.event
 async def on_ready():
@@ -160,7 +160,7 @@ async def on_message(message):
                 gamesUrls, 
                 gamesImages, 
                 gamesContents
-            ) = await catchOffers.getSpotlightOffers()
+            ) = await crawler.getSpotlightOffers()
             x = len(gamesUrls)
 
             if(x == 0):
@@ -219,7 +219,7 @@ async def on_message(message):
                 gamesImages,
                 gamesOriginalPrices,
                 gamesFinalPrices
-            ) = await catchOffers.getDailyGamesOffers()
+            ) = await crawler.getDailyGamesOffers()
             x = len(gamesUrls)
 
             if(x == 0):
@@ -306,7 +306,7 @@ async def on_message(message):
                 gamesOriginalPrices, 
                 gamesFinalPrices, 
                 gamesImages
-            ) = await catchOffers.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
+            ) = await crawler.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
             
             gamesNames.reverse() 
             gamesUrls.reverse() 
@@ -353,7 +353,7 @@ async def on_message(message):
                 gamesOriginalPrices, 
                 gamesFinalPrices, 
                 gamesImages
-            ) = await catchOffers.getTabContent(URL+'=TopSellers', 'TopSellersRows')
+            ) = await crawler.getTabContent(URL+'=TopSellers', 'TopSellersRows')
             
             gamesNames.reverse()
             gamesUrls.reverse()
@@ -400,7 +400,7 @@ async def on_message(message):
                 gamesOriginalPrices, 
                 gamesFinalPrices, 
                 gamesImages
-            ) = await catchOffers.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
+            ) = await crawler.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
             
             gamesNames.reverse()
             gamesUrls.reverse()
@@ -447,7 +447,7 @@ async def on_message(message):
                 gamesOriginalPrices, 
                 gamesFinalPrices, 
                 gamesImages
-            ) = await catchOffers.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
+            ) = await crawler.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
             
             gamesNames.reverse()
             gamesUrls.reverse()
@@ -509,7 +509,7 @@ async def on_message(message):
                     gameOriginalPrice,
                     gameFinalPrice,
                     searchUrl
-                ) = await catchOffers.getSpecificGame(gameNameToSearch)
+                ) = await crawler.getSpecificGame(gameNameToSearch)
 
                 if(gameName != None):
                     embedSpecificGame =  discord.Embed(
@@ -576,7 +576,7 @@ async def on_message(message):
                     gameOriginalPrice , 
                     gameFinalPrice, 
                     gameIMG
-                ) = await catchOffers.getGameRecommendationByGenre(gameGenreToSearch)
+                ) = await crawler.getGameRecommendationByGenre(gameGenreToSearch)
 
                 if(gameName != None):
                     embedGameRecommendationByGenre = discord.Embed(
@@ -656,7 +656,7 @@ async def on_message(message):
                     gameOriginalPrice,
                     gameFinalPrice
                     
-                ) = await catchOffers.getGameRecommendationByPriceRange(maxPrice)
+                ) = await crawler.getGameRecommendationByPriceRange(maxPrice)
 
                 embedGameRecommendationByPrice = discord.Embed(
                     title = messages.title(gameName=gameName)[6],

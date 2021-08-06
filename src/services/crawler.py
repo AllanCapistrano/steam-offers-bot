@@ -43,7 +43,7 @@ URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
 URL_GENRE = 'https://store.steampowered.com/category/'
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 # ---------------------------------------------------------------------------- #
-class CatchOffers:
+class Crawler:
     # ------------------------#- Request Url --------------------------------- #
     def reqUrl(self, url: str) -> BeautifulSoup:
         """ Função responsável por buscar as Urls.
