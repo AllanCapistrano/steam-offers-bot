@@ -8,6 +8,11 @@ from services.tabContent import TabContent
 from services.tabContentRow import TabContentRow
 from services.genreFormatting import genreFormatting
 
+from services.DailyGames.getDailyGamesUrls import getDailyGamesUrls
+from services.DailyGames.getDailyGamesImages import getDailyGamesImages
+from services.DailyGames.getDailyGamesOriginalPrice import getDailyGamesOriginalPrice
+from services.DailyGames.getDailyGamesFinalPrice import getDailyGamesFinalPrice
+
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
@@ -56,10 +61,10 @@ class CatchOffers:
         soup = self.reqUrl(URL_SPECIALS)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            thread0 = executor.submit(self.__getDailyGamesUrls__, soup)
-            thread1 = executor.submit(self.__getDailyGamesImages__, soup)
-            thread2 = executor.submit(self.__getDailyGamesOriginalPrice__, soup)
-            thread3 = executor.submit(self.__getDailyGamesFinalPrice__, soup)
+            thread0 = executor.submit(getDailyGamesUrls, soup)
+            thread1 = executor.submit(getDailyGamesImages, soup)
+            thread2 = executor.submit(getDailyGamesOriginalPrice, soup)
+            thread3 = executor.submit(getDailyGamesFinalPrice, soup)
             
 
         urls           = thread0.result()
@@ -68,104 +73,6 @@ class CatchOffers:
         finalPrices    = thread3.result()
 
         return urls, images, originalPrices, finalPrices
-
-    def __getDailyGamesUrls__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as urls dos jogos
-        que estão em promoção.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        urls: :class:`list`
-        """
-
-        urls = []
-
-        for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
-            urls.append(dailyGames.contents[1].attrs['href'])
-
-        return urls
-
-    def __getDailyGamesImages__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo as imagens dos 
-        jogos que estão em promoção.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        images: :class:`list`
-        """
-        
-        images = []
-
-        for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
-            images.append(dailyGames.contents[1].contents[1].attrs['src'])
-
-        return images
-
-    def __getDailyGamesOriginalPrice__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os preços originais
-        dos jogos que estão em promoção.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        originalPrices: :class:`list`
-        """
-        
-        originalPrices = []
-
-        for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
-            dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
-            temp = str(dailyGamesPrices).split('>')
-            
-            # Caso não tenha nenhum preço para o jogo.
-            try:
-                temp1 = temp[2].split('</div')
-            except:
-                temp1 = ["Não disponível!"]
-
-            originalPrices.append(temp1[0])
-
-        return originalPrices
-
-    def __getDailyGamesFinalPrice__(self, soup: BeautifulSoup) -> list:
-        """ Função responsável por retornar uma lista contendo os preços com o 
-        desconto aplicado dos jogos que estão em promoção.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        finalPrices: :class:`list`
-        """
-        
-        finalPrices = []
-
-        for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
-            dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
-            temp = str(dailyGamesPrices).split('>')
-            
-            # Caso não tenha nenhum preço para o jogo.
-            try:
-                temp1 = temp[4].split('</div')
-            except:
-                temp1 = ["Não disponível!"]
-
-            finalPrices.append(temp1[0])
-
-        return finalPrices
     # ------------------------------------------------------------------------ #
 
     # -------------------------- Spotlight ----------------------------------- #
