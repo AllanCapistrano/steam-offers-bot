@@ -34,7 +34,7 @@ from services.RecommendationByPriceRange.getRecommendationByPriceRangeImages imp
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeOriginalPrices import getRecommendationByPriceRangeOriginalPrices
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeFinalPrices import getRecommendationByPriceRangeFinalPrices
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeUrls import getRecommendationByPriceRangeUrls
-from services.RecommendationByPriceRange.verifyMaxPriceRange import verifyMaxPriceRange
+from services.RecommendationByPriceRange.verifyPriceRange import verifyPriceRange
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
@@ -355,7 +355,7 @@ class CatchOffers:
         gameFinalPrices  = thread3.result()
         gameUrls         = thread4.result()
 
-        index = verifyMaxPriceRange(maxPriceFloat, gameFinalPrices)
+        index = verifyPriceRange(maxPriceFloat, gameFinalPrices)
 
         gameName        = gameNames[index]
         gameImage       = gameImages[index]

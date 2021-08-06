@@ -1,6 +1,6 @@
 from random import randint
 
-def verifyMaxPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
+def verifyPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
     """Função que verifica se o jogo está na faixa de preço indicada, e retorna
     a posição da lista de um jogo que satisfaz essa faixa.
     
