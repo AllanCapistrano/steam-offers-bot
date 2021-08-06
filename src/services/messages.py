@@ -55,7 +55,7 @@ def checkDm() -> list:
     message: :class:`str`
     """
     
-    return "** Cheque sua DM** 😃"
+    return "** Cheque sua DM**"
 
 def title(genre: str = None , gameName: str = None) -> list:
     """ Títulos das embeds.
