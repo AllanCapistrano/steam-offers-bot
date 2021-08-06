@@ -24,6 +24,12 @@ from services.TabContent.getTabContentOriginalPrices import getTabContentOrigina
 from services.TabContent.getTabContentFinalPrices import getTabContentFinalPrices
 from services.TabContent.getTabContentImages import getTabContentImages
 
+from services.SpecificGame.getSpecificGameUrl import getSpecificGameUrl
+from services.SpecificGame.getSpecificGameImage import getSpecificGameImage
+from services.SpecificGame.getSpecificGameName import getSpecificGameName
+from services.SpecificGame.getSpecificGameOriginalPrice import getSpecificGameOriginalPrice
+from services.SpecificGame.getSpecificGameFinalPrice import getSpecificGameFinalPrice
+
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
@@ -221,11 +227,11 @@ class CatchOffers:
             haveDiscount = True if len(game.find(class_='search_price').contents) > 1 else False
 
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                thread0 = executor.submit(self.__getSpecifcGameUrl__, game)
-                thread1 = executor.submit(self.__getSpecifcGameImage__, game)
-                thread2 = executor.submit(self.__getSpecifcGameName__, game)
-                thread3 = executor.submit(self.__getSpecifcGameOriginalPrice__, game, haveDiscount)
-                thread4 = executor.submit(self.__getSpecifcGameFinalPrice__, game, haveDiscount)
+                thread0 = executor.submit(getSpecificGameUrl, game)
+                thread1 = executor.submit(getSpecificGameImage, game)
+                thread2 = executor.submit(getSpecificGameName, game)
+                thread3 = executor.submit(getSpecificGameOriginalPrice, game, haveDiscount)
+                thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount)
 
             url          = thread0.result()
             image        = thread1.result()
@@ -236,100 +242,6 @@ class CatchOffers:
             url = image = name = orginalPrice = orginalPrice = None
 
         return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20")
-
-    def __getSpecifcGameUrl__(self, soup: BeautifulSoup) -> str:
-        """ Função responsável a url do jogo.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        url: :class:`str`
-        """
-        
-        return soup.attrs['href']
-
-    def __getSpecifcGameImage__(self, soup: BeautifulSoup) -> str:
-        """ Função responsável a imagem do jogo.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        image: :class:`str`
-        """
-        
-        return soup.find('img').attrs['srcset'].split(" ")[2]
-
-    def __getSpecifcGameName__(self, soup: BeautifulSoup) -> str:
-        """ Função responsável por retornar o nome do jogo como está na Steam.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`
-
-        Returns
-        -----------
-        name: :class:`str`
-        """
-        
-        return soup.find(class_='search_name').contents[1].contents[0]
-
-    def __getSpecifcGameOriginalPrice__(self, soup: BeautifulSoup, haveDiscount: bool) -> str:
-        """ Função responsável o preço original do jogo.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`,
-        haveDiscount :class:`bool`
-
-        Returns
-        -----------
-        url: :class:`str`
-        """
-        
-        if(haveDiscount):
-            return soup.find(class_='search_price').contents[1].contents[0].contents[0]
-        else:
-            temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
-            
-            if(not temp.replace("R$", "").split(",")[0].isnumeric()):
-                return "Não disponível!"
-            
-            if(temp.find('Gratuito') != -1):
-                temp = "Gratuiro p/ Jogar"
-
-            return temp
-
-    def __getSpecifcGameFinalPrice__(self, soup: BeautifulSoup, haveDiscount: bool) -> str:
-        """ Função responsável o preço com desconto do jogo.
-
-        Parameters
-        -----------
-        soup: :class:`BeautifulSoup`,
-        haveDiscount :class:`bool`
-
-        Returns
-        -----------
-        url: :class:`str`
-        """
-        
-        if(haveDiscount):
-            return  sub(r"\s+", "" , soup.find(class_='search_price').contents[3])
-        else:
-            temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
-
-            if(not temp.replace("R$", "").split(",")[0].isnumeric()):
-                return "Não disponível!"
-            
-            if(temp.find('Gratuito') != -1):
-                temp = "Gratuiro p/ Jogar"
-
-            return temp
     # ------------------------------------------------------------------------ #
 
     # ---------------------- Recommendation By Genre ------------------------- #
