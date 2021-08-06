@@ -34,6 +34,7 @@ from services.RecommendationByPriceRange.getRecommendationByPriceRangeImages imp
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeOriginalPrices import getRecommendationByPriceRangeOriginalPrices
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeFinalPrices import getRecommendationByPriceRangeFinalPrices
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeUrls import getRecommendationByPriceRangeUrls
+from services.RecommendationByPriceRange.verifyMaxPriceRange import verifyMaxPriceRange
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
@@ -289,12 +290,12 @@ class CatchOffers:
                 gamesImages
             ) = await self.getTabContent(url, tabContentRow)
             
-            number            = randint(0, len(gamesNames) - 1)
-            gameName          = gamesNames[number]
-            gameUrl           = gamesUrls[number]
-            gameOriginalPrice = gamesOriginalPrices[number]
-            gameFinalPrice    = gamesFinalPrices[number]
-            gameImage         = gamesImages[number]
+            index            = randint(0, len(gamesNames) - 1)
+            gameName          = gamesNames[index]
+            gameUrl           = gamesUrls[index]
+            gameOriginalPrice = gamesOriginalPrices[index]
+            gameFinalPrice    = gamesFinalPrices[index]
+            gameImage         = gamesImages[index]
         except:
             gameName = gameUrl = gameOriginalPrice = gameFinalPrice = gameImage = None
 
@@ -352,41 +353,15 @@ class CatchOffers:
         gameImages       = thread1.result()
         gameOrinalPrices = thread2.result()
         gameFinalPrices  = thread3.result()
-        gameUrls        = thread4.result()
+        gameUrls         = thread4.result()
 
-        number = randint(0, len(gameNames) - 1)
+        index = verifyMaxPriceRange(maxPriceFloat, gameFinalPrices)
 
-        # Verificando se o jogo está na faixa de preço indicada.
-        # Isso é necessário, pois em alguns casos, mesmo definindo a faixa, a
-        # Steam deixa passar alguns jogos.
-        if(
-            gameFinalPrices[number] != "Gratuito para jogar" or 
-            gameFinalPrices[number] != "Não disponível!"
-        ):
-            if(maxPriceFloat != None):
-                while(True):
-                    temp = gameFinalPrices[number]
-
-                    if(
-                        temp == "Gratuito para jogar" or 
-                        temp == "Não disponível!"
-                    ):
-                        break
-
-                    temp1      = temp.split("R$")[1]
-                    finalPrice = float(temp1.replace(",", "."))
-                    
-                    if(finalPrice < maxPriceFloat):
-                        break
-                    
-                    number = randint(0, len(gameNames) - 1)
-                    
-
-        gameName        = gameNames[number]
-        gameImage       = gameImages[number]
-        gameUrl         = gameUrls[number]
-        gameOrinalPrice = gameOrinalPrices[number]
-        gameFinalPrice  = gameFinalPrices[number]
+        gameName        = gameNames[index]
+        gameImage       = gameImages[index]
+        gameUrl         = gameUrls[index]
+        gameOrinalPrice = gameOrinalPrices[index]
+        gameFinalPrice  = gameFinalPrices[index]
 
         return gameName, gameImage, gameUrl, gameOrinalPrice, gameFinalPrice
     # ------------------------------------------------------------------------ #
