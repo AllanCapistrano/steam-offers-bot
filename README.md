@@ -30,6 +30,17 @@ Bot criado para mostrar quais jogos estão em promoção, sem precisar sair do D
 
 ------------
 
+## 🤖 Feedback ##
+
+Caso utilize o Bot, não esqueça de avaliá-lo nas seguintes BotLists:
+
+- [Top gg](https://top.gg/bot/714852360241020929)
+- [Disbotlist](https://disbotlist.xyz/bot/714852360241020929)
+
+Toda e qualquer sugestão é bem-vinda, e pode ser enviada através do campo de comentários dos links anteriores ou pela da aba de [issues](https://github.com/AllanCapistrano/SteamOffersBot/issues).
+
+------------
+
 ## 📋 Lista de Comandos ##
 Comando | Descrição
 ------- | ---------
