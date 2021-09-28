@@ -84,7 +84,7 @@ Comando | Descrição
 
 ## 🙏 Apoie ##
 
-**Por favor ⭐️ este reporistório caso este projeto seja útil e/ou tenha lhe ajudado.**
+**Por favor ⭐️ este repositório caso este projeto seja útil e/ou tenha lhe ajudado.**
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/allancapistrano)
 
