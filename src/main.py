@@ -279,11 +279,14 @@ async def on_message(message):
             )
             embedBotInfo.add_field(
                 name   = "Sobre SteamOffersBot", 
-                value  = messages.infoValues()[2], 
+                value  = messages.infoValues()[2] + 
+                client.get_user(259443927441080330).name + "#" 
+                + client.get_user(259443927441080330).discriminator + "**", 
                 inline = False
             )
             embedBotInfo.set_author(
-                name     = "ArticZ#1081", 
+                name     = client.get_user(259443927441080330).name + "#" 
+                + client.get_user(259443927441080330).discriminator, 
                 icon_url = client.get_user(259443927441080330).avatar_url
             )
             embedBotInfo.set_footer(
