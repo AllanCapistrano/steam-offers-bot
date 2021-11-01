@@ -49,9 +49,9 @@ Comando | Descrição
 `$promocao` ou `$pr` | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
 `$destaque` ou `$dt` | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
 `$novidades` ou `$populares` ou `$np` | Exibe quais jogos da categoria **"Novidades Populares"** estão em promoção na loja.
-`$maisvendidos` ou `$mv` | Exibe quais jogos da categoria **"Mais Vendidos"** estão em promoção na loja.
-`$jogospopulares` ou `$jp` | Exibe quais jogos da categoria **"Jogos Populares"** estão em promoção na loja.
-`$prevenda` ou `$pv` | Exibe quais jogos da categoria **"Pré-venda"** estão em promoção na loja.
+`$mais vendidos` ou `$mv` | Exibe quais jogos da categoria **"Mais Vendidos"** estão em promoção na loja.
+`$jogos populares` ou `$jp` | Exibe quais jogos da categoria **"Jogos Populares"** estão em promoção na loja.
+`$pré-venda` ou `$pv` | Exibe quais jogos da categoria **"Pré-venda"** estão em promoção na loja.
 `$botinfo` | Exibe as informações do Bot.
 `$game [nome do jogo]` | Busca um jogo pelo nome e exibe as suas informações.
 `$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
