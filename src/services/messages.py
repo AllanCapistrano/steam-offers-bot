@@ -128,8 +128,8 @@ def infoValues() -> list:
     msgList.append("**1.7.2**") # Versão Discord.py
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
-        "Criado por ArticZ#1081**") # Informações.
-    msgList.append("06 de Agosto de 2021") # Data da última atualização.
+        "Criado por Naarumi#1081**") # Informações.
+    msgList.append("01 de Novembro de 2021") # Data da última atualização.
 
     return msgList
 
@@ -246,6 +246,9 @@ def recommendationByPrice() -> list:
     msgList.append(
         "A faixa mínima de preço para o filtro é de R$ 10,00. " + \
         "Logo o jogo acima está nessa faixa."
+    )
+    msgList.append(
+        "**É necessário informar uma faixa máxima de preço.**"
     )
 
     return msgList
