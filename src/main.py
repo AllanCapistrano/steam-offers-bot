@@ -34,14 +34,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
     
-    if(not message.author.bot):
+    if(not message.author.bot and message.content.lower().startswith(PREFIX)):
+        __command__ = message.content.lower().split(PREFIX)[1]
+        
         # Comando: $help ou $ajuda ou $comandos
         if(
-            message.content.lower().startswith(PREFIX + "help") or 
-            message.content.lower().startswith(PREFIX + "ajuda") or 
-            message.content.lower().startswith(PREFIX + "comandos")
+            __command__.find("help") == 0 or
+            __command__.find("ajuda") == 0 or
+            __command__.find("comandos") == 0
         ):
-            __help__ = message.content.split(" ")
+            __help__ = __command__.split(" ")
 
             if(len(__help__) != 2):
                 embedHelp = discord.Embed(
@@ -67,17 +69,17 @@ async def on_message(message):
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```{}maisvendidos``` ou ```{}mv```".format(PREFIX, PREFIX),
+                    name   = "```{}mais vendidos``` ou ```{}mv```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[3], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```{}jogospopulares``` ou ```{}jp```".format(PREFIX, PREFIX),
+                    name   = "```{}jogos populares``` ou ```{}jp```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[4], 
                     inline = False
                 )
                 embedHelp.add_field(
-                    name   = "```{}prevenda``` ou ```{}pv```".format(PREFIX, PREFIX),
+                    name   = "```{}pré-venda``` ou ```{}pv```".format(PREFIX, PREFIX),
                     value  = messages.helpValues()[5], 
                     inline = False
                 )
@@ -128,9 +130,9 @@ async def on_message(message):
                     await message.channel.send(messages.commandAlert()[2])
 
         # Comando: $invite ou $convite
-        if(
-            message.content.lower().startswith(PREFIX + "invite") or
-            message.content.lower().startswith(PREFIX + "convite")
+        elif(
+            __command__ == "invite" or
+            __command__ == "convite"
         ):
             embedInvite = discord.Embed(
                 title       = messages.title()[0],
@@ -142,9 +144,9 @@ async def on_message(message):
             await message.channel.send(embed=embedInvite)
 
         # Comando: $destaque ou $dt
-        if(
-            message.content.lower().startswith(PREFIX + "destaque") or 
-            message.content.lower().startswith(PREFIX + "dt")
+        elif(
+            __command__ == "destaque" or
+            __command__ == "dt"
         ):
             # Mensagem de busca, com efeito de carregamento.
             messageContent = messages.searchMessage()[0]
@@ -195,13 +197,10 @@ async def on_message(message):
                     x = x - 1
 
         # Comando: $promocao ou $pr
-        if(
-            message.content.lower().startswith(PREFIX + "promocao") or 
-            message.content.lower().startswith(PREFIX + "promoção") or 
-            (
-                message.content.lower().startswith(PREFIX + "pr") and
-                message.content == PREFIX + "pr"
-            )
+        elif(
+            __command__ == "promoção" or
+            __command__ == "promocao" or
+            __command__ == "pr"
         ):
 
             # Mensagem de busca, com efeito de carregamento.
@@ -259,9 +258,9 @@ async def on_message(message):
                     x = x - 1
 
         # Comando: $botinfo
-        if(
-            message.content.lower().startswith(PREFIX + "botinfo") or
-            message.content.lower().startswith(PREFIX + "info")
+        elif(
+            __command__ == "botinfo" or
+            __command__ == "info"
         ):
             embedBotInfo = discord.Embed(
                 title = messages.title()[3],
@@ -295,10 +294,10 @@ async def on_message(message):
             await message.channel.send(embed=embedBotInfo)
 
         # Comando: $novidades ou $populares ou $np
-        if(
-            message.content.lower().startswith(PREFIX + "novidades") or 
-            message.content.lower().startswith(PREFIX + "populares") or 
-            message.content.lower().startswith(PREFIX + "np")
+        elif(
+            __command__ == "novidades" or
+            __command__ == "populares" or
+            __command__ == "np"
         ):
             (
                 gamesNames, 
@@ -343,9 +342,10 @@ async def on_message(message):
                 await member.send(messageConcat1)
 
         # Comando: $maisvendidos ou $mv
-        if(
-            message.content.lower().startswith(PREFIX + "maisvendidos") or 
-            message.content.lower().startswith(PREFIX + "mv")
+        elif(
+            __command__ == "mais vendidos" or
+            __command__ == "maisvendidos" or
+            __command__ == "mv"
         ):
             (
                 gamesNames, 
@@ -390,9 +390,10 @@ async def on_message(message):
                 await member.send(messageConcat1)
 
         # Comando: $jogospopulares ou $jp
-        if(
-            message.content.lower().startswith(PREFIX + "jogospopulares") or 
-            message.content.lower().startswith(PREFIX + "jp")
+        elif(
+            __command__ == "jogos populares" or
+            __command__ == "jogospopulares" or
+            __command__ == "jp"
         ):
             (
                 gamesNames, 
@@ -437,9 +438,11 @@ async def on_message(message):
                 await member.send(messageConcat1)
 
         # Comando: $prevenda ou $pv
-        if(
-            message.content.lower().startswith(PREFIX + "prevenda") or 
-            message.content.lower().startswith(PREFIX + "pv")
+        elif(
+            __command__ == "pré-venda" or
+            __command__ == "pre-venda" or
+            __command__ == "prevenda" or
+            __command__ == "pv"
         ):
             (
                 gamesNames, 
@@ -484,8 +487,8 @@ async def on_message(message):
                 await member.send(messageConcat1)
 
         # Comando: $game
-        if(message.content.lower().startswith(PREFIX + "game")):
-            gameNameMessage = message.content.split(PREFIX + "game ")
+        elif(__command__.find("game") == 0):
+            gameNameMessage = __command__.split("game ")
 
             if(len(gameNameMessage) == 1):
                 await message.channel.send(messages.commandAlert()[0])
@@ -552,8 +555,8 @@ async def on_message(message):
                     await searchGameMessage.edit(content=messages.noOffers()[2])
 
         # Comando: $genre
-        if(message.content.lower().startswith(PREFIX + "genre")):
-            gameGenreMessage = message.content.split(PREFIX + "genre ")
+        elif(__command__.find("genre") == 0):
+            gameGenreMessage = __command__.split("genre ")
 
             if(len(gameGenreMessage) == 1):
                 await message.channel.send(messages.commandAlert()[1])
@@ -627,15 +630,15 @@ async def on_message(message):
                 else:
                     await searchGenreMessage.edit(content=messages.noOffers()[3])
 
-        if(
-            message.content.lower().startswith(PREFIX + "maxprice")
-        ):
-            maxPriceMessage = message.content.split(PREFIX + "maxprice ")
-            maxPrice         = maxPriceMessage[1]
+        # Comando: $maxprice
+        elif(__command__.find("maxprice") == 0):
+            maxPriceMessage = __command__.split("maxprice ")
             
-            if(maxPriceMessage[1].isnumeric()):
+            if(len(maxPriceMessage) == 2 and maxPriceMessage[1].isnumeric()):
+                maxPrice          = maxPriceMessage[1]
+
                 # Mensagem de busca de jogo, com efeito de carregamento.
-                messageContent = messages.searchMessage()[3]
+                messageContent    = messages.searchMessage()[3]
                 searchGameMessage = await message.channel.send(messageContent + " "+ maxPrice + "__ .**")
                 
                 sleep(0.5)
@@ -698,7 +701,13 @@ async def on_message(message):
                 
                 await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
             else:
-                await message.channel.send(messages.recommendationByPrice()[0])
+                if(len(maxPriceMessage) == 1):
+                    await message.channel.send(messages.recommendationByPrice()[3])
+                else:
+                    await message.channel.send(messages.recommendationByPrice()[0])
+        
+        else:
+            await message.channel.send(messages.commandAlert()[2]) 
 
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
