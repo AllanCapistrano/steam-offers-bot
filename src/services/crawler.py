@@ -36,6 +36,11 @@ from services.RecommendationByPriceRange.getRecommendationByPriceRangeFinalPrice
 from services.RecommendationByPriceRange.getRecommendationByPriceRangeUrls import getRecommendationByPriceRangeUrls
 from services.RecommendationByPriceRange.verifyPriceRange import verifyPriceRange
 
+from services.GameByLink.getGameByLinkName import getGameByLinkName
+from services.GameByLink.getGameByLinkImage import getGameByLinkImage
+from services.GameByLink.getGameByLinkOriginalPrice import getGameByLinkOriginalPrice
+from services.GameByLink.getGameByLinkFinalPrice import getGameByLinkFinalPrice
+
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
@@ -245,7 +250,7 @@ class Crawler:
             orginalPrice = thread3.result()
             finalPrice   = thread4.result()
         except:
-            url = image = name = orginalPrice = orginalPrice = None
+            url = image = name = orginalPrice = finalPrice = None
 
         return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20")
     # ------------------------------------------------------------------------ #
@@ -364,4 +369,41 @@ class Crawler:
         gameFinalPrice  = gameFinalPrices[index]
 
         return gameName, gameImage, gameUrl, gameOrinalPrice, gameFinalPrice
+    # ------------------------------------------------------------------------ #
+
+    # ------------------------- Game By Link --------------------------------- #
+    async def getGameByLink(self, url: str) -> tuple[str, str, str, str]:
+        """Função responsável por retornar um jogo com base no link enviado.
+
+        Parameters
+        -----------
+        url: :class:`str`
+            URL do jogo enviada.
+
+        Returns
+        -----------
+        name: :class:`str`
+            Nome do jogo.
+        image: :class:`str`
+            Imagem do jogo.
+        orginalPrice: :class:`str`
+            Preço original do jogo.
+        finalPrice: :class:`str`
+            Preço com desconto do jogo.
+        """
+        
+        soup = self.reqUrl(url + "?cc=br&l=brazilian")
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            thread0 = executor.submit(getGameByLinkName, soup)
+            thread1 = executor.submit(getGameByLinkImage, soup)
+            thread2 = executor.submit(getGameByLinkOriginalPrice, soup)
+            thread3 = executor.submit(getGameByLinkFinalPrice, soup)
+
+        name          = thread0.result()
+        image         = thread1.result()
+        orginalPrice  = thread2.result()
+        finalPrice    = thread3.result()
+
+        return name, image, orginalPrice, finalPrice
     # ------------------------------------------------------------------------ #
