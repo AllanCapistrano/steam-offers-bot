@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from re import sub
 
 def getSpecificGameFinalPrice(soup: BeautifulSoup, haveDiscount: bool) -> str:
-    """ Função responsável o preço com desconto do jogo.
+    """ Função responsável por retornar o preço com desconto do jogo.
 
     Parameters
     -----------
