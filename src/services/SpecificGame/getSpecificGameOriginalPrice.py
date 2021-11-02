@@ -20,7 +20,7 @@ def getSpecificGameOriginalPrice(soup: BeautifulSoup, haveDiscount: bool) -> str
         temp = sub(r"\s+", "" , soup.find(class_='search_price').contents[0])
 
         if(temp.find('Gratuito') != -1):
-            return "Gratuiro p/ Jogar"
+            return "Gratuito p/ Jogar"
         
         if(not temp.replace("R$", "").split(",")[0].isnumeric()):
             return "Não disponível!"
