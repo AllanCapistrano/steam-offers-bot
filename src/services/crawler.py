@@ -49,7 +49,7 @@ URL_GENRE = 'https://store.steampowered.com/category/'
 URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
 # ---------------------------------------------------------------------------- #
 class Crawler:
-    # ------------------------#- Request Url --------------------------------- #
+    # -------------------------- Request Url --------------------------------- #
     def reqUrl(self, url: str) -> BeautifulSoup:
         """ Função responsável por buscar as Urls.
 
@@ -67,6 +67,28 @@ class Crawler:
         soup = BeautifulSoup(r.text, 'lxml')
         
         return soup
+    # ------------------------------------------------------------------------ #
+
+    # -------------------------- Request Url --------------------------------- #
+    def getGameDescription(self, soup: BeautifulSoup) -> str:
+        """ Função responsável por retornar a descrição do jogo.
+
+        Parameters
+        -----------
+        soup: :class:`BeautifulSoup`,
+
+        Returns
+        -----------
+        description: :class:`str`
+        """
+
+        try:
+            temp = soup.find(class_="game_description_snippet").contents[0].strip()
+        except:
+            print("Unexpected error")
+            temp = None
+
+        return temp
     # ------------------------------------------------------------------------ #
 
     # -------------------------- Daily Games --------------------------------- #
@@ -206,7 +228,7 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------ Specific Game --------------------------------- #
-    async def getSpecificGame(self, gameName: str) -> tuple[str, str, str, str, str, str]:
+    async def getSpecificGame(self, gameName: str) -> tuple[str, str, str, str, str, str, str]:
         """Função responsável por retornar as informações e um jogo específico.
 
         Parameters
@@ -243,20 +265,25 @@ class Crawler:
                 thread2 = executor.submit(getSpecificGameName, game)
                 thread3 = executor.submit(getSpecificGameOriginalPrice, game, haveDiscount)
                 thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount)
+                thread5 = executor.submit(
+                    self.getGameDescription, 
+                    self.reqUrl(thread0.result() + "&l=brazilian")
+                )
 
             url          = thread0.result()
             image        = thread1.result()
             name         = thread2.result()
             orginalPrice = thread3.result()
             finalPrice   = thread4.result()
+            description  = thread5.result()
         except:
-            url = image = name = orginalPrice = finalPrice = None
+            url = image = name = orginalPrice = finalPrice = description = None
 
-        return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20")
+        return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20"), description
     # ------------------------------------------------------------------------ #
 
     # ---------------------- Recommendation By Genre ------------------------- #
-    async def getGameRecommendationByGenre(self, genre: str) -> tuple[list, list, list, list, list]:
+    async def getGameRecommendationByGenre(self, genre: str) -> tuple[str, str, str, str, str, str]:
         """Função responsável por recomendar um jogo com base em gênero 
         especificado.
 
@@ -372,7 +399,7 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game By Link --------------------------------- #
-    async def getGameByLink(self, url: str) -> tuple[str, str, str, str]:
+    async def getGameByLink(self, url: str) -> tuple[str, str, str, str, str]:
         """Função responsável por retornar um jogo com base no link enviado.
 
         Parameters
@@ -399,11 +426,16 @@ class Crawler:
             thread1 = executor.submit(getGameByLinkImage, soup)
             thread2 = executor.submit(getGameByLinkOriginalPrice, soup)
             thread3 = executor.submit(getGameByLinkFinalPrice, soup)
+            thread4 = executor.submit(
+                self.getGameDescription, 
+                soup
+            )
 
         name          = thread0.result()
         image         = thread1.result()
         orginalPrice  = thread2.result()
         finalPrice    = thread3.result()
+        description   = thread4.result()
 
-        return name, image, orginalPrice, finalPrice
+        return name, image, orginalPrice, finalPrice, description
     # ------------------------------------------------------------------------ #

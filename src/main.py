@@ -515,7 +515,8 @@ async def on_message(message):
                         gameIMG, 
                         gameOriginalPrice,
                         gameFinalPrice,
-                        searchUrl
+                        searchUrl,
+                        gameDescription
                     ) = await crawler.getSpecificGame(gameNameToSearch)
 
                     if(gameName != None):
@@ -545,6 +546,13 @@ async def on_message(message):
                             embedSpecificGame.add_field(
                                 name   = "**Preço:**", 
                                 value  = "**{}**".format(gameOriginalPrice), 
+                                inline = False
+                            )
+
+                        if(gameDescription != None):
+                            embedSpecificGame.add_field(
+                                name   = "**Descrição:**", 
+                                value  = "{}".format(gameDescription), 
                                 inline = False
                             )
 
@@ -662,7 +670,6 @@ async def on_message(message):
                         gameURL, 
                         gameOriginalPrice,
                         gameFinalPrice
-                        
                     ) = await crawler.getGameRecommendationByPriceRange(maxPrice)
 
                     embedGameRecommendationByPrice = discord.Embed(
@@ -727,6 +734,7 @@ async def on_message(message):
                         gameIMG, 
                         gameOriginalPrice,
                         gameFinalPrice,
+                        gameDescription
                     ) = await crawler.getGameByLink(gameURL)
 
                     embedGameBylink =  discord.Embed(
@@ -755,6 +763,13 @@ async def on_message(message):
                         embedGameBylink.add_field(
                             name   = "**Preço:**", 
                             value  = "**{}**".format(gameOriginalPrice), 
+                            inline = False
+                        )
+
+                    if(gameDescription != None):
+                        embedGameBylink.add_field(
+                            name   = "**Descrição:**", 
+                            value  = "{}".format(gameDescription), 
                             inline = False
                         )
 
