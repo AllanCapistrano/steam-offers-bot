@@ -52,7 +52,7 @@ async def on_message(message):
                         icon_url = client.user.avatar_url
                     )
                     embedHelp.add_field(
-                        name   = "```{}promocao``` ou ```{}pr```".format(PREFIX, PREFIX),
+                        name   = "```{}promoção``` ou ```{}pr```".format(PREFIX, PREFIX),
                         value  = messages.helpValues()[0], 
                         inline = False
                     )

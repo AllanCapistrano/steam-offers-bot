@@ -146,7 +146,7 @@ def status(prefix: str, numServers: int) -> list:
     statusList.append("{}help | {} Servidores".format(prefix, numServers))
     statusList.append("{}help genre | {} Servidores".format(prefix, numServers))
     statusList.append("{}destaque | {} Servidores".format(prefix, numServers))
-    statusList.append("{}promocao | {} Servidores".format(prefix, numServers))
+    statusList.append("{}promoção | {} Servidores".format(prefix, numServers))
     statusList.append("{}botinfo | {} Servidores".format(prefix, numServers))
     statusList.append("{}convite | {} Servidores".format(prefix, numServers))
     statusList.append("{}game [nome] | {} Servidores".format(prefix, numServers))
