@@ -14,10 +14,7 @@ URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 TOKEN = discordToken.myToken()
 # ---------------------------------------------------------------------------- #
 
-intents = discord.Intents.default()
-intents.members = True
-
-client = discord.Client(intents=intents)
+client = discord.Client()
 crawler = Crawler()
 
 @client.event
