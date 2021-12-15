@@ -783,26 +783,22 @@ async def on_message(message):
                         )
                     
                     embedGameReview.set_image(url=gameIMG)
-                    embedGameReview.add_field(
-                        name   = "**Todas as análises:**", 
-                        value  = sumary[0], 
-                        inline = False
-                    )
-                    embedGameReview.add_field(
-                        name   = "**Quantidade de Análises:**", 
-                        value  = totalAmount[0], 
-                        inline = False
-                    )
 
-                    if(len(sumary) > 1 and len(totalAmount) > 1):
+                    if(len(sumary) == 1 and len(totalAmount) == 1):
                         embedGameReview.add_field(
-                        name   = "**Análises Recentes:**", 
-                        value  = sumary[1], 
-                        inline = False
+                            name   = "**Todas as análises:**", 
+                            value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
+                            inline = False
+                        ) 
+                    elif(len(sumary) == 2 and len(totalAmount) == 2):
+                        embedGameReview.add_field(
+                            name   = "**Análises Recentes:**", 
+                            value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
+                            inline = False
                         )
                         embedGameReview.add_field(
-                            name   = "**Quantidade de Análises:**", 
-                            value  = totalAmount[1], 
+                            name   = "**Todas as análises:**", 
+                            value  = "{} (Qtd. de análises: {})".format(sumary[1], totalAmount[1]), 
                             inline = False
                         )
 
