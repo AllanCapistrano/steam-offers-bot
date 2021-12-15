@@ -20,7 +20,7 @@
 </p>
 
 ## 📖 Descrição do Projeto ##
-> **Bot criado para mostrar quais jogos estão em promoção, sem precisar sair do Discord ou abrir a Steam. Ele também tem comandos para buscar o preço de um jogo pelo nome `$game [nome do jogo]`, recomendar um jogo a partir do gênero `$genre [gênero do jogo]`, entre outros, basta digitar `$help` para exibir a lista de comandos.**
+> **Bot criado para mostrar quais jogos estão em promoção, sem precisar sair do Discord ou abrir a Steam. Ele também tem comandos para buscar o preço de um jogo pelo nome `$game [nome do jogo]`, recomendar um jogo a partir do gênero `$genre [gênero do jogo]`, entre outros, basta digitar `$help` para exibir a lista de comandos ou [clique aqui](#-lista-de-comandos).**
 
 ### 📦 Dependências: ###
 - [Requests](https://pypi.org/project/requests/)
