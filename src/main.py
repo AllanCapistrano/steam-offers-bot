@@ -7,7 +7,7 @@ from services import messages
 from services import discordToken
 
 # ------------------------------ Constants ----------------------------------- #
-PREFIX = "$"
+PREFIX = ">>"
 COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
@@ -37,8 +37,8 @@ async def on_message(message):
             
             # Comando: $help ou $ajuda ou $comandos
             if(
-                __command__.find("help") == 0 or
-                __command__.find("ajuda") == 0 or
+                __command__.find("help")     == 0 or
+                __command__.find("ajuda")    == 0 or
                 __command__.find("comandos") == 0
             ):
                 __help__ = __command__.split(" ")
@@ -53,57 +53,62 @@ async def on_message(message):
                     )
                     embedHelp.add_field(
                         name   = "```{}promoção``` ou ```{}pr```".format(PREFIX, PREFIX),
-                        value  = messages.helpValues()[0], 
-                        inline = False
-                    )
-                    embedHelp.add_field(
-                        name   = "```{}destaque``` ou ```{}dt```".format(PREFIX, PREFIX),
                         value  = messages.helpValues()[1], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}novidades``` ou ```{}populares``` ou ```{}np```".format(PREFIX, PREFIX, PREFIX),
+                        name   = "```{}destaque``` ou ```{}dt```".format(PREFIX, PREFIX),
                         value  = messages.helpValues()[2], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}mais vendidos``` ou ```{}mv```".format(PREFIX, PREFIX),
+                        name   = "```{}novidades``` ou ```{}populares``` ou ```{}np```".format(PREFIX, PREFIX, PREFIX),
                         value  = messages.helpValues()[3], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}jogos populares``` ou ```{}jp```".format(PREFIX, PREFIX),
+                        name   = "```{}mais vendidos``` ou ```{}mv```".format(PREFIX, PREFIX),
                         value  = messages.helpValues()[4], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}pré-venda``` ou ```{}pv```".format(PREFIX, PREFIX),
+                        name   = "```{}jogos populares``` ou ```{}jp```".format(PREFIX, PREFIX),
                         value  = messages.helpValues()[5], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}convite```".format(PREFIX),
+                        name   = "```{}pré-venda``` ou ```{}pv```".format(PREFIX, PREFIX),
                         value  = messages.helpValues()[6], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}botinfo```".format(PREFIX),
+                        name   = "```{}convite```".format(PREFIX),
                         value  = messages.helpValues()[7], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}game [nome do jogo]```".format(PREFIX),
+                        name   = "```{}botinfo```".format(PREFIX),
                         value  = messages.helpValues()[8], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}genre [gênero do jogo]```".format(PREFIX),
+                        name   = "```{}game [nome do jogo]```".format(PREFIX),
                         value  = messages.helpValues()[9], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}maxprice [preço]```".format(PREFIX),
+                        name   = "```{}genre [gênero do jogo]```".format(PREFIX),
                         value  = messages.helpValues()[10], 
+                        inline = False
+                    )
+                    embedHelp.add_field(
+                        name   = "```{}maxprice [preço]```".format(PREFIX),
+                        value  = messages.helpValues()[11], 
+                        inline = False
+                    )
+                    embedHelp.add_field(
+                        name   = "```{}análises [nome do jogo]``` ou ```{}reviews [nome do jogo]```".format(PREFIX, PREFIX),
+                        value  = messages.helpValues()[12], 
                         inline = False
                     )
 
@@ -118,7 +123,7 @@ async def on_message(message):
                         )
                         embedHelp.add_field(
                             name   = "Ficou confuso(a) ?",
-                            value  = messages.helpValues()[11],
+                            value  = messages.helpValues()[0],
                             inline = False
                         )
                         embedHelp.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(PREFIX))
@@ -714,9 +719,104 @@ async def on_message(message):
                     else:
                         await message.channel.send(messages.recommendationByPrice()[0])
             
+            elif(
+                __command__.find("análises") == 0 or
+                __command__.find("analises") == 0 or
+                __command__.find("análise")  == 0 or
+                __command__.find("analise")  == 0 or
+                __command__.find("reviews")  == 0 or
+                __command__.find("review")   == 0
+            ):
+                if(__command__.find("análises") == 0):
+                    gameNameToSearch = __command__.split("análises")
+                elif(__command__.find("analises") == 0):
+                    gameNameToSearch = __command__.split("analises")
+                elif(__command__.find("análise") == 0):
+                    gameNameToSearch = __command__.split("análise")
+                elif(__command__.find("analise") == 0):
+                    gameNameToSearch = __command__.split("analise")
+                elif(__command__.find("reviews") == 0):
+                    gameNameToSearch = __command__.split("reviews")
+                elif(__command__.find("review") == 0):
+                    gameNameToSearch = __command__.split("review")
+
+                # Mensagem de busca, com efeito de carregamento.
+                messageContent = messages.searchMessage()[0]
+                searchMessage  = await message.channel.send(messageContent)
+                
+                sleep(0.5)
+                await searchMessage.edit(content=messageContent+" **.**")
+                
+                sleep(0.5)
+                await searchMessage.edit(content=messageContent+" **. .**")
+
+                (
+                    gameName, 
+                    gameURL, 
+                    gameIMG, 
+                    gameOriginalPrice,
+                    gameFinalPrice,
+                    searchUrl,
+                    gameDescription
+                ) = await crawler.getSpecificGame(gameNameToSearch[1])
+
+                if(gameURL != None):
+                    (
+                        sumary, 
+                        totalAmount
+                    ) = await crawler.getGameReviews(gameURL)
+
+                    if (sumary[0].find("positivas") != -1):
+                        embedGameReview = discord.Embed(
+                            title = "👍 Jogo: {} 👍".format(gameName),
+                            color = COLOR
+                        )
+                    elif(sumary[0].find("negativas") != -1):
+                        embedGameReview = discord.Embed(
+                            title = "👎 Jogo: {} 👎".format(gameName),
+                            color = COLOR
+                        )
+                    else:
+                        embedGameReview = discord.Embed(
+                            title = "👍 Jogo: {} 👎".format(gameName),
+                            color = COLOR
+                        )
+                    
+                    embedGameReview.set_image(url=gameIMG)
+                    embedGameReview.add_field(
+                        name   = "**Todas as análises:**", 
+                        value  = sumary[0], 
+                        inline = False
+                    )
+                    embedGameReview.add_field(
+                        name   = "**Quantidade de Análises:**", 
+                        value  = totalAmount[0], 
+                        inline = False
+                    )
+
+                    if(len(sumary) > 1 and len(totalAmount) > 1):
+                        embedGameReview.add_field(
+                        name   = "**Análises Recentes:**", 
+                        value  = sumary[1], 
+                        inline = False
+                        )
+                        embedGameReview.add_field(
+                            name   = "**Quantidade de Análises:**", 
+                            value  = totalAmount[1], 
+                            inline = False
+                        )
+
+                    embedGameReview.add_field(
+                        name   = "**Obs:**", 
+                        value  = messages.wrongGame(searchUrl), 
+                        inline = False
+                    )
+
+                    await searchMessage.edit(content="", embed=embedGameReview)
+                else:
+                    await searchMessage.edit(content=messages.noOffers()[2])
             else:
                 await message.channel.send(messages.commandAlert()[2]) 
-
         else:
             # Caso a mensagem enviada contenha o link de um jogo da Steam.
             if(message.content.lower().find("store.steampowered.com/app") != -1):

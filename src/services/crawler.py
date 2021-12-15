@@ -41,6 +41,9 @@ from services.GameByLink.getGameByLinkImage import getGameByLinkImage
 from services.GameByLink.getGameByLinkOriginalPrice import getGameByLinkOriginalPrice
 from services.GameByLink.getGameByLinkFinalPrice import getGameByLinkFinalPrice
 
+from services.GameReviews.getReviewTotalAmount import getReviewTotalAmount
+from services.GameReviews.getReviewSumary import getReviewSumary
+
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
 URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
@@ -438,4 +441,34 @@ class Crawler:
         description   = thread4.result()
 
         return name, image, orginalPrice, finalPrice, description
+    # ------------------------------------------------------------------------ #
+
+    # ------------------------- Game Reviews --------------------------------- #
+    async def getGameReviews(self, url: str) -> tuple[list, list]:
+        """Função responsável por retornar um resumo das análises de um jogo 
+        com base na url.
+
+        Parameters
+        -----------
+        url: :class:`str`
+            Url do jogo.
+
+        Returns
+        -----------
+        sumary: :class:`str`
+            Resumo das análises do jogo.
+        totalAmount: :class:`str`
+            Quantidade total de análises do jogo.
+        """
+
+        soup = self.reqUrl(url + "&l=brazilian")
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            thread0 = executor.submit(getReviewSumary, soup)
+            thread1 = executor.submit(getReviewTotalAmount, soup)
+
+        sumary      = thread0.result()
+        totalAmount = thread1.result()
+
+        return sumary, totalAmount
     # ------------------------------------------------------------------------ #
