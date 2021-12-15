@@ -92,6 +92,7 @@ def helpValues() -> list:
     
     msgList = []
 
+    msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(IMG_GENRES))
     msgList.append(
         "**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**")
     msgList.append(
@@ -110,7 +111,7 @@ def helpValues() -> list:
     msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
     msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
     msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
-    msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(IMG_GENRES))
+    msgList.append("**Mostra as análises de um jogo. Obs: Não precisa dos [].**")
 
     return msgList
 
