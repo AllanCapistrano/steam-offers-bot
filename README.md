@@ -56,6 +56,7 @@ Comando | Descrição
 `$game [nome do jogo]` | Busca um jogo pelo nome e exibe as suas informações.
 `$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
 `$maxprice [preço]` | Recomenda um jogo dada uma faixa máxima de preço.
+`$análises [nome do jogo]` ou `$reviews [nome do jogo]` | Mostra o resumo das análises de um jogo.
 
 ------------
 
