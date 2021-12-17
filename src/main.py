@@ -10,7 +10,7 @@ from services import discordToken
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 
 # ------------------------------ Constants ----------------------------------- #
-PREFIX = ">>"
+PREFIX = "$"
 COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
