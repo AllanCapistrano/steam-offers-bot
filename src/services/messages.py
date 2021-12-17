@@ -258,3 +258,17 @@ def recommendationByPrice() -> list:
     )
 
     return msgList
+
+def noReviews() -> list:
+    """ Mensagens para quando não análises para um jogo.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+    
+    msgList = []
+
+    msgList.append("Não há análises disponíveis no momento.")
+
+    return msgList
