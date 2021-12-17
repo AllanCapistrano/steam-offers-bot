@@ -67,18 +67,22 @@ def title(genre: str = None , gameName: str = None) -> list:
     
     titleList = []
 
-    titleList.append("Aqui está o link para o convite:")
-    titleList.append("🎮 Jogo/Evento em Destaque 🎮")
-    titleList.append("🕹️ Oferta do Dia 🕹️")
-    titleList.append("📊 Informações 📊")
-    titleList.append("🎮 Gêneros dos Jogos 🕹️")
+    titleList.append("Aqui está o link para o convite:") # $invite ou $convite
+    titleList.append("🎮 Jogo/Evento em Destaque 🎮") # $destaque ou $dt
+    titleList.append("🕹️ Oferta do Dia 🕹️") # $promocao ou $pr
+    titleList.append("📊 Informações 📊") # $botinfo ou $info
+    titleList.append("🎮 Gêneros dos Jogos 🕹️") # $help genre
+
+    titleList.append("👾 Jogo: {} 👾".format(gameName)) # $game
     
+    # $genre
     if(genre == "casual" or genre == "indie" or genre == "multijogador massivo" or genre == "rpg"):
         titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
     else:
         titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
 
-    titleList.append("💰 Jogo: {} 💰".format(gameName))
+    
+    titleList.append("💰 Jogo: {} 💰".format(gameName)) # $maxprice
 
     return titleList
 

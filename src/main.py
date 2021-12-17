@@ -273,7 +273,7 @@ async def on_message(message):
                         
                         x -= 1
 
-            # Comando: $botinfo
+            # Comando: $botinfo ou $info
             elif(
                 __command__ == "botinfo" or
                 __command__ == "info"
@@ -536,7 +536,8 @@ async def on_message(message):
 
                     if(gameName != None):
                         embedSpecificGame =  discord.Embed(
-                            title = "👾 Jogo: {} 👾".format(gameName),
+                            # title = "👾 Jogo: {} 👾".format(gameName),
+                            title = messages.title(gameName=gameName)[5],
                             color = COLOR
                         )
                         embedSpecificGame.set_image(url=gameIMG)
@@ -613,7 +614,7 @@ async def on_message(message):
 
                     if(gameName != None):
                         embedGameRecommendationByGenre = discord.Embed(
-                            title = messages.title(genre=gameGenreToSearch)[5],
+                            title = messages.title(genre=gameGenreToSearch)[6],
                             color = COLOR
                         )
                         embedGameRecommendationByGenre.set_image(url=gameIMG)
@@ -691,7 +692,7 @@ async def on_message(message):
                     ) = await crawler.getGameRecommendationByPriceRange(maxPrice)
 
                     embedGameRecommendationByPrice = discord.Embed(
-                        title = messages.title(gameName=gameName)[6],
+                        title = messages.title(gameName=gameName)[7],
                         color = COLOR
                     )
                     embedGameRecommendationByPrice.set_image(url=gameIMG)
