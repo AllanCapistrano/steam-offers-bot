@@ -1,6 +1,7 @@
 import asyncio
 import discord
 from time import sleep
+from re import search
 
 from services.crawler import Crawler
 from services import messages
@@ -16,9 +17,12 @@ TOKEN = discordToken.myToken()
 
 intents = discord.Intents.default()
 intents.members = True
+intents.reactions = True
 
 client = discord.Client(intents=intents)
 crawler = Crawler()
+
+messageId = None
 
 @client.event
 async def on_ready():
@@ -568,6 +572,10 @@ async def on_message(message):
                         )
 
                         await searchGameMessage.edit(content="", embed=embedSpecificGame)
+                        await searchGameMessage.add_reaction("👍")
+
+                        global messageId
+                        messageId = searchGameMessage.id
                     else:
                         await searchGameMessage.edit(content=messages.noOffers()[2])
 
@@ -870,6 +878,75 @@ async def on_message(message):
                         )
 
                     await message.channel.send(embed=embedGameBylink)
+
+@client.event
+async def on_reaction_add(reaction, user):
+    message = reaction.message
+
+    # print(message.embeds[0].fields)
+
+    # Caso a reação seja na mensagem do comando $game
+    if(
+        reaction.emoji                       == "👍"      and 
+        message.embeds[0].title.find("Jogo") != -1        and
+        message.id                           == messageId and
+        user.id                              != client.user.id
+    ):
+        gameUrlEmbed       = message.embeds[0].fields[0].value
+        gameSearchUrlEmbed = message.embeds[0].fields[-1].value
+        gameUrl            = search(r'\((.*?)\)', gameUrlEmbed).group(1)
+        gameSearchUrl      = search(r'\((.*?)\)', gameSearchUrlEmbed).group(1)
+        
+        # print(message.embeds[0].title.split(" "))
+
+        # (
+        #     sumary, 
+        #     totalAmount
+        # ) = await crawler.getGameReviews(gameUrl)
+
+        # if (sumary[0].find("positivas") != -1):
+        #     embedGameReview = discord.Embed(
+        #         title = "👍 Jogo: {} 👍".format(gameName),
+        #         color = COLOR
+        #     )
+        # elif(sumary[0].find("negativas") != -1):
+        #     embedGameReview = discord.Embed(
+        #         title = "👎 Jogo: {} 👎".format(gameName),
+        #         color = COLOR
+        #     )
+        # else:
+        #     embedGameReview = discord.Embed(
+        #         title = "👍 Jogo: {} 👎".format(gameName),
+        #         color = COLOR
+        #     )
+        
+        # embedGameReview.set_image(url=gameIMG)
+
+        # if(len(sumary) == 1 and len(totalAmount) == 1):
+        #     embedGameReview.add_field(
+        #         name   = "**Todas as análises:**", 
+        #         value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
+        #         inline = False
+        #     ) 
+        # elif(len(sumary) == 2 and len(totalAmount) == 2):
+        #     embedGameReview.add_field(
+        #         name   = "**Análises Recentes:**", 
+        #         value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
+        #         inline = False
+        #     )
+        #     embedGameReview.add_field(
+        #         name   = "**Todas as análises:**", 
+        #         value  = "{} (Qtd. de análises: {})".format(sumary[1], totalAmount[1]), 
+        #         inline = False
+        #     )
+
+        # embedGameReview.add_field(
+        #     name   = "**Obs:**", 
+        #     value  = messages.wrongGame(searchUrl), 
+        #     inline = False
+        # )
+
+        # await searchMessage.edit(content="", embed=embedGameReview)
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
