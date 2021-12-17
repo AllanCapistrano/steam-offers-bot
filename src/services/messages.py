@@ -130,7 +130,7 @@ def infoValues() -> list:
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ") # Informações.
-    msgList.append("15 de Dezembro de 2021") # Data da última atualização.
+    msgList.append("17 de Dezembro de 2021") # Data da última atualização.
 
     return msgList
 
