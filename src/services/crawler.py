@@ -41,8 +41,8 @@ from services.GameByLink.getGameByLinkImage import getGameByLinkImage
 from services.GameByLink.getGameByLinkOriginalPrice import getGameByLinkOriginalPrice
 from services.GameByLink.getGameByLinkFinalPrice import getGameByLinkFinalPrice
 
-from services.GameReviews.getReviewTotalAmount import getReviewTotalAmount
-from services.GameReviews.getReviewSumary import getReviewSumary
+from services.GameReview.getReviewTotalAmount import getReviewTotalAmount
+from services.GameReview.getReviewSumary import getReviewSumary
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
@@ -444,7 +444,7 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game Reviews --------------------------------- #
-    async def getGameReviews(self, url: str) -> tuple[list, list]:
+    async def getGameReview(self, url: str) -> tuple[list, list]:
         """Função responsável por retornar um resumo das análises de um jogo 
         com base na url.
 

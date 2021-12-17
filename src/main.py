@@ -1,10 +1,13 @@
 import asyncio
 import discord
 from time import sleep
+from re import search
 
 from services.crawler import Crawler
 from services import messages
 from services import discordToken
+
+from services.GameReview.gameReviewEmbed import gameReviewEmbed
 
 # ------------------------------ Constants ----------------------------------- #
 PREFIX = "$"
@@ -12,13 +15,17 @@ COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 TOKEN = discordToken.myToken()
+REACTION_REVIEW = "👍"
 # ---------------------------------------------------------------------------- #
 
 intents = discord.Intents.default()
 intents.members = True
+intents.reactions = True
 
 client = discord.Client(intents=intents)
 crawler = Crawler()
+
+messageId = None
 
 @client.event
 async def on_ready():
@@ -35,6 +42,8 @@ async def on_ready():
 async def on_message(message):
     
     if(not message.author.bot):
+        global messageId
+
         if(message.content.lower().startswith(PREFIX)):
             __command__ = message.content.lower().split(PREFIX)[1]
             
@@ -200,7 +209,7 @@ async def on_message(message):
                         else:
                             await message.channel.send(embed=embedSpotlightGames)
 
-                        x = x - 1
+                        x -= 1
 
             # Comando: $promocao ou $pr
             elif(
@@ -225,6 +234,7 @@ async def on_message(message):
                     gamesOriginalPrices,
                     gamesFinalPrices
                 ) = await crawler.getDailyGamesOffers()
+                
                 x = len(gamesUrls)
 
                 if(x == 0):
@@ -261,9 +271,9 @@ async def on_message(message):
                         else:
                             await message.channel.send(embed=embedDailyGames)
                         
-                        x = x - 1
+                        x -= 1
 
-            # Comando: $botinfo
+            # Comando: $botinfo ou $info
             elif(
                 __command__ == "botinfo" or
                 __command__ == "info"
@@ -344,7 +354,7 @@ async def on_message(message):
                                 gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
                                 gamesFinalPrices[x - 1] + "\n\n"
                         
-                        x = x - 1
+                        x -= 1
 
                     await message.channel.send(member.mention + messages.checkDm())
                     await member.send(messageConcat0)
@@ -392,7 +402,7 @@ async def on_message(message):
                                 gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
                                 gamesFinalPrices[x - 1] + "\n\n"
                         
-                        x = x - 1
+                        x -= 1
 
                     await message.channel.send(member.mention + messages.checkDm())
                     await member.send(messageConcat0)
@@ -440,7 +450,7 @@ async def on_message(message):
                                 gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
                                 gamesFinalPrices[x - 1] + "\n\n"
                         
-                        x = x - 1
+                        x -= 1
 
                     await message.channel.send(member.mention + messages.checkDm())
                     await member.send(messageConcat0)
@@ -489,7 +499,7 @@ async def on_message(message):
                                 gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
                                 gamesFinalPrices[x - 1] + "\n\n"
                         
-                        x = x - 1
+                        x -= 1
 
                     await message.channel.send(member.mention + messages.checkDm())
                     await member.send(messageConcat0)
@@ -506,7 +516,7 @@ async def on_message(message):
                     
                     # Mensagem de busca de jogo, com efeito de carregamento.
                     messageContent     = messages.searchMessage()[1]
-                    searchGameMessage = await message.channel.send(messageContent + " __"+ gameNameToSearch + "__ .**")
+                    searchGameMessage  = await message.channel.send(messageContent + " __"+ gameNameToSearch + "__ .**")
                     
                     sleep(0.5)
                     await searchGameMessage.edit(content=messageContent + " __" + gameNameToSearch + "__ . .**")
@@ -526,7 +536,8 @@ async def on_message(message):
 
                     if(gameName != None):
                         embedSpecificGame =  discord.Embed(
-                            title = "👾 Jogo: {} 👾".format(gameName),
+                            # title = "👾 Jogo: {} 👾".format(gameName),
+                            title = messages.title(gameName=gameName)[5],
                             color = COLOR
                         )
                         embedSpecificGame.set_image(url=gameIMG)
@@ -567,7 +578,10 @@ async def on_message(message):
                             inline = False
                         )
 
+                        messageId = searchGameMessage.id
+                        
                         await searchGameMessage.edit(content="", embed=embedSpecificGame)
+                        await searchGameMessage.add_reaction(REACTION_REVIEW)
                     else:
                         await searchGameMessage.edit(content=messages.noOffers()[2])
 
@@ -582,7 +596,7 @@ async def on_message(message):
 
                     # Mensagem de busca, com efeito de carregamento.
                     messageContent      = messages.searchMessage()[2]
-                    searchGenreMessage = await message.channel.send(messageContent + " __"+ gameGenreToSearch +"__ .**")
+                    searchGenreMessage  = await message.channel.send(messageContent + " __"+ gameGenreToSearch +"__ .**")
                     
                     sleep(0.5)
                     await searchGenreMessage.edit(content=messageContent + " __" + gameGenreToSearch + "__ . .**")
@@ -600,7 +614,7 @@ async def on_message(message):
 
                     if(gameName != None):
                         embedGameRecommendationByGenre = discord.Embed(
-                            title = messages.title(genre=gameGenreToSearch)[5],
+                            title = messages.title(genre=gameGenreToSearch)[6],
                             color = COLOR
                         )
                         embedGameRecommendationByGenre.set_image(url=gameIMG)
@@ -643,7 +657,10 @@ async def on_message(message):
                                     inline = True
                                 )
 
+                        messageId = searchGenreMessage.id
+
                         await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
+                        await searchGenreMessage.add_reaction(REACTION_REVIEW)
                     else:
                         await searchGenreMessage.edit(content=messages.noOffers()[3])
 
@@ -678,44 +695,47 @@ async def on_message(message):
                     ) = await crawler.getGameRecommendationByPriceRange(maxPrice)
 
                     embedGameRecommendationByPrice = discord.Embed(
-                        title = messages.title(gameName=gameName)[6],
+                        title = messages.title(gameName=gameName)[7],
                         color = COLOR
                     )
                     embedGameRecommendationByPrice.set_image(url=gameIMG)
                     embedGameRecommendationByPrice.add_field(
-                        name="**Link:**", 
-                        value="**[Clique Aqui]({})**".format(gameURL), 
-                        inline=False
+                        name   = "**Link:**", 
+                        value  = "**[Clique Aqui]({})**".format(gameURL), 
+                        inline = False
                     )
                     
                     if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
                         embedGameRecommendationByPrice.add_field(
-                            name="**Preço Original:**", 
-                            value="**{}**".format(gameOriginalPrice), 
-                            inline=True
+                            name   = "**Preço Original:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = True
                         )
                         embedGameRecommendationByPrice.add_field(
-                            name="**Preço com Desconto:**", 
-                            value="**{}**".format(gameFinalPrice), 
-                            inline=True
+                            name   = "**Preço com Desconto:**", 
+                            value  = "**{}**".format(gameFinalPrice), 
+                            inline = True
                         )
                     else: # Caso o jogo não esteja em promoção.
                         embedGameRecommendationByPrice.add_field(
-                            name="**Preço:**", 
-                            value="**{}**".format(gameOriginalPrice), 
-                            inline=False
+                            name   = "**Preço:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = False
                         )
 
                     if(int(maxPriceMessage[1]) > 120):
                         embedGameRecommendationByPrice.set_footer(
-                            text=messages.recommendationByPrice()[1]
+                            text = messages.recommendationByPrice()[1]
                         )
                     elif(int(maxPriceMessage[1]) < 10):
                         embedGameRecommendationByPrice.set_footer(
-                            text=messages.recommendationByPrice()[2]
+                            text = messages.recommendationByPrice()[2]
                         )
                     
+                    messageId = searchGameMessage.id
+
                     await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
+                    await searchGameMessage.add_reaction(REACTION_REVIEW)
                 else:
                     if(len(maxPriceMessage) == 1):
                         await message.channel.send(messages.recommendationByPrice()[3])
@@ -748,10 +768,10 @@ async def on_message(message):
                 searchMessage  = await message.channel.send(messageContent)
                 
                 sleep(0.5)
-                await searchMessage.edit(content=messageContent+" **.**")
+                await searchMessage.edit(content = messageContent+" **.**")
                 
                 sleep(0.5)
-                await searchMessage.edit(content=messageContent+" **. .**")
+                await searchMessage.edit(content = messageContent+" **. .**")
 
                 (
                     gameName, 
@@ -764,51 +784,13 @@ async def on_message(message):
                 ) = await crawler.getSpecificGame(gameNameToSearch[1])
 
                 if(gameURL != None):
-                    (
-                        sumary, 
-                        totalAmount
-                    ) = await crawler.getGameReviews(gameURL)
-
-                    if (sumary[0].find("positivas") != -1):
-                        embedGameReview = discord.Embed(
-                            title = "👍 Jogo: {} 👍".format(gameName),
-                            color = COLOR
-                        )
-                    elif(sumary[0].find("negativas") != -1):
-                        embedGameReview = discord.Embed(
-                            title = "👎 Jogo: {} 👎".format(gameName),
-                            color = COLOR
-                        )
-                    else:
-                        embedGameReview = discord.Embed(
-                            title = "👍 Jogo: {} 👎".format(gameName),
-                            color = COLOR
-                        )
-                    
-                    embedGameReview.set_image(url=gameIMG)
-
-                    if(len(sumary) == 1 and len(totalAmount) == 1):
-                        embedGameReview.add_field(
-                            name   = "**Todas as análises:**", 
-                            value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
-                            inline = False
-                        ) 
-                    elif(len(sumary) == 2 and len(totalAmount) == 2):
-                        embedGameReview.add_field(
-                            name   = "**Análises Recentes:**", 
-                            value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
-                            inline = False
-                        )
-                        embedGameReview.add_field(
-                            name   = "**Todas as análises:**", 
-                            value  = "{} (Qtd. de análises: {})".format(sumary[1], totalAmount[1]), 
-                            inline = False
-                        )
-
-                    embedGameReview.add_field(
-                        name   = "**Obs:**", 
-                        value  = messages.wrongGame(searchUrl), 
-                        inline = False
+                    embedGameReview = await gameReviewEmbed(
+                        crawler    = crawler,
+                        embedColor = COLOR,
+                        gameUrl    = gameURL,
+                        gameName   = gameName,
+                        gameIMG    = gameIMG,
+                        searchUrl  = searchUrl
                     )
 
                     await searchMessage.edit(content="", embed=embedGameReview)
@@ -871,17 +853,65 @@ async def on_message(message):
 
                     await message.channel.send(embed=embedGameBylink)
 
+@client.event
+async def on_reaction_add(reaction, user):
+    message = reaction.message
+
+    # Caso a reação seja na mensagem do comando $game, $genre ou $maxprice
+    if(
+        reaction.emoji                       == REACTION_REVIEW and 
+        message.embeds[0].title.find("Jogo") != -1              and
+        message.id                           == messageId       and
+        user.id                              != client.user.id
+    ):
+        # Caso o comando seja $genre
+        if(message.embeds[0].title.find("recomendado 🕹️") != -1):
+            gameUrlEmbed = message.embeds[0].fields[1].value
+            gameName     = message.embeds[0].fields[0].value
+        else: # Caso o comando seja $genre ou $maxprice
+            gameUrlEmbed   = message.embeds[0].fields[0].value
+            temp           = message.embeds[0].title.split(" ")
+            gameName       = ""
+            x              = 2
+
+            while(temp[x] != "👾" and temp[x] != "💰"):
+                gameName += temp[x] + " "
+                x        += 1
+
+            gameName = gameName.strip()
+
+        gameUrl = search(r'\((.*?)\)', gameUrlEmbed).group(1)
+        gameIMG = message.embeds[0].image.url
+
+        # Embed do comando $game
+        if(len(message.embeds[0].fields) == 4):
+            searchUrlEmbed = message.embeds[0].fields[-1].value
+            searchUrl      = search(r'\((.*?)\)', searchUrlEmbed).group(1)
+        else: # Embed dos comandos $genre e $maxprice
+            searchUrl = None
+
+        embedGameReview = await gameReviewEmbed(
+            crawler    = crawler,
+            embedColor = COLOR,
+            gameUrl    = gameUrl,
+            gameName   = gameName,
+            gameIMG    = gameIMG,
+            searchUrl  = searchUrl
+        )
+
+        await message.channel.send(embed=embedGameReview)
+
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
     await client.wait_until_ready()
     await asyncio.sleep(20)
     
     while not client.is_closed():
-        numServers = len(client.guilds)
-        msgStatus = messages.status(PREFIX, numServers)
+        numServers   = len(client.guilds)
+        msgStatus    = messages.status(PREFIX, numServers)
         randomStatus = messages.randomMessage(msgStatus)
-        game = discord.Game(randomStatus)
-        online = discord.Status.online
+        game         = discord.Game(randomStatus)
+        online       = discord.Status.online
 
         await client.change_presence(status=online, activity=game)
         await asyncio.sleep(20)

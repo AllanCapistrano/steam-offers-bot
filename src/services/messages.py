@@ -67,18 +67,22 @@ def title(genre: str = None , gameName: str = None) -> list:
     
     titleList = []
 
-    titleList.append("Aqui está o link para o convite:")
-    titleList.append("🎮 Jogo/Evento em Destaque 🎮")
-    titleList.append("🕹️ Oferta do Dia 🕹️")
-    titleList.append("📊 Informações 📊")
-    titleList.append("🎮 Gêneros dos Jogos 🕹️")
+    titleList.append("Aqui está o link para o convite:") # $invite ou $convite
+    titleList.append("🎮 Jogo/Evento em Destaque 🎮") # $destaque ou $dt
+    titleList.append("🕹️ Oferta do Dia 🕹️") # $promocao ou $pr
+    titleList.append("📊 Informações 📊") # $botinfo ou $info
+    titleList.append("🎮 Gêneros dos Jogos 🕹️") # $help genre
+
+    titleList.append("👾 Jogo: {} 👾".format(gameName)) # $game
     
+    # $genre
     if(genre == "casual" or genre == "indie" or genre == "multijogador massivo" or genre == "rpg"):
         titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
     else:
         titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
 
-    titleList.append("💰 Jogo: {} 💰".format(gameName))
+    
+    titleList.append("💰 Jogo: {} 💰".format(gameName)) # $maxprice
 
     return titleList
 
@@ -130,7 +134,7 @@ def infoValues() -> list:
     msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
         "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
         "Criado por ") # Informações.
-    msgList.append("15 de Dezembro de 2021") # Data da última atualização.
+    msgList.append("17 de Dezembro de 2021") # Data da última atualização.
 
     return msgList
 
@@ -252,5 +256,19 @@ def recommendationByPrice() -> list:
     msgList.append(
         "**É necessário informar uma faixa máxima de preço.**"
     )
+
+    return msgList
+
+def noReviews() -> list:
+    """ Mensagens para quando não análises para um jogo.
+
+    Returns
+    -----------
+    msgList: :class:`list`
+    """
+    
+    msgList = []
+
+    msgList.append("Não há análises disponíveis no momento.")
 
     return msgList
