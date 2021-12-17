@@ -10,7 +10,7 @@ from services import discordToken
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 
 # ------------------------------ Constants ----------------------------------- #
-PREFIX = "$"
+PREFIX = ">>"
 COLOR = 0xa82fd2
 INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
@@ -42,6 +42,8 @@ async def on_ready():
 async def on_message(message):
     
     if(not message.author.bot):
+        global messageId
+
         if(message.content.lower().startswith(PREFIX)):
             __command__ = message.content.lower().split(PREFIX)[1]
             
@@ -513,7 +515,7 @@ async def on_message(message):
                     
                     # Mensagem de busca de jogo, com efeito de carregamento.
                     messageContent     = messages.searchMessage()[1]
-                    searchGameMessage = await message.channel.send(messageContent + " __"+ gameNameToSearch + "__ .**")
+                    searchGameMessage  = await message.channel.send(messageContent + " __"+ gameNameToSearch + "__ .**")
                     
                     sleep(0.5)
                     await searchGameMessage.edit(content=messageContent + " __" + gameNameToSearch + "__ . .**")
@@ -577,7 +579,6 @@ async def on_message(message):
                         await searchGameMessage.edit(content="", embed=embedSpecificGame)
                         await searchGameMessage.add_reaction(REACTION_REVIEW)
 
-                        global messageId
                         messageId = searchGameMessage.id
                     else:
                         await searchGameMessage.edit(content=messages.noOffers()[2])
@@ -727,6 +728,9 @@ async def on_message(message):
                         )
                     
                     await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
+                    await searchGameMessage.add_reaction(REACTION_REVIEW)
+
+                    messageId = searchGameMessage.id
                 else:
                     if(len(maxPriceMessage) == 1):
                         await message.channel.send(messages.recommendationByPrice()[3])
@@ -848,8 +852,6 @@ async def on_message(message):
 async def on_reaction_add(reaction, user):
     message = reaction.message
 
-    # print(message.embeds[0].fields)
-
     # Caso a reação seja na mensagem do comando $game
     if(
         reaction.emoji                       == REACTION_REVIEW and 
@@ -858,16 +860,21 @@ async def on_reaction_add(reaction, user):
         user.id                              != client.user.id
     ):
         gameUrlEmbed   = message.embeds[0].fields[0].value
-        searchUrlEmbed = message.embeds[0].fields[-1].value
         gameUrl        = search(r'\((.*?)\)', gameUrlEmbed).group(1)
         gameIMG        = message.embeds[0].image.url
-        searchUrl      = search(r'\((.*?)\)', searchUrlEmbed).group(1)
+        
+        # Embed do comando $game
+        if(len(message.embeds[0].fields) == 4):
+            searchUrlEmbed = message.embeds[0].fields[-1].value
+            searchUrl      = search(r'\((.*?)\)', searchUrlEmbed).group(1)
+        else: # Embed do comando $maxprice
+            searchUrl = None
 
         temp     = message.embeds[0].title.split(" ")
         gameName = ""
         x        = 2
 
-        while(temp[x] != "👾"):
+        while(temp[x] != "👾" and temp[x] != "💰"):
             gameName += temp[x] + " "
             x        += 1
 

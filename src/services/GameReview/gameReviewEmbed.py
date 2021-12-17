@@ -70,10 +70,11 @@ async def gameReviewEmbed(
             inline = False
         )
 
-    embedGameReview.add_field(
-        name   = "**Obs:**", 
-        value  = messages.wrongGame(searchUrl), 
-        inline = False
-    )
+    if(searchUrl != None):
+        embedGameReview.add_field(
+            name   = "**Obs:**", 
+            value  = messages.wrongGame(searchUrl), 
+            inline = False
+        )
 
     return embedGameReview
