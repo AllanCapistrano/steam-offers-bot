@@ -32,7 +32,7 @@ async def gameReviewEmbed(
     (
         sumary, 
         totalAmount
-    ) = await crawler.getGameReviews(gameUrl)
+    ) = await crawler.getGameReview(gameUrl)
 
     if (sumary[0].find("positivas") != -1):
         embedGameReview = discord.Embed(

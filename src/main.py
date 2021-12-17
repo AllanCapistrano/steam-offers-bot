@@ -7,7 +7,7 @@ from services.crawler import Crawler
 from services import messages
 from services import discordToken
 
-from services.GameReviews.gameReviewEmbed import gameReviewEmbed
+from services.GameReview.gameReviewEmbed import gameReviewEmbed
 
 # ------------------------------ Constants ----------------------------------- #
 PREFIX = ">>"
