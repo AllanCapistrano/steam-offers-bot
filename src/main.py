@@ -657,7 +657,10 @@ async def on_message(message):
                                     inline = True
                                 )
 
+                        messageId = searchGenreMessage.id
+
                         await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
+                        await searchGenreMessage.add_reaction(REACTION_REVIEW)
                     else:
                         await searchGenreMessage.edit(content=messages.noOffers()[3])
 
@@ -854,33 +857,38 @@ async def on_message(message):
 async def on_reaction_add(reaction, user):
     message = reaction.message
 
-    # Caso a reação seja na mensagem do comando $game
+    # Caso a reação seja na mensagem do comando $game, $genre ou $maxprice
     if(
         reaction.emoji                       == REACTION_REVIEW and 
         message.embeds[0].title.find("Jogo") != -1              and
         message.id                           == messageId       and
         user.id                              != client.user.id
     ):
-        gameUrlEmbed   = message.embeds[0].fields[0].value
-        gameUrl        = search(r'\((.*?)\)', gameUrlEmbed).group(1)
-        gameIMG        = message.embeds[0].image.url
-        
+        # Caso o comando seja $genre
+        if(message.embeds[0].title.find("recomendado 🕹️") != -1):
+            gameUrlEmbed = message.embeds[0].fields[1].value
+            gameName     = message.embeds[0].fields[0].value
+        else: # Caso o comando seja $genre ou $maxprice
+            gameUrlEmbed   = message.embeds[0].fields[0].value
+            temp           = message.embeds[0].title.split(" ")
+            gameName       = ""
+            x              = 2
+
+            while(temp[x] != "👾" and temp[x] != "💰"):
+                gameName += temp[x] + " "
+                x        += 1
+
+            gameName = gameName.strip()
+
+        gameUrl = search(r'\((.*?)\)', gameUrlEmbed).group(1)
+        gameIMG = message.embeds[0].image.url
+
         # Embed do comando $game
         if(len(message.embeds[0].fields) == 4):
             searchUrlEmbed = message.embeds[0].fields[-1].value
             searchUrl      = search(r'\((.*?)\)', searchUrlEmbed).group(1)
-        else: # Embed do comando $maxprice
+        else: # Embed dos comandos $genre e $maxprice
             searchUrl = None
-
-        temp     = message.embeds[0].title.split(" ")
-        gameName = ""
-        x        = 2
-
-        while(temp[x] != "👾" and temp[x] != "💰"):
-            gameName += temp[x] + " "
-            x        += 1
-
-        gameName = gameName.strip()
 
         embedGameReview = await gameReviewEmbed(
             crawler    = crawler,
