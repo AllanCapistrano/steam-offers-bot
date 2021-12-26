@@ -8,14 +8,16 @@ from services import messages
 from services import discordToken
 
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
+from services.SpecificGame.specificGameEmbed import specificGameEmbed
 
 # ------------------------------ Constants ----------------------------------- #
-PREFIX = "$"
-COLOR = 0xa82fd2
-INVITE = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
-URL = "https://store.steampowered.com/specials?cc=br#p=0&tab="
-TOKEN = discordToken.myToken()
+PREFIX          = "$"
+COLOR           = 0xa82fd2
+INVITE          = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
+URL             = "https://store.steampowered.com/specials?cc=br#p=0&tab="
+TOKEN           = discordToken.myToken()
 REACTION_REVIEW = "👍"
+REACTION_GAME   = "🎮"
 # ---------------------------------------------------------------------------- #
 
 intents = discord.Intents.default()
@@ -524,60 +526,13 @@ async def on_message(message):
                     sleep(0.5)
                     await searchGameMessage.edit(content=messageContent + " __"+ gameNameToSearch + "__ . . .**")
 
-                    (
-                        gameName, 
-                        gameURL, 
-                        gameIMG, 
-                        gameOriginalPrice,
-                        gameFinalPrice,
-                        searchUrl,
-                        gameDescription
-                    ) = await crawler.getSpecificGame(gameNameToSearch)
+                    embedSpecificGame = await specificGameEmbed(
+                        crawler          = crawler, 
+                        embedColor       = COLOR, 
+                        gameNameToSearch = gameNameToSearch
+                    )
 
-                    if(gameName != None):
-                        embedSpecificGame =  discord.Embed(
-                            # title = "👾 Jogo: {} 👾".format(gameName),
-                            title = messages.title(gameName=gameName)[5],
-                            color = COLOR
-                        )
-                        embedSpecificGame.set_image(url=gameIMG)
-                        embedSpecificGame.add_field(
-                            name   = "**Link:**", 
-                            value  = "**[Clique Aqui]({})**".format(gameURL), 
-                            inline = False
-                        )
-
-                        if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
-                            embedSpecificGame.add_field(
-                                name   = "**Preço Original:**", 
-                                value  = "**{}**".format(gameOriginalPrice), 
-                                inline = True
-                            )
-                            embedSpecificGame.add_field(
-                                name   = "**Preço com Desconto:**", 
-                                value  = "**{}**".format(gameFinalPrice), 
-                                inline = True
-                            )
-                        else: # Caso o jogo não esteja em promoção.
-                            embedSpecificGame.add_field(
-                                name   = "**Preço:**", 
-                                value  = "**{}**".format(gameOriginalPrice), 
-                                inline = False
-                            )
-
-                        if(gameDescription != None):
-                            embedSpecificGame.add_field(
-                                name   = "**Descrição:**", 
-                                value  = "{}".format(gameDescription), 
-                                inline = False
-                            )
-
-                        embedSpecificGame.add_field(
-                            name   = "**Obs:**", 
-                            value  = messages.wrongGame(searchUrl), 
-                            inline = False
-                        )
-
+                    if(embedSpecificGame != None):
                         messageId = searchGameMessage.id
                         
                         await searchGameMessage.edit(content="", embed=embedSpecificGame)
@@ -793,7 +748,10 @@ async def on_message(message):
                         searchUrl  = searchUrl
                     )
 
+                    messageId = searchMessage.id
+
                     await searchMessage.edit(content="", embed=embedGameReview)
+                    await searchMessage.add_reaction(REACTION_GAME)
                 else:
                     await searchMessage.edit(content=messages.noOffers()[2])
             else:
@@ -900,6 +858,29 @@ async def on_reaction_add(reaction, user):
         )
 
         await message.channel.send(embed=embedGameReview)
+    elif(
+        reaction.emoji                          == REACTION_GAME  and
+        message.embeds[0].title.find("Análise") != -1             and
+        message.id                              == messageId      and
+        user.id                                 != client.user.id
+    ):
+        temp     = message.embeds[0].title.split(" ")
+        gameName = ""
+        x        = 2
+
+        while(temp[x] != "👍" and temp[x] != "👎"):
+            gameName += temp[x] + " "
+            x        += 1
+
+        gameName = gameName.strip()
+
+        embedSpecificGame = await specificGameEmbed(
+            crawler          = crawler, 
+            embedColor       = COLOR, 
+            gameNameToSearch = gameName
+        )
+
+        await message.channel.send(embed=embedSpecificGame)
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
