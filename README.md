@@ -16,7 +16,7 @@
 ------------
 
 <p align="center">
-  <img src="assets/SteamOS_Logo_Edit_Christmas.png">
+  <img src="assets/SteamOS_Logo_Edit.png">
 </p>
 
 ## 📖 Descrição do Projeto ##
