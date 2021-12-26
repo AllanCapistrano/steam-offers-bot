@@ -37,17 +37,17 @@ async def gameReviewEmbed(
     if(len(sumary) > 0):
         if (sumary[0].find("positivas") != -1):
             embedGameReview = discord.Embed(
-                title = "👍 Jogo: {} 👍".format(gameName),
+                title = "👍 Análise: {} 👍".format(gameName),
                 color = embedColor
             )
         elif(sumary[0].find("negativas") != -1):
             embedGameReview = discord.Embed(
-                title = "👎 Jogo: {} 👎".format(gameName),
+                title = "👎 Análise: {} 👎".format(gameName),
                 color = embedColor
             )
         else:
             embedGameReview = discord.Embed(
-                title = "👍 Jogo: {} 👎".format(gameName),
+                title = "👍 Análise: {} 👎".format(gameName),
                 color = embedColor
             )
         
