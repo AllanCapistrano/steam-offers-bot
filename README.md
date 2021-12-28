@@ -20,7 +20,7 @@
 </p>
 
 ## 📖 Descrição do Projeto ##
-> **Bot criado para mostrar quais jogos estão em promoção, sem precisar sair do Discord ou abrir a Steam. Ele também tem comandos para buscar o preço de um jogo pelo nome `$game [nome do jogo]`, recomendar um jogo a partir do gênero `$genre [gênero do jogo]`, entre outros, basta digitar `$help` para exibir a lista de comandos ou [clique aqui](#-lista-de-comandos).**
+> **Bot para visualizar informações sobre jogos e promoções na Steam sem precisar sair do Discord. Também possui comandos para recomendar jogos a partir do gênero `$genre [gênero do jogo]`, ver a média das análises de um jogo `$review [nome do jogo]`, entre outros, basta digitar `$help` para exibir a lista completa de comandos ou [clique aqui](#-lista-de-comandos).**
 
 ### 📦 Dependências: ###
 - [Requests](https://pypi.org/project/requests/)
@@ -37,7 +37,7 @@ Caso utilize o Bot, não esqueça de avaliá-lo nas seguintes BotLists:
 - [Top gg](https://top.gg/bot/714852360241020929)
 - [Disbotlist](https://disbotlist.xyz/bot/714852360241020929)
 
-Toda e qualquer sugestão é bem-vinda, e pode ser enviada através do campo de comentários dos links anteriores ou pela da aba de [issues](https://github.com/AllanCapistrano/SteamOffersBot/issues).
+Toda e qualquer sugestão é bem-vinda, e pode ser enviada através do campo de comentários dos links anteriores ou pela aba de [issues](https://github.com/AllanCapistrano/SteamOffersBot/issues).
 
 ------------
 
@@ -53,7 +53,7 @@ Comando | Descrição
 `$jogos populares` ou `$jp` | Exibe quais jogos da categoria **"Jogos Populares"** estão em promoção na loja.
 `$pré-venda` ou `$pv` | Exibe quais jogos da categoria **"Pré-venda"** estão em promoção na loja.
 `$botinfo` | Exibe as informações do Bot.
-`$game [nome do jogo]` | Busca um jogo pelo nome e exibe as suas informações.
+`$game [nome do jogo]` ou `$game [link]` | Busca um jogo e exibe as suas informações.
 `$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
 `$maxprice [preço]` | Recomenda um jogo dada uma faixa máxima de preço.
 `$análises [nome do jogo]` ou `$reviews [nome do jogo]` | Mostra o resumo das análises de um jogo.
