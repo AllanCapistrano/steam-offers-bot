@@ -514,22 +514,22 @@ async def on_message(message):
                 if(len(gameNameMessage) == 1):
                     await message.channel.send(messages.commandAlert()[0])
                 else:
-                    gameNameToSearch = gameNameMessage[1]
+                    gameToSearch = gameNameMessage[1]
                     
                     # Mensagem de busca de jogo, com efeito de carregamento.
-                    messageContent     = messages.searchMessage()[1]
-                    searchGameMessage  = await message.channel.send(messageContent + " __"+ gameNameToSearch + "__ .**")
+                    messageContent    = messages.searchMessage()[1]
+                    searchGameMessage = await message.channel.send(messageContent + " __"+ gameToSearch + "__ .**")
                     
                     sleep(0.5)
-                    await searchGameMessage.edit(content=messageContent + " __" + gameNameToSearch + "__ . .**")
+                    await searchGameMessage.edit(content=messageContent + " __" + gameToSearch + "__ . .**")
                     
                     sleep(0.5)
-                    await searchGameMessage.edit(content=messageContent + " __"+ gameNameToSearch + "__ . . .**")
+                    await searchGameMessage.edit(content=messageContent + " __"+ gameToSearch + "__ . . .**")
 
                     embedSpecificGame = await specificGameEmbed(
-                        crawler          = crawler, 
-                        embedColor       = COLOR, 
-                        gameNameToSearch = gameNameToSearch
+                        crawler      = crawler, 
+                        embedColor   = COLOR, 
+                        gameToSearch = gameToSearch
                     )
 
                     if(embedSpecificGame != None):
@@ -841,20 +841,13 @@ async def on_reaction_add(reaction, user):
         gameUrl = search(r'\((.*?)\)', gameUrlEmbed).group(1)
         gameIMG = message.embeds[0].image.url
 
-        # Embed do comando $game
-        if(len(message.embeds[0].fields) == 4):
-            searchUrlEmbed = message.embeds[0].fields[-1].value
-            searchUrl      = search(r'\((.*?)\)', searchUrlEmbed).group(1)
-        else: # Embed dos comandos $genre e $maxprice
-            searchUrl = None
-
         embedGameReview = await gameReviewEmbed(
             crawler    = crawler,
             embedColor = COLOR,
             gameUrl    = gameUrl,
             gameName   = gameName,
             gameIMG    = gameIMG,
-            searchUrl  = searchUrl
+            searchUrl  = None
         )
 
         await message.channel.send(embed=embedGameReview)
@@ -877,7 +870,7 @@ async def on_reaction_add(reaction, user):
         embedSpecificGame = await specificGameEmbed(
             crawler          = crawler, 
             embedColor       = COLOR, 
-            gameNameToSearch = gameName
+            gameToSearch = gameName
         )
 
         await message.channel.send(embed=embedSpecificGame)
