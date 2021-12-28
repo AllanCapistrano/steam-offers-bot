@@ -88,7 +88,6 @@ class Crawler:
         try:
             temp = soup.find(class_="game_description_snippet").contents[0].strip()
         except:
-            print("Unexpected error")
             temp = None
 
         return temp
