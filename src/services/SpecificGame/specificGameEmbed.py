@@ -8,7 +8,7 @@ from services import messages
 async def specificGameEmbed(
     crawler: Crawler,
     embedColor: Literal,
-    gameNameToSearch: str
+    gameToSearch: str
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
@@ -16,24 +16,42 @@ async def specificGameEmbed(
     ----------
     crawler: :class:`Crawler`
     embedColor: :class:`Literal`
-    gameNameToSearch :class:`str`
+    gameToSearch :class:`str`
 
     Returns
     ----------
     embedSpecificGame: :class:`Embed`
     """
-    
-    (
-        gameName, 
-        gameURL, 
-        gameIMG, 
-        gameOriginalPrice,
-        gameFinalPrice,
-        searchUrl,
-        gameDescription
-    ) = await crawler.getSpecificGame(gameNameToSearch)
 
-    if(gameName != None):
+    if(gameToSearch.lower().find("store.steampowered.com/app") != -1):
+        (
+            gameName, 
+            gameIMG, 
+            gameOriginalPrice,
+            gameFinalPrice,
+            gameDescription
+        ) = await crawler.getGameByLink(gameToSearch)
+
+        searchUrl = None
+        gameURL   = gameToSearch + "?l=brazilian"
+    else:
+        (
+            gameName, 
+            gameURL, 
+            gameIMG, 
+            gameOriginalPrice,
+            gameFinalPrice,
+            searchUrl,
+            gameDescription
+        ) = await crawler.getSpecificGame(gameToSearch)
+
+    if(
+        gameName          != None and
+        gameURL           != None and
+        gameIMG           != None and
+        gameOriginalPrice != None and
+        gameFinalPrice    != None
+    ):
         embedSpecificGame = discord.Embed(
             title = messages.title(gameName=gameName)[5],
             color = embedColor
@@ -70,11 +88,12 @@ async def specificGameEmbed(
                 inline = False
             )
 
-        embedSpecificGame.add_field(
-            name   = "**Obs:**", 
-            value  = messages.wrongGame(searchUrl), 
-            inline = False
-        )
+        if(searchUrl != None): # Caso seja passado o nome do jogo.
+            embedSpecificGame.add_field(
+                name   = "**Obs:**", 
+                value  = messages.wrongGame(searchUrl), 
+                inline = False
+            )
 
         return embedSpecificGame
     else:
