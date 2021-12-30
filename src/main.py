@@ -11,7 +11,7 @@ from services.GameReview.gameReviewEmbed import gameReviewEmbed
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
 
 # ------------------------------ Constants ----------------------------------- #
-PREFIX          = "$"
+PREFIX          = ">>"
 COLOR           = 0xa82fd2
 INVITE          = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL             = "https://store.steampowered.com/specials?cc=br#p=0&tab="
@@ -736,13 +736,7 @@ async def on_message(message):
                 else: # Caso seja passado o nome do jogo.
                     (
                         gameName, 
-                    gameName, 
-                        gameName, 
                         gameURL, 
-                    gameURL, 
-                        gameURL, 
-                        gameIMG, 
-                    gameIMG, 
                         gameIMG, 
                         gameOriginalPrice,
                         gameFinalPrice,
