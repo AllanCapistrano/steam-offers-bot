@@ -823,7 +823,8 @@ async def on_reaction_add(reaction, user):
     if(
         reaction.emoji                       == REACTION_REVIEW and 
         message.embeds[0].title.find("Jogo") != -1              and
-        user.id                              != client.user.id
+        user.id                              != client.user.id  and
+        not user.bot
     ):
         # Caso o comando seja $genre
         if(message.embeds[0].title.find("recomendado 🕹️") != -1):
@@ -857,7 +858,8 @@ async def on_reaction_add(reaction, user):
     elif(
         reaction.emoji                          == REACTION_GAME  and
         message.embeds[0].title.find("Análise") != -1             and
-        user.id                                 != client.user.id
+        user.id                                 != client.user.id and
+        not user.bot
     ):
         temp     = message.embeds[0].title.split(" ")
         gameName = ""
