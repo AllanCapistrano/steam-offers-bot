@@ -706,17 +706,19 @@ async def on_message(message):
                 __command__.find("review")   == 0
             ):
                 if(__command__.find("análises") == 0):
-                    gameNameToSearch = __command__.split("análises")
+                    gameToSearch = __command__.split("análises")
                 elif(__command__.find("analises") == 0):
-                    gameNameToSearch = __command__.split("analises")
+                    gameToSearch = __command__.split("analises")
                 elif(__command__.find("análise") == 0):
-                    gameNameToSearch = __command__.split("análise")
+                    gameToSearch = __command__.split("análise")
                 elif(__command__.find("analise") == 0):
-                    gameNameToSearch = __command__.split("analise")
+                    gameToSearch = __command__.split("analise")
                 elif(__command__.find("reviews") == 0):
-                    gameNameToSearch = __command__.split("reviews")
+                    gameToSearch = __command__.split("reviews")
                 elif(__command__.find("review") == 0):
-                    gameNameToSearch = __command__.split("review")
+                    gameToSearch = __command__.split("review")
+
+                gameToSearch = gameToSearch[1]
 
                 # Mensagem de busca, com efeito de carregamento.
                 messageContent = messages.searchMessage()[0]
@@ -728,15 +730,34 @@ async def on_message(message):
                 sleep(0.5)
                 await searchMessage.edit(content = messageContent+" **. .**")
 
-                (
+                # Caso seja passado o link do jogo.
+                if(gameToSearch.lower().find("store.steampowered.com/app") != -1):
+                    (
+                        gameName, 
+                        gameIMG, 
+                        gameOriginalPrice,
+                        gameFinalPrice,
+                        gameDescription
+                    ) = await crawler.getGameByLink(gameToSearch)
+
+                    searchUrl = None
+                    gameURL   = gameToSearch + "?l=brazilian"
+                else: # Caso seja passado o nome do jogo.
+                    (
+                        gameName, 
                     gameName, 
+                        gameName, 
+                        gameURL, 
                     gameURL, 
+                        gameURL, 
+                        gameIMG, 
                     gameIMG, 
-                    gameOriginalPrice,
-                    gameFinalPrice,
-                    searchUrl,
-                    gameDescription
-                ) = await crawler.getSpecificGame(gameNameToSearch[1])
+                        gameIMG, 
+                        gameOriginalPrice,
+                        gameFinalPrice,
+                        searchUrl,
+                        gameDescription
+                    ) = await crawler.getSpecificGame(gameToSearch)
 
                 if(gameURL != None):
                     embedGameReview = await gameReviewEmbed(
