@@ -27,7 +27,6 @@ intents.reactions = True
 client = discord.Client(intents=intents)
 crawler = Crawler()
 
-messageId = None
 
 @client.event
 async def on_ready():
@@ -44,8 +43,6 @@ async def on_ready():
 async def on_message(message):
     
     if(not message.author.bot):
-        global messageId
-
         if(message.content.lower().startswith(PREFIX)):
             __command__ = message.content.lower().split(PREFIX)[1]
             
@@ -533,8 +530,6 @@ async def on_message(message):
                     )
 
                     if(embedSpecificGame != None):
-                        messageId = searchGameMessage.id
-                        
                         await searchGameMessage.edit(content="", embed=embedSpecificGame)
                         await searchGameMessage.add_reaction(REACTION_REVIEW)
                     else:
@@ -612,8 +607,6 @@ async def on_message(message):
                                     inline = True
                                 )
 
-                        messageId = searchGenreMessage.id
-
                         await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
                         await searchGenreMessage.add_reaction(REACTION_REVIEW)
                     else:
@@ -687,8 +680,6 @@ async def on_message(message):
                             text = messages.recommendationByPrice()[2]
                         )
                     
-                    messageId = searchGameMessage.id
-
                     await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
                     await searchGameMessage.add_reaction(REACTION_REVIEW)
                 else:
@@ -769,8 +760,6 @@ async def on_message(message):
                         searchUrl  = searchUrl
                     )
 
-                    messageId = searchMessage.id
-
                     await searchMessage.edit(content="", embed=embedGameReview)
                     await searchMessage.add_reaction(REACTION_GAME)
                 else:
@@ -840,7 +829,6 @@ async def on_reaction_add(reaction, user):
     if(
         reaction.emoji                       == REACTION_REVIEW and 
         message.embeds[0].title.find("Jogo") != -1              and
-        message.id                           == messageId       and
         user.id                              != client.user.id
     ):
         # Caso o comando seja $genre
@@ -875,7 +863,6 @@ async def on_reaction_add(reaction, user):
     elif(
         reaction.emoji                          == REACTION_GAME  and
         message.embeds[0].title.find("Análise") != -1             and
-        message.id                              == messageId      and
         user.id                                 != client.user.id
     ):
         temp     = message.embeds[0].title.split(" ")
