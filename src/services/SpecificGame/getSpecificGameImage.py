@@ -12,4 +12,4 @@ def getSpecificGameImage(soup: BeautifulSoup) -> str:
     image: :class:`str`
     """
     
-    return soup.find('img').attrs['srcset'].split(" ")[2]
+    return soup.find("img").attrs["srcset"].split(" ")[2]

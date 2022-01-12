@@ -12,4 +12,4 @@ def getSpecificGameUrl(soup: BeautifulSoup) -> str:
     url: :class:`str`
     """
     
-    return soup.attrs['href']
+    return soup.attrs["href"]
