@@ -377,11 +377,11 @@ class Crawler:
         gameFinalPrices  = []
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-                thread0 = executor.submit(getRecommendationByPriceRangeNames, soup)
-                thread1 = executor.submit(getRecommendationByPriceRangeImages, soup)
-                thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup)
-                thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup)
-                thread4 = executor.submit(getRecommendationByPriceRangeUrls, soup)
+            thread0 = executor.submit(getRecommendationByPriceRangeNames, soup)
+            thread1 = executor.submit(getRecommendationByPriceRangeImages, soup)
+            thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup)
+            thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup)
+            thread4 = executor.submit(getRecommendationByPriceRangeUrls, soup)
                 
         gameNames        = thread0.result()
         gameImages       = thread1.result()
