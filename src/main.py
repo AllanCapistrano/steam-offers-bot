@@ -1,31 +1,35 @@
+import os
 import asyncio
 import discord
 from time import sleep
 from re import search
+from dotenv import load_dotenv
 
 from services.crawler import Crawler
 from services import messages
-from services import discordToken
 
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
 
+load_dotenv()
+
 # ------------------------------ Constants ----------------------------------- #
-PREFIX          = "$"
+PREFIX          = os.getenv("PREFIX")
 COLOR           = 0xa82fd2
 INVITE          = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL             = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 IMG_GENRES      = "https://i.imgur.com/q0NfeWX.png"
-TOKEN           = discordToken.myToken()
+TOKEN           = os.getenv("DISCORD_TOKEN")
+AUTHOR_ID       = int(os.getenv("AUTHOR_ID"))
 REACTION_REVIEW = "👍"
 REACTION_GAME   = "🎮"
 # ---------------------------------------------------------------------------- #
 
-intents = discord.Intents.default()
-intents.members = True
+intents           = discord.Intents.default()
+intents.members   = True
 intents.reactions = True
 
-client = discord.Client(intents=intents)
+client  = discord.Client(intents=intents)
 crawler = Crawler()
 
 @client.event
@@ -295,14 +299,14 @@ async def on_message(message):
                 embedBotInfo.add_field(
                     name   = "Sobre {}".format(client.user.name), 
                     value  = messages.infoValues()[2] + 
-                    client.get_user(259443927441080330).name + "#" 
-                    + client.get_user(259443927441080330).discriminator + "**", 
+                    client.get_user(AUTHOR_ID).name + "#" 
+                    + client.get_user(AUTHOR_ID).discriminator + "**", 
                     inline = False
                 )
                 embedBotInfo.set_author(
-                    name     = client.get_user(259443927441080330).name + "#" 
-                    + client.get_user(259443927441080330).discriminator, 
-                    icon_url = client.get_user(259443927441080330).avatar_url
+                    name     = client.get_user(AUTHOR_ID).name + "#" 
+                    + client.get_user(AUTHOR_ID).discriminator, 
+                    icon_url = client.get_user(AUTHOR_ID).avatar_url
                 )
                 embedBotInfo.set_footer(
                     text="Criado em 26 de Maio de 2020! | Última atualização em {}."
