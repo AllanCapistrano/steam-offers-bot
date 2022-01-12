@@ -15,12 +15,12 @@ def getSpotlightContents(soup: BeautifulSoup) -> list:
     
     contents = []
 
-    for spotlightGames in soup.find_all('div', class_='spotlight_content'):
-        contentDict = {
+    for spotlightGames in soup.find_all("div", class_="spotlight_content"):
+        contentDictionary = {
             "id": spotlightGames.parent.attrs["id"], 
             "value": spotlightGames.contents[1].contents[0]
         }
 
-        contents.append(contentDict)
+        contents.append(contentDictionary)
 
     return contents

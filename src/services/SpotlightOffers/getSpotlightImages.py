@@ -15,7 +15,7 @@ def getSpotlightImages(soup: BeautifulSoup) -> list:
     
     images = []
 
-    for spotlightGames in soup.find_all('div', class_='spotlight_img'):
-        images.append(spotlightGames.contents[1].contents[1].attrs['src'])
+    for spotlightGames in soup.find_all("div", class_="spotlight_img"):
+        images.append(spotlightGames.contents[1].contents[1].attrs["src"])
 
     return images
