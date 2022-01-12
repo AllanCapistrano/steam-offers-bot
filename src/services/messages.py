@@ -1,7 +1,7 @@
 from random import randint
 
-PREFIX = "$"
-IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
+# PREFIX = "$"
+# IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
 
 def randomMessage(msg: list) -> str:
     """ Função retornar uma mensagem aleatória.
@@ -18,8 +18,13 @@ def randomMessage(msg: list) -> str:
 
     return msg[randint(0, len(msg) - 1)]
 
-def noOffers() -> list:
+def noOffers(prefix: str = None) -> list:
     """ Mensagens para quando não existem promoções ou jogos em destaque.
+
+    Parameters
+    -----------
+    prefix: :class:`str`
+        Prefixo utilizado pelo Bot.
 
     Returns
     -----------
@@ -41,7 +46,7 @@ def noOffers() -> list:
     # Mensagem de gênero do jogo.
     msgList.append(
         "😟 **Gênero não encontrado! Por favor verifique o que foi digitado ou " + \
-        "utilize o comando `{}help genre` para verificar ".format(PREFIX) + \
+        "utilize o comando `{}help genre` para verificar ".format(prefix) + \
         "a lista completa dos gêneros disponíveis.**"
     )
 
@@ -59,6 +64,13 @@ def checkDm() -> list:
 
 def title(genre: str = None , gameName: str = None) -> list:
     """ Títulos das embeds.
+
+    Parameters
+    -----------
+    genre: :class:`str`
+        Gênero do jogo.
+    gameName: :class:`str`
+        Nome do jogo.
 
     Returns
     -----------
@@ -86,8 +98,13 @@ def title(genre: str = None , gameName: str = None) -> list:
 
     return titleList
 
-def helpValues() -> list:
+def helpValues(img: str = None) -> list:
     """ Conteúdo do comando $help.
+
+    Parameters
+    -----------
+    genre: :class:`str`
+        Link da imagem que contém os a lista de gêneros dos jogos.
 
     Returns
     -----------
@@ -96,7 +113,7 @@ def helpValues() -> list:
     
     msgList = []
 
-    msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(IMG_GENRES))
+    msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(img))
     msgList.append(
         "**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**")
     msgList.append(
@@ -129,17 +146,23 @@ def infoValues() -> list:
     
     msgList = []
 
-    msgList.append("**3.9.5**") # Versão Python
-    msgList.append("**1.7.2**") # Versão Discord.py
-    msgList.append("**Bot feito para notificar os jogos que estão em promoção, " 
-        "sem a necessidade de abrir a loja da Steam ou sair do Discord. "
-        "Criado por ") # Informações.
-    msgList.append("30 de Dezembro de 2021") # Data da última atualização.
+    msgList.append("**3.10.1**") # Versão Python
+    msgList.append("**1.7.3**") # Versão Discord.py
+    msgList.append("**Bot para visualizar informações sobre jogos e promoções "
+        "na Steam sem precisar sair do Discord. Criado por ") # Informações.
+    msgList.append("12 de Janeiro de 2022") # Data da última atualização.
 
     return msgList
 
 def status(prefix: str, numServers: int) -> list:
     """ Mensagens de status do Bot.
+
+    Parameters
+    -----------
+    prefix: :class:`str`
+        Prefixo utilizado pelo Bot.
+    numServers: :class:`int`
+        Quantidade de servidores em que o Bot está presente.
 
     Returns
     -----------
@@ -161,8 +184,13 @@ def status(prefix: str, numServers: int) -> list:
 
     return statusList
 
-def commandAlert() -> list:
+def commandAlert(prefix: str = None) -> list:
     """ Mensagens de erro durante o envio de um comando.
+
+    Parameters
+    -----------
+    prefix: :class:`str`
+        Prefixo utilizado pelo Bot.
 
     Returns
     -----------
@@ -171,8 +199,8 @@ def commandAlert() -> list:
     
     alertList = []
 
-    alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}game undertale`**".format(PREFIX))
-    alertList.append("⚠️ **Informe o gênero do jogo! Ex: `{}genre casual`**".format(PREFIX))
+    alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}game undertale`**".format(prefix))
+    alertList.append("⚠️ **Informe o gênero do jogo! Ex: `{}genre casual`**".format(prefix))
     alertList.append("⚠️ **Comando inválido!**")
 
     return alertList
@@ -183,13 +211,15 @@ def wrongGame(url: str) -> str:
     Parameters
     -----------
     url: :class:`str`
+        Url para ver a lista completa dos jogos.
 
     Returns
     -----------
     message: :class:`srt`
     """
 
-    return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
+    return "Não era o jogo que estava buscando? [Clique Aqui]({}) para " +\
+    "visualizar a lista completa dos jogos.".format(url)
 
 def gameGenres() -> str:
     """ Gêneros dos jogos.
