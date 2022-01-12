@@ -15,7 +15,7 @@ def getDailyGamesUrls(soup: BeautifulSoup) -> list:
 
     urls = []
 
-    for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
-        urls.append(dailyGames.contents[1].attrs['href'])
+    for dailyGames in soup.find_all("div", class_="dailydeal_cap"):
+        urls.append(dailyGames.contents[1].attrs["href"])
 
     return urls

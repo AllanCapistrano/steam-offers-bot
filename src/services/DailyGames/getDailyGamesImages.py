@@ -15,7 +15,7 @@ def getDailyGamesImages(soup: BeautifulSoup) -> list:
     
     images = []
 
-    for dailyGames in soup.find_all('div', class_='dailydeal_cap'):
-        images.append(dailyGames.contents[1].contents[1].attrs['src'])
+    for dailyGames in soup.find_all("div", class_="dailydeal_cap"):
+        images.append(dailyGames.contents[1].contents[1].attrs["src"])
 
     return images
