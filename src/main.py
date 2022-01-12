@@ -155,7 +155,7 @@ async def on_message(message):
                 embedInvite = discord.Embed(
                     title       = messages.title()[0],
                     color       = COLOR,
-                    description = '**{}**'.format(INVITE)
+                    description = "**{}**".format(INVITE)
                 )
                 embedInvite.set_thumbnail(url=client.user.avatar_url)
 
@@ -339,9 +339,9 @@ async def on_message(message):
                 if(x == 0):
                     await message.channel.send(messages.noOffers()[1])
                 else:
-                    messageConcat0 = ''
-                    messageConcat1 = ''
-                    member          = message.author
+                    messageConcat0 = ""
+                    messageConcat1 = ""
+                    member         = message.author
                     
                     while(x > 0):
                         if(x >= (num/2)):
@@ -387,9 +387,9 @@ async def on_message(message):
                 if(x == 0):
                     await message.channel.send(messages.noOffers()[1])
                 else:
-                    messageConcat0 = ''
-                    messageConcat1 = ''
-                    member          = message.author
+                    messageConcat0 = ""
+                    messageConcat1 = ""
+                    member         = message.author
                     
                     while(x > 0):
                         if(x >= num/2):
@@ -435,9 +435,9 @@ async def on_message(message):
                 if(x == 0):
                     await message.channel.send(messages.noOffers()[1])
                 else:
-                    messageConcat0 = ''
-                    messageConcat1 = ''
-                    member          = message.author
+                    messageConcat0 = ""
+                    messageConcat1 = ""
+                    member         = message.author
                     
                     while(x > 0):
                         if(x >= num/2):
@@ -484,9 +484,9 @@ async def on_message(message):
                 if(x == 0):
                     await message.channel.send(messages.noOffers()[1])
                 else:
-                    messageConcat0 = ''
-                    messageConcat1 = ''
-                    member          = message.author
+                    messageConcat0 = ""
+                    messageConcat1 = ""
+                    member         = message.author
                     
                     while(x > 0):
                         if(x >= num/2):
@@ -847,7 +847,7 @@ async def on_reaction_add(reaction, user):
 
             gameName = gameName.strip()
 
-        gameUrl = search(r'\((.*?)\)', gameUrlEmbed).group(1)
+        gameUrl = search(r"\((.*?)\)", gameUrlEmbed).group(1)
         gameIMG = message.embeds[0].image.url
 
         embedGameReview = await gameReviewEmbed(
