@@ -177,7 +177,7 @@ def status(prefix: str, numServers: int) -> list:
     statusList.append("{}game [nome] | {} Servidores".format(prefix, numServers))
     statusList.append("{}genre [gênero] | {} Servidores".format(prefix, numServers))
     statusList.append("{}maxprice [preço] | {} Servidores".format(prefix, numServers))
-    statusList.append("{}análises [nome] | {} Servidores".format(prefix, numServers))
+    statusList.append("{}análise [nome] | {} Servidores".format(prefix, numServers))
 
     return statusList
 
