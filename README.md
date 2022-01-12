@@ -1,7 +1,7 @@
 # SteamOffersBot
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/allancapistrano) 
 
-![BotStatus](https://img.shields.io/badge/status-online-success) [![python](https://img.shields.io/badge/python-3.9.5-informational?logo=python)](https://www.python.org/) [![discord.py](https://img.shields.io/badge/discord.py-1.7.2-informational?logo=discord&&logoColor=white)](https://pypi.org/project/discord.py/) [![BotInvite](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord&&logoColor=white)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
+![BotStatus](https://img.shields.io/badge/status-online-success) [![python](https://img.shields.io/badge/python-3.10.1-informational?logo=python)](https://www.python.org/) [![discord.py](https://img.shields.io/badge/discord.py-1.7.3-informational?logo=discord&&logoColor=white)](https://pypi.org/project/discord.py/) [![BotInvite](https://img.shields.io/badge/Convite_para_Discord-48568a?logo=discord&&logoColor=white)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 ------------
 
@@ -21,12 +21,6 @@
 
 ## 📖 Descrição do Projeto ##
 > **Bot para visualizar informações sobre jogos e promoções na Steam sem precisar sair do Discord. Também possui comandos para recomendar jogos a partir do gênero `$genre [gênero do jogo]`, ver a média das análises de um jogo `$review [nome do jogo]`, entre outros, basta digitar `$help` para exibir a lista completa de comandos ou [clique aqui](#-lista-de-comandos).**
-
-### 📦 Dependências: ###
-- [Requests](https://pypi.org/project/requests/)
-- [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
-- [LXML](https://pypi.org/project/lxml/)
-- [Discord.py](https://pypi.org/project/discord.py/)
 
 ------------
 
