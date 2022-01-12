@@ -1,8 +1,5 @@
 from random import randint
 
-# PREFIX = "$"
-# IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
-
 def randomMessage(msg: list) -> str:
     """ Função retornar uma mensagem aleatória.
 
