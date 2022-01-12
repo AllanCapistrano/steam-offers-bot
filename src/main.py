@@ -15,6 +15,7 @@ PREFIX          = "$"
 COLOR           = 0xa82fd2
 INVITE          = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 URL             = "https://store.steampowered.com/specials?cc=br#p=0&tab="
+IMG_GENRES      = "https://i.imgur.com/q0NfeWX.png"
 TOKEN           = discordToken.myToken()
 REACTION_REVIEW = "👍"
 REACTION_GAME   = "🎮"
@@ -26,7 +27,6 @@ intents.reactions = True
 
 client = discord.Client(intents=intents)
 crawler = Crawler()
-
 
 @client.event
 async def on_ready():
@@ -134,7 +134,7 @@ async def on_message(message):
                         )
                         embedHelp.add_field(
                             name   = "Ficou confuso(a) ?",
-                            value  = messages.helpValues()[0],
+                            value  = messages.helpValues(img=IMG_GENRES)[0],
                             inline = False
                         )
                         embedHelp.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(PREFIX))
@@ -293,7 +293,7 @@ async def on_message(message):
                     inline = True
                 )
                 embedBotInfo.add_field(
-                    name   = "Sobre SteamOffersBot", 
+                    name   = "Sobre {}".format(client.user.name), 
                     value  = messages.infoValues()[2] + 
                     client.get_user(259443927441080330).name + "#" 
                     + client.get_user(259443927441080330).discriminator + "**", 
@@ -509,7 +509,7 @@ async def on_message(message):
                 gameNameMessage = __command__.split("game ")
 
                 if(len(gameNameMessage) == 1):
-                    await message.channel.send(messages.commandAlert()[0])
+                    await message.channel.send(messages.commandAlert(prefix=PREFIX)[0])
                 else:
                     gameToSearch = gameNameMessage[1]
                     
@@ -540,7 +540,7 @@ async def on_message(message):
                 gameGenreMessage = __command__.split("genre ")
 
                 if(len(gameGenreMessage) == 1):
-                    await message.channel.send(messages.commandAlert()[1])
+                    await message.channel.send(messages.commandAlert(prefix=PREFIX)[1])
                 else:
                     gameGenreToSearch = gameGenreMessage[1]
 
@@ -610,7 +610,7 @@ async def on_message(message):
                         await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
                         await searchGenreMessage.add_reaction(REACTION_REVIEW)
                     else:
-                        await searchGenreMessage.edit(content=messages.noOffers()[3])
+                        await searchGenreMessage.edit(content=messages.noOffers(prefix=PREFIX)[3])
 
             # Comando: $maxprice
             elif(__command__.find("maxprice") == 0):
