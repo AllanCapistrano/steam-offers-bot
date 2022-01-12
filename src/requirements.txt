@@ -1,6 +1,0 @@
-requests
-beautifulsoup4
-discord.py
-lxml
-Unidecode
-python-dotenv
