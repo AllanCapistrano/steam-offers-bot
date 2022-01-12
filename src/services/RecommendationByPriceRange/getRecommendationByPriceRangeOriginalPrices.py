@@ -16,11 +16,10 @@ def getRecommendationByPriceRangeOriginalPrices(soup: BeautifulSoup) -> list:
     
     originalPrices = []
 
-    for listDivGamesPrices in soup.find_all('div', class_='search_price'):
-        if(listDivGamesPrices.contents[0] == '\n'):
+    for listDivGamesPrices in soup.find_all("div", class_="search_price"):
+        if(listDivGamesPrices.contents[0] == "\n"):
             if(len(listDivGamesPrices.contents) == 4):
-                
-                for listSpanGamesPrices in listDivGamesPrices.find_all('span'):
+                for listSpanGamesPrices in listDivGamesPrices.find_all("span"):
                     originalPrices.append(listSpanGamesPrices.contents[0].contents[0])
             else:
                 originalPrices.append("Não disponível!")

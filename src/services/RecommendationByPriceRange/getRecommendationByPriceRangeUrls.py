@@ -15,7 +15,7 @@ def getRecommendationByPriceRangeUrls(soup: BeautifulSoup) -> list:
     
     urls = []
 
-    for listAGamesUrls in soup.find_all('a', class_="search_result_row"):
-        urls.append(listAGamesUrls.attrs['href'])
+    for listAGamesUrls in soup.find_all("a", class_="search_result_row"):
+        urls.append(listAGamesUrls.attrs["href"])
 
     return urls

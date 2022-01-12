@@ -15,9 +15,9 @@ def getRecommendationByPriceRangeImages(soup: BeautifulSoup) -> list:
     
     images = []
 
-    for listDivGamesImages in soup.find_all('div', class_="search_capsule"):
-        for listImgGamesImages in listDivGamesImages.find_all('img'):
-            img = listImgGamesImages.attrs['srcset'].split(" ")[2]
+    for listDivGamesImages in soup.find_all("div", class_="search_capsule"):
+        for listImgGamesImages in listDivGamesImages.find_all("img"):
+            img = listImgGamesImages.attrs["srcset"].split(" ")[2]
             images.append(img)
 
     return images

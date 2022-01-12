@@ -15,8 +15,8 @@ def getRecommendationByPriceRangeNames(soup: BeautifulSoup) -> list:
     
     names = []
 
-    for listDivGamesNames in soup.find_all('div', class_="search_name"):
-        for listSpanGamesNames in listDivGamesNames.find_all('span', class_="title"):
+    for listDivGamesNames in soup.find_all("div", class_="search_name"):
+        for listSpanGamesNames in listDivGamesNames.find_all("span", class_="title"):
             names.append(listSpanGamesNames.contents[0])
 
     return names

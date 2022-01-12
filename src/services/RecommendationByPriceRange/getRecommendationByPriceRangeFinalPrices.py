@@ -16,8 +16,8 @@ def getRecommendationByPriceRangeFinalPrices(soup: BeautifulSoup) -> list:
     
     finalPrices = []
 
-    for listDivGamesPrices in soup.find_all('div', class_='search_price'):
-        if(listDivGamesPrices.contents[0] == '\n'):
+    for listDivGamesPrices in soup.find_all("div", class_="search_price"):
+        if(listDivGamesPrices.contents[0] == "\n"):
             if(len(listDivGamesPrices.contents) == 4):
                 temp = sub(r"\s+", "" , listDivGamesPrices.contents[3])
                 finalPrices.append(temp)
