@@ -15,16 +15,11 @@ def getDailyGamesFinalPrice(soup: BeautifulSoup) -> list:
     
     finalPrices = []
 
-    for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
-        dailyGamesPrices = dailyGames.find_all('div', class_='discount_prices')
-        temp = str(dailyGamesPrices).split('>')
-        
-        # Caso não tenha nenhum preço para o jogo.
+    for dailyGames in soup.find_all("div", class_="dailydeal_ctn"):
         try:
-            temp1 = temp[4].split('</div')
+            for dailyGamesPrices in dailyGames.find_all("div", class_="discount_prices"):
+                finalPrices.append(dailyGamesPrices.find_all("div", class_="discount_final_price")[0].contents[0])
         except:
-            temp1 = ["Não disponível!"]
-
-        finalPrices.append(temp1[0])
-
+            finalPrices("Não disponível")
+        
     return finalPrices
