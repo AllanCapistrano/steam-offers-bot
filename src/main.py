@@ -67,32 +67,32 @@ async def on_message(message):
                         icon_url = client.user.avatar_url
                     )
                     embedHelp.add_field(
-                        name   = "```{}promoção``` ou ```{}pr```".format(PREFIX, PREFIX),
+                        name   = "```{0}promoção``` ou ```{0}pr```".format(PREFIX),
                         value  = messages.helpValues()[1], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}destaque``` ou ```{}dt```".format(PREFIX, PREFIX),
+                        name   = "```{0}destaque``` ou ```{0}dt```".format(PREFIX),
                         value  = messages.helpValues()[2], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}novidades``` ou ```{}populares``` ou ```{}np```".format(PREFIX, PREFIX, PREFIX),
+                        name   = "```{0}novidades``` ou ```{0}populares``` ou ```{0}np```".format(PREFIX),
                         value  = messages.helpValues()[3], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}mais vendidos``` ou ```{}mv```".format(PREFIX, PREFIX),
+                        name   = "```{0}mais vendidos``` ou ```{0}mv```".format(PREFIX),
                         value  = messages.helpValues()[4], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}jogos populares``` ou ```{}jp```".format(PREFIX, PREFIX),
+                        name   = "```{0}jogos populares``` ou ```{0}jp```".format(PREFIX),
                         value  = messages.helpValues()[5], 
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}pré-venda``` ou ```{}pv```".format(PREFIX, PREFIX),
+                        name   = "```{0}pré-venda``` ou ```{0}pv```".format(PREFIX),
                         value  = messages.helpValues()[6], 
                         inline = False
                     )
@@ -122,7 +122,7 @@ async def on_message(message):
                         inline = False
                     )
                     embedHelp.add_field(
-                        name   = "```{}análises [nome do jogo]``` ou ```{}reviews [nome do jogo]```".format(PREFIX, PREFIX),
+                        name   = "```{0}análises [nome do jogo]``` ou ```{0}reviews [nome do jogo]```".format(PREFIX),
                         value  = messages.helpValues()[12], 
                         inline = False
                     )
