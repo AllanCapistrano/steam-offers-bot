@@ -15,7 +15,7 @@ def getTabContentUrls(soup: BeautifulSoup) -> list:
     
     urls = []
 
-    for tabContent in soup.find_all('a', class_='tab_item'):
-        urls.append(tabContent.attrs['href'])
+    for tabContent in soup.find_all("a", class_="tab_item"):
+        urls.append(tabContent.attrs["href"])
 
     return urls

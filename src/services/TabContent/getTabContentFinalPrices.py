@@ -15,14 +15,14 @@ def getTabContentFinalPrices(soup: BeautifulSoup) ->list:
     
     finalPrices = []
 
-    for tabContent in soup.find_all('div', class_='discount_prices'):                
+    for tabContent in soup.find_all("div", class_="discount_prices"):                
         if(len(tabContent) == 2):
             finalPrices.append(tabContent.contents[1].contents[0])
         elif(len(tabContent) == 1):
             temp = tabContent.contents[0].contents[0]
 
-            if(temp.find('Free') != -1):
-                temp = "Gratuiro p/ Jogar"
+            if(temp.find("Gratuito") != -1):
+                temp = "Gratuito p/ Jogar"
 
             finalPrices.append(temp)
 

@@ -15,7 +15,7 @@ def getTabContentNames(soup: BeautifulSoup) -> list:
     
     names = []
 
-    for tabContent in soup.find_all('div', class_='tab_item_name'):
+    for tabContent in soup.find_all("div", class_="tab_item_name"):
         names.append(tabContent.contents[0])
 
     return names

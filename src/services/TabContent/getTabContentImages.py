@@ -15,9 +15,9 @@ def getTabContentImages(soup: BeautifulSoup) -> list:
     
     images = []
 
-    for tabContent in soup.find_all('img', class_='tab_item_cap_img'):
+    for tabContent in soup.find_all("img", class_="tab_item_cap_img"):
         # Alterando a resolução da imagem.
-        imgResized = tabContent.attrs['src'].replace("184x69", "231x87")
+        imgResized = tabContent.attrs["src"].replace("184x69", "231x87")
 
         images.append(imgResized)
 
