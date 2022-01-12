@@ -327,7 +327,7 @@ async def on_message(message):
                     gamesOriginalPrices, 
                     gamesFinalPrices, 
                     gamesImages
-                ) = await crawler.getTabContent(URL+'=NewReleases', 'NewReleasesRows')
+                ) = await crawler.getTabContent(URL+"NewReleases", "NewReleasesRows")
                 
                 gamesNames.reverse() 
                 gamesUrls.reverse() 
@@ -375,7 +375,7 @@ async def on_message(message):
                     gamesOriginalPrices, 
                     gamesFinalPrices, 
                     gamesImages
-                ) = await crawler.getTabContent(URL+'=TopSellers', 'TopSellersRows')
+                ) = await crawler.getTabContent(URL+"TopSellers", "TopSellersRows")
                 
                 gamesNames.reverse()
                 gamesUrls.reverse()
@@ -423,7 +423,7 @@ async def on_message(message):
                     gamesOriginalPrices, 
                     gamesFinalPrices, 
                     gamesImages
-                ) = await crawler.getTabContent(URL+'=ConcurrentUsers', 'ConcurrentUsersRows')
+                ) = await crawler.getTabContent(URL+"ConcurrentUsers", "ConcurrentUsersRows")
                 
                 gamesNames.reverse()
                 gamesUrls.reverse()
@@ -472,7 +472,7 @@ async def on_message(message):
                     gamesOriginalPrices, 
                     gamesFinalPrices, 
                     gamesImages
-                ) = await crawler.getTabContent(URL+'=ComingSoon', 'ComingSoonRows')
+                ) = await crawler.getTabContent(URL+"ComingSoon", "ComingSoonRows")
                 
                 gamesNames.reverse()
                 gamesUrls.reverse()
@@ -585,7 +585,7 @@ async def on_message(message):
 
                         if(
                             (gameOriginalPrice == gameFinalPrice) and 
-                            (gameOriginalPrice != "Gratuiro p/ Jogar")
+                            (gameOriginalPrice != "Gratuito p/ Jogar")
                         ):
                             embedGameRecommendationByGenre.add_field(
                                 name   = "**Preço:**", 
@@ -593,7 +593,7 @@ async def on_message(message):
                                 inline = True
                             )
                         else:
-                            if(gameOriginalPrice != "Gratuiro p/ Jogar"):
+                            if(gameOriginalPrice != "Gratuito p/ Jogar"):
                                 embedGameRecommendationByGenre.add_field(
                                     name   = "**Preço Original:**", 
                                     value  = "**{}**".format(gameOriginalPrice), 
