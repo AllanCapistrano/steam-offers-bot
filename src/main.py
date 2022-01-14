@@ -256,16 +256,24 @@ async def on_message(message):
                             value  = "**[Clique Aqui]({})**".format(gamesUrls[x - 1]), 
                             inline = False
                         )
-                        embedDailyGames.add_field(
-                            name   = "**Preço Original:**", 
-                            value  = "**{}**".format(gamesOriginalPrices[x - 1]), 
-                            inline = True
-                        )
-                        embedDailyGames.add_field(
-                            name   = "**Preço com Desconto:**", 
-                            value  = "**{}**".format(gamesFinalPrices[x - 1]), 
-                            inline = True
-                        )
+
+                        if(gamesOriginalPrices[x - 1] == gamesFinalPrices[x - 1]):
+                            embedDailyGames.add_field(
+                                name   = "**Preço:**", 
+                                value  = "**{}**".format(gamesOriginalPrices[x - 1]), 
+                                inline = True
+                            )
+                        else:
+                            embedDailyGames.add_field(
+                                name   = "**Preço Original:**", 
+                                value  = "**{}**".format(gamesOriginalPrices[x - 1]), 
+                                inline = True
+                            )
+                            embedDailyGames.add_field(
+                                name   = "**Preço com Desconto:**", 
+                                value  = "**{}**".format(gamesFinalPrices[x - 1]), 
+                                inline = True
+                            )
 
                         if(first_iteration):
                             first_iteration = False
