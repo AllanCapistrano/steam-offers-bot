@@ -16,10 +16,12 @@ def getDailyGamesOriginalPrice(soup: BeautifulSoup) -> list:
     originalPrices = []
 
     for dailyGames in soup.find_all('div', class_='dailydeal_ctn'):
-        for dailyGamesPrices in dailyGames.find_all('div', class_='discount_prices'):
-            try:
+        dailyGamesPricesBlock = dailyGames.find_all('div', class_='discount_prices')
+        
+        if(len(dailyGamesPricesBlock) == 0):
+            originalPrices.append("Não disponível!")
+        else:
+            for dailyGamesPrices in dailyGamesPricesBlock:
                 originalPrices.append(dailyGamesPrices.find_all("div", class_="discount_original_price")[0].contents[0])
-            except:
-                originalPrices("Não disponível")
 
     return originalPrices
