@@ -186,7 +186,7 @@ async def on_message(message):
                 if(x == 0):
                     await searchMessage.edit(content=messages.noOffers()[0])
                 else:
-                    first_iteration = True
+                    firstIteration = True
 
                     while(x > 0):
                         embedSpotlightGames = discord.Embed(
@@ -205,8 +205,8 @@ async def on_message(message):
                             inline = False
                         )
 
-                        if(first_iteration):
-                            first_iteration = False
+                        if(firstIteration):
+                            firstIteration = False
                             
                             await searchMessage.edit(content="", embed=embedSpotlightGames)
                         else:
@@ -243,7 +243,7 @@ async def on_message(message):
                 if(x == 0):
                     await searchMessage.edit(content=messages.noOffers()[1])
                 else:
-                    first_iteration = True
+                    firstIteration = True
 
                     while(x > 0):
                         embedDailyGames = discord.Embed(
@@ -275,8 +275,8 @@ async def on_message(message):
                                 inline = True
                             )
 
-                        if(first_iteration):
-                            first_iteration = False
+                        if(firstIteration):
+                            firstIteration = False
 
                             await searchMessage.edit(content="", embed=embedDailyGames)
                         else:
