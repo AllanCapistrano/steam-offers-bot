@@ -22,6 +22,11 @@ def getDailyGamesFinalPrice(soup: BeautifulSoup) -> list:
             finalPrices.append("Não disponível!")
         else:
             for dailyGamesPrices in dailyGamesPricesBlock:
-                finalPrices.append(dailyGamesPrices.find_all("div", class_="discount_final_price")[0].contents[0])
+                finalPriceDiv = dailyGamesPrices.find_all("div", class_="discount_final_price")
+
+                if(len(finalPriceDiv) > 0):
+                    finalPrices.append(finalPriceDiv[0].contents[0])
+                else:
+                    finalPrices.append("Não disponível!")
         
     return finalPrices

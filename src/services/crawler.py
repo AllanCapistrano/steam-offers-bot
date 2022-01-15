@@ -11,6 +11,7 @@ from services.DailyGames.getDailyGamesUrls import getDailyGamesUrls
 from services.DailyGames.getDailyGamesImages import getDailyGamesImages
 from services.DailyGames.getDailyGamesOriginalPrice import getDailyGamesOriginalPrice
 from services.DailyGames.getDailyGamesFinalPrice import getDailyGamesFinalPrice
+from services.DailyGames.handlePriceIssues import handlePriceIssues
 
 from services.SpotlightOffers.getSpotlightUrls import getSpotlightUrls
 from services.SpotlightOffers.getSpotlightImages import getSpotlightImages
@@ -121,8 +122,15 @@ class Crawler:
 
         urls           = thread0.result()
         images         = thread1.result()
-        originalPrices = thread2.result()
-        finalPrices    = thread3.result()
+
+        # Verificação de incoerências nos preços.
+        (
+            originalPrices, 
+            finalPrices
+        ) = handlePriceIssues(
+                originalPrices=thread2.result(), 
+                finalPrices=thread3.result()
+            )
 
         return urls, images, originalPrices, finalPrices
     # ------------------------------------------------------------------------ #
