@@ -6,12 +6,12 @@ from bs4 import BeautifulSoup
 from services.tabContent import TabContent
 from services.tabContentRow import TabContentRow
 from services.genreFormatting import genreFormatting
+from services.handlePriceIssues import handlePriceIssues
 
 from services.DailyGames.getDailyGamesUrls import getDailyGamesUrls
 from services.DailyGames.getDailyGamesImages import getDailyGamesImages
 from services.DailyGames.getDailyGamesOriginalPrice import getDailyGamesOriginalPrice
 from services.DailyGames.getDailyGamesFinalPrice import getDailyGamesFinalPrice
-from services.DailyGames.handlePriceIssues import handlePriceIssues
 
 from services.SpotlightOffers.getSpotlightUrls import getSpotlightUrls
 from services.SpotlightOffers.getSpotlightImages import getSpotlightImages
@@ -443,11 +443,18 @@ class Crawler:
 
         name          = thread0.result()
         image         = thread1.result()
-        orginalPrice  = thread2.result()
-        finalPrice    = thread3.result()
         description   = thread4.result()
 
-        return name, image, orginalPrice, finalPrice, description
+        # Verificação de incoerências nos preços.
+        (
+            orginalPrice, 
+            finalPrice
+        ) = handlePriceIssues(
+                originalPrices=[thread2.result()], 
+                finalPrices=[thread3.result()]
+            )
+
+        return name, image, orginalPrice[0], finalPrice[0], description
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game Reviews --------------------------------- #
