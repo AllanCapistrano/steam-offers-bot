@@ -1,5 +1,27 @@
 from random import randint
 
+def priceToFloat(price: str) ->float:
+    """Transforma o preço no formato String em um número de ponto flutuante.
+    
+    Parameters
+    -----------
+    price: :class:`str`
+        Preço no formato String.
+
+    Returns
+    -----------
+    price: :class:`float`
+    """
+
+    index = 0
+
+    for x in range(len(price)):
+        if(price[x].isnumeric()):
+            index = x
+            break
+
+    return float(price[index:len(price)].replace(",", "."))
+
 def verifyPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
     """Função que verifica se o jogo está na faixa de preço indicada, e retorna
     a posição da lista de um jogo que satisfaz essa faixa.
@@ -34,8 +56,7 @@ def verifyPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
             ):
                 break
 
-            temp1      = temp.split("R$")[1]
-            finalPrice = float(temp1.replace(",", "."))
+            finalPrice = priceToFloat(temp)
             
             if(finalPrice < maxPrice):
                 break
