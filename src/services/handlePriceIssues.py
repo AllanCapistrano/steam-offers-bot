@@ -22,13 +22,15 @@ def handlePriceIssues(originalPrices: list, finalPrices: list) -> tuple[list, li
         for x in (0, originalPricesSize - 1):
             if(
                 (
-                    originalPrices[x] == "Não disponível!" and
-                    finalPrices[x].find("Gratuito") != -1
+                    originalPrices[x] == "Não disponível!"
+                    # originalPrices[x] == "Não disponível!" and
+                    # finalPrices[x].find("Gratuito") != -1
                 ) 
                 or
                 (
-                    originalPrices[x].find("Gratuito") != -1 and
                     finalPrices[x] == "Não disponível!"
+                    # originalPrices[x].find("Gratuito") != -1 and
+                    # finalPrices[x] == "Não disponível!"
                 )
             ):
                 originalPrices[x] = "Não disponível!"
