@@ -19,6 +19,7 @@ class Commands(commands.Cog):
         prefix: str, 
         color: Literal, 
         urlInvite: str,
+        ownerId: str
     ) -> None:
         """ Método construtor.
 
@@ -34,6 +35,7 @@ class Commands(commands.Cog):
         self.prefix    = prefix
         self.color     = color
         self.urlInvite = urlInvite
+        self.ownerId  = ownerId
         self.message   = Message()
         self.crawler   = Crawler()
 
@@ -255,3 +257,44 @@ class Commands(commands.Cog):
                     await ctx.send(embed=embedDailyGames)
                 
                 x -= 1
+
+    @commands.command(name="botinfo", aliases=["info"])
+    async def botInfo(self, ctx):
+        embedBotInfo = Embed(
+            title = self.message.title()[3],
+            color = self.color
+        )
+        embedBotInfo.set_thumbnail(url=self.client.user.avatar_url)
+        embedBotInfo.add_field(
+            name   = "Python", 
+            value  = self.message.infoValues()[0], 
+            inline = True
+        )
+        embedBotInfo.add_field(
+            name   = "discord.py", 
+            value  = self.message.infoValues()[1], 
+            inline = True
+        )
+        embedBotInfo.add_field(
+            name   = "Sobre {}".format(self.client.user.name), 
+            value  = self.message.infoValues()[2] + 
+            self.client.get_user(self.ownerId).name + "#" 
+            + self.client.get_user(self.ownerId).discriminator + "**", 
+            inline = False
+        )
+        embedBotInfo.set_author(
+            name     = self.client.get_user(self.ownerId).name + "#" 
+            + self.client.get_user(self.ownerId).discriminator, 
+            icon_url = self.client.get_user(self.ownerId).avatar_url
+        )
+        embedBotInfo.set_footer(
+            text="Criado em 26 de Maio de 2020! | Última atualização em {}."
+            .format(self.message.infoValues()[3])
+        )
+
+        await ctx.send(embed=embedBotInfo)
+
+
+
+
+        
