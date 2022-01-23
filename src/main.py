@@ -101,7 +101,8 @@ async def on_message(message):
                         inline = False
                     )
 
-                await message.channel.send(embed=embedGameBylink)
+                searchGameUrl = await message.channel.send(embed=embedGameBylink)
+                await searchGameUrl.add_reaction(REACTION_REVIEW)
 
     # Só executa caso a mensagem enviado pelo usuário não seja um comando.
     await client.process_commands(message)
