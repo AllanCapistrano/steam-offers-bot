@@ -143,7 +143,7 @@ class Commands(commands.Cog):
         await ctx.send(embed=embedInvite)
 
     @commands.command(name="destaque", aliases=["dt"])
-    async def spotlight(self, ctx):
+    async def spotlightOffers(self, ctx):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
@@ -190,4 +190,68 @@ class Commands(commands.Cog):
                 else:
                     await ctx.send(embed=embedSpotlightGames)
 
+                x -= 1
+
+    @commands.command(name="promoção", aliases=["promocao", "pr"])
+    async def dailyGamesOffers(self, ctx):
+        # Mensagem de busca, com efeito de carregamento.
+        messageContent = self.message.searchMessage()[0]
+        searchMessage  = await ctx.send(messageContent)
+        
+        sleep(0.5)
+        await searchMessage.edit(content=messageContent+" **.**")
+        
+        sleep(0.5)
+        await searchMessage.edit(content=messageContent+" **. .**")
+
+        (
+            gamesUrls, 
+            gamesImages,
+            gamesOriginalPrices,
+            gamesFinalPrices
+        ) = await self.crawler.getDailyGamesOffers()
+        x = len(gamesUrls)
+
+        if(x == 0):
+            await searchMessage.edit(content=self.message.noOffers()[1])
+        else:
+            firstIteration = True
+
+            while(x > 0):
+                embedDailyGames = Embed(
+                    title = self.message.title()[2],
+                    color = self.color
+                )
+                embedDailyGames.set_image(url=gamesImages[x - 1])
+                embedDailyGames.add_field(
+                    name   = "**Link:**", 
+                    value  = f"**[Clique Aqui]({gamesUrls[x - 1]})**", 
+                    inline = False
+                )
+
+                if(gamesOriginalPrices[x - 1] == gamesFinalPrices[x - 1]):
+                    embedDailyGames.add_field(
+                        name   = "**Preço:**", 
+                        value  = f"**{gamesOriginalPrices[x - 1]}**", 
+                        inline = True
+                    )
+                else:
+                    embedDailyGames.add_field(
+                        name   = "**Preço Original:**", 
+                        value  = f"**{gamesOriginalPrices[x - 1]}**", 
+                        inline = True
+                    )
+                    embedDailyGames.add_field(
+                        name   = "**Preço com Desconto:**", 
+                        value  = f"**{gamesFinalPrices[x - 1]}**", 
+                        inline = True
+                    )
+
+                if(firstIteration):
+                    firstIteration = False
+
+                    await searchMessage.edit(content="", embed=embedDailyGames)
+                else:
+                    await ctx.send(embed=embedDailyGames)
+                
                 x -= 1
