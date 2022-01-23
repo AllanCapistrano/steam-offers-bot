@@ -453,5 +453,81 @@ class Commands(commands.Cog):
             else:
                 await searchGameMessage.edit(content=self.message.noOffers()[2])
 
+    @commands.command(name="genre", aliases=["gênero", "genero"])
+    async def gameGenre(self, ctx, *args):
+        if(len(args) == 0):
+            await ctx.send(self.message.commandAlert(prefix=self.prefix)[1])
+        else:
+            gameGenreToSearch = ""
 
+            for arg in args:
+                gameGenreToSearch += arg
+
+            # Mensagem de busca, com efeito de carregamento.
+            messageContent      = self.message.searchMessage()[2]
+            searchGenreMessage  = await ctx.send(messageContent + " __"+ gameGenreToSearch +"__ .**")
+            
+            sleep(0.5)
+            await searchGenreMessage.edit(content=messageContent + " __" + gameGenreToSearch + "__ . .**")
+            
+            sleep(0.5)
+            await searchGenreMessage.edit(content=messageContent + " __" + gameGenreToSearch + "__ . . .**")
+
+            (
+                gameName, 
+                gameURL, 
+                gameOriginalPrice , 
+                gameFinalPrice, 
+                gameIMG
+            ) = await self.crawler.getGameRecommendationByGenre(gameGenreToSearch)
+
+            if(gameName != None):
+                embedGameRecommendationByGenre = Embed(
+                    title = self.message.title(genre=gameGenreToSearch)[6],
+                    color = self.color
+                )
+                embedGameRecommendationByGenre.set_image(url=gameIMG)
+                embedGameRecommendationByGenre.add_field(
+                    name   = "**Nome:**", 
+                    value  = "**{}**".format(gameName), 
+                    inline = False
+                )
+                embedGameRecommendationByGenre.add_field(
+                    name   = "**Link:**", 
+                    value  = "**[Clique Aqui]({})**".format(gameURL), 
+                    inline = False
+                )
+
+                if(
+                    (gameOriginalPrice == gameFinalPrice) and 
+                    (gameOriginalPrice != "Gratuito p/ Jogar")
+                ):
+                    embedGameRecommendationByGenre.add_field(
+                        name   = "**Preço:**", 
+                        value  = "**{}**".format(gameOriginalPrice), 
+                        inline = True
+                    )
+                else:
+                    if(gameOriginalPrice != "Gratuito p/ Jogar"):
+                        embedGameRecommendationByGenre.add_field(
+                            name   = "**Preço Original:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = True
+                        )
+                        embedGameRecommendationByGenre.add_field(
+                            name   = "**Preço com Desconto:**", 
+                            value  = "**{}**".format(gameFinalPrice), 
+                            inline = True
+                        )
+                    else:
+                        embedGameRecommendationByGenre.add_field(
+                            name   = "**Preço:**", 
+                            value  = "**{}**".format(gameOriginalPrice), 
+                            inline = True
+                        )
+
+                await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
+                await searchGenreMessage.add_reaction(self.reactions[0])
+            else:
+                await searchGenreMessage.edit(content=self.message.noOffers(prefix=self.prefix)[3])
 
