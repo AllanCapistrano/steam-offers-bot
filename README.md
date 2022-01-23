@@ -42,10 +42,7 @@ Comando | Descrição
 `$convite` | Gera o convite para que o Bot possa ser adicionado em outros servidores.
 `$promocao` ou `$pr` | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
 `$destaque` ou `$dt` | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
-`$novidades` ou `$populares` ou `$np` | Exibe quais jogos da categoria **"Novidades Populares"** estão em promoção na loja.
-`$mais vendidos` ou `$mv` | Exibe quais jogos da categoria **"Mais Vendidos"** estão em promoção na loja.
-`$jogos populares` ou `$jp` | Exibe quais jogos da categoria **"Jogos Populares"** estão em promoção na loja.
-`$pré-venda` ou `$pv` | Exibe quais jogos da categoria **"Pré-venda"** estão em promoção na loja.
+`$gametab [categoria]` | Envia para a sua DM uma lista contendo diversos jogos. Obs: digite `$help gametab` para ver todas as categorias.
 `$botinfo` | Exibe as informações do Bot.
 `$game [nome do jogo]` ou `$game [link]` | Busca um jogo e exibe as suas informações.
 `$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
