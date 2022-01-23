@@ -7,6 +7,8 @@ from discord.ext.commands import Bot
 
 from services.crawler import Crawler
 from services.messages import Message
+from services.SpecificGame.specificGameEmbed import specificGameEmbed
+from services.GameReview.gameReviewEmbed import gameReviewEmbed
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
@@ -20,7 +22,8 @@ class Commands(commands.Cog):
         prefix: str, 
         color: Literal, 
         urlInvite: str,
-        ownerId: str
+        ownerId: str,
+        reactions: list
     ) -> None:
         """ Método construtor.
 
@@ -36,7 +39,8 @@ class Commands(commands.Cog):
         self.prefix    = prefix
         self.color     = color
         self.urlInvite = urlInvite
-        self.ownerId  = ownerId
+        self.ownerId   = ownerId
+        self.reactions = reactions
         self.message   = Message()
         self.crawler   = Crawler()
 
@@ -145,7 +149,7 @@ class Commands(commands.Cog):
             )
             await ctx.send(embed=embedHelp)
         else:
-            # DISPARAR MENSAGEM DE COMANDO INVÁLIDO!
+            # Do something
             print("Comando inválido!")
 
     @commands.command(name="invite", aliases=["convite"])
@@ -417,7 +421,37 @@ class Commands(commands.Cog):
                     await member.send(messageConcat0)
                     await member.send(messageConcat1)
 
+    @commands.command(name="game", aliases=["jogo"])
+    async def specificGame(self, ctx, *args):
+        if(len(args) == 0):
+            await ctx.send(self.message.commandAlert(prefix=self.prefix)[0])
+        else:
+            gameToSearch = ""
 
+            for arg in args:
+                gameToSearch += arg
+
+            # Mensagem de busca de jogo, com efeito de carregamento.
+            messageContent    = self.message.searchMessage()[1]
+            searchGameMessage = await ctx.send(messageContent + " __"+ gameToSearch + "__ .**")
+            
+            sleep(0.5)
+            await searchGameMessage.edit(content=messageContent + " __" + gameToSearch + "__ . .**")
+            
+            sleep(0.5)
+            await searchGameMessage.edit(content=messageContent + " __"+ gameToSearch + "__ . . .**")
+
+            embedSpecificGame = await specificGameEmbed(
+                crawler      = self.crawler, 
+                embedColor   = self.color, 
+                gameToSearch = gameToSearch
+            )
+
+            if(embedSpecificGame != None):
+                await searchGameMessage.edit(content="", embed=embedSpecificGame)
+                await searchGameMessage.add_reaction(self.reactions[0])
+            else:
+                await searchGameMessage.edit(content=self.message.noOffers()[2])
 
 
 
