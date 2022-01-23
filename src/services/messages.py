@@ -96,13 +96,15 @@ class Message:
 
         return titleList
 
-    def helpValues(self, img: str = None) -> list:
+    def helpValues(self, img: str = None, prefix = None) -> list:
         """ Conteúdo do comando $help.
 
         Parameters
         -----------
         genre: :class:`str`
             Link da imagem que contém os a lista de gêneros dos jogos.
+        prefix: :class:`str`
+            Prefixo utilizado pelo Bot.
 
         Returns
         -----------
@@ -131,6 +133,8 @@ class Message:
         msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
         msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
         msgList.append("**Mostra o resumo das análises de um jogo. Obs: Não precisa dos [].**")
+        msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: digite `{}help gametab` para ver todas as categorias.**".format(prefix)
+        )
 
         return msgList
 
