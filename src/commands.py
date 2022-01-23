@@ -149,8 +149,7 @@ class Commands(commands.Cog):
             )
             await ctx.send(embed=embedHelp)
         else:
-            # Do something
-            print("Comando inválido!")
+            await ctx.send(self.message.commandAlert()[2])
 
     @commands.command(name="invite", aliases=["convite"])
     async def invite(self, ctx):
@@ -321,7 +320,9 @@ class Commands(commands.Cog):
             command = ""
 
             for arg in args:
-                command += arg
+                command += arg + " "
+            
+            command = command[0:(len(command) - 1)]
 
             gamesNames          = None
             gamesUrls           = None
@@ -429,7 +430,9 @@ class Commands(commands.Cog):
             gameToSearch = ""
 
             for arg in args:
-                gameToSearch += arg
+                gameToSearch += arg + " "
+
+            gameToSearch = gameToSearch[0:(len(gameToSearch) - 1)]
 
             # Mensagem de busca de jogo, com efeito de carregamento.
             messageContent    = self.message.searchMessage()[1]
@@ -461,7 +464,9 @@ class Commands(commands.Cog):
             gameGenreToSearch = ""
 
             for arg in args:
-                gameGenreToSearch += arg
+                gameGenreToSearch += arg + " "
+
+            gameGenreToSearch = gameGenreToSearch[0:(len(gameGenreToSearch) - 1)]
 
             # Mensagem de busca, com efeito de carregamento.
             messageContent      = self.message.searchMessage()[2]
@@ -607,5 +612,62 @@ class Commands(commands.Cog):
             else:
                 await ctx.send(self.message.recommendationByPrice()[0])
 
+    @commands.command(
+        name="review", 
+        aliases=["reviews", "análise", "análises", "analise", "analises"]
+    )
+    async def review(self, ctx, *args):
+        gameToSearch = ""
 
+        for arg in args:
+            gameToSearch += arg + " "
 
+        gameToSearch = gameToSearch[0:(len(gameToSearch) - 1)]
+
+        # Mensagem de busca, com efeito de carregamento.
+        messageContent = self.message.searchMessage()[0]
+        searchMessage  = await ctx.send(messageContent)
+        
+        sleep(0.5)
+        await searchMessage.edit(content = messageContent+" **.**")
+        
+        sleep(0.5)
+        await searchMessage.edit(content = messageContent+" **. .**")
+
+        # Caso seja passado o link do jogo.
+        if(gameToSearch.lower().find("store.steampowered.com/app") != -1):
+            (
+                gameName, 
+                gameIMG, 
+                gameOriginalPrice,
+                gameFinalPrice,
+                gameDescription
+            ) = await self.crawler.getGameByLink(gameToSearch)
+
+            searchUrl = None
+            gameURL   = gameToSearch + "?l=brazilian"
+        else: # Caso seja passado o nome do jogo.
+            (
+                gameName, 
+                gameURL, 
+                gameIMG, 
+                gameOriginalPrice,
+                gameFinalPrice,
+                searchUrl,
+                gameDescription
+            ) = await self.crawler.getSpecificGame(gameToSearch)
+
+        if(gameURL != None):
+            embedGameReview = await gameReviewEmbed(
+                crawler    = self.crawler,
+                embedColor = self.color,
+                gameUrl    = gameURL,
+                gameName   = gameName,
+                gameIMG    = gameIMG,
+                searchUrl  = searchUrl
+            )
+
+            await searchMessage.edit(content="", embed=embedGameReview)
+            await searchMessage.add_reaction(self.reactions[1])
+        else:
+            await searchMessage.edit(content=self.message.noOffers()[2])
