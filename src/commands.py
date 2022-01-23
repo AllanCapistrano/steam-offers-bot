@@ -316,19 +316,19 @@ class Commands(commands.Cog):
     @commands.command(name="gametab")
     async def newReleases(self, ctx, *args):
         if(len(args) == 0):
-            print("do something")
+            await ctx.send(self.message.commandAlert(prefix=self.prefix)[3])
         else:
-            commandsss = ""
+            command = ""
 
             for arg in args:
-                commandsss += arg
+                command += arg
 
             gamesNames          = None
             gamesUrls           = None
             gamesOriginalPrices = None
             gamesFinalPrices    = None
 
-            match commandsss:
+            match command:
                 case (
                     "novidades populares" | 
                     "novidadespopulares" |
