@@ -276,18 +276,18 @@ class Message:
         msgList = []
 
         msgList.append(
-            "**Faixa de preço inválida! Tente novamente.**"
+            "⚠️ **Faixa de preço inválida! Tente novamente.**"
         )
         msgList.append(
             "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
-            "Logo pode aparecer um jogo de qualquer preço aqui."
+            "Logo o jogo acima está em qualquer faixa de preço."
         )
         msgList.append(
             "A faixa mínima de preço para o filtro é de R$ 10,00. " + \
             "Logo o jogo acima está nessa faixa."
         )
         msgList.append(
-            "**É necessário informar uma faixa máxima de preço.**"
+            "⚠️ **É necessário informar uma faixa máxima de preço.**"
         )
 
         return msgList
