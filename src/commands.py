@@ -65,23 +65,8 @@ class Commands(commands.Cog):
                 inline = False
             )
             embedHelp.add_field(
-                name   = "```{0}novidades``` ou ```{0}populares``` ou ```{0}np```".format(self.prefix),
-                value  = self.message.helpValues()[3], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}mais vendidos``` ou ```{0}mv```".format(self.prefix),
-                value  = self.message.helpValues()[4], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}jogos populares``` ou ```{0}jp```".format(self.prefix),
-                value  = self.message.helpValues()[5], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}pré-venda``` ou ```{0}pv```".format(self.prefix),
-                value  = self.message.helpValues()[6], 
+                name   = "```{0}gametab [categoria]```".format(self.prefix),
+                value  = self.message.helpValues(prefix=self.prefix)[13], 
                 inline = False
             )
             embedHelp.add_field(
@@ -130,9 +115,38 @@ class Commands(commands.Cog):
             embedHelp.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(self.prefix))
 
             await ctx.send(embed=embedHelp)
+        elif(len(args) == 1 and args[0] == "gametab"):
+            embedHelp = Embed(
+                color = self.color
+            )
+            embedHelp.set_author(
+                name     = f"{self.client.user.name} comando {self.prefix}gametab:", 
+                icon_url = self.client.user.avatar_url
+            )
+            embedHelp.add_field(
+                name   = "```{0}gametab novidades populares``` ou ```{0}gametab np```".format(self.prefix),
+                value  = self.message.helpValues()[3], 
+                inline = False
+            )
+            embedHelp.add_field(
+                name   = "```{0}gametab mais vendidos``` ou ```{0}gametab mv```".format(self.prefix),
+                value  = self.message.helpValues()[4], 
+                inline = False
+            )
+            embedHelp.add_field(
+                name   = "```{0}gametab jogos populares``` ou ```{0}gametab jp```".format(self.prefix),
+                value  = self.message.helpValues()[5], 
+                inline = False
+            )
+            embedHelp.add_field(
+                name   = "```{0}gametab pré-venda``` ou ```{0}gametab pv```".format(self.prefix),
+                value  = self.message.helpValues()[6], 
+                inline = False
+            )
+            await ctx.send(embed=embedHelp)
         else:
             # DISPARAR MENSAGEM DE COMANDO INVÁLIDO!
-            print("Comando errado!")
+            print("Comando inválido!")
 
     @commands.command(name="invite", aliases=["convite"])
     async def invite(self, ctx):
@@ -295,50 +309,115 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embedBotInfo)
 
-    @commands.command(
-        name="novidades populares", 
-        aliases=["novidades", "populares", "np"]
-    )
-    async def newReleases(self, ctx):
-        (
-            gamesNames, 
-            gamesUrls, 
-            gamesOriginalPrices, 
-            gamesFinalPrices, 
-            gamesImages
-        ) = await self.crawler.getTabContent(URL+"NewReleases", "NewReleasesRows")
-        
-        gamesNames.reverse() 
-        gamesUrls.reverse() 
-        gamesOriginalPrices.reverse() 
-        gamesFinalPrices.reverse()
-        
-        num = x = len(gamesNames)
-
-        if(x == 0):
-            await ctx.send(self.message.noOffers()[1])
+    @commands.command(name="gametab")
+    async def newReleases(self, ctx, *args):
+        if(len(args) == 0):
+            print("do something")
         else:
-            messageConcat0 = ""
-            messageConcat1 = ""
-            member         = ctx.author
-            
-            while(x > 0):
-                if(x >= (num/2)):
-                    messageConcat0 = messageConcat0 + "**Nome: **" + \
-                        gamesNames[x - 1] + "\n**Link:** <" + \
-                        gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
-                        gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
-                        gamesFinalPrices[x - 1] + "\n\n"
-                else:
-                    messageConcat1 = messageConcat1 + "**Nome: **" + \
-                        gamesNames[x - 1] + "\n**Link:** <" + \
-                        gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
-                        gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
-                        gamesFinalPrices[x - 1] + "\n\n"
-                
-                x -= 1
+            commandsss = ""
 
-            await ctx.send(member.mention + self.message.checkDm())
-            await member.send(messageConcat0)
-            await member.send(messageConcat1)
+            for arg in args:
+                commandsss += arg
+
+            gamesNames          = None
+            gamesUrls           = None
+            gamesOriginalPrices = None
+            gamesFinalPrices    = None
+
+            match commandsss:
+                case (
+                    "novidades populares" | 
+                    "novidadespopulares" |
+                    "novidades" | 
+                    "populares" | 
+                    "np"
+                ):
+                    (
+                        gamesNames, 
+                        gamesUrls, 
+                        gamesOriginalPrices, 
+                        gamesFinalPrices, 
+                        gamesImages
+                    ) = await self.crawler.getTabContent(url=URL+"NewReleases", divId="NewReleasesRows")
+                case ("mais vendidos" | "maisvendidos" | "mv"):
+                    (
+                        gamesNames, 
+                        gamesUrls, 
+                        gamesOriginalPrices, 
+                        gamesFinalPrices, 
+                        gamesImages
+                    ) = await self.crawler.getTabContent(url=URL+"TopSellers", divId="TopSellersRows")
+                case ("jogos populares" | "jogospopulares" | "jp"):
+                    (
+                        gamesNames, 
+                        gamesUrls, 
+                        gamesOriginalPrices, 
+                        gamesFinalPrices, 
+                        gamesImages
+                    ) = await self.crawler.getTabContent(url=URL+"ConcurrentUsers", divId="ConcurrentUsersRows")
+                case (
+                    "pré-venda" | 
+                    "pré venda" | 
+                    "prévenda" | 
+                    "pre-venda" | 
+                    "pre venda" | 
+                    "prevenda" | 
+                    "pv"
+                ):
+                    (
+                        gamesNames, 
+                        gamesUrls, 
+                        gamesOriginalPrices, 
+                        gamesFinalPrices, 
+                        gamesImages
+                    ) = await self.crawler.getTabContent(url=URL+"ComingSoon", divId="ComingSoonRows")
+                case _:
+                    await ctx.send(
+                        self.message.commandAlert()[2] + 
+                        f"\nDigite **{self.prefix}help gametab** para ver todas as possibilidades"
+                    )
+        
+            if(
+                gamesNames != None or 
+                gamesUrls != None or 
+                gamesOriginalPrices != None or 
+                gamesFinalPrices != None
+            ):
+                gamesNames.reverse() 
+                gamesUrls.reverse() 
+                gamesOriginalPrices.reverse() 
+                gamesFinalPrices.reverse()
+                
+                num = x = len(gamesNames)
+
+                if(x == 0):
+                    await ctx.send(self.message.noOffers()[1])
+                else:
+                    messageConcat0 = ""
+                    messageConcat1 = ""
+                    member         = ctx.author
+                    
+                    while(x > 0):
+                        if(x >= (num/2)):
+                            messageConcat0 = messageConcat0 + "**Nome: **" + \
+                                gamesNames[x - 1] + "\n**Link:** <" + \
+                                gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                                gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                                gamesFinalPrices[x - 1] + "\n\n"
+                        else:
+                            messageConcat1 = messageConcat1 + "**Nome: **" + \
+                                gamesNames[x - 1] + "\n**Link:** <" + \
+                                gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                                gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                                gamesFinalPrices[x - 1] + "\n\n"
+                        
+                        x -= 1
+
+                    await ctx.send(member.mention + self.message.checkDm())
+                    await member.send(messageConcat0)
+                    await member.send(messageConcat1)
+
+
+
+
 
