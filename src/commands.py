@@ -10,6 +10,7 @@ from services.messages import Message
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
+URL        = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 # ---------------------------------------------------------------------------- #
 
 class Commands(commands.Cog):
@@ -294,7 +295,50 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embedBotInfo)
 
-
-
-
+    @commands.command(
+        name="novidades populares", 
+        aliases=["novidades", "populares", "np"]
+    )
+    async def newReleases(self, ctx):
+        (
+            gamesNames, 
+            gamesUrls, 
+            gamesOriginalPrices, 
+            gamesFinalPrices, 
+            gamesImages
+        ) = await self.crawler.getTabContent(URL+"NewReleases", "NewReleasesRows")
         
+        gamesNames.reverse() 
+        gamesUrls.reverse() 
+        gamesOriginalPrices.reverse() 
+        gamesFinalPrices.reverse()
+        
+        num = x = len(gamesNames)
+
+        if(x == 0):
+            await ctx.send(self.message.noOffers()[1])
+        else:
+            messageConcat0 = ""
+            messageConcat1 = ""
+            member         = ctx.author
+            
+            while(x > 0):
+                if(x >= (num/2)):
+                    messageConcat0 = messageConcat0 + "**Nome: **" + \
+                        gamesNames[x - 1] + "\n**Link:** <" + \
+                        gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                        gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                        gamesFinalPrices[x - 1] + "\n\n"
+                else:
+                    messageConcat1 = messageConcat1 + "**Nome: **" + \
+                        gamesNames[x - 1] + "\n**Link:** <" + \
+                        gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                        gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                        gamesFinalPrices[x - 1] + "\n\n"
+                
+                x -= 1
+
+            await ctx.send(member.mention + self.message.checkDm())
+            await member.send(messageConcat0)
+            await member.send(messageConcat1)
+
