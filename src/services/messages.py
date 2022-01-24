@@ -204,7 +204,7 @@ class Message:
         alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}game undertale`**".format(prefix))
         alertList.append("⚠️ **Informe o gênero do jogo! Ex: `{0}genre casual` \n Ou digite `{0}help genre` para ver todos os gêneros.**".format(prefix))
         alertList.append("⚠️ **Comando inválido!**")
-        alertList.append("⚠️ **Informe a categoria! Ex: `{0}gametab pré-venda` \n Ou digite `{0}help gametab` para ver todas as categorias.**".format(prefix))
+        alertList.append("⚠️ **Categoria inválida! \nDigite `{0}help gametab` para ver todas as categorias.**".format(prefix))
 
         return alertList
 
@@ -303,5 +303,19 @@ class Message:
         msgList = []
 
         msgList.append("Não há análises disponíveis no momento.")
+
+        return msgList
+
+    def somethingWentWrong(self) -> list:
+        """ Mensagens para algo deu errado.
+
+        Returns
+        -----------
+        msgList: :class:`list`
+        """
+        
+        msgList = []
+
+        msgList.append("😞 **Algo de errado aconteceu! Tente novamente.**")
 
         return msgList
