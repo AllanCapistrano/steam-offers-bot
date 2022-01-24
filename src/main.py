@@ -3,6 +3,7 @@ import asyncio
 from re import search
 
 import discord
+from discord import User, Reaction
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -47,7 +48,7 @@ async def on_ready():
     await client.change_presence(status=online, activity=game)
 
 @client.event
-async def on_message(message):
+async def on_message(message: str):
     if(not message.author.bot):
         # Caso a mensagem enviada contenha o link de um jogo da Steam.
         if(message.content.lower().find("store.steampowered.com/app") != -1):
@@ -108,7 +109,7 @@ async def on_message(message):
     await client.process_commands(message)
 
 @client.event
-async def on_reaction_add(reaction, user):
+async def on_reaction_add(reaction: Reaction, user: User):
     message = reaction.message
 
     # Caso a reação seja na mensagem do comando $game, $genre ou $maxprice
