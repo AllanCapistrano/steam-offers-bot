@@ -152,7 +152,7 @@ class Message:
         msgList.append("**1.7.3**") # Versão Discord.py
         msgList.append("**Bot para visualizar informações sobre jogos e promoções "
             "na Steam sem precisar sair do Discord. Criado por ") # Informações.
-        msgList.append("15 de Janeiro de 2022") # Data da última atualização.
+        msgList.append("24 de Janeiro de 2022") # Data da última atualização.
 
         return msgList
 
