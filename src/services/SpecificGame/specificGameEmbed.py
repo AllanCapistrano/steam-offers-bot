@@ -3,7 +3,7 @@ import discord
 from discord.embeds import Embed
 
 from services.crawler import Crawler
-from services import messages
+from services.messages import Message
 
 async def specificGameEmbed(
     crawler: Crawler,
@@ -52,8 +52,10 @@ async def specificGameEmbed(
         gameOriginalPrice != None and
         gameFinalPrice    != None
     ):
+        message = Message()
+
         embedSpecificGame = discord.Embed(
-            title = messages.title(gameName=gameName)[5],
+            title = message.title(gameName=gameName)[5],
             color = embedColor
         )
         embedSpecificGame.set_image(url=gameIMG)
@@ -91,7 +93,7 @@ async def specificGameEmbed(
         if(searchUrl != None): # Caso seja passado o nome do jogo.
             embedSpecificGame.add_field(
                 name   = "**Obs:**", 
-                value  = messages.wrongGame(searchUrl), 
+                value  = message.wrongGame(searchUrl), 
                 inline = False
             )
 

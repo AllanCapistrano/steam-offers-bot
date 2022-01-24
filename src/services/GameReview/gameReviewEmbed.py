@@ -3,7 +3,7 @@ import discord
 from discord.embeds import Embed
 
 from services.crawler import Crawler
-from services import messages
+from services.messages import Message
 
 async def gameReviewEmbed(
     crawler: Crawler,
@@ -33,6 +33,8 @@ async def gameReviewEmbed(
         sumary, 
         totalAmount
     ) = await crawler.getGameReview(gameUrl)
+
+    message = Message()
 
     if(len(sumary) > 0):
         if (sumary[0].find("positivas") != -1):
@@ -74,7 +76,7 @@ async def gameReviewEmbed(
         if(searchUrl != None):
             embedGameReview.add_field(
                 name   = "**Obs:**", 
-                value  = messages.wrongGame(searchUrl), 
+                value  = message.wrongGame(searchUrl), 
                 inline = False
             )
     else:
@@ -85,7 +87,7 @@ async def gameReviewEmbed(
         embedGameReview.set_image(url=gameIMG)
         embedGameReview.add_field(
             name   = "**Observação:**", 
-            value  = messages.noReviews()[0], 
+            value  = message.noReviews()[0], 
             inline = False
         )
 

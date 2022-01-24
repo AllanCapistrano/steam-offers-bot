@@ -345,12 +345,14 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ----------------- Recommendation By Price Range ------------------------ #
-    async def getGameRecommendationByPriceRange(self, maxPrice: str) -> tuple[str, str, str, str, str]:
+    async def getGameRecommendationByPriceRange(self, code: str, maxPrice: float) -> tuple[str, str, str, str, str]:
         """Função que retorna um jogo com base numa faixa de preço especificada.
 
         Parameters
         -----------
-        maxPrice: :class:`str`
+        code :class:`str`
+            Código do preço.
+        maxPrice: :class:`float`
             Faixa de preço.
 
         Returns
@@ -367,15 +369,14 @@ class Crawler:
             Preço com desconto do jogo.
         """
         
-        if(maxPrice == "rZ04j"):
-            url           = URL_PRICE_RANGE
-            maxPriceFloat = None
-        elif(maxPrice == "19Jfc"):
-            url           = URL_PRICE_RANGE + '&maxprice=10&cc=br'
-            maxPriceFloat = 10.0
+        if(code == "rZ04j"): # Preço maior que R$ 120,00
+            url      = URL_PRICE_RANGE
+            maxPrice = 0.0
+        elif(code == "19Jfc"):  # Preço menor que R$ 10,00
+            url      = URL_PRICE_RANGE + '&maxprice=10&cc=br'
+            maxPrice = 10.0
         else:
-            url           = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
-            maxPriceFloat = float(maxPrice)
+            url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
         
         soup             = self.reqUrl(url)
         gameNames        = []
@@ -397,7 +398,7 @@ class Crawler:
         gameFinalPrices  = thread3.result()
         gameUrls         = thread4.result()
 
-        index = verifyPriceRange(maxPriceFloat, gameFinalPrices)
+        index = verifyPriceRange(maxPrice=maxPrice, gameFinalPrices=gameFinalPrices)
 
         gameName        = gameNames[index]
         gameImage       = gameImages[index]

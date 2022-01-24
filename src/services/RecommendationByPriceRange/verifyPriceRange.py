@@ -45,7 +45,7 @@ def verifyPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
             gameFinalPrices[index] != "Gratuito para jogar" or 
             gameFinalPrices[index] != "Não disponível!"
         ) and
-        maxPrice != None
+        maxPrice != 0.0
     ):
         while(True):
             temp = gameFinalPrices[index]
