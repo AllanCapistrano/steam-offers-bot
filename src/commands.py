@@ -48,6 +48,11 @@ class Commands(commands.Cog):
     async def on_ready(self):
         print(f"\nO {self.client.user.name} está escutando os comandos.")
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandNotFound):
+            await ctx.send(self.message.commandAlert()[2])
+
     @commands.command(name="help", aliases=["ajuda", "comandos"])
     async def help(self, ctx, *args):
         if(len(args) == 0):
