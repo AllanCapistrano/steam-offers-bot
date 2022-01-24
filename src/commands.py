@@ -689,13 +689,8 @@ class Commands(commands.Cog):
         name="review", 
         aliases=["reviews", "análise", "análises", "analise", "analises"]
     )
-    async def review(self, ctx, *args):
-        gameToSearch = ""
-
-        for arg in args:
-            gameToSearch += arg + " "
-
-        gameToSearch = gameToSearch[0:(len(gameToSearch) - 1)]
+    async def review(self, ctx, *, args):
+        gameToSearch = args
 
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
@@ -744,3 +739,9 @@ class Commands(commands.Cog):
             await searchMessage.add_reaction(self.reactions[1])
         else:
             await searchMessage.edit(content=self.message.noOffers()[2])
+
+    @review.error
+    async def reviewError(self, ctx, error):
+        if(isinstance(error, commands.MissingRequiredArgument)):
+            if(error.param.name == "args"):
+                await ctx.send(self.message.commandAlert(self.prefix)[4])
