@@ -27,7 +27,7 @@ def getRecommendationByPriceRangeOriginalPrices(soup: BeautifulSoup) -> list:
             temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
 
             if(temp.find("Gratuito") != -1):
-                temp = "Gratuito p/ Jogar"
+                temp = "Gratuito p/ jogar"
                 
             originalPrices.append(temp)
 
