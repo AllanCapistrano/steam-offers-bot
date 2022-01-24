@@ -276,7 +276,8 @@ class Message:
         msgList = []
 
         msgList.append(
-            "⚠️ **Faixa de preço inválida! Tente novamente.**"
+            "⚠️ **Faixa de preço inválida! Tente novamente. " + \
+            "\nObs: Não utilize vírgulas nem pontos.**"
         )
         msgList.append(
             "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
