@@ -5,6 +5,7 @@ from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.ext.commands import Context
+from discord.ext.commands import CommandError
 
 from services.crawler import Crawler
 from services.messages import Message
@@ -50,12 +51,12 @@ class Commands(commands.Cog):
         print(f"\nO {self.client.user.name} está escutando os comandos.")
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
+    async def on_command_error(self, ctx: Context, error: CommandError):
         if isinstance(error, commands.CommandNotFound):
             await ctx.send(self.message.commandAlert()[2])
 
     @commands.command(name="help", aliases=["ajuda", "comandos"])
-    async def help(self, ctx, *args):
+    async def help(self, ctx: Context, *args):
         if(len(args) == 0):
             embedHelp = Embed(
                 color = self.color
@@ -158,7 +159,7 @@ class Commands(commands.Cog):
             await ctx.send(self.message.commandAlert()[2])
 
     @commands.command(name="invite", aliases=["convite"])
-    async def invite(self, ctx):
+    async def invite(self, ctx: Context):
         embedInvite = Embed(
             title       = self.message.title()[0],
             color       = self.color,
@@ -169,7 +170,7 @@ class Commands(commands.Cog):
         await ctx.send(embed=embedInvite)
 
     @commands.command(name="destaque", aliases=["dt"])
-    async def spotlightOffers(self, ctx):
+    async def spotlightOffers(self, ctx: Context):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
@@ -219,7 +220,7 @@ class Commands(commands.Cog):
                 x -= 1
 
     @commands.command(name="promoção", aliases=["promocao", "pr"])
-    async def dailyGamesOffers(self, ctx):
+    async def dailyGamesOffers(self, ctx: Context):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
@@ -283,7 +284,7 @@ class Commands(commands.Cog):
                 x -= 1
 
     @commands.command(name="botinfo", aliases=["info"])
-    async def botInfo(self, ctx):
+    async def botInfo(self, ctx: Context):
         embedBotInfo = Embed(
             title = self.message.title()[3],
             color = self.color
@@ -319,7 +320,7 @@ class Commands(commands.Cog):
         await ctx.send(embed=embedBotInfo)
 
     @commands.group(name="gametab")
-    async def gameTab(self, ctx):
+    async def gameTab(self, ctx: Context):
         # Caso o subcomando não seja passado ou seja inválido.
         if(ctx.invoked_subcommand is None):
             await ctx.send(self.message.commandAlert(self.prefix)[3])
@@ -333,7 +334,7 @@ class Commands(commands.Cog):
             "np"
         ]
     )
-    async def newAndTrending(self, ctx):
+    async def newAndTrending(self, ctx: Context):
         (
             gamesNames, 
             gamesUrls, 
@@ -357,7 +358,7 @@ class Commands(commands.Cog):
             "mv"
         ]
     )
-    async def topSellers(self, ctx):
+    async def topSellers(self, ctx: Context):
         (
             gamesNames, 
             gamesUrls, 
@@ -381,7 +382,7 @@ class Commands(commands.Cog):
             "jp"
         ]
     )
-    async def beingPlayed(self, ctx):
+    async def beingPlayed(self, ctx: Context):
         (
             gamesNames, 
             gamesUrls, 
@@ -409,7 +410,7 @@ class Commands(commands.Cog):
             "pv"
         ]
     )
-    async def prePurchase(self, ctx):
+    async def prePurchase(self, ctx: Context):
         (
             gamesNames, 
             gamesUrls, 
@@ -495,7 +496,7 @@ class Commands(commands.Cog):
             await ctx.send(self.message.somethingWentWrong()[0])
     
     @commands.command(name="game", aliases=["jogo"])
-    async def specificGame(self, ctx, *, args):
+    async def specificGame(self, ctx: Context, *, args: str):
         gameToSearch = args
 
         # Mensagem de busca de jogo, com efeito de carregamento.
@@ -521,13 +522,13 @@ class Commands(commands.Cog):
             await searchGameMessage.edit(content=self.message.noOffers()[2])
 
     @specificGame.error
-    async def specificGameError(self, ctx, error):
+    async def specificGameError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
                 await ctx.send(self.message.commandAlert(self.prefix)[0])
 
     @commands.command(name="genre", aliases=["gênero", "genero"])
-    async def gameGenre(self, ctx, *, args):
+    async def gameGenre(self, ctx: Context, *, args: str):
         gameGenreToSearch = args
 
         # Mensagem de busca, com efeito de carregamento.
@@ -599,13 +600,13 @@ class Commands(commands.Cog):
             await searchGenreMessage.edit(content=self.message.noOffers(prefix=self.prefix)[3])
 
     @gameGenre.error
-    async def gameGenreError(self, ctx, error):
+    async def gameGenreError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
                 await ctx.send(self.message.commandAlert(self.prefix)[1])
 
     @commands.command(name="maxprice", aliases=["preço máximo"])
-    async def maxPrice(self, ctx, *, args):
+    async def maxPrice(self, ctx: Context, *, args: str):
         if(not args.isnumeric()):
             raise commands.ArgumentParsingError()
         
@@ -678,7 +679,7 @@ class Commands(commands.Cog):
         await searchGameMessage.add_reaction(self.reactions[0])
         
     @maxPrice.error
-    async def maxPriceError(self, ctx, error):
+    async def maxPriceError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
                 await ctx.send(self.message.recommendationByPrice()[3])
@@ -689,7 +690,7 @@ class Commands(commands.Cog):
         name="review", 
         aliases=["reviews", "análise", "análises", "analise", "analises"]
     )
-    async def review(self, ctx, *, args):
+    async def review(self, ctx: Context, *, args: str):
         gameToSearch = args
 
         # Mensagem de busca, com efeito de carregamento.
@@ -741,7 +742,7 @@ class Commands(commands.Cog):
             await searchMessage.edit(content=self.message.noOffers()[2])
 
     @review.error
-    async def reviewError(self, ctx, error):
+    async def reviewError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
                 await ctx.send(self.message.commandAlert(self.prefix)[4])
