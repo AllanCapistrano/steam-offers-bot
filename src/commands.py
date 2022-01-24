@@ -4,6 +4,7 @@ from typing import Literal
 from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Bot
+from discord.ext.commands import Context
 
 from services.crawler import Crawler
 from services.messages import Message
@@ -317,116 +318,182 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embedBotInfo)
 
-    @commands.command(name="gametab")
-    async def newReleases(self, ctx, *args):
-        if(len(args) == 0):
-            await ctx.send(self.message.commandAlert(prefix=self.prefix)[3])
-        else:
-            command = ""
-
-            for arg in args:
-                command += arg + " "
-            
-            command = command[0:(len(command) - 1)]
-
-            gamesNames          = None
-            gamesUrls           = None
-            gamesOriginalPrices = None
-            gamesFinalPrices    = None
-
-            match command:
-                case (
-                    "novidades populares" | 
-                    "novidadespopulares" |
-                    "novidades" | 
-                    "populares" | 
-                    "np"
-                ):
-                    (
-                        gamesNames, 
-                        gamesUrls, 
-                        gamesOriginalPrices, 
-                        gamesFinalPrices, 
-                        gamesImages
-                    ) = await self.crawler.getTabContent(url=URL+"NewReleases", divId="NewReleasesRows")
-                case ("mais vendidos" | "maisvendidos" | "mv"):
-                    (
-                        gamesNames, 
-                        gamesUrls, 
-                        gamesOriginalPrices, 
-                        gamesFinalPrices, 
-                        gamesImages
-                    ) = await self.crawler.getTabContent(url=URL+"TopSellers", divId="TopSellersRows")
-                case ("jogos populares" | "jogospopulares" | "jp"):
-                    (
-                        gamesNames, 
-                        gamesUrls, 
-                        gamesOriginalPrices, 
-                        gamesFinalPrices, 
-                        gamesImages
-                    ) = await self.crawler.getTabContent(url=URL+"ConcurrentUsers", divId="ConcurrentUsersRows")
-                case (
-                    "pré-venda" | 
-                    "pré venda" | 
-                    "prévenda" | 
-                    "pre-venda" | 
-                    "pre venda" | 
-                    "prevenda" | 
-                    "pv"
-                ):
-                    (
-                        gamesNames, 
-                        gamesUrls, 
-                        gamesOriginalPrices, 
-                        gamesFinalPrices, 
-                        gamesImages
-                    ) = await self.crawler.getTabContent(url=URL+"ComingSoon", divId="ComingSoonRows")
-                case _:
-                    await ctx.send(
-                        self.message.commandAlert()[2] + 
-                        f"\nDigite **{self.prefix}help gametab** para ver todas as possibilidades"
-                    )
+    @commands.group(name="gametab")
+    async def gameTab(self, ctx):
+        # Caso o subcomando não seja passado ou seja inválido.
+        if(ctx.invoked_subcommand is None):
+            await ctx.send(self.message.commandAlert(self.prefix)[3])
         
-            if(
-                gamesNames != None or 
-                gamesUrls != None or 
-                gamesOriginalPrices != None or 
-                gamesFinalPrices != None
-            ):
-                gamesNames.reverse() 
-                gamesUrls.reverse() 
-                gamesOriginalPrices.reverse() 
-                gamesFinalPrices.reverse()
+    @gameTab.command(
+        name="novidades populares", 
+        aliases=[
+            "novidadespopulares",
+            "novidades", 
+            "populares", 
+            "np"
+        ]
+    )
+    async def newAndTrending(self, ctx):
+        (
+            gamesNames, 
+            gamesUrls, 
+            gamesOriginalPrices, 
+            gamesFinalPrices, 
+            gamesImages
+        ) = await self.crawler.getTabContent(url=URL+"NewReleases", divId="NewReleasesRows")
+
+        await self.sendGameTabToUser(
+            ctx=ctx,
+            gamesNames=gamesNames,
+            gamesUrls=gamesUrls,
+            gamesOriginalPrices=gamesOriginalPrices,
+            gamesFinalPrices=gamesFinalPrices
+        )
+    
+    @gameTab.command(
+        name="mais vendidos", 
+        aliases=[
+            "maisvendidos",
+            "mv"
+        ]
+    )
+    async def topSellers(self, ctx):
+        (
+            gamesNames, 
+            gamesUrls, 
+            gamesOriginalPrices, 
+            gamesFinalPrices, 
+            gamesImages
+        ) = await self.crawler.getTabContent(url=URL+"TopSellers", divId="TopSellersRows")
+
+        await self.sendGameTabToUser(
+            ctx=ctx,
+            gamesNames=gamesNames,
+            gamesUrls=gamesUrls,
+            gamesOriginalPrices=gamesOriginalPrices,
+            gamesFinalPrices=gamesFinalPrices
+        )
+
+    @gameTab.command(
+        name="jogos populares", 
+        aliases=[
+            "jogospopulares",
+            "jp"
+        ]
+    )
+    async def beingPlayed(self, ctx):
+        (
+            gamesNames, 
+            gamesUrls, 
+            gamesOriginalPrices, 
+            gamesFinalPrices, 
+            gamesImages
+        ) = await self.crawler.getTabContent(url=URL+"ConcurrentUsers", divId="ConcurrentUsersRows")
+
+        await self.sendGameTabToUser(
+            ctx=ctx,
+            gamesNames=gamesNames,
+            gamesUrls=gamesUrls,
+            gamesOriginalPrices=gamesOriginalPrices,
+            gamesFinalPrices=gamesFinalPrices
+        )
+
+    @gameTab.command(
+        name="pré-venda", 
+        aliases=[
+            "pré venda",
+            "prévenda",
+            "pre-venda",
+            "pre venda",
+            "prevenda",
+            "pv"
+        ]
+    )
+    async def prePurchase(self, ctx):
+        (
+            gamesNames, 
+            gamesUrls, 
+            gamesOriginalPrices, 
+            gamesFinalPrices, 
+            gamesImages
+        ) = await self.crawler.getTabContent(url=URL+"ComingSoon", divId="ComingSoonRows")
+
+        await self.sendGameTabToUser(
+            ctx=ctx,
+            gamesNames=gamesNames,
+            gamesUrls=gamesUrls,
+            gamesOriginalPrices=gamesOriginalPrices,
+            gamesFinalPrices=gamesFinalPrices
+        )
+
+    async def sendGameTabToUser(
+        self, 
+        ctx: Context, 
+        gamesNames: list, 
+        gamesUrls: list, 
+        gamesOriginalPrices: list, 
+        gamesFinalPrices: list
+    ) -> None:
+        """ Envia para o usuário o resultado dos jogos das tabelas encontradas.
+
+        Parameters
+        -----------
+        ctx: :class:`Context`
+            Contexto da mensagem
+        gamesNames: :class:`list`
+            Lista com os nomes do jogos.
+        gamesUrls: :class:`list`
+            Lista com as URLs dos jogos
+        gamesOriginalPrices: :class:`list`
+            Lista com os preços originais dos jogos
+        gamesFinalPrices: :class:`list`
+            Lista com os preços com desconto dos jogos
+
+        """
+
+        if(
+            gamesNames != None and 
+            gamesUrls != None and 
+            gamesOriginalPrices != None and 
+            gamesFinalPrices != None
+        ):
+            gamesNames.reverse() 
+            gamesUrls.reverse() 
+            gamesOriginalPrices.reverse() 
+            gamesFinalPrices.reverse()
+            
+            num = x = len(gamesNames)
+
+            if(x == 0):
+                await ctx.send(self.message.noOffers()[1])
+            else:
+                messageConcat0 = ""
+                messageConcat1 = ""
+                member         = ctx.author
                 
-                num = x = len(gamesNames)
-
-                if(x == 0):
-                    await ctx.send(self.message.noOffers()[1])
-                else:
-                    messageConcat0 = ""
-                    messageConcat1 = ""
-                    member         = ctx.author
+                while(x > 0):
+                    if(x >= (num/2)):
+                        messageConcat0 = messageConcat0 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
+                    else:
+                        messageConcat1 = messageConcat1 + "**Nome: **" + \
+                            gamesNames[x - 1] + "\n**Link:** <" + \
+                            gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
+                            gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
+                            gamesFinalPrices[x - 1] + "\n\n"
                     
-                    while(x > 0):
-                        if(x >= (num/2)):
-                            messageConcat0 = messageConcat0 + "**Nome: **" + \
-                                gamesNames[x - 1] + "\n**Link:** <" + \
-                                gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
-                                gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
-                                gamesFinalPrices[x - 1] + "\n\n"
-                        else:
-                            messageConcat1 = messageConcat1 + "**Nome: **" + \
-                                gamesNames[x - 1] + "\n**Link:** <" + \
-                                gamesUrls[x - 1] + ">" + "\n**Preço Original: **" + \
-                                gamesOriginalPrices[x - 1] + "\n**Preço com Desconto: **" + \
-                                gamesFinalPrices[x - 1] + "\n\n"
-                        
-                        x -= 1
+                    x -= 1
 
-                    await ctx.send(member.mention + self.message.checkDm())
-                    await member.send(messageConcat0)
-                    await member.send(messageConcat1)
-
+                await ctx.send(member.mention + self.message.checkDm())
+                
+                await member.send(messageConcat0)
+                await member.send(messageConcat1)
+        else:
+            await ctx.send(self.message.somethingWentWrong()[0])
+    
     @commands.command(name="game", aliases=["jogo"])
     async def specificGame(self, ctx, *args):
         if(len(args) == 0):
