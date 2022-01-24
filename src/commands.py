@@ -3,9 +3,7 @@ from typing import Literal
 
 from discord import Embed
 from discord.ext import commands
-from discord.ext.commands import Bot
-from discord.ext.commands import Context
-from discord.ext.commands import CommandError
+from discord.ext.commands import Bot, Context, CommandError
 
 from services.crawler import Crawler
 from services.messages import Message
