@@ -55,9 +55,9 @@ class Commands(commands.Cog):
         if isinstance(error, commands.CommandNotFound):
             await ctx.send(self.message.commandAlert()[2])
 
-    @commands.command(name="help", aliases=["ajuda", "comandos"])
-    async def help(self, ctx: Context, *args):
-        if(len(args) == 0):
+    @commands.group(name="help", aliases=["ajuda", "comandos"])
+    async def help(self, ctx: Context):
+        if(ctx.subcommand_passed is None):
             embedHelp = Embed(
                 color = self.color
             )
@@ -112,51 +112,55 @@ class Commands(commands.Cog):
             )
 
             await ctx.send(embed=embedHelp)
-        elif(len(args) == 1 and args[0] == "genre"):
-            embedHelp = Embed(
-                title = self.message.title()[4],
-                color = self.color,
-                description = self.message.gameGenres()
-            )
-            embedHelp.add_field(
-                name   = "Ficou confuso(a) ?",
-                value  = self.message.helpValues(img=IMG_GENRES)[0],
-                inline = False
-            )
-            embedHelp.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(self.prefix))
+        elif(ctx.subcommand_passed != "genre" and ctx.subcommand_passed != "gametab"):
+            raise commands.CommandNotFound()
 
-            await ctx.send(embed=embedHelp)
-        elif(len(args) == 1 and args[0] == "gametab"):
-            embedHelp = Embed(
-                color = self.color
-            )
-            embedHelp.set_author(
-                name     = f"{self.client.user.name} comando {self.prefix}gametab:", 
-                icon_url = self.client.user.avatar_url
-            )
-            embedHelp.add_field(
-                name   = "```{0}gametab novidades populares``` ou ```{0}gametab np```".format(self.prefix),
-                value  = self.message.helpValues()[3], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}gametab mais vendidos``` ou ```{0}gametab mv```".format(self.prefix),
-                value  = self.message.helpValues()[4], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}gametab jogos populares``` ou ```{0}gametab jp```".format(self.prefix),
-                value  = self.message.helpValues()[5], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}gametab pré-venda``` ou ```{0}gametab pv```".format(self.prefix),
-                value  = self.message.helpValues()[6], 
-                inline = False
-            )
-            await ctx.send(embed=embedHelp)
-        else:
-            await ctx.send(self.message.commandAlert()[2])
+    @help.command(name="genre")
+    async def helpGenre(self, ctx: Context):
+        embedHelpGenre = Embed(
+            title = self.message.title()[4],
+            color = self.color,
+            description = self.message.gameGenres()
+        )
+        embedHelpGenre.add_field(
+            name   = "Ficou confuso(a) ?",
+            value  = self.message.helpValues(img=IMG_GENRES)[0],
+            inline = False
+        )
+        embedHelpGenre.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(self.prefix))
+
+        await ctx.send(embed=embedHelpGenre)
+    
+    @help.command(name="gametab")
+    async def helpGameTab(self, ctx: Context):
+        embedHelpGameTab = Embed(
+            color = self.color
+        )
+        embedHelpGameTab.set_author(
+            name     = f"{self.client.user.name} comando {self.prefix}gametab:", 
+            icon_url = self.client.user.avatar_url
+        )
+        embedHelpGameTab.add_field(
+            name   = "```{0}gametab novidades populares``` ou ```{0}gametab np```".format(self.prefix),
+            value  = self.message.helpValues()[3], 
+            inline = False
+        )
+        embedHelpGameTab.add_field(
+            name   = "```{0}gametab mais vendidos``` ou ```{0}gametab mv```".format(self.prefix),
+            value  = self.message.helpValues()[4], 
+            inline = False
+        )
+        embedHelpGameTab.add_field(
+            name   = "```{0}gametab jogos populares``` ou ```{0}gametab jp```".format(self.prefix),
+            value  = self.message.helpValues()[5], 
+            inline = False
+        )
+        embedHelpGameTab.add_field(
+            name   = "```{0}gametab pré-venda``` ou ```{0}gametab pv```".format(self.prefix),
+            value  = self.message.helpValues()[6], 
+            inline = False
+        )
+        await ctx.send(embed=embedHelpGameTab)
 
     @commands.command(name="invite", aliases=["convite"])
     async def invite(self, ctx: Context):
