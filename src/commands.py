@@ -495,38 +495,36 @@ class Commands(commands.Cog):
             await ctx.send(self.message.somethingWentWrong()[0])
     
     @commands.command(name="game", aliases=["jogo"])
-    async def specificGame(self, ctx, *args):
-        if(len(args) == 0):
-            await ctx.send(self.message.commandAlert(prefix=self.prefix)[0])
+    async def specificGame(self, ctx, *, args):
+        gameToSearch = args
+
+        # Mensagem de busca de jogo, com efeito de carregamento.
+        messageContent    = self.message.searchMessage()[1]
+        searchGameMessage = await ctx.send(messageContent + " __"+ gameToSearch + "__ .**")
+        
+        sleep(0.5)
+        await searchGameMessage.edit(content=messageContent + " __" + gameToSearch + "__ . .**")
+        
+        sleep(0.5)
+        await searchGameMessage.edit(content=messageContent + " __"+ gameToSearch + "__ . . .**")
+
+        embedSpecificGame = await specificGameEmbed(
+            crawler      = self.crawler, 
+            embedColor   = self.color, 
+            gameToSearch = gameToSearch
+        )
+
+        if(embedSpecificGame != None):
+            await searchGameMessage.edit(content="", embed=embedSpecificGame)
+            await searchGameMessage.add_reaction(self.reactions[0])
         else:
-            gameToSearch = ""
+            await searchGameMessage.edit(content=self.message.noOffers()[2])
 
-            for arg in args:
-                gameToSearch += arg + " "
-
-            gameToSearch = gameToSearch[0:(len(gameToSearch) - 1)]
-
-            # Mensagem de busca de jogo, com efeito de carregamento.
-            messageContent    = self.message.searchMessage()[1]
-            searchGameMessage = await ctx.send(messageContent + " __"+ gameToSearch + "__ .**")
-            
-            sleep(0.5)
-            await searchGameMessage.edit(content=messageContent + " __" + gameToSearch + "__ . .**")
-            
-            sleep(0.5)
-            await searchGameMessage.edit(content=messageContent + " __"+ gameToSearch + "__ . . .**")
-
-            embedSpecificGame = await specificGameEmbed(
-                crawler      = self.crawler, 
-                embedColor   = self.color, 
-                gameToSearch = gameToSearch
-            )
-
-            if(embedSpecificGame != None):
-                await searchGameMessage.edit(content="", embed=embedSpecificGame)
-                await searchGameMessage.add_reaction(self.reactions[0])
-            else:
-                await searchGameMessage.edit(content=self.message.noOffers()[2])
+    @specificGame.error
+    async def specificGameError(self, ctx, error):
+        if(isinstance(error, commands.MissingRequiredArgument)):
+            if(error.param.name == "args"):
+                await ctx.send(self.message.commandAlert(self.prefix)[0])
 
     @commands.command(name="genre", aliases=["gênero", "genero"])
     async def gameGenre(self, ctx, *args):
