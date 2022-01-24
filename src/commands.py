@@ -605,81 +605,86 @@ class Commands(commands.Cog):
                 await ctx.send(self.message.commandAlert(self.prefix)[1])
 
     @commands.command(name="maxprice", aliases=["preço máximo"])
-    async def maxPrice(self, ctx, *args):
-        if(len(args) == 1 and args[0].isnumeric()):
-            maxPrice = args[0]
+    async def maxPrice(self, ctx, *, args):
+        if(not args.isnumeric()):
+            raise commands.ArgumentParsingError()
+        
+        maxPrice = args
 
-            # Mensagem de busca de jogo, com efeito de carregamento.
-            messageContent    = self.message.searchMessage()[3]
-            searchGameMessage = await ctx.send(messageContent + " "+ maxPrice + "__ .**")
-            
-            sleep(0.5)
-            await searchGameMessage.edit(content=messageContent + " " + maxPrice + "__ . .**")
-            
-            sleep(0.5)
-            await searchGameMessage.edit(content=messageContent + " "+ maxPrice + "__ . . .**")
+        # Mensagem de busca de jogo, com efeito de carregamento.
+        messageContent    = self.message.searchMessage()[3]
+        searchGameMessage = await ctx.send(messageContent + " "+ maxPrice + "__ .**")
+        
+        sleep(0.5)
+        await searchGameMessage.edit(content=messageContent + " " + maxPrice + "__ . .**")
+        
+        sleep(0.5)
+        await searchGameMessage.edit(content=messageContent + " "+ maxPrice + "__ . . .**")
 
-            if(int(maxPrice) > 120):
-                maxPriceCode = "rZ04j" # Preço maior que R$ 120,00
-            elif(int(maxPrice) < 10):
-                maxPriceCode = "19Jfc" # Preço menor que R$ 10,00
-            else:
-                maxPriceCode = None
-            
-            (
-                gameName,
-                gameIMG, 
-                gameURL, 
-                gameOriginalPrice,
-                gameFinalPrice
-            ) = await self.crawler.getGameRecommendationByPriceRange(code=maxPriceCode, maxPrice=float(maxPrice))
+        if(float(maxPrice) > 120):
+            maxPriceCode = "rZ04j" # Preço maior que R$ 120,00
+        elif(float(maxPrice) < 10):
+            maxPriceCode = "19Jfc" # Preço menor que R$ 10,00
+        else:
+            maxPriceCode = None
+        
+        (
+            gameName,
+            gameIMG, 
+            gameURL, 
+            gameOriginalPrice,
+            gameFinalPrice
+        ) = await self.crawler.getGameRecommendationByPriceRange(code=maxPriceCode, maxPrice=float(maxPrice))
 
-            embedGameRecommendationByPrice = Embed(
-                title = self.message.title(gameName=gameName)[7],
-                color = self.color
-            )
-            embedGameRecommendationByPrice.set_image(url=gameIMG)
+        embedGameRecommendationByPrice = Embed(
+            title = self.message.title(gameName=gameName)[7],
+            color = self.color
+        )
+        embedGameRecommendationByPrice.set_image(url=gameIMG)
+        embedGameRecommendationByPrice.add_field(
+            name   = "**Link:**", 
+            value  = "**[Clique Aqui]({})**".format(gameURL), 
+            inline = False
+        )
+        
+        if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
             embedGameRecommendationByPrice.add_field(
-                name   = "**Link:**", 
-                value  = "**[Clique Aqui]({})**".format(gameURL), 
+                name   = "**Preço Original:**", 
+                value  = "**{}**".format(gameOriginalPrice), 
+                inline = True
+            )
+            embedGameRecommendationByPrice.add_field(
+                name   = "**Preço com Desconto:**", 
+                value  = "**{}**".format(gameFinalPrice), 
+                inline = True
+            )
+        else: # Caso o jogo não esteja em promoção.
+            embedGameRecommendationByPrice.add_field(
+                name   = "**Preço:**", 
+                value  = "**{}**".format(gameOriginalPrice), 
                 inline = False
             )
-            
-            if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
-                embedGameRecommendationByPrice.add_field(
-                    name   = "**Preço Original:**", 
-                    value  = "**{}**".format(gameOriginalPrice), 
-                    inline = True
-                )
-                embedGameRecommendationByPrice.add_field(
-                    name   = "**Preço com Desconto:**", 
-                    value  = "**{}**".format(gameFinalPrice), 
-                    inline = True
-                )
-            else: # Caso o jogo não esteja em promoção.
-                embedGameRecommendationByPrice.add_field(
-                    name   = "**Preço:**", 
-                    value  = "**{}**".format(gameOriginalPrice), 
-                    inline = False
-                )
 
-            if(maxPriceCode == "rZ04j"):
-                embedGameRecommendationByPrice.set_footer(
-                    text = self.message.recommendationByPrice()[1]
-                )
-            elif(maxPriceCode == "19Jfc"):
-                embedGameRecommendationByPrice.set_footer(
-                    text = self.message.recommendationByPrice()[2]
-                )
-            
-            await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
-            await searchGameMessage.add_reaction(self.reactions[0])
-        else:
-            if(len(args) == 0):
+        if(maxPriceCode == "rZ04j"):
+            embedGameRecommendationByPrice.set_footer(
+                text = self.message.recommendationByPrice()[1]
+            )
+        elif(maxPriceCode == "19Jfc"):
+            embedGameRecommendationByPrice.set_footer(
+                text = self.message.recommendationByPrice()[2]
+            )
+        
+        await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
+        await searchGameMessage.add_reaction(self.reactions[0])
+        
+    @maxPrice.error
+    async def maxPriceError(self, ctx, error):
+        if(isinstance(error, commands.MissingRequiredArgument)):
+            if(error.param.name == "args"):
                 await ctx.send(self.message.recommendationByPrice()[3])
-            else:
-                await ctx.send(self.message.recommendationByPrice()[0])
-
+        if(isinstance(error, commands.ArgumentParsingError)):
+            await ctx.send(self.message.recommendationByPrice()[0])
+    
     @commands.command(
         name="review", 
         aliases=["reviews", "análise", "análises", "analise", "analises"]
