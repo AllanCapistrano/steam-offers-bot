@@ -7,6 +7,7 @@ from discord.ext.commands import Bot, Context, CommandError
 
 from services.crawler import Crawler
 from services.messages import Message
+from services.currency import Currency
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 
@@ -43,6 +44,7 @@ class Commands(commands.Cog):
         self.reactions = reactions
         self.message   = Message()
         self.crawler   = Crawler()
+        self.currency  = Currency()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -499,6 +501,7 @@ class Commands(commands.Cog):
     
     @commands.command(name="game", aliases=["jogo"])
     async def specificGame(self, ctx: Context, *, args: str):
+        currency     = None
         gameToSearch = args
 
         # Mensagem de busca de jogo, com efeito de carregamento.
@@ -511,10 +514,16 @@ class Commands(commands.Cog):
         sleep(0.5)
         await searchGameMessage.edit(content=messageContent + " __"+ gameToSearch + "__ . . .**")
 
+        if(args.find(" | ") != -1):
+            command      = args.split(" | ")
+            gameToSearch = command[0]
+            currency     = self.currency.formatCurrency(command[1])
+
         embedSpecificGame = await specificGameEmbed(
             crawler      = self.crawler, 
             embedColor   = self.color, 
-            gameToSearch = gameToSearch
+            gameToSearch = gameToSearch,
+            currency     = currency
         )
 
         if(embedSpecificGame != None):
