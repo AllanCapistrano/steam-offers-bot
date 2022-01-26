@@ -1,6 +1,10 @@
 class Currency:
     def __init__(self):
-        self.currencies = [
+        """ Método construtor.
+
+        """
+
+        self.currencies      = [
         "AED",
         "ARS",
         "AUD",
@@ -59,4 +63,5 @@ class Currency:
         for currency in self.currencies:
             if(c == currency):
                 return True
+        
         return False
