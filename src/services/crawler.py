@@ -46,11 +46,11 @@ from services.GameReview.getReviewTotalAmount import getReviewTotalAmount
 from services.GameReview.getReviewSumary import getReviewSumary
 
 # ------------------------------ Constants ----------------------------------- #
-URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
-URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
-URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
-URL_GENRE = 'https://store.steampowered.com/category/'
-URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
+URL_MAIN = "https://store.steampowered.com/?cc=br&l=brazilian"
+URL_SPECIALS = "https://store.steampowered.com/specials?cc=br&l=brazilian"
+URL_GAME = "https://store.steampowered.com/search/?"
+URL_GENRE = "https://store.steampowered.com/category/"
+URL_PRICE_RANGE = "https://store.steampowered.com/search/?l=brazilian"
 # ---------------------------------------------------------------------------- #
 class Crawler:
     # -------------------------- Request Url --------------------------------- #
@@ -238,13 +238,23 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------ Specific Game --------------------------------- #
-    async def getSpecificGame(self, gameName: str) -> tuple[str, str, str, str, str, str, str]:
+    async def getSpecificGame(
+        self, 
+        gameName: str, 
+        currency: str = "br",
+        language: str = "brazilian"
+    ) -> tuple[str, str, str, str, str, str, str]:
         """Função responsável por retornar as informações e um jogo específico.
 
         Parameters
         -----------
         gameName: :class:`str`
             Nome do jogo que se deseja obter informações.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço. Por padrão está em reais (R$).
+        language: :class:`str`
+            Linguagem que se deseja visualizar a página do jogo. Por padrão 
+            está em pt-br.
 
         Returns
         -----------
@@ -262,7 +272,7 @@ class Crawler:
             Url de busca do jogo, caso o jogo especificado não seja o encontrado.
         """
         
-        searchUrl = URL_GAME + gameName
+        searchUrl = f"{URL_GAME}cc={currency}&l={language}&term={gameName}"
         soup = self.reqUrl(searchUrl)
 
         try:
