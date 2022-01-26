@@ -224,10 +224,11 @@ class Commands(commands.Cog):
                 x -= 1
 
     @commands.command(name="promoção", aliases=["promocao", "pr"])
-    async def dailyGamesOffers(self, ctx: Context):
+    async def dailyGamesOffers(self, ctx: Context, *args: str):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
+        currency       = None
         
         sleep(0.5)
         await searchMessage.edit(content=messageContent+" **.**")
@@ -235,12 +236,26 @@ class Commands(commands.Cog):
         sleep(0.5)
         await searchMessage.edit(content=messageContent+" **. .**")
 
+        if(len(args) > 0):
+            index = 0
+
+            for commandArg in args:
+                if(commandArg == "|"):
+                    try:
+                        currency = self.currency.formatCurrency(args[index + 1])
+                    except:
+                        currency = None
+                    
+                    break
+                
+                index += 1
+
         (
             gamesUrls, 
             gamesImages,
             gamesOriginalPrices,
             gamesFinalPrices
-        ) = await self.crawler.getDailyGamesOffers()
+        ) = await self.crawler.getDailyGamesOffers(currency=currency)
         x = len(gamesUrls)
 
         if(x == 0):
