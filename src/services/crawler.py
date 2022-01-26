@@ -47,7 +47,7 @@ from services.GameReview.getReviewSumary import getReviewSumary
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN = "https://store.steampowered.com/?cc=br&l=brazilian"
-URL_SPECIALS = "https://store.steampowered.com/specials?cc=br&l=brazilian"
+URL_SPECIALS = "https://store.steampowered.com/specials?"
 URL_GAME = "https://store.steampowered.com/search/?"
 URL_GENRE = "https://store.steampowered.com/category/"
 URL_PRICE_RANGE = "https://store.steampowered.com/search/?l=brazilian"
@@ -95,9 +95,20 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # -------------------------- Daily Games --------------------------------- #
-    async def getDailyGamesOffers(self) -> tuple[list, list, list, list]:
+    async def getDailyGamesOffers(
+        self,
+        currency: str = "br",
+        language: str = "brazilian"
+    ) -> tuple[list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em promoção.
+
+        Parameters
+        -----------
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Linguagem que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -111,7 +122,7 @@ class Crawler:
             Lista com os preços com o desconto aplicado dos jogos.
         """
         
-        soup = self.reqUrl(URL_SPECIALS)
+        soup = self.reqUrl(f"{URL_SPECIALS}cc={currency}&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getDailyGamesUrls, soup)
@@ -119,9 +130,8 @@ class Crawler:
             thread2 = executor.submit(getDailyGamesOriginalPrice, soup)
             thread3 = executor.submit(getDailyGamesFinalPrice, soup)
             
-
-        urls           = thread0.result()
-        images         = thread1.result()
+        urls   = thread0.result()
+        images = thread1.result()
 
         # Verificação de incoerências nos preços.
         (
@@ -150,7 +160,7 @@ class Crawler:
             Lista contento as informações dos jogos.
         """
         
-        soup = self.reqUrl(URL_SPECIALS)
+        soup = self.reqUrl(f"{URL_SPECIALS}cc=br&l=brazilian")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getSpotlightUrls, soup)
