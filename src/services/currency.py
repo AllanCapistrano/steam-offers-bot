@@ -61,7 +61,26 @@ class Currency:
         """
         
         for currency in self.currencies:
-            if(c == currency):
+            if(c.upper() == currency):
                 return True
         
         return False
+
+    def formatCurrency(self, currency: str) -> str:
+        """ Formata a moeda passada para o formato que a Steam aceita. Caso a 
+        moeda passada não seja válida, a moeda padrão é o dólar (USD).
+
+        Parameters
+        -----------
+        currency: :class:`str`
+            Moeda digitada.
+
+        Returns
+        -----------
+        formatedCurrency: :class:`str`
+        """
+        
+        if(self.currencyExists(currency)):
+            return currency[0:2].lower()
+        
+        return "us"
