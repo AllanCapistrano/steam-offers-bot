@@ -8,15 +8,26 @@ from services.messages import Message
 async def specificGameEmbed(
     crawler: Crawler,
     embedColor: Literal,
-    gameToSearch: str
+    gameToSearch: str,
+    currency: str = "br",
+    language: str = "brazilian"
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
     Parametrs
     ----------
     crawler: :class:`Crawler`
+        Crawler para realizar as buscas.
     embedColor: :class:`Literal`
+        Cor utilizada para customizar a Embed.
     gameToSearch :class:`str`
+        Jogo que se deseja buscar, pode ser tanto o nome quando o link da 
+        página do jogo na Steam.
+    currency: :class:`str`
+        Moeda que se deseja ver o preço. Por padrão está em reais (R$).
+    language: :class:`str`
+        Linguagem que se deseja visualizar a página do jogo. Por padrão 
+        está em pt-br.
 
     Returns
     ----------
@@ -43,7 +54,11 @@ async def specificGameEmbed(
             gameFinalPrice,
             searchUrl,
             gameDescription
-        ) = await crawler.getSpecificGame(gameToSearch)
+        ) = await crawler.getSpecificGame(
+                gameName=gameToSearch,
+                currency=currency,
+                language=language
+            )
 
     if(
         gameName          != None and
