@@ -55,9 +55,9 @@ async def specificGameEmbed(
             searchUrl,
             gameDescription
         ) = await crawler.getSpecificGame(
-                gameName=gameToSearch,
-                currency=currency,
-                language=language
+                gameName = gameToSearch,
+                currency = currency,
+                language = language
             )
 
     if(
