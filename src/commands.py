@@ -228,7 +228,7 @@ class Commands(commands.Cog):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
-        currency       = None
+        currency       = "br"
         
         sleep(0.5)
         await searchMessage.edit(content=messageContent+" **.**")
@@ -244,18 +244,23 @@ class Commands(commands.Cog):
                     try:
                         currency = self.currency.formatCurrency(args[index + 1])
                     except:
-                        currency = None
+                        currency = "br"
                     
                     break
                 
                 index += 1
+
+        language = "english" if(currency != "br" and currency != None) else "brazilian"
 
         (
             gamesUrls, 
             gamesImages,
             gamesOriginalPrices,
             gamesFinalPrices
-        ) = await self.crawler.getDailyGamesOffers(currency=currency)
+        ) = await self.crawler.getDailyGamesOffers(
+                currency = currency,
+                language = language
+            )
         x = len(gamesUrls)
 
         if(x == 0):
