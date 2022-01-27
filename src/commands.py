@@ -241,7 +241,12 @@ class Commands(commands.Cog):
         ) = await self.crawler.getDailyGamesOffers()
         x = len(gamesUrls)
 
-        if(x == 0):
+        if(
+            len(gamesUrls)           == 0 or
+            len(gamesImages)         == 0 or
+            len(gamesOriginalPrices) == 0 or
+            len(gamesFinalPrices)    == 0
+        ):
             await searchMessage.edit(content=self.message.noOffers()[1])
         else:
             firstIteration = True
