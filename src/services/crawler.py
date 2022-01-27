@@ -97,8 +97,8 @@ class Crawler:
     # -------------------------- Daily Games --------------------------------- #
     async def getDailyGamesOffers(
         self,
-        currency: str = "br",
-        language: str = "brazilian"
+        currency: str,
+        language: str
     ) -> tuple[list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em promoção.
