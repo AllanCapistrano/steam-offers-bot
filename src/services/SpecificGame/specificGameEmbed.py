@@ -9,8 +9,8 @@ async def specificGameEmbed(
     crawler: Crawler,
     embedColor: Literal,
     gameToSearch: str,
-    currency: str = "br",
-    language: str = "brazilian"
+    currency: str,
+    language: str
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
