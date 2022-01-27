@@ -28,6 +28,8 @@ def getRecommendationByPriceRangeFinalPrices(soup: BeautifulSoup) -> list:
 
             if(temp.find("Gratuito") != -1):
                 temp = "Gratuito p/ jogar"
+            elif(temp.find("Free") != -1):
+                temp = "Free To Play"
                 
             finalPrices.append(temp)
 
