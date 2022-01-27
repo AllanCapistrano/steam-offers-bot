@@ -312,7 +312,12 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ---------------------- Recommendation By Genre ------------------------- #
-    async def getGameRecommendationByGenre(self, genre: str) -> tuple[str, str, str, str, str, str]:
+    async def getGameRecommendationByGenre(
+        self, 
+        genre: str,
+        currency: str,
+        language: str
+    ) -> tuple[str, str, str, str, str, str]:
         """Função responsável por recomendar um jogo com base em gênero 
         especificado.
 
@@ -320,6 +325,10 @@ class Crawler:
         -----------
         genre: :class:`str`
             Gênero do jogo.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Linguagem que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -334,13 +343,12 @@ class Crawler:
         gameImage: :class:`list`
             Imagem do jogo.
         """
-        
-        genre = genreFormatting(genre)
 
+        genre         = genreFormatting(genre)
         pos           = randint(0, len(TabContent) - 1)
         tabContent    = TabContent(pos).name
         tabContentRow = TabContentRow(pos).name
-        url           = URL_GENRE + '{}/?l=brazilian&cc=br#p=0&tab={}'.format(genre, tabContent)
+        url           = f"{URL_GENRE}{genre}/?l={language}&cc={currency}#p=0&tab={tabContent}"
 
         try:
             (
@@ -351,7 +359,7 @@ class Crawler:
                 gamesImages
             ) = await self.getTabContent(url, tabContentRow)
             
-            index            = randint(0, len(gamesNames) - 1)
+            index             = randint(0, len(gamesNames) - 1)
             gameName          = gamesNames[index]
             gameUrl           = gamesUrls[index]
             gameOriginalPrice = gamesOriginalPrices[index]
