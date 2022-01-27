@@ -50,7 +50,7 @@ URL_MAIN = "https://store.steampowered.com/?cc=br&l=brazilian"
 URL_SPECIALS = "https://store.steampowered.com/specials?"
 URL_GAME = "https://store.steampowered.com/search/?"
 URL_GENRE = "https://store.steampowered.com/category/"
-URL_PRICE_RANGE = "https://store.steampowered.com/search/?l=brazilian"
+URL_PRICE_RANGE = "https://store.steampowered.com/search/?"
 # ---------------------------------------------------------------------------- #
 class Crawler:
     # -------------------------- Request Url --------------------------------- #
@@ -372,15 +372,24 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ----------------- Recommendation By Price Range ------------------------ #
-    async def getGameRecommendationByPriceRange(self, code: str, maxPrice: float) -> tuple[str, str, str, str, str]:
+    async def getGameRecommendationByPriceRange(
+        self, code: str, 
+        maxPrice: str,
+        currency: str,
+        language:str
+    ) -> tuple[str, str, str, str, str]:
         """Função que retorna um jogo com base numa faixa de preço especificada.
 
         Parameters
         -----------
         code :class:`str`
             Código do preço.
-        maxPrice: :class:`float`
+        maxPrice: :class:`str`
             Faixa de preço.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Linguagem que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -397,14 +406,14 @@ class Crawler:
         """
         
         if(code == "rZ04j"): # Preço maior que R$ 120,00
-            url      = URL_PRICE_RANGE
-            maxPrice = 0.0
+            url      = f"{URL_PRICE_RANGE}l={language}&cc={currency}"
+            maxPrice = "0"
         elif(code == "19Jfc"):  # Preço menor que R$ 10,00
-            url      = URL_PRICE_RANGE + '&maxprice=10&cc=br'
-            maxPrice = 10.0
+            url      = f"{URL_PRICE_RANGE}l={language}&maxprice=10&cc={currency}"
+            maxPrice = "10"
         else:
-            url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
-        
+            url = f"{URL_PRICE_RANGE}l={language}&maxprice={maxPrice}&cc={currency}"
+
         soup             = self.reqUrl(url)
         gameNames        = []
         gameImages       = []
@@ -425,7 +434,7 @@ class Crawler:
         gameFinalPrices  = thread3.result()
         gameUrls         = thread4.result()
 
-        index = verifyPriceRange(maxPrice=maxPrice, gameFinalPrices=gameFinalPrices)
+        index = verifyPriceRange(maxPrice=float(maxPrice), gameFinalPrices=gameFinalPrices)
 
         gameName        = gameNames[index]
         gameImage       = gameImages[index]
