@@ -653,20 +653,26 @@ class Commands(commands.Cog):
 
     @commands.command(name="maxprice", aliases=["preço máximo"])
     async def maxPrice(self, ctx: Context, *, args: str):
-        if(not args.isnumeric()):
-            raise commands.ArgumentParsingError()
-        
-        maxPrice = args
+        currency = "br"
 
+        if(args.find(" | ") != -1):
+            command  = args.split(" | ")
+            maxPrice = command[0]
+            currency = self.currency.formatCurrency(command[1])
+        elif(not args.isnumeric()):
+            raise commands.ArgumentParsingError()
+        else:
+            maxPrice = args
+        
         # Mensagem de busca de jogo, com efeito de carregamento.
         messageContent    = self.message.searchMessage()[3]
-        searchGameMessage = await ctx.send(messageContent + " "+ maxPrice + "__ .**")
+        searchGameMessage = await ctx.send(messageContent + ".**")
         
         sleep(0.5)
-        await searchGameMessage.edit(content=messageContent + " " + maxPrice + "__ . .**")
+        await searchGameMessage.edit(content=messageContent + ". .**")
         
         sleep(0.5)
-        await searchGameMessage.edit(content=messageContent + " "+ maxPrice + "__ . . .**")
+        await searchGameMessage.edit(content=messageContent + ". . .**")
 
         if(float(maxPrice) > 120):
             maxPriceCode = "rZ04j" # Preço maior que R$ 120,00
@@ -674,6 +680,8 @@ class Commands(commands.Cog):
             maxPriceCode = "19Jfc" # Preço menor que R$ 10,00
         else:
             maxPriceCode = None
+
+        language = "english" if(currency != "br" and currency != None) else "brazilian"
         
         (
             gameName,
@@ -681,7 +689,12 @@ class Commands(commands.Cog):
             gameURL, 
             gameOriginalPrice,
             gameFinalPrice
-        ) = await self.crawler.getGameRecommendationByPriceRange(code=maxPriceCode, maxPrice=float(maxPrice))
+        ) = await self.crawler.getGameRecommendationByPriceRange(
+                code     = maxPriceCode, 
+                maxPrice = maxPrice,
+                currency = currency,
+                language = language
+            )
 
         embedGameRecommendationByPrice = Embed(
             title = self.message.title(gameName=gameName)[7],
