@@ -521,8 +521,8 @@ class Commands(commands.Cog):
     
     @commands.command(name="game", aliases=["jogo"])
     async def specificGame(self, ctx: Context, *, args: str):
-        currency     = None
         gameToSearch = args
+        currency     = "br"
 
         # Mensagem de busca de jogo, com efeito de carregamento.
         messageContent    = self.message.searchMessage()[1]
@@ -539,11 +539,14 @@ class Commands(commands.Cog):
             gameToSearch = command[0]
             currency     = self.currency.formatCurrency(command[1])
 
+        language = "english" if(currency != "br" and currency != None) else "brazilian"
+
         embedSpecificGame = await specificGameEmbed(
             crawler      = self.crawler, 
             embedColor   = self.color, 
             gameToSearch = gameToSearch,
-            currency     = currency
+            currency     = currency,
+            language     = language
         )
 
         if(embedSpecificGame != None):
