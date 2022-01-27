@@ -27,6 +27,8 @@ def getSpecificGameOriginalPrice(soup: BeautifulSoup, haveDiscount: bool) -> str
 
             if(temp.find("Gratuito") != -1):
                 return "Gratuito p/ Jogar"
+            elif(temp.find("Free") != -1):
+                return "Free To Play"
             
             return temp
         except:
