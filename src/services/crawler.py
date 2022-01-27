@@ -296,7 +296,7 @@ class Crawler:
                 thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount)
                 thread5 = executor.submit(
                     self.getGameDescription, 
-                    self.reqUrl(thread0.result() + "&l=brazilian")
+                    self.reqUrl(thread0.result() + f"&l={language}")
                 )
 
             url          = thread0.result()
