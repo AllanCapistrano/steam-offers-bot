@@ -261,7 +261,7 @@ class Message:
         msgList.append("**🔎 Procurando.**")
         msgList.append("**🔎 Procurando pelo jogo")
         msgList.append("**🔎 Procurando por um jogo do gênero")
-        msgList.append("**🔎 Procurando por um jogo de até __R$")
+        msgList.append("**🔎 Procurando por um jogo na faixa de preço indicada")
 
 
         return msgList
