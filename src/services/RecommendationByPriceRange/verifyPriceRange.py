@@ -39,12 +39,11 @@ def verifyPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
     """
 
     index = randint(0, len(gameFinalPrices) - 1)
-    
+
     if(
-        (
-            gameFinalPrices[index].find("Gratuito") != -1 or 
-            gameFinalPrices[index] != "Não disponível!"
-        ) and
+        gameFinalPrices[index].find("Gratuito") == -1 and # Se for gratuito não precisa verificar o preço
+        gameFinalPrices[index].find("Free")     == -1 and
+        gameFinalPrices[index] != "Não disponível!"   and
         maxPrice != 0.0
     ):
         while(True):
@@ -52,7 +51,8 @@ def verifyPriceRange(maxPrice: float, gameFinalPrices: list) -> int:
 
             if(
                 temp.find("Gratuito") != -1 or 
-                temp == "Não disponível!"
+                temp.find("Free")     != -1 or 
+                temp                  == "Não disponível!"
             ):
                 break
 
