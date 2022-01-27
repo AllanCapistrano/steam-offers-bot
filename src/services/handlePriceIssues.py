@@ -18,7 +18,11 @@ def handlePriceIssues(originalPrices: list, finalPrices: list) -> tuple[list, li
     originalPricesSize = len(originalPrices)
     finalPricesSize    = len(finalPrices)
 
-    if(originalPricesSize == finalPricesSize):
+    if(
+        originalPricesSize > 0 and
+        finalPricesSize > 0 and
+        originalPricesSize == finalPricesSize
+    ):
         for x in (0, originalPricesSize - 1):
             if(
                 originalPrices[x] == "Não disponível!" or
