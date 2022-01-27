@@ -556,6 +556,7 @@ class Commands(commands.Cog):
     @commands.command(name="genre", aliases=["gênero", "genero"])
     async def gameGenre(self, ctx: Context, *, args: str):
         gameGenreToSearch = args
+        currency          = "br"
 
         # Mensagem de busca, com efeito de carregamento.
         messageContent      = self.message.searchMessage()[2]
@@ -567,13 +568,24 @@ class Commands(commands.Cog):
         sleep(0.5)
         await searchGenreMessage.edit(content=messageContent + " __" + gameGenreToSearch + "__ . . .**")
 
+        if(args.find(" | ") != -1):
+            command           = args.split(" | ")
+            gameGenreToSearch = command[0]
+            currency          = self.currency.formatCurrency(command[1])
+
+        language = "english" if(currency != "br" and currency != None) else "brazilian"
+
         (
             gameName, 
             gameURL, 
             gameOriginalPrice , 
             gameFinalPrice, 
             gameIMG
-        ) = await self.crawler.getGameRecommendationByGenre(gameGenreToSearch)
+        ) = await self.crawler.getGameRecommendationByGenre(
+                genre    = gameGenreToSearch,
+                currency = currency,
+                language = language
+            )
 
         if(gameName != None):
             embedGameRecommendationByGenre = Embed(
