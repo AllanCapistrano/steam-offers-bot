@@ -24,10 +24,9 @@ async def specificGameEmbed(
         Jogo que se deseja buscar, pode ser tanto o nome quando o link da 
         página do jogo na Steam.
     currency: :class:`str`
-        Moeda que se deseja ver o preço. Por padrão está em reais (R$).
+        Moeda que se deseja ver o preço.
     language: :class:`str`
-        Linguagem que se deseja visualizar a página do jogo. Por padrão 
-        está em pt-br.
+        Linguagem que se deseja visualizar a página do jogo.
 
     Returns
     ----------
