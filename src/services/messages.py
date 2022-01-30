@@ -152,7 +152,7 @@ class Message:
         msgList.append("**1.7.3**") # Versão Discord.py
         msgList.append("**Bot para visualizar informações sobre jogos e promoções "
             "na Steam sem precisar sair do Discord. Criado por ") # Informações.
-        msgList.append("27 de Janeiro de 2022") # Data da última atualização.
+        msgList.append("30 de Janeiro de 2022") # Data da última atualização.
 
         return msgList
 
@@ -186,13 +186,17 @@ class Message:
 
         return statusList
 
-    def commandAlert(self, prefix: str = None) -> list:
+    def commandAlert(self, prefix: str = None, command: str = None, status: str = None) -> list:
         """ Mensagens de erro durante o envio de um comando.
 
         Parameters
         -----------
         prefix: :class:`str`
             Prefixo utilizado pelo Bot.
+        command :class:`str`
+            Comando utilizado.
+        status :class:`str`
+            Estado do comando.
 
         Returns
         -----------
@@ -206,6 +210,10 @@ class Message:
         alertList.append("⚠️ **Comando inválido!**")
         alertList.append("⚠️ **Categoria inválida! \nDigite `{0}help gametab` para ver todas as categorias.**".format(prefix))
         alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}review undertale`**".format(prefix))
+        alertList.append("⚠️ **Comando desabilitado temporariamente!**")
+        alertList.append("⚠️ **Não consegui encontrar o comando especificado!**")
+        alertList.append("⚠️ **Erro! Você não pode desabilitar este comando.**")
+        alertList.append(f"⚠️ **Comando `{prefix}{command}` {status} com sucesso.**")
 
         return alertList
 

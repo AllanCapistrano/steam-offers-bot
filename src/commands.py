@@ -52,8 +52,10 @@ class Commands(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: Context, error: CommandError):
-        if isinstance(error, commands.CommandNotFound):
+        if(isinstance(error, commands.CommandNotFound)):
             await ctx.send(self.message.commandAlert()[2])
+        if(isinstance(error, commands.DisabledCommand)):
+            await ctx.send(self.message.commandAlert()[5])
 
     @commands.group(name="help", aliases=["ajuda", "comandos"])
     async def help(self, ctx: Context):
@@ -810,3 +812,26 @@ class Commands(commands.Cog):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
                 await ctx.send(self.message.commandAlert(self.prefix)[4])
+
+    @commands.command(name="toggle", aliases=["ativar"])
+    @commands.is_owner()
+    async def toggleCommand(self, ctx: Context, *, args: str):
+        command = self.client.get_command(args)
+
+        # Caso o comando não seja encontrado.
+        if(command == None):
+            await ctx.send(self.message.commandAlert()[6])
+        elif(ctx.command == command): # Caso tente desabilitar este comando.
+            await ctx.send(self.message.commandAlert()[7])
+        else:
+            command.enabled = not command.enabled
+            
+            status = "habilitado" if command.enabled == True else "desabilitado"
+            
+            await ctx.send(
+                self.message.commandAlert(
+                    prefix  = self.prefix, 
+                    command = command, 
+                    status  = status
+                )[8]
+            )
