@@ -230,8 +230,7 @@ class Message:
         message: :class:`srt`
         """
 
-        return "Não era o jogo que estava buscando? [Clique Aqui]({}) para " +\
-        "visualizar a lista completa dos jogos.".format(url)
+        return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
 
     def gameGenres(self) -> str:
         """ Gêneros dos jogos.
