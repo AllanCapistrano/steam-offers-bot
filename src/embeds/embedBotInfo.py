@@ -27,9 +27,7 @@ class EmbedBotInfo():
         self.color   = color
         self.message = message
         self.ownerId = ownerId
-        self.embed   = Embed(
-            color= self.color,
-        )
+        self.embed   = Embed(color=self.color)
     
     def embedBotInfoPortuguese(self) -> Embed:
         """ Monta a Embed do comando de informações do Bot em Português.
