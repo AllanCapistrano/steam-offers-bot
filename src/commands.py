@@ -11,6 +11,7 @@ from services.SpecificGame.specificGameEmbed import specificGameEmbed
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 from embeds.embedHelp import EmbedHelp
 from embeds.embedHelpGenre import EmbedHelpGenre
+from embeds.embedHelpGameTab import EmbedHelpGameTab
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
@@ -84,34 +85,14 @@ class Commands(commands.Cog):
     
     @help.command(name="gametab")
     async def helpGameTab(self, ctx: Context):
-        embedHelpGameTab = Embed(
-            color = self.color
+        embedHelpGameTab = EmbedHelpGameTab(
+            client  = self.client,
+            prefix  = self.prefix,
+            color   = self.color,
+            message = self.message
         )
-        embedHelpGameTab.set_author(
-            name     = f"{self.client.user.name} comando {self.prefix}gametab:", 
-            icon_url = self.client.user.avatar_url
-        )
-        embedHelpGameTab.add_field(
-            name   = "```{0}gametab novidades populares``` ou ```{0}gametab np```".format(self.prefix),
-            value  = self.message.helpValues()[3], 
-            inline = False
-        )
-        embedHelpGameTab.add_field(
-            name   = "```{0}gametab mais vendidos``` ou ```{0}gametab mv```".format(self.prefix),
-            value  = self.message.helpValues()[4], 
-            inline = False
-        )
-        embedHelpGameTab.add_field(
-            name   = "```{0}gametab jogos populares``` ou ```{0}gametab jp```".format(self.prefix),
-            value  = self.message.helpValues()[5], 
-            inline = False
-        )
-        embedHelpGameTab.add_field(
-            name   = "```{0}gametab pré-venda``` ou ```{0}gametab pv```".format(self.prefix),
-            value  = self.message.helpValues()[6], 
-            inline = False
-        )
-        await ctx.send(embed=embedHelpGameTab)
+
+        await ctx.send(embed=embedHelpGameTab.embedHelpGameTabPortuguese())
 
     @commands.command(name="invite", aliases=["convite"])
     async def invite(self, ctx: Context):
