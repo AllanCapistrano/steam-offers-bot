@@ -96,11 +96,13 @@ class Message:
 
         return titleList
 
-    def helpValues(self, img: str = None, prefix = None) -> list:
+    def helpValues(self, language: str = None, img: str = None, prefix = None) -> list:
         """ Conteúdo do comando $help.
 
         Parameters
         -----------
+        language: :class:`str`
+            Idioma do comando.
         genre: :class:`str`
             Link da imagem que contém os a lista de gêneros dos jogos.
         prefix: :class:`str`
@@ -113,28 +115,36 @@ class Message:
         
         msgList = []
 
-        msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(img))
-        msgList.append(
-            "**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**")
-        msgList.append(
-            "**Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.**")
-        msgList.append(
-            "**Exibe quais jogos da categoria \"Novidades Populares\" estão em promoção na loja.**")
-        msgList.append(
-            "**Exibe quais jogos da categoria \"Mais Vendidos\" estão em promoção na loja.**")
-        msgList.append(
-            "**Exibe quais jogos da categoria \"Mais Jogados\" estão em promoção na loja.**")
-        msgList.append(
-            "**Exibe quais jogos da categoria \"Pré-compra\" estão em promoção na loja.**")
-        msgList.append(
-            "**Gera o convite para que o Bot possa ser adicionado em outros servidores.**")
-        msgList.append("**Exibe as informações do Bot.**")
-        msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
-        msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
-        msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
-        msgList.append("**Mostra o resumo das análises de um jogo. Obs: Não precisa dos [].**")
-        msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: digite `{}help gametab` para ver todas as categorias.**".format(prefix)
-        )
+        if(language == None):
+            msgList.append("**[Clique Aqui]({}) para ver uma imagem com todos os possíveis gêneros.**".format(img))
+            msgList.append("**Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado.**")
+            msgList.append("**Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.**")
+            msgList.append("**Exibe quais jogos da categoria \"Novidades Populares\" estão em promoção na loja.**")
+            msgList.append("**Exibe quais jogos da categoria \"Mais Vendidos\" estão em promoção na loja.**")
+            msgList.append("**Exibe quais jogos da categoria \"Mais Jogados\" estão em promoção na loja.**")
+            msgList.append("**Exibe quais jogos da categoria \"Pré-compra\" estão em promoção na loja.**")
+            msgList.append("**Gera o convite para que o Bot possa ser adicionado em outros servidores.**")
+            msgList.append("**Exibe as informações do Bot.**")
+            msgList.append("**Busca um jogo pelo nome e exibe as suas informações. Obs: Não precisa dos [].**")
+            msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
+            msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
+            msgList.append("**Mostra o resumo das análises de um jogo. Obs: Não precisa dos [].**")
+            msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: Digite `{}help gametab` para ver todas as categorias.**".format(prefix))
+        elif(language == "en"):
+            msgList.append("**[Click Here]({}) to see an image with all game genres.**".format(img))
+            msgList.append("**Shows which games are on daily offer or free to play.**")
+            msgList.append("**Shows which events or games are in the spotlight in the Steam.**")
+            msgList.append("**Shows which games in the \"New & Trending\" category are on sale.**")
+            msgList.append("**Shows which games in the \"Top Sellers\" category are on sale.**")
+            msgList.append("**Shows which games in the \"What's Being Played\" category are on sale.**")
+            msgList.append("**Shows which games in the \"Pre-Purchase\" category are on sale.**")
+            msgList.append("**Generate the bot invite.**")
+            msgList.append("**Show information about the bot.**")
+            msgList.append("**Search for a game by name. Ps: Don't need the [].**")
+            msgList.append("**Recommends a game by genre. Ps: Don't need the [].**")
+            msgList.append("**Recommends a game by price range. Ps: Don't need the [].**")
+            msgList.append("**Shows a summary of the reviews about the game. Ps: Don't need the [].**")
+            msgList.append("**Send to you a private message with a list of games. PS: To see all categories, send `{}help gametab`**".format(prefix))
 
         return msgList
 
