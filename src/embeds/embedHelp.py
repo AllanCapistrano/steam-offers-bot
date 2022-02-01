@@ -52,7 +52,7 @@ class EmbedHelp():
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}gametab [categoria]```".format(self.prefix),
+            name   = "```{0}categoria [categoria]```".format(self.prefix),
             value  = self.message.helpValues(prefix=self.prefix)[13], 
             inline = False
         )
@@ -67,22 +67,22 @@ class EmbedHelp():
             inline = False
         )
         self.embed.add_field(
-            name   = "```{}game [nome do jogo]```".format(self.prefix),
+            name   = "```{}jogo [nome do jogo]```".format(self.prefix),
             value  = self.message.helpValues()[9], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{}genre [gênero do jogo]```".format(self.prefix),
+            name   = "```{}gênero [gênero do jogo]```".format(self.prefix),
             value  = self.message.helpValues()[10], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{}maxprice [preço]```".format(self.prefix),
+            name   = "```{}preçomáximo [preço]```".format(self.prefix),
             value  = self.message.helpValues()[11], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}análises [nome do jogo]``` ou ```{0}reviews [nome do jogo]```".format(self.prefix),
+            name   = "```{}análises [nome do jogo]```".format(self.prefix),
             value  = self.message.helpValues()[12], 
             inline = False
         )
@@ -102,7 +102,7 @@ class EmbedHelp():
             icon_url = self.client.user.avatar_url
         )
         self.embed.add_field(
-            name   = "```{0}dailyDeal``` or ```{0}dd```".format(self.prefix),
+            name   = "```{0}dailydeal``` or ```{0}dd```".format(self.prefix),
             value  = self.message.helpValues(language="en")[1], 
             inline = False
         )
@@ -125,7 +125,7 @@ class EmbedHelp():
             inline = False
         )
         self.embed.add_field(
-            name   = "```{}botinfo```".format(self.prefix),
+            name   = "```{}info```".format(self.prefix),
             value  = self.message.helpValues(language="en")[8], 
             inline = False
         )
@@ -145,7 +145,7 @@ class EmbedHelp():
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}review [game name]```".format(self.prefix),
+            name   = "```{}review [game name]```".format(self.prefix),
             value  = self.message.helpValues(language="en")[12], 
             inline = False
         )
