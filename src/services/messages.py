@@ -96,7 +96,7 @@ class Message:
             titleList.append("Here is the link to invite:") # $invite
             titleList.append("🎮 Spotlight 🎮") # $spotlight or $sl
             titleList.append("🕹️ Daily Deal 🕹️") # $dailydeal or $dd
-            titleList.append("📊 Info 📊") # $info
+            titleList.append("📊 Information 📊") # $info
             titleList.append("🎮 Game Genres 🕹️") # $help genre
             titleList.append("👾 Game: {} 👾".format(gameName)) # $game
             titleList.append("🎮 Recommended __{}__ game  🕹️".format(genre)) # $genre
@@ -156,7 +156,7 @@ class Message:
 
         return msgList
 
-    def infoValues(self) -> list:
+    def infoValues(self, language: str = None) -> list:
         """ Conteúdo do comando $botinfo.
 
         Returns
@@ -168,9 +168,15 @@ class Message:
 
         msgList.append("**3.10.1**") # Versão Python
         msgList.append("**1.7.3**") # Versão Discord.py
-        msgList.append("**Bot para visualizar informações sobre jogos e promoções "
-            "na Steam sem precisar sair do Discord. Criado por ") # Informações.
-        msgList.append("01 de Fevereiro de 2022") # Data da última atualização.
+
+        if(language == None):
+            msgList.append("**Bot para visualizar informações sobre jogos e promoções "
+                "na Steam sem precisar sair do Discord. Criado por ") # Informações.
+            msgList.append("01 de Fevereiro de 2022") # Data da última atualização.
+        elif(language == "en"):
+            msgList.append("**Bot to show information about Steam games and "
+                "offers, without leaving Discord. Created by ") # Informações.
+            msgList.append("February 01, 2022") # Data da última atualização.
 
         return msgList
 
