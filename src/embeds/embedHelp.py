@@ -27,10 +27,10 @@ class EmbedHelp():
         self.prefix  = prefix
         self.color   = color
         self.message = message
-        self.embed   = Embed(color = self.color)
+        self.embed   = Embed(color=self.color)
 
     def embedHelpPortuguese(self) -> Embed:
-        """ Monta a Embed do comando de ajuda em português.
+        """ Monta a Embed do comando de ajuda em Português.
 
         Returns
         -----------
@@ -90,7 +90,7 @@ class EmbedHelp():
         return self.embed
 
     def embedHelpEnglish(self) -> Embed:
-        """ Monta a Embed do comando de ajuda em inglês.
+        """ Monta a Embed do comando de ajuda em Inglês.
 
         Returns
         -----------
