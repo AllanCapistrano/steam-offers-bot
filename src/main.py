@@ -55,51 +55,11 @@ async def on_message(message: str):
             
             # Caso tenha todos os parâmetros necessários.
             if(len(temp) == 7):
-                gameURL = message.content.lower()
-
-                (
-                    gameName, 
-                    gameIMG, 
-                    gameOriginalPrice,
-                    gameFinalPrice,
-                    gameDescription
-                ) = await crawler.getGameByLink(gameURL)
-
-                embedGameBylink =  discord.Embed(
-                    title = "👾 Jogo: {} 👾".format(gameName),
-                    color = COLOR
+                embedGameBylink = await specificGameEmbed(
+                    crawler      = crawler,
+                    embedColor   = COLOR,
+                    gameToSearch = message.content.lower()
                 )
-                embedGameBylink.set_image(url=gameIMG)
-                embedGameBylink.add_field(
-                    name   = "**Link:**", 
-                    value  = "**[Clique Aqui]({})**".format(gameURL), 
-                    inline = False
-                )
-
-                if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
-                    embedGameBylink.add_field(
-                        name   = "**Preço Original:**", 
-                        value  = "**{}**".format(gameOriginalPrice), 
-                        inline = True
-                    )
-                    embedGameBylink.add_field(
-                        name   = "**Preço com Desconto:**", 
-                        value  = "**{}**".format(gameFinalPrice), 
-                        inline = True
-                    )
-                else: # Caso o jogo não esteja em promoção.
-                    embedGameBylink.add_field(
-                        name   = "**Preço:**", 
-                        value  = "**{}**".format(gameOriginalPrice), 
-                        inline = False
-                    )
-
-                if(gameDescription != None):
-                    embedGameBylink.add_field(
-                        name   = "**Descrição:**", 
-                        value  = "{}".format(gameDescription), 
-                        inline = False
-                    )
 
                 searchGameUrl = await message.channel.send(embed=embedGameBylink)
                 await searchGameUrl.add_reaction(REACTION_REVIEW)
