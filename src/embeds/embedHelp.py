@@ -29,8 +29,12 @@ class EmbedHelp():
         self.message = message
         self.embed   = Embed(color = self.color)
 
-    def embedHelpPortuguese(self):
+    def embedHelpPortuguese(self) -> Embed:
         """ Monta a Embed do comando de ajuda em português.
+
+        Returns
+        -----------
+        embed: :class:`Embed`
         """
 
         self.embed.set_author(
@@ -85,8 +89,12 @@ class EmbedHelp():
 
         return self.embed
 
-    def embedHelpEnglish(self):
+    def embedHelpEnglish(self) -> Embed:
         """ Monta a Embed do comando de ajuda em inglês.
+
+        Returns
+        -----------
+        embed: :class:`Embed`
         """
 
         self.embed.set_author(
