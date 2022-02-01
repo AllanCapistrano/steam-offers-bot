@@ -12,6 +12,7 @@ from services.GameReview.gameReviewEmbed import gameReviewEmbed
 from embeds.embedHelp import EmbedHelp
 from embeds.embedHelpGenre import EmbedHelpGenre
 from embeds.embedHelpGameTab import EmbedHelpGameTab
+from embeds.embedInvite import EmbedInvite
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
@@ -96,14 +97,14 @@ class Commands(commands.Cog):
 
     @commands.command(name="invite", aliases=["convite"])
     async def invite(self, ctx: Context):
-        embedInvite = Embed(
-            title       = self.message.title()[0],
-            color       = self.color,
-            description = f"**{self.urlInvite}**",
+        embedInvite = EmbedInvite(
+            client    = self.client,
+            color     = self.color,
+            message   = self.message,
+            urlInvite = self.urlInvite
         )
-        embedInvite.set_thumbnail(url=self.client.user.avatar_url)
 
-        await ctx.send(embed=embedInvite)
+        await ctx.send(embed=embedInvite.embedInvitePortuguese())
 
     @commands.command(name="destaque", aliases=["dt"])
     async def spotlightOffers(self, ctx: Context):
