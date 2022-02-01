@@ -17,8 +17,10 @@ class EmbedInvite():
 
         Parameters
         -----------
+        client: :class:`Bot`
         color: :class:`Literal`
         message: :class:`Message`
+        urlInvite: :class:`str`
         """
 
         self.client    = client
