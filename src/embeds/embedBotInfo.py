@@ -17,8 +17,10 @@ class EmbedBotInfo():
 
         Parameters
         -----------
+        client: :class:`Bot`
         color: :class:`Literal`
         message: :class:`Message`
+        ownerId: :class:`int`
         """
 
         self.client  = client
