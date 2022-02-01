@@ -60,7 +60,7 @@ class Message:
         
         return "** Cheque sua DM**"
 
-    def title(self, genre: str = None , gameName: str = None) -> list:
+    def title(self, language: str = None, genre: str = None , gameName: str = None) -> list:
         """ Títulos das embeds.
 
         Parameters
@@ -77,22 +77,30 @@ class Message:
         
         titleList = []
 
-        titleList.append("Aqui está o link para o convite:") # $invite ou $convite
-        titleList.append("🎮 Jogo/Evento em Destaque 🎮") # $destaque ou $dt
-        titleList.append("🕹️ Oferta do Dia 🕹️") # $promocao ou $pr
-        titleList.append("📊 Informações 📊") # $botinfo ou $info
-        titleList.append("🎮 Gêneros dos Jogos 🕹️") # $help genre
+        if(language == None):
+            titleList.append("Aqui está o link para o convite:") # $convite
+            titleList.append("🎮 Jogo/Evento em Destaque 🎮") # $destaque ou $dt
+            titleList.append("🕹️ Oferta do Dia 🕹️") # $promocao ou $pr
+            titleList.append("📊 Informações 📊") # $botinfo
+            titleList.append("🎮 Gêneros dos Jogos 🕹️") # $ajuda gênero
+            titleList.append("👾 Jogo: {} 👾".format(gameName)) # $jogo
+            
+            # $genre
+            if(genre == "casual" or genre == "indie" or genre == "multijogador massivo" or genre == "rpg"):
+                titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
+            else:
+                titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
 
-        titleList.append("👾 Jogo: {} 👾".format(gameName)) # $game
-        
-        # $genre
-        if(genre == "casual" or genre == "indie" or genre == "multijogador massivo" or genre == "rpg"):
-            titleList.append("🎮 Jogo __{}__ recomendado 🕹️".format(genre))
-        else:
-            titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
-
-        
-        titleList.append("💰 Jogo: {} 💰".format(gameName)) # $maxprice
+            titleList.append("💰 Jogo: {} 💰".format(gameName)) # $preçomáximo
+        elif(language == "en"):
+            titleList.append("Here is the link to invite:") # $invite
+            titleList.append("🎮 Spotlight 🎮") # $spotlight or $sl
+            titleList.append("🕹️ Daily Deal 🕹️") # $dailydeal or $dd
+            titleList.append("📊 Info 📊") # $info
+            titleList.append("🎮 Game Genres 🕹️") # $help genre
+            titleList.append("👾 Game: {} 👾".format(gameName)) # $game
+            titleList.append("🎮 Recommended __{}__ game  🕹️".format(genre)) # $genre
+            titleList.append("💰 Game: {} 💰".format(gameName)) # $maxprice
 
         return titleList
 
@@ -129,7 +137,7 @@ class Message:
             msgList.append("**Recomenda um jogo a partir do gênero especificado. Obs: Não precisa dos [].**")
             msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
             msgList.append("**Mostra o resumo das análises de um jogo. Obs: Não precisa dos [].**")
-            msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: Digite `{}help gametab` para ver todas as categorias.**".format(prefix))
+            msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: Digite `{}ajuda categoria` para ver todas as categorias.**".format(prefix))
         elif(language == "en"):
             msgList.append("**[Click Here]({}) to see an image with all game genres.**".format(img))
             msgList.append("**Shows which games are on daily offer or free to play.**")
@@ -243,28 +251,41 @@ class Message:
         return "Não era o jogo que estava buscando? [Clique Aqui]({}) para " +\
         "visualizar a lista completa dos jogos.".format(url)
 
-    def gameGenres(self) -> str:
+    def gameGenres(self, language: str = None) -> str:
         """ Gêneros dos jogos.
 
         Returns
         -----------
         genres: :class:`str`
         """
-        
-        return "`Ação`, `Arcade e Ritmo`, `Luta e Artes Marciais`, `Plataformas e " + \
-            "Corridas Intermináveis`, `Porradaria`, `Roguelike de Ação`, `Tiro em " + \
-            "Terceira pessoa` ou `TPS`, `Tiro em Primeira Pessoa` ou `FPS`, `RPG`, " + \
-            "`JRPG`, `RPG de Ação`, `RPG de Estratégia`, `RPGs de Aventura`, `RPGs em " + \
-            "Grupos`, `RPGs em Turnos`, `Roguelike`, `Estratégia`, `Cidades e Colônias`, " + \
-            "`Defesa de Torres`, `Estratégia Baseada em Turnos`, `Estratégia em Tempo " + \
-            "Real` ou `RTS`, `Grande Estratégia e 4X`, `Militar`, `Tabuleiro e Cartas`, " + \
-            "`Aventura e Casual`, `Aventura`, `Casuais`, `Metroidvania`, `Quebra-Cabeça`, " + \
-            "`Romance Visual`, `Trama Excepcional`, `Simulador`, `Construção e Automação`, " + \
-            "`Encontros`, `Espaço e Aviação`, `Física e Faça o que quiser`, `Gestão " + \
-            "de Negócios`, `Rurais e de Fabricação`, `Vida e Imersivos`, `Esporte e " + \
-            "Corrida`, `Corrida`, `Esporte em Equipe`, `Esportes`, `Esportes " + \
-            "Individuais`, `Pescaria e Caça`, `Simuladores de Esporte`, `Simulação " + \
-            "de Corrida`"
+        if(language == None):
+            return "`Ação`, `Arcade e Ritmo`, `Luta e Artes Marciais`, `Plataformas e " + \
+                "Corridas Intermináveis`, `Porradaria`, `Roguelike de Ação`, `Tiro em " + \
+                "Terceira pessoa` ou `TPS`, `Tiro em Primeira Pessoa` ou `FPS`, `RPG`, " + \
+                "`JRPG`, `RPG de Ação`, `RPG de Estratégia`, `RPGs de Aventura`, `RPGs em " + \
+                "Grupos`, `RPGs em Turnos`, `Roguelike`, `Estratégia`, `Cidades e Colônias`, " + \
+                "`Defesa de Torres`, `Estratégia Baseada em Turnos`, `Estratégia em Tempo " + \
+                "Real` ou `RTS`, `Grande Estratégia e 4X`, `Militar`, `Tabuleiro e Cartas`, " + \
+                "`Aventura e Casual`, `Aventura`, `Casuais`, `Metroidvania`, `Quebra-Cabeça`, " + \
+                "`Romance Visual`, `Trama Excepcional`, `Simulador`, `Construção e Automação`, " + \
+                "`Encontros`, `Espaço e Aviação`, `Física e Faça o que quiser`, `Gestão " + \
+                "de Negócios`, `Rurais e de Fabricação`, `Vida e Imersivos`, `Esporte e " + \
+                "Corrida`, `Corrida`, `Esporte em Equipe`, `Esportes`, `Esportes " + \
+                "Individuais`, `Pescaria e Caça`, `Simuladores de Esporte`, `Simulação " + \
+                "de Corrida`"
+        elif(language == "en"):
+            return "`Action`, `Action Rogue-Like`, `Arcade & Rythm`, `Beat 'Em Up`, " + \
+                "`Fight & Martial Arts`, `First-Person Shooter`, `Platformer & Runner`, " + \
+                "`Third-Person Shooter`, `Role-Playing`, `Action RPG`, `Adventure RPG`, " + \
+                "`JRPG`, `Party-Based`, `Rogue-Like`, `Strategy RPG`, `Turn-Based`, " + \
+                "`Card & Board`, `City & Sttlement`, `Grand & 4X`, `Military`, " + \
+                "`Real-Time Strategy`, `Tower Defense`, `Turn-Based Strategy`, " + \
+                "`Adventure & Casual`, `Adventure`, `Casual`, `Metroidvania`, `Puzzle`, " + \
+                "`Story-Rich`, `Visual Novel`, `Simulation`, `Building & Automation`, " + \
+                "`Business & Tycoon`, `Dating`, `Farming & Crafting`, `Life & Immersive`, " + \
+                "`Sandbox & Physics`, `Space & Flight`, `Sport & Racing`, `All Sports`, " + \
+                "`Fishing & Hunting`, `Individual Sports`, `Racing`, `Racing Sim`, " + \
+                "`Sports Sim`, `Tema Sports`,"
 
     def searchMessage(self) -> list:
         """ Mensagens de busca.
