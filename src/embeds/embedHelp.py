@@ -11,8 +11,6 @@ class EmbedHelp():
         client: Bot, 
         prefix: str, 
         color: Literal, 
-        urlInvite: str,
-        reactions: list,
         message: Message
     ) -> None:
         """ Método construtor.
@@ -22,19 +20,14 @@ class EmbedHelp():
         client: :class:`Bot`
         prefix: :class:`str`
         color: :class:`Literal`
-        urlInvite: :class:`str`
-        reactions: :class:`list`
         message: :class:`Message`
         """
 
-        self.client    = client
-        self.prefix    = prefix
-        self.color     = color
-        self.urlInvite = urlInvite
-        self.ownerId   = 259443927441080330
-        self.reactions = reactions
-        self.message   = message
-        self.embed     = Embed(color = self.color)
+        self.client  = client
+        self.prefix  = prefix
+        self.color   = color
+        self.message = message
+        self.embed   = Embed(color = self.color)
 
     def embedHelpPortuguese(self):
         """ Monta a Embed do comando de ajuda em português.
