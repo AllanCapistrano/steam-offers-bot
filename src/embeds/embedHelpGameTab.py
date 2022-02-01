@@ -17,10 +17,10 @@ class EmbedHelpGameTab():
 
         Parameters
         -----------
+        client: :class:`Bot`
         prefix: :class:`str`
         color: :class:`Literal`
         message: :class:`Message`
-        imgGenres: :class:`list`
         """
 
         self.client  = client
