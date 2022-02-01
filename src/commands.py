@@ -9,6 +9,7 @@ from services.crawler import Crawler
 from services.messages import Message
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
+from embeds.embedHelp import EmbedHelp
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
@@ -58,60 +59,16 @@ class Commands(commands.Cog):
     @commands.group(name="help", aliases=["ajuda", "comandos"])
     async def help(self, ctx: Context):
         if(ctx.subcommand_passed is None):
-            embedHelp = Embed(
-                color = self.color
-            )
-            embedHelp.set_author(
-                name     = f"{self.client.user.name} lista de comandos:", 
-                icon_url = self.client.user.avatar_url
-            )
-            embedHelp.add_field(
-                name   = "```{0}promoção``` ou ```{0}pr```".format(self.prefix),
-                value  = self.message.helpValues()[1], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}destaque``` ou ```{0}dt```".format(self.prefix),
-                value  = self.message.helpValues()[2], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}gametab [categoria]```".format(self.prefix),
-                value  = self.message.helpValues(prefix=self.prefix)[13], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{}convite```".format(self.prefix),
-                value  = self.message.helpValues()[7], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{}botinfo```".format(self.prefix),
-                value  = self.message.helpValues()[8], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{}game [nome do jogo]```".format(self.prefix),
-                value  = self.message.helpValues()[9], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{}genre [gênero do jogo]```".format(self.prefix),
-                value  = self.message.helpValues()[10], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{}maxprice [preço]```".format(self.prefix),
-                value  = self.message.helpValues()[11], 
-                inline = False
-            )
-            embedHelp.add_field(
-                name   = "```{0}análises [nome do jogo]``` ou ```{0}reviews [nome do jogo]```".format(self.prefix),
-                value  = self.message.helpValues()[12], 
-                inline = False
+            embedHelp = EmbedHelp(
+                client    = self.client,
+                prefix    = self.prefix,
+                color     = self.color,
+                urlInvite = self.urlInvite,
+                reactions = self.reactions,
+                message   = self.message
             )
 
-            await ctx.send(embed=embedHelp)
+            await ctx.send(embed=embedHelp.embedHelpEnglish())
         elif(ctx.subcommand_passed != "genre" and ctx.subcommand_passed != "gametab"):
             raise commands.CommandNotFound()
 
