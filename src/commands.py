@@ -22,7 +22,6 @@ class Commands(commands.Cog):
         prefix: str, 
         color: Literal, 
         urlInvite: str,
-        ownerId: str,
         reactions: list
     ) -> None:
         """ Método construtor.
@@ -30,16 +29,17 @@ class Commands(commands.Cog):
         Parameters
         -----------
         client: :class:`Bot`
+        prefix: :class:`str`
         color: :class:`Literal`
         urlInvite: :class:`str`
-        message: :class:`Message`
+        reactions: :class:`list`
         """
     
         self.client    = client
         self.prefix    = prefix
         self.color     = color
         self.urlInvite = urlInvite
-        self.ownerId   = ownerId
+        self.ownerId   = 259443927441080330
         self.reactions = reactions
         self.message   = Message()
         self.crawler   = Crawler()

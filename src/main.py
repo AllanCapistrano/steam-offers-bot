@@ -21,7 +21,6 @@ PREFIX          = os.getenv("PREFIX")
 COLOR           = 0xa82fd2
 INVITE          = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
 TOKEN           = os.getenv("DISCORD_TOKEN")
-OWNER_ID        = int(os.getenv("OWNER_ID"))
 REACTION_REVIEW = "👍"
 REACTION_GAME   = "🎮"
 # ---------------------------------------------------------------------------- #
@@ -199,7 +198,6 @@ client.add_cog(
         prefix=PREFIX, 
         color=COLOR, 
         urlInvite=INVITE,
-        ownerId=OWNER_ID,
         reactions=[REACTION_REVIEW, REACTION_GAME]
     )
 )
