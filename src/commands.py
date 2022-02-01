@@ -228,38 +228,6 @@ class Commands(commands.Cog):
 
     @commands.command(name="botinfo", aliases=["info"])
     async def botInfo(self, ctx: Context):
-        # embedBotInfo = Embed(
-        #     title = self.message.title()[3],
-        #     color = self.color
-        # )
-        # embedBotInfo.set_thumbnail(url=self.client.user.avatar_url)
-        # embedBotInfo.add_field(
-        #     name   = "Python", 
-        #     value  = self.message.infoValues()[0], 
-        #     inline = True
-        # )
-        # embedBotInfo.add_field(
-        #     name   = "discord.py", 
-        #     value  = self.message.infoValues()[1], 
-        #     inline = True
-        # )
-        # embedBotInfo.add_field(
-        #     name   = "Sobre {}".format(self.client.user.name), 
-        #     value  = self.message.infoValues()[2] + 
-        #     self.client.get_user(self.ownerId).name + "#" 
-        #     + self.client.get_user(self.ownerId).discriminator + "**", 
-        #     inline = False
-        # )
-        # embedBotInfo.set_author(
-        #     name     = self.client.get_user(self.ownerId).name + "#" 
-        #     + self.client.get_user(self.ownerId).discriminator, 
-        #     icon_url = self.client.get_user(self.ownerId).avatar_url
-        # )
-        # embedBotInfo.set_footer(
-        #     text="Criado em 26 de Maio de 2020! | Última atualização em {}."
-        #     .format(self.message.infoValues()[3])
-        # )
-
         embedBotInfo = EmbedBotInfo(
             client  = self.client,
             color   = self.color,
@@ -267,7 +235,7 @@ class Commands(commands.Cog):
             ownerId = self.ownerId
         )
 
-        await ctx.send(embed=embedBotInfo.embedBotInfoEnglish())
+        await ctx.send(embed=embedBotInfo.embedBotInfoPortuguese())
 
     @commands.group(name="gametab")
     async def gameTab(self, ctx: Context):
