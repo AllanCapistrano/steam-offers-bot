@@ -10,9 +10,10 @@ from services.messages import Message
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 from embeds.embedHelp import EmbedHelp
+from embeds.embedHelpGenre import EmbedHelpGenre
 
 # ------------------------------ Constants ----------------------------------- #
-IMG_GENRES = "https://i.imgur.com/q0NfeWX.png"
+IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
 URL        = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 # ---------------------------------------------------------------------------- #
 
@@ -63,30 +64,23 @@ class Commands(commands.Cog):
                 client    = self.client,
                 prefix    = self.prefix,
                 color     = self.color,
-                urlInvite = self.urlInvite,
-                reactions = self.reactions,
                 message   = self.message
             )
 
-            await ctx.send(embed=embedHelp.embedHelpEnglish())
+            await ctx.send(embed=embedHelp.embedHelpPortuguese())
         elif(ctx.subcommand_passed != "genre" and ctx.subcommand_passed != "gametab"):
             raise commands.CommandNotFound()
 
     @help.command(name="genre")
     async def helpGenre(self, ctx: Context):
-        embedHelpGenre = Embed(
-            title = self.message.title()[4],
-            color = self.color,
-            description = self.message.gameGenres()
+        embedHelpGenre = EmbedHelpGenre(
+            prefix    = self.prefix,
+            color     = self.color,
+            message   = self.message,
+            imgGenres = IMG_GENRES
         )
-        embedHelpGenre.add_field(
-            name   = "Ficou confuso(a) ?",
-            value  = self.message.helpValues(img=IMG_GENRES)[0],
-            inline = False
-        )
-        embedHelpGenre.set_footer(text="Utilize {}genre [um dos gêneros acima]".format(self.prefix))
 
-        await ctx.send(embed=embedHelpGenre)
+        await ctx.send(embed=embedHelpGenre.embedHelpGenrePortuguese())
     
     @help.command(name="gametab")
     async def helpGameTab(self, ctx: Context):
