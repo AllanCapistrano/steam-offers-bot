@@ -241,7 +241,7 @@ class Message:
 
         return alertList
 
-    def wrongGame(self, url: str) -> str:
+    def wrongGame(self, url: str, language: str = None) -> str:
         """ Mensagem de erro ao buscar um jogo específico.
 
         Parameters
@@ -253,9 +253,10 @@ class Message:
         -----------
         message: :class:`srt`
         """
-
-        return "Não era o jogo que estava buscando? [Clique Aqui]({}) para " +\
-        "visualizar a lista completa dos jogos.".format(url)
+        if(language == None):
+            return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
+        elif(language == "en"):
+            return "Not a game you're looking for? [Click Here]({}) to see the full list of games.".format(url)
 
     def gameGenres(self, language: str = None) -> str:
         """ Gêneros dos jogos.
