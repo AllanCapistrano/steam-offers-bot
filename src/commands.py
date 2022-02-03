@@ -14,6 +14,7 @@ from embeds.embedHelpGenre import EmbedHelpGenre
 from embeds.embedHelpGameTab import EmbedHelpGameTab
 from embeds.embedInvite import EmbedInvite
 from embeds.embedBotInfo import EmbedBotInfo
+from embeds.embedGameRecommendationByPrice import EmbedGameRecommendationByPrice
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
@@ -541,9 +542,9 @@ class Commands(commands.Cog):
         await searchGameMessage.edit(content=messageContent + " "+ maxPrice + "__ . . .**")
 
         if(float(maxPrice) > 120):
-            maxPriceCode = "rZ04j" # Preço maior que R$ 120,00
+            maxPriceCode = "rZ04j" # Preço maior que $120,00
         elif(float(maxPrice) < 10):
-            maxPriceCode = "19Jfc" # Preço menor que R$ 10,00
+            maxPriceCode = "19Jfc" # Preço menor que $10,00
         else:
             maxPriceCode = None
         
@@ -553,47 +554,26 @@ class Commands(commands.Cog):
             gameURL, 
             gameOriginalPrice,
             gameFinalPrice
-        ) = await self.crawler.getGameRecommendationByPriceRange(code=maxPriceCode, maxPrice=float(maxPrice))
-
-        embedGameRecommendationByPrice = Embed(
-            title = self.message.title(gameName=gameName)[7],
-            color = self.color
-        )
-        embedGameRecommendationByPrice.set_image(url=gameIMG)
-        embedGameRecommendationByPrice.add_field(
-            name   = "**Link:**", 
-            value  = "**[Clique Aqui]({})**".format(gameURL), 
-            inline = False
-        )
-        
-        if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
-            embedGameRecommendationByPrice.add_field(
-                name   = "**Preço Original:**", 
-                value  = "**{}**".format(gameOriginalPrice), 
-                inline = True
-            )
-            embedGameRecommendationByPrice.add_field(
-                name   = "**Preço com Desconto:**", 
-                value  = "**{}**".format(gameFinalPrice), 
-                inline = True
-            )
-        else: # Caso o jogo não esteja em promoção.
-            embedGameRecommendationByPrice.add_field(
-                name   = "**Preço:**", 
-                value  = "**{}**".format(gameOriginalPrice), 
-                inline = False
+        ) = await self.crawler.getGameRecommendationByPriceRange(
+                code     = maxPriceCode, 
+                maxPrice = float(maxPrice)
             )
 
-        if(maxPriceCode == "rZ04j"):
-            embedGameRecommendationByPrice.set_footer(
-                text = self.message.recommendationByPrice()[1]
-            )
-        elif(maxPriceCode == "19Jfc"):
-            embedGameRecommendationByPrice.set_footer(
-                text = self.message.recommendationByPrice()[2]
-            )
+        embedGameRecommendationByPrice = EmbedGameRecommendationByPrice(
+            color             = self.color,
+            gameName          = gameName,
+            gameImg           = gameIMG,
+            gameUrl           = gameURL,
+            gameOriginalPrice = gameOriginalPrice,
+            gameFinalPrice    = gameFinalPrice,
+            maxPriceCode      = maxPriceCode,
+            message           = self.message
+        )
         
-        await searchGameMessage.edit(content="", embed=embedGameRecommendationByPrice)
+        await searchGameMessage.edit(
+            content = "", 
+            embed   = embedGameRecommendationByPrice.embedSpecificGamePortuguese()
+        )
         await searchGameMessage.add_reaction(self.reactions[0])
         
     @maxPrice.error
