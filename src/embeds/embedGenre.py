@@ -87,6 +87,8 @@ class EmbedGenre():
                     inline = True
                 )
 
+        return self.embed
+
     def embedGenreEnglish(self):
         """ Monta a Embed do comando de gênero em Inglês.
 
@@ -139,3 +141,5 @@ class EmbedGenre():
                     value  = "**{}**".format(self.gameOriginalPrice), 
                     inline = True
                 )
+
+        return self.embed
