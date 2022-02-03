@@ -22,13 +22,13 @@ class EmbedSpecificGame():
         Parameters
         -----------
         color: :class:`Literal`
-        gameName: :class:`gameName`
-        gameImg: :class:`gameImg`
-        gameUrl: :class:`gameUrl`
-        gameOriginalPrice: :class:`gameOriginalPrice`
-        gameFinalPrice: :class:`gameFinalPrice`
-        gameDescription: :class:`gameDescription`
-        searchUrl: :class:`searchUrl`
+        gameName: :class:`str`
+        gameImg: :class:`str`
+        gameUrl: :class:`str`
+        gameOriginalPrice: :class:`str`
+        gameFinalPrice: :class:`str`
+        gameDescription: :class:`str`
+        searchUrl: :class:`str`
         message: :class:`Message`
         """
         

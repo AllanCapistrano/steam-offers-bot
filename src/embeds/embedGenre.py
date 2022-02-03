@@ -20,11 +20,11 @@ class EmbedGenre():
         Parameters
         -----------
         color: :class:`Literal`
-        gameName: :class:`gameName`
-        gameImg: :class:`gameImg`
-        gameUrl: :class:`gameUrl`
-        gameOriginalPrice: :class:`gameOriginalPrice`
-        gameFinalPrice: :class:`gameFinalPrice`
+        gameGenreToSearch: :class:`str`
+        gameImg: :class:`str`
+        gameUrl: :class:`str`
+        gameOriginalPrice: :class:`str`
+        gameFinalPrice: :class:`str`
         message: :class:`Message`
         """
         
