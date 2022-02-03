@@ -74,7 +74,10 @@ async def on_reaction_add(reaction: Reaction, user: User):
     # Caso a reação seja na mensagem do comando $game, $genre ou $maxprice
     if(
         reaction.emoji                       == REACTION_REVIEW and 
-        message.embeds[0].title.find("Jogo") != -1              and
+        (
+            message.embeds[0].title.find("Jogo") != -1 or
+            message.embeds[0].title.find("Game") != -1 
+        ) and
         user.id                              != client.user.id  and
         message.author                       == client.user     and 
         not user.bot
@@ -110,7 +113,10 @@ async def on_reaction_add(reaction: Reaction, user: User):
         await message.channel.send(embed=embedGameReview)
     elif(
         reaction.emoji                          == REACTION_GAME  and
-        message.embeds[0].title.find("Análise") != -1             and
+        (
+            message.embeds[0].title.find("Análise") != -1 or
+            message.embeds[0].title.find("Review")  != -1
+        ) and
         user.id                                 != client.user.id and
         message.author                          == client.user    and
         not user.bot
