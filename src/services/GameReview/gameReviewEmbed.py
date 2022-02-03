@@ -44,4 +44,4 @@ async def gameReviewEmbed(
         message     = Message()
     )
 
-    return embedGameReview.embedGameReviewEnglish()
+    return embedGameReview.embedGameReviewPortuguese()
