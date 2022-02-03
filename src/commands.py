@@ -462,7 +462,7 @@ class Commands(commands.Cog):
         (
             gameName, 
             gameURL, 
-            gameOriginalPrice , 
+            gameOriginalPrice, 
             gameFinalPrice, 
             gameIMG
         ) = await self.crawler.getGameRecommendationByGenre(gameGenreToSearch)
