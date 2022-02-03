@@ -367,8 +367,13 @@ class Message:
 
         return msgList
 
-    def noReviews(self) -> list:
+    def noReviews(self, language: str = None) -> list:
         """ Mensagens para quando não análises para um jogo.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
 
         Returns
         -----------
@@ -377,7 +382,10 @@ class Message:
         
         msgList = []
 
-        msgList.append("Não há análises disponíveis no momento.")
+        if(language == None):
+            msgList.append("Não há análises disponíveis no momento.")
+        elif(language == "en"):
+            msgList.append("No reviews available.")
 
         return msgList
 
