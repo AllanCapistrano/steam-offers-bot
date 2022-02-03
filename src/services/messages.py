@@ -261,6 +261,11 @@ class Message:
     def gameGenres(self, language: str = None) -> str:
         """ Gêneros dos jogos.
 
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
+
         Returns
         -----------
         genres: :class:`str`
@@ -312,8 +317,13 @@ class Message:
 
         return msgList
 
-    def recommendationByPrice(self) -> list:
+    def recommendationByPrice(self, language: str = None) -> list:
         """ Mensagens de recomendação de jogo por preço.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
 
         Returns
         -----------
@@ -322,21 +332,38 @@ class Message:
         
         msgList = []
 
-        msgList.append(
-            "⚠️ **Faixa de preço inválida! Tente novamente. " + \
-            "\nObs: Não utilize vírgulas nem pontos.**"
-        )
-        msgList.append(
-            "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
-            "Logo o jogo acima está em qualquer faixa de preço."
-        )
-        msgList.append(
-            "A faixa mínima de preço para o filtro é de R$ 10,00. " + \
-            "Logo o jogo acima está nessa faixa."
-        )
-        msgList.append(
-            "⚠️ **É necessário informar uma faixa máxima de preço.**"
-        )
+        if(language == None):
+            msgList.append(
+                "⚠️ **Faixa de preço inválida! Tente novamente. " + \
+                "\nObs: Não utilize vírgulas nem pontos.**"
+            )
+            msgList.append(
+                "A faixa máxima de preço para o filtro é de R$ 120,00. " + \
+                "Logo o jogo acima está em qualquer faixa de preço."
+            )
+            msgList.append(
+                "A faixa mínima de preço para o filtro é de R$ 10,00. " + \
+                "Logo o jogo acima está nessa faixa."
+            )
+            msgList.append(
+                "⚠️ **É necessário informar uma faixa máxima de preço.**"
+            )
+        elif(language == "en"):
+            msgList.append(
+                "⚠️ **Invalid price range! Try again. " + \
+                "\n PS: Don't use points or commas.**"
+            )
+            msgList.append(
+                "The highest price range is $120.00. " + \
+                "So the above game can be in any price range."
+            )
+            msgList.append(
+                "The lowest price range is $10.00. " + \
+                "So the above game is in this price range."
+            )
+            msgList.append(
+                "**⚠️ Maximum price range is required.**"
+            )
 
         return msgList
 
