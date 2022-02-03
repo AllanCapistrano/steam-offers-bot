@@ -45,7 +45,7 @@ class EmbedGenre():
         embed: :class:`Embed`
         """
         
-        self.embed = self.message.title(genre=self.gameGenreToSearch)[6]
+        self.embed.title = self.message.title(genre=self.gameGenreToSearch)[6]
 
         self.embed.set_image(url=self.gameImg)
         self.embed.add_field(
@@ -95,7 +95,7 @@ class EmbedGenre():
         embed: :class:`Embed`
         """
 
-        self.embed = self.message.title(
+        self.embed.title = self.message.title(
             language="en",
             genre=self.gameGenreToSearch
         )[6]
