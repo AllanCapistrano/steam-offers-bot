@@ -11,7 +11,8 @@ async def gameReviewEmbed(
     gameUrl: str, 
     gameName: str, 
     gameIMG: str,
-    searchUrl: str
+    searchUrl: str,
+    language: str = None
 ) -> Embed:
     """ Função responsável por montar a Embed de análises dos jogos.
 
@@ -23,6 +24,7 @@ async def gameReviewEmbed(
     gameName: :class:`str`
     gameIMG: :class:`str`
     searchUrl: :class:`str`
+    language: :class:`str`
 
     Returns
     -----------
@@ -44,4 +46,7 @@ async def gameReviewEmbed(
         message     = Message()
     )
 
+    if(language == "en"):
+        return embedGameReview.embedGameReviewEnglish()
+    
     return embedGameReview.embedGameReviewPortuguese()
