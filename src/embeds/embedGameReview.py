@@ -80,7 +80,7 @@ class EmbedGameReview():
                     inline = False
                 )
         else:
-            self.embed.title = "⚠ Jogo: {} ⚠".format(self.gameName)
+            self.embed.title = "⚠ Análise: {} ⚠".format(self.gameName)
 
             self.embed.set_image(url=self.gameImg)
             self.embed.add_field(
@@ -137,7 +137,7 @@ class EmbedGameReview():
                     inline = False
                 )
         else:
-            self.embed.title = "⚠ Game: {} ⚠".format(self.gameName)
+            self.embed.title = "⚠ Review: {} ⚠".format(self.gameName)
 
             self.embed.set_image(url=self.gameImg)
             self.embed.add_field(
