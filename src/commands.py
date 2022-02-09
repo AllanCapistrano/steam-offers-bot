@@ -15,6 +15,7 @@ from embeds.embedHelpGameTab import EmbedHelpGameTab
 from embeds.embedInvite import EmbedInvite
 from embeds.embedBotInfo import EmbedBotInfo
 from embeds.embedGameRecommendationByPrice import EmbedGameRecommendationByPrice
+from embeds.embedGenre import EmbedGenre
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
@@ -468,52 +469,28 @@ class Commands(commands.Cog):
             gameIMG
         ) = await self.crawler.getGameRecommendationByGenre(gameGenreToSearch)
 
-        if(gameName != None):
-            embedGameRecommendationByGenre = Embed(
-                title = self.message.title(genre=gameGenreToSearch)[6],
-                color = self.color
-            )
-            embedGameRecommendationByGenre.set_image(url=gameIMG)
-            embedGameRecommendationByGenre.add_field(
-                name   = "**Nome:**", 
-                value  = "**{}**".format(gameName), 
-                inline = False
-            )
-            embedGameRecommendationByGenre.add_field(
-                name   = "**Link:**", 
-                value  = "**[Clique Aqui]({})**".format(gameURL), 
-                inline = False
+        if(
+            gameName          != None and 
+            gameURL           != None and 
+            gameOriginalPrice != None and
+            gameFinalPrice    != None and
+            gameIMG           != None
+        ):
+            embedGenre = EmbedGenre(
+                color             = self.color,
+                gameGenreToSearch = gameGenreToSearch,
+                gameName          = gameName,
+                gameImg           = gameIMG,
+                gameUrl           = gameURL,
+                gameOriginalPrice = gameOriginalPrice,
+                gameFinalPrice    = gameFinalPrice,
+                message           = self.message
             )
 
-            if(
-                (gameOriginalPrice == gameFinalPrice) and 
-                (gameOriginalPrice != "Gratuito p/ Jogar")
-            ):
-                embedGameRecommendationByGenre.add_field(
-                    name   = "**Preço:**", 
-                    value  = "**{}**".format(gameOriginalPrice), 
-                    inline = True
-                )
-            else:
-                if(gameOriginalPrice != "Gratuito p/ Jogar"):
-                    embedGameRecommendationByGenre.add_field(
-                        name   = "**Preço Original:**", 
-                        value  = "**{}**".format(gameOriginalPrice), 
-                        inline = True
-                    )
-                    embedGameRecommendationByGenre.add_field(
-                        name   = "**Preço com Desconto:**", 
-                        value  = "**{}**".format(gameFinalPrice), 
-                        inline = True
-                    )
-                else:
-                    embedGameRecommendationByGenre.add_field(
-                        name   = "**Preço:**", 
-                        value  = "**{}**".format(gameOriginalPrice), 
-                        inline = True
-                    )
-
-            await searchGenreMessage.edit(content="", embed=embedGameRecommendationByGenre)
+            await searchGenreMessage.edit(
+                content = "", 
+                embed   = embedGenre.embedGenrePortuguese()
+            )
             await searchGenreMessage.add_reaction(self.reactions[0])
         else:
             await searchGenreMessage.edit(content=self.message.noOffers(prefix=self.prefix)[3])
