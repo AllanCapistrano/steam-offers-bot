@@ -601,7 +601,11 @@ class Commands(commands.Cog):
                 gameDescription
             ) = await self.crawler.getSpecificGame(gameToSearch)
 
-        if(gameURL != None):
+        if(
+            gameURL   != None and
+            gameIMG   != None and
+            gameName  != None 
+        ):
             embedGameReview = await gameReviewEmbed(
                 crawler    = self.crawler,
                 embedColor = self.color,
