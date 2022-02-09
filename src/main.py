@@ -128,6 +128,8 @@ async def on_reaction_add(reaction: Reaction, user: User):
         message.author == client.user    and
         not user.bot
     ):
+        language = None if message.embeds[0].title.find("Análise") != -1 else "en"
+
         temp     = message.embeds[0].title.split(" ")
         gameName = ""
         x        = 2
@@ -139,9 +141,10 @@ async def on_reaction_add(reaction: Reaction, user: User):
         gameName = gameName.strip()
 
         embedSpecificGame = await specificGameEmbed(
-            crawler          = crawler, 
-            embedColor       = COLOR, 
-            gameToSearch = gameName
+            crawler      = crawler, 
+            embedColor   = COLOR, 
+            gameToSearch = gameName,
+            language     = language
         )
 
         await message.channel.send(embed=embedSpecificGame)
