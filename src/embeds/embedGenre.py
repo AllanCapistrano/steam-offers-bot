@@ -9,6 +9,7 @@ class EmbedGenre():
         self,
         color: Literal, 
         gameGenreToSearch: str,
+        gameName: str,
         gameImg: str,
         gameUrl: str,
         gameOriginalPrice: str,
@@ -21,6 +22,7 @@ class EmbedGenre():
         -----------
         color: :class:`Literal`
         gameGenreToSearch: :class:`str`
+        gameName: :class:`str`
         gameImg: :class:`str`
         gameUrl: :class:`str`
         gameOriginalPrice: :class:`str`
@@ -30,6 +32,7 @@ class EmbedGenre():
         
         self.color             = color
         self.gameGenreToSearch = gameGenreToSearch
+        self.gameName          = gameName
         self.gameImg           = gameImg
         self.gameUrl           = gameUrl
         self.gameOriginalPrice = gameOriginalPrice
