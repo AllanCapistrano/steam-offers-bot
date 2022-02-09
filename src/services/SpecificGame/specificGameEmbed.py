@@ -8,7 +8,8 @@ from embeds.embedSpecificGame import EmbedSpecificGame
 async def specificGameEmbed(
     crawler: Crawler,
     embedColor: Literal,
-    gameToSearch: str
+    gameToSearch: str,
+    language: str = None
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
@@ -17,6 +18,7 @@ async def specificGameEmbed(
     crawler: :class:`Crawler`
     embedColor: :class:`Literal`
     gameToSearch :class:`str`
+    language :class:`str`
 
     Returns
     ----------
@@ -63,6 +65,9 @@ async def specificGameEmbed(
             searchUrl         = searchUrl,
             message           = Message()
         )
+
+        if(language == "en"):
+            return embedSpecificGame.embedSpecificGameEnglish()
 
         return embedSpecificGame.embedSpecificGamePortuguese()
     else:
