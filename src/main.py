@@ -76,14 +76,18 @@ async def on_reaction_add(reaction: Reaction, user: User):
         reaction.emoji                       == REACTION_REVIEW and 
         (
             message.embeds[0].title.find("Jogo") != -1 or
-            message.embeds[0].title.find("Game") != -1 
+            message.embeds[0].title.find("Game") != -1 or
+            message.embeds[0].title.find("game") != -1 
         ) and
         user.id                              != client.user.id  and
         message.author                       == client.user     and 
         not user.bot
     ):
         # Caso o comando seja $genre
-        if(message.embeds[0].title.find("recomendado 🕹️") != -1):
+        if(
+            message.embeds[0].title.find("recomendado 🕹️") != -1 or
+            message.embeds[0].title.find("🎮 Recommended") != -1
+        ):
             gameUrlEmbed = message.embeds[0].fields[1].value
             gameName     = message.embeds[0].fields[0].value
         else: # Caso o comando seja $genre ou $maxprice
