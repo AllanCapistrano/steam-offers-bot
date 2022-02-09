@@ -134,7 +134,7 @@ async def on_reaction_add(reaction: Reaction, user: User):
         gameName = ""
         x        = 2
 
-        while(temp[x] != "👍" and temp[x] != "👎"):
+        while(temp[x] != "👍" and temp[x] != "👎" and temp[x] != "⚠"):
             gameName += temp[x] + " "
             x        += 1
 
