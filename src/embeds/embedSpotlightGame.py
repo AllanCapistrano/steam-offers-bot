@@ -31,7 +31,7 @@ class EmbedSpotlightGames():
         self.message     = message
         self.embed       = Embed(color=self.color)
 
-    def embedSpotlightGamesPortuguese(self) -> Embed:
+    def embedSpotlightGamePortuguese(self) -> Embed:
         """ Monta a Embed do comando de jogos em destaque em Português.
 
         Returns
@@ -55,7 +55,7 @@ class EmbedSpotlightGames():
 
         return self.embed
 
-    def embedSpotlightGamesEnglish(self) -> Embed:
+    def embedSpotlightGameEnglish(self) -> Embed:
         """ Monta a Embed do comando de jogos em destaque em Inglês.
 
         Returns
