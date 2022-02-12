@@ -1,14 +1,15 @@
 from typing import Literal
-import discord
 from discord.embeds import Embed
 
 from services.crawler import Crawler
 from services.messages import Message
+from embeds.embedSpecificGame import EmbedSpecificGame
 
 async def specificGameEmbed(
     crawler: Crawler,
     embedColor: Literal,
-    gameToSearch: str
+    gameToSearch: str,
+    language: str = None
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
@@ -17,6 +18,7 @@ async def specificGameEmbed(
     crawler: :class:`Crawler`
     embedColor: :class:`Literal`
     gameToSearch :class:`str`
+    language :class:`str`
 
     Returns
     ----------
@@ -33,7 +35,11 @@ async def specificGameEmbed(
         ) = await crawler.getGameByLink(gameToSearch)
 
         searchUrl = None
-        gameURL   = gameToSearch + "?l=brazilian"
+
+        if(language == None):
+            gameURL = gameToSearch + "?l=brazilian"
+        elif(language == "en"):
+            gameURL = gameToSearch + "?l=english"
     else:
         (
             gameName, 
@@ -52,51 +58,21 @@ async def specificGameEmbed(
         gameOriginalPrice != None and
         gameFinalPrice    != None
     ):
-        message = Message()
-
-        embedSpecificGame = discord.Embed(
-            title = message.title(gameName=gameName)[5],
-            color = embedColor
+        embedSpecificGame = EmbedSpecificGame(
+            color             = embedColor,
+            gameName          = gameName,
+            gameImg           = gameIMG,
+            gameUrl           = gameURL,
+            gameOriginalPrice = gameOriginalPrice,
+            gameFinalPrice    = gameFinalPrice,
+            gameDescription   = gameDescription,
+            searchUrl         = searchUrl,
+            message           = Message()
         )
-        embedSpecificGame.set_image(url=gameIMG)
-        embedSpecificGame.add_field(
-            name   = "**Link:**", 
-            value  = "**[Clique Aqui]({})**".format(gameURL), 
-            inline = False
-        )
 
-        if(gameOriginalPrice != gameFinalPrice): # Caso o jogo esteja em promoção.
-            embedSpecificGame.add_field(
-                name   = "**Preço Original:**", 
-                value  = "**{}**".format(gameOriginalPrice), 
-                inline = True
-            )
-            embedSpecificGame.add_field(
-                name   = "**Preço com Desconto:**", 
-                value  = "**{}**".format(gameFinalPrice), 
-                inline = True
-            )
-        else: # Caso o jogo não esteja em promoção.
-            embedSpecificGame.add_field(
-                name   = "**Preço:**", 
-                value  = "**{}**".format(gameOriginalPrice), 
-                inline = False
-            )
+        if(language == "en"):
+            return embedSpecificGame.embedSpecificGameEnglish()
 
-        if(gameDescription != None):
-            embedSpecificGame.add_field(
-                name   = "**Descrição:**", 
-                value  = "{}".format(gameDescription), 
-                inline = False
-            )
-
-        if(searchUrl != None): # Caso seja passado o nome do jogo.
-            embedSpecificGame.add_field(
-                name   = "**Obs:**", 
-                value  = message.wrongGame(searchUrl), 
-                inline = False
-            )
-
-        return embedSpecificGame
+        return embedSpecificGame.embedSpecificGamePortuguese()
     else:
         return None

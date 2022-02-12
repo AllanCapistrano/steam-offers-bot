@@ -1,17 +1,15 @@
 from typing import Literal
-import discord
 from discord.embeds import Embed
 
 from services.crawler import Crawler
 from services.messages import Message
+from embeds.embedGameReview import EmbedGameReview
 
 async def gameReviewEmbed(
     crawler: Crawler,
     embedColor: Literal,
-    gameUrl: str, 
-    gameName: str, 
-    gameIMG: str,
-    searchUrl: str
+    gameToSearch: str, 
+    language: str = None
 ) -> Embed:
     """ Função responsável por montar a Embed de análises dos jogos.
 
@@ -19,76 +17,64 @@ async def gameReviewEmbed(
     -----------
     crawler: :class:`Crawler`
     embedColor: :class:`Literal`
-    gameUrl: :class:`str`
-    gameName: :class:`str`
-    gameIMG: :class:`str`
-    searchUrl: :class:`str`
+    gameToSearch: :class:`str`
+    language: :class:`str`
 
     Returns
     -----------
     embedGameReview: :class:`Embed`
     """
     
-    (
-        sumary, 
-        totalAmount
-    ) = await crawler.getGameReview(gameUrl)
+    if(gameToSearch.lower().find("store.steampowered.com/app") != -1):
+        (
+            gameName, 
+            gameIMG, 
+            gameOriginalPrice,
+            gameFinalPrice,
+            gameDescription
+        ) = await crawler.getGameByLink(gameToSearch)
 
-    message = Message()
+        searchUrl = None
 
-    if(len(sumary) > 0):
-        if (sumary[0].find("positivas") != -1):
-            embedGameReview = discord.Embed(
-                title = "👍 Análise: {} 👍".format(gameName),
-                color = embedColor
-            )
-        elif(sumary[0].find("negativas") != -1):
-            embedGameReview = discord.Embed(
-                title = "👎 Análise: {} 👎".format(gameName),
-                color = embedColor
-            )
-        else:
-            embedGameReview = discord.Embed(
-                title = "👍 Análise: {} 👎".format(gameName),
-                color = embedColor
-            )
+        if(language == None):
+            gameURL = gameToSearch + "?l=brazilian"
+        elif(language == "en"):
+            gameURL = gameToSearch + "?l=english"
         
-        embedGameReview.set_image(url=gameIMG)
+    else: # Caso seja passado o nome do jogo.
+        (
+            gameName, 
+            gameURL, 
+            gameIMG, 
+            gameOriginalPrice,
+            gameFinalPrice,
+            searchUrl,
+            gameDescription
+        ) = await crawler.getSpecificGame(gameToSearch)
 
-        if(len(sumary) == 1 and len(totalAmount) == 1):
-            embedGameReview.add_field(
-                name   = "**Todas as análises:**", 
-                value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
-                inline = False
-            ) 
-        elif(len(sumary) == 2 and len(totalAmount) == 2):
-            embedGameReview.add_field(
-                name   = "**Análises Recentes:**", 
-                value  = "{} (Qtd. de análises: {})".format(sumary[0], totalAmount[0]), 
-                inline = False
-            )
-            embedGameReview.add_field(
-                name   = "**Todas as análises:**", 
-                value  = "{} (Qtd. de análises: {})".format(sumary[1], totalAmount[1]), 
-                inline = False
-            )
+    if(
+        gameURL   != None and
+        gameIMG   != None and
+        gameName  != None 
+    ):
+        (
+            sumary, 
+            totalAmount
+        ) = await crawler.getGameReview(gameURL)
 
-        if(searchUrl != None):
-            embedGameReview.add_field(
-                name   = "**Obs:**", 
-                value  = message.wrongGame(searchUrl), 
-                inline = False
-            )
+        embedGameReview = EmbedGameReview(
+            color       = embedColor,
+            gameName    = gameName,
+            gameImg     = gameIMG,
+            searchUrl   = searchUrl,
+            sumary      = sumary,
+            totalAmount = totalAmount,
+            message     = Message()
+        )
+
+        if(language == "en"):
+            return embedGameReview.embedGameReviewEnglish()
+        
+        return embedGameReview.embedGameReviewPortuguese()
     else:
-        embedGameReview = discord.Embed(
-            title = "⚠ Jogo: {} ⚠".format(gameName),
-            color = embedColor
-        )
-        embedGameReview.set_image(url=gameIMG)
-        embedGameReview.add_field(
-            name   = "**Observação:**", 
-            value  = message.noReviews()[0], 
-            inline = False
-        )
-
-    return embedGameReview
+        return None
