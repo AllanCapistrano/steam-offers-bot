@@ -35,7 +35,11 @@ async def specificGameEmbed(
         ) = await crawler.getGameByLink(gameToSearch)
 
         searchUrl = None
-        gameURL   = gameToSearch + "?l=brazilian"
+
+        if(language == None):
+            gameURL = gameToSearch + "?l=brazilian"
+        elif(language == "en"):
+            gameURL = gameToSearch + "?l=english"
     else:
         (
             gameName, 
