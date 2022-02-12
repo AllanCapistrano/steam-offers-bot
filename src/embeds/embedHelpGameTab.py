@@ -42,17 +42,17 @@ class EmbedHelpGameTab():
             icon_url = self.client.user.avatar_url
         )
         self.embed.add_field(
-            name   = "```{0}categoria novidades populares``` ou ```{0}categoria np```".format(self.prefix),
+            name   = "```{0}categoria novidades-populares``` ou ```{0}categoria np```".format(self.prefix),
             value  = self.message.helpValues()[3], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}categoria mais vendidos``` ou ```{0}categoria mv```".format(self.prefix),
+            name   = "```{0}categoria mais-vendidos``` ou ```{0}categoria mv```".format(self.prefix),
             value  = self.message.helpValues()[4], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}categoria jogos populares``` ou ```{0}categoria jp```".format(self.prefix),
+            name   = "```{0}categoria jogos-populares``` ou ```{0}categoria jp```".format(self.prefix),
             value  = self.message.helpValues()[5], 
             inline = False
         )
@@ -73,17 +73,17 @@ class EmbedHelpGameTab():
         """
 
         self.embed.add_field(
-            name   = "```{0}gametab new tranding``` or ```{0}gametab nt```".format(self.prefix),
+            name   = "```{0}gametab new-tranding``` or ```{0}gametab nt```".format(self.prefix),
             value  = self.message.helpValues(language="en")[3], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}gametab top sellers``` or ```{0}gametab tp```".format(self.prefix),
+            name   = "```{0}gametab top-sellers``` or ```{0}gametab ts```".format(self.prefix),
             value  = self.message.helpValues(language="en")[4], 
             inline = False
         )
         self.embed.add_field(
-            name   = "```{0}gametab being played ``` or ```{0}gametab bp```".format(self.prefix),
+            name   = "```{0}gametab being-played ``` or ```{0}gametab bp```".format(self.prefix),
             value  = self.message.helpValues(language="en")[5], 
             inline = False
         )
