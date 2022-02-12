@@ -16,11 +16,13 @@ class Message:
 
         return msg[randint(0, len(msg) - 1)]
 
-    def noOffers(self, prefix: str = None) -> list:
+    def noOffers(self, language: str = None, prefix: str = None) -> list:
         """ Mensagens para quando não existem promoções ou jogos em destaque.
 
         Parameters
         -----------
+        language: :class:`str`
+            Idioma do comando.
         prefix: :class:`str`
             Prefixo utilizado pelo Bot.
 
@@ -31,40 +33,66 @@ class Message:
 
         msgList = []
 
-        # Mensagem de destaque.
-        msgList.append(
-            "😟 **Nenhum destaque encontrado no momento, tente novamente mais tarde!**")
-        # Mensagem de promção.
-        msgList.append(
-            "😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**")
-        # Mensagem de jogo específico.
-        msgList.append(
-            "😟 **Jogo não encontrado! Por favor verifique o nome digitado.**"
-        )
-        # Mensagem de gênero do jogo.
-        msgList.append(
-            "😟 **Gênero não encontrado! Por favor verifique o que foi digitado ou " + \
-            "utilize o comando `{}help genre` para verificar ".format(prefix) + \
-            "a lista completa dos gêneros disponíveis.**"
-        )
+        if(language == None):
+            # Mensagem de destaque.
+            msgList.append(
+                "😟 **Nenhum destaque encontrado no momento, tente novamente mais tarde!**")
+            # Mensagem de promção.
+            msgList.append(
+                "😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**")
+            # Mensagem de jogo específico.
+            msgList.append(
+                "😟 **Jogo não encontrado! Por favor verifique o nome digitado.**"
+            )
+            # Mensagem de gênero do jogo.
+            msgList.append(
+                "😟 **Gênero não encontrado! Por favor verifique o gênero foi digitado ou " + \
+                "utilize o comando `{}help genre` para verificar ".format(prefix) + \
+                "a lista completa dos gêneros disponíveis.**"
+            )
+        elif(language == "en"):
+            # Mensagem de destaque.
+            msgList.append(
+                "😟 **Can't find spotlights at the moment, try again later!**")
+            # Mensagem de promção.
+            msgList.append(
+                "😟 **Can't find daily deals at the moment, try again later!**")
+            # Mensagem de jogo específico.
+            msgList.append(
+                "😟 **Game not found! Please check the name entered.**"
+            )
+            # Mensagem de gênero do jogo.
+            msgList.append(
+                "😟 **Genre not found! Please check the genre entered or " + \
+                "try `{}help genre` to see the full list of available game genres ".format(prefix)
+            )
 
         return msgList
 
-    def checkDm(self) -> list:
+    def checkDm(self, language: str = None) -> list:
         """ Mensagem para as promoções que são enviadas para o privado.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
 
         Returns
         -----------
         message: :class:`str`
         """
-        
-        return "** Cheque sua DM**"
+        if(language == None):
+            return "** Cheque sua DM**"
+        elif(language == "en"):
+            return "** Check your DM**"
 
     def title(self, language: str = None, genre: str = None , gameName: str = None) -> list:
         """ Títulos das embeds.
 
         Parameters
         -----------
+        language: :class:`str`
+            Idioma do comando.
         genre: :class:`str`
             Gênero do jogo.
         gameName: :class:`str`
@@ -412,8 +440,13 @@ class Message:
 
         return msgList
 
-    def somethingWentWrong(self) -> list:
+    def somethingWentWrong(self, language: str = None) -> list:
         """ Mensagens para algo deu errado.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
 
         Returns
         -----------
@@ -422,6 +455,9 @@ class Message:
         
         msgList = []
 
-        msgList.append("😞 **Algo de errado aconteceu! Tente novamente.**")
+        if(language == None):
+            msgList.append("😞 **Algo de errado aconteceu! Tente novamente.**")
+        elif(language == "en"):
+            msgList.append("😞 **Something went wrong! Try again.**")
 
         return msgList
