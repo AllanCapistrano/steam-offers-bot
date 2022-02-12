@@ -225,16 +225,8 @@ class Message:
         
         statusList = []
 
-        statusList.append("{}help | {} Servidores".format(prefix, numServers))
-        statusList.append("{}help genre | {} Servidores".format(prefix, numServers))
-        statusList.append("{}destaque | {} Servidores".format(prefix, numServers))
-        statusList.append("{}promoção | {} Servidores".format(prefix, numServers))
-        statusList.append("{}botinfo | {} Servidores".format(prefix, numServers))
-        statusList.append("{}convite | {} Servidores".format(prefix, numServers))
-        statusList.append("{}game [nome] | {} Servidores".format(prefix, numServers))
-        statusList.append("{}genre [gênero] | {} Servidores".format(prefix, numServers))
-        statusList.append("{}maxprice [preço] | {} Servidores".format(prefix, numServers))
-        statusList.append("{}análise [nome] | {} Servidores".format(prefix, numServers))
+        statusList.append("{}ajuda | {} Servidores".format(prefix, numServers))
+        statusList.append("{}help | {} Servers".format(prefix, numServers))
 
         return statusList
 
