@@ -210,11 +210,13 @@ class Message:
 
         return statusList
 
-    def commandAlert(self, prefix: str = None, command: str = None, status: str = None) -> list:
+    def commandAlert(self, language: str = None, prefix: str = None, command: str = None, status: str = None) -> list:
         """ Mensagens de erro durante o envio de um comando.
 
         Parameters
         -----------
+        language: :class:`str`
+            Idioma do comando.
         prefix: :class:`str`
             Prefixo utilizado pelo Bot.
         command :class:`str`
@@ -229,14 +231,25 @@ class Message:
         
         alertList = []
 
-        alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}game undertale`**".format(prefix))
-        alertList.append("⚠️ **Informe o gênero do jogo! Ex: `{0}genre casual` \n Ou digite `{0}help genre` para ver todos os gêneros.**".format(prefix))
-        alertList.append("⚠️ **Comando inválido!**")
-        alertList.append("⚠️ **Categoria inválida! \nDigite `{0}help gametab` para ver todas as categorias.**".format(prefix))
-        alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}review undertale`**".format(prefix))
-        alertList.append("⚠️ **Comando desabilitado temporariamente!**")
-        alertList.append("⚠️ **Não consegui encontrar o comando especificado!**")
-        alertList.append("⚠️ **Erro! Você não pode desabilitar este comando.**")
+        if(language == None):
+            alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}jogo undertale`**".format(prefix))
+            alertList.append("⚠️ **Informe o gênero do jogo! Ex: `{0}gênero casual` \n Ou digite `{0}help genre` para ver todos os gêneros.**".format(prefix))
+            alertList.append("⚠️ **Comando inválido!**")
+            alertList.append("⚠️ **Categoria inválida! \nDigite `{0}ajuda categoria` para ver todas as categorias.**".format(prefix))
+            alertList.append("⚠️ **Informe o nome do jogo! Ex: `{}análise undertale`**".format(prefix))
+            alertList.append("⚠️ **Comando desabilitado temporariamente!**")
+            alertList.append("⚠️ **Não consegui encontrar o comando especificado!**")
+            alertList.append("⚠️ **Erro! Você não pode desabilitar este comando.**")
+        elif(language == "en"):
+            alertList.append("⚠️ **You need to pass the name of the game! Ex: `{}game undertale`**".format(prefix))
+            alertList.append("⚠️ **You need to pass the genre of the game! Ex: `{0}genre casual` \n Or try `{0}help genre` to see all genres.**".format(prefix))
+            alertList.append("⚠️ **Invalid command!**")
+            alertList.append("⚠️ **Invalid category! \nTry `{0}help gametab` to see all categories.**".format(prefix))
+            alertList.append("⚠️ **You need to pass the name of the game! Ex: `{}review undertale`**".format(prefix))
+            alertList.append("⚠️ **Command temporarily disabled!**")
+            alertList.append("⚠️ **I can't find this command!**")
+            alertList.append("⚠️ **Error! You can't disable this command.**")
+
         alertList.append(f"⚠️ **Comando `{prefix}{command}` {status} com sucesso.**")
 
         return alertList
@@ -299,8 +312,13 @@ class Message:
                 "`Fishing & Hunting`, `Individual Sports`, `Racing`, `Racing Sim`, " + \
                 "`Sports Sim`, `Tema Sports`,"
 
-    def searchMessage(self) -> list:
+    def searchMessage(self, language: str = None) -> list:
         """ Mensagens de busca.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
 
         Returns
         -----------
@@ -309,11 +327,16 @@ class Message:
         
         msgList = []
 
-        msgList.append("**🔎 Procurando.**")
-        msgList.append("**🔎 Procurando pelo jogo")
-        msgList.append("**🔎 Procurando por um jogo do gênero")
-        msgList.append("**🔎 Procurando por um jogo de até __R$")
-
+        if(language == None):
+            msgList.append("**🔎 Procurando.**")
+            msgList.append("**🔎 Procurando pelo jogo")
+            msgList.append("**🔎 Procurando por um jogo do gênero")
+            msgList.append("**🔎 Procurando por um jogo de até __R$")
+        elif(language == "en"):
+            msgList.append("**🔎 Searching.**")
+            msgList.append("**🔎 Searching for the game")
+            msgList.append("**🔎 Searching for a game of the genre")
+            msgList.append("**🔎 Searching for a game of up to __$")
 
         return msgList
 
