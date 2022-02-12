@@ -8,10 +8,7 @@ from embeds.embedGameReview import EmbedGameReview
 async def gameReviewEmbed(
     crawler: Crawler,
     embedColor: Literal,
-    gameUrl: str, 
-    gameName: str, 
-    gameIMG: str,
-    searchUrl: str,
+    gameToSearch: str, 
     language: str = None
 ) -> Embed:
     """ Função responsável por montar a Embed de análises dos jogos.
@@ -20,10 +17,7 @@ async def gameReviewEmbed(
     -----------
     crawler: :class:`Crawler`
     embedColor: :class:`Literal`
-    gameUrl: :class:`str`
-    gameName: :class:`str`
-    gameIMG: :class:`str`
-    searchUrl: :class:`str`
+    gameToSearch: :class:`str`
     language: :class:`str`
 
     Returns
@@ -31,22 +25,56 @@ async def gameReviewEmbed(
     embedGameReview: :class:`Embed`
     """
     
-    (
-        sumary, 
-        totalAmount
-    ) = await crawler.getGameReview(gameUrl)
+    if(gameToSearch.lower().find("store.steampowered.com/app") != -1):
+        (
+            gameName, 
+            gameIMG, 
+            gameOriginalPrice,
+            gameFinalPrice,
+            gameDescription
+        ) = await crawler.getGameByLink(gameToSearch)
 
-    embedGameReview = EmbedGameReview(
-        color       = embedColor,
-        gameName    = gameName,
-        gameImg     = gameIMG,
-        searchUrl   = searchUrl,
-        sumary      = sumary,
-        totalAmount = totalAmount,
-        message     = Message()
-    )
+        searchUrl = None
 
-    if(language == "en"):
-        return embedGameReview.embedGameReviewEnglish()
-    
-    return embedGameReview.embedGameReviewPortuguese()
+        if(language == None):
+            gameURL = gameToSearch + "?l=brazilian"
+        elif(language == "en"):
+            gameURL = gameToSearch + "?l=english"
+        
+    else: # Caso seja passado o nome do jogo.
+        (
+            gameName, 
+            gameURL, 
+            gameIMG, 
+            gameOriginalPrice,
+            gameFinalPrice,
+            searchUrl,
+            gameDescription
+        ) = await crawler.getSpecificGame(gameToSearch)
+
+    if(
+        gameURL   != None and
+        gameIMG   != None and
+        gameName  != None 
+    ):
+        (
+            sumary, 
+            totalAmount
+        ) = await crawler.getGameReview(gameURL)
+
+        embedGameReview = EmbedGameReview(
+            color       = embedColor,
+            gameName    = gameName,
+            gameImg     = gameIMG,
+            searchUrl   = searchUrl,
+            sumary      = sumary,
+            totalAmount = totalAmount,
+            message     = Message()
+        )
+
+        if(language == "en"):
+            return embedGameReview.embedGameReviewEnglish()
+        
+        return embedGameReview.embedGameReviewPortuguese()
+    else:
+        return None
