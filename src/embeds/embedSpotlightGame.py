@@ -4,7 +4,7 @@ from discord import Embed
 
 from services.messages import Message
 
-class EmbedSpotlightGames():
+class EmbedSpotlightGame():
     def __init__(
         self,
         color: Literal, 
