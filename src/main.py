@@ -153,7 +153,7 @@ async def on_reaction_add(reaction: Reaction, user: User):
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
     await client.wait_until_ready()
-    await asyncio.sleep(20)
+    await asyncio.sleep(10)
     
     while not client.is_closed():
         numServers   = len(client.guilds)
