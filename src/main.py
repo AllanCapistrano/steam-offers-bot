@@ -7,7 +7,8 @@ from discord import User, Reaction
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from commands import Commands
+from commands.brazilianPortuguese import CommandsBrazilianPortuguese
+from commands.english import CommandsEnglish
 from services.crawler import Crawler
 from services.messages import Message
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
@@ -48,7 +49,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message: str):
-    if(not message.author.bot):
+    # Só executa caso a mensagem enviado pelo usuário não seja um comando.
+    await client.process_commands(message)
+
+    if(not message.author.bot and message.content.find(PREFIX) == -1):
         # Caso a mensagem enviada contenha o link de um jogo da Steam.
         if(message.content.lower().find("store.steampowered.com/app") != -1):
             temp = message.content.lower().split("/")
@@ -63,9 +67,6 @@ async def on_message(message: str):
 
                 searchGameUrl = await message.channel.send(embed=embedGameBylink)
                 await searchGameUrl.add_reaction(REACTION_REVIEW)
-
-    # Só executa caso a mensagem enviado pelo usuário não seja um comando.
-    await client.process_commands(message)
 
 @client.event
 async def on_reaction_add(reaction: Reaction, user: User):
@@ -167,9 +168,19 @@ async def changeStatus():
 # Cria a task para mudar o status do Bot.
 client.loop.create_task(changeStatus())
 
-# Permite que o bot escute os comandos.
+# Permite que o Bot escute os comandos em Português Brasileiro.
 client.add_cog(
-    Commands(
+    CommandsBrazilianPortuguese(
+        client=client, 
+        prefix=PREFIX, 
+        color=COLOR, 
+        urlInvite=INVITE,
+        reactions=[REACTION_REVIEW, REACTION_GAME]
+    )
+)
+# Permite que o Bot escute os comandos em Inglês.
+client.add_cog(
+    CommandsEnglish(
         client=client, 
         prefix=PREFIX, 
         color=COLOR, 
