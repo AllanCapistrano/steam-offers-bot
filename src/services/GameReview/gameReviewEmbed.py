@@ -50,7 +50,10 @@ async def gameReviewEmbed(
             gameFinalPrice,
             searchUrl,
             gameDescription
-        ) = await crawler.getSpecificGame(gameToSearch)
+        ) = await crawler.getSpecificGame(
+                gameName = gameToSearch,
+                language = language
+            )
 
     if(
         gameURL   != None and
