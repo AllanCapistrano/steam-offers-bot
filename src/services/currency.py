@@ -47,6 +47,39 @@ class Currency:
     ]
         self.defaultCurrency = "BRL"
 
+    def defineCurrency(self, args: list, defaultCurrency: str = "br") -> str:
+        """ Define a moeda do comando utilizado.
+
+        Parameters
+        -----------
+        args: :class:`str`
+            Lista de argumentos do comando.
+        defaultCurrency: :class:`str`
+            Moeda padrão do comando
+
+        Returns
+        -----------
+        currency: :class:`str`
+        """
+
+        if(len(args) > 0):
+            index = 0
+
+            for commandArg in args:
+                if(commandArg == "|"):
+                    try:
+                        currency = self.formatCurrency(args[index + 1])
+                    except:
+                        currency = defaultCurrency
+                    
+                    break
+                
+                index += 1
+
+            return currency
+        
+        return defaultCurrency
+
     def currencyExists(self, c: str) -> bool:
         """ Verifica se a moeda passada esta disponível na Steam.
 
