@@ -462,13 +462,22 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game By Link --------------------------------- #
-    async def getGameByLink(self, url: str) -> tuple[str, str, str, str, str]:
+    async def getGameByLink(
+        self, 
+        url: str,
+        currency: str,
+        language:str
+    ) -> tuple[str, str, str, str, str]:
         """Função responsável por retornar um jogo com base no link enviado.
 
         Parameters
         -----------
         url: :class:`str`
             URL do jogo enviada.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Linguagem que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -482,7 +491,7 @@ class Crawler:
             Preço com desconto do jogo.
         """
         
-        soup = self.reqUrl(url + "?cc=br&l=brazilian")
+        soup = self.reqUrl(url + f"?cc={currency}&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getGameByLinkName, soup)
