@@ -64,7 +64,7 @@ class Message:
             # Mensagem de gênero do jogo.
             msgList.append(
                 "😟 **Genre not found! Please check the genre entered or " + \
-                "try `{}help genre` to see the full list of available game genres ".format(prefix)
+                "try `{}help genre` to see the full list of available game genres.**".format(prefix)
             )
 
         return msgList
