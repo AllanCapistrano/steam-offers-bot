@@ -55,6 +55,11 @@ async def gameReviewEmbed(
                 language = language
             )
 
+        if(language == None):
+            gameURL = gameURL + "&l=brazilian"
+        else:
+            gameURL = gameURL + f"&l={language}"
+
     if(
         gameURL   != None and
         gameIMG   != None and
@@ -75,7 +80,7 @@ async def gameReviewEmbed(
             message     = Message()
         )
 
-        if(language == "en"):
+        if(language == "english"):
             return embedGameReview.embedGameReviewEnglish()
         
         return embedGameReview.embedGameReviewPortuguese()

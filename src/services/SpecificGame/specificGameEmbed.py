@@ -45,9 +45,9 @@ async def specificGameEmbed(
         searchUrl = None
 
         if(language == None):
-            gameURL = gameToSearch + "?l=brazilian"
-        elif(language == "en"):
-            gameURL = gameToSearch + "?l=english"
+            gameURL = gameToSearch + f"?l=brazilian"
+        else:
+            gameURL = gameToSearch + f"?l={language}"
     else:
         (
             gameName, 
@@ -82,7 +82,7 @@ async def specificGameEmbed(
             message           = Message()
         )
 
-        if(language == "en"):
+        if(language == "english"):
             return embedSpecificGame.embedSpecificGameEnglish()
 
         return embedSpecificGame.embedSpecificGamePortuguese()
