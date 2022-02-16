@@ -160,6 +160,7 @@ class Crawler:
             Lista contento as informações dos jogos.
         """
         
+        # Rever linguagem daqui
         soup = self.reqUrl(f"{URL_SPECIALS}cc=br&l=brazilian")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -195,7 +196,12 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Tab Content ---------------------------------- #
-    async def getTabContent(self, url: str, divId: str) -> tuple[list, list, list, list, list]:
+    async def getTabContent(
+        self, 
+        url: str, 
+        divId: str,
+        language: str = None
+    ) -> tuple[list, list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em uma aba específica.
 
@@ -203,6 +209,7 @@ class Crawler:
         -----------
         url: :class:`str`
         divId: :class:`str`
+        language: :class:`str`
 
         Returns
         -----------
@@ -241,8 +248,13 @@ class Crawler:
         if(gameWithoutPricing):
             for x in range(len(hasPrice) - 1):
                 if(not hasPrice[x]):
-                    originalPrices.insert(x, 'Preço indisponível!')
-                    finalPrices.insert(x, 'Preço indisponível!')
+                    if(language == None):
+                        originalPrices.insert(x, 'Preço indisponível!')
+                        finalPrices.insert(x, 'Preço indisponível!')
+                    elif(language == "english"):
+                        originalPrices.insert(x, 'Not available!')
+                        finalPrices.insert(x, 'Not available!')
+
 
         return names, urls, originalPrices, finalPrices, images
     # ------------------------------------------------------------------------ #
@@ -357,7 +369,11 @@ class Crawler:
                 gamesOriginalPrices, 
                 gamesFinalPrices, 
                 gamesImages
-            ) = await self.getTabContent(url, tabContentRow)
+            ) = await self.getTabContent(
+                    url      = url, 
+                    divId    = tabContentRow,
+                    language = language
+                )
             
             index             = randint(0, len(gamesNames) - 1)
             gameName          = gamesNames[index]
@@ -512,7 +528,7 @@ class Crawler:
             Quantidade total de análises do jogo.
         """
 
-        soup = self.reqUrl(url + "&l=brazilian")
+        soup = self.reqUrl(url)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getReviewSumary, soup)
