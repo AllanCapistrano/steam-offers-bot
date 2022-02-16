@@ -84,7 +84,7 @@ async def on_reaction_add(reaction: Reaction, user: User):
         message.author == client.user    and 
         not user.bot
     ):
-        language = None if message.embeds[0].title.find("Jogo") != -1 else "en"
+        language = None if message.embeds[0].title.find("Jogo") != -1 else "english"
 
         # Caso o comando seja $genre
         if(
@@ -121,7 +121,7 @@ async def on_reaction_add(reaction: Reaction, user: User):
         message.author == client.user    and
         not user.bot
     ):
-        language = None if message.embeds[0].title.find("Análise") != -1 else "en"
+        language = None if message.embeds[0].title.find("Análise") != -1 else "english"
 
         temp     = message.embeds[0].title.split(" ")
         gameName = ""
