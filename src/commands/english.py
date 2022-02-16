@@ -16,6 +16,10 @@ from embeds.embedGenre import EmbedGenre
 from embeds.embedSpotlightGame import EmbedSpotlightGame
 from embeds.embedDailyGame import EmbedDailyGame
 
+# ------------------------------ Constants ----------------------------------- #
+LANGUAGE         = "english"
+DEFAULT_CURRENCY = "us"
+# ---------------------------------------------------------------------------- #
 class CommandsEnglish(Commands, commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
@@ -131,10 +135,11 @@ class CommandsEnglish(Commands, commands.Cog):
                 x -= 1
 
     @commands.command(name="dailydeal ", aliases=["dd"])
-    async def dailyGamesOffers(self, ctx: Context):
+    async def dailyGamesOffers(self, ctx: Context, *args: str):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage(language="en")[0]
         searchMessage  = await ctx.send(messageContent)
+        currency       = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
         
         sleep(0.5)
         await searchMessage.edit(content=messageContent+" **.**")
@@ -147,7 +152,10 @@ class CommandsEnglish(Commands, commands.Cog):
             gamesImages,
             gamesOriginalPrices,
             gamesFinalPrices
-        ) = await self.crawler.getDailyGamesOffers()
+        ) = await self.crawler.getDailyGamesOffers(
+            currency = currency,
+            language = LANGUAGE
+        )
         x = len(gamesUrls)
 
         if(
@@ -303,7 +311,8 @@ class CommandsEnglish(Commands, commands.Cog):
     
     @commands.command(name="game")
     async def specificGame(self, ctx: Context, *, args: str):
-        gameToSearch = args
+        gameToSearch = args.split(" | ")[0]
+        currency     = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
 
         # Mensagem de busca de jogo, com efeito de carregamento.
         messageContent    = self.message.searchMessage(language="en")[1]
@@ -319,7 +328,8 @@ class CommandsEnglish(Commands, commands.Cog):
             crawler      = self.crawler, 
             embedColor   = self.color, 
             gameToSearch = gameToSearch,
-            language     = "en"
+            currency     = currency,
+            language     = LANGUAGE
         )
 
         if(embedSpecificGame != None):
@@ -336,7 +346,8 @@ class CommandsEnglish(Commands, commands.Cog):
 
     @commands.command(name="genre")
     async def gameGenre(self, ctx: Context, *, args: str):
-        gameGenreToSearch = args
+        gameGenreToSearch = args.split(" | ")[0]
+        currency          = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
 
         # Mensagem de busca, com efeito de carregamento.
         messageContent      = self.message.searchMessage(language="en")[2]
@@ -354,7 +365,11 @@ class CommandsEnglish(Commands, commands.Cog):
             gameOriginalPrice, 
             gameFinalPrice, 
             gameIMG
-        ) = await self.crawler.getGameRecommendationByGenre(gameGenreToSearch)
+        ) = await self.crawler.getGameRecommendationByGenre(
+                genre    = gameGenreToSearch,
+                currency = currency,
+                language = LANGUAGE
+            )
 
         if(
             gameName          != None and 
@@ -390,10 +405,12 @@ class CommandsEnglish(Commands, commands.Cog):
 
     @commands.command(name="maxprice")
     async def maxPrice(self, ctx: Context, *, args: str):
-        if(not args.isnumeric()):
+        maxPrice = args.split(" | ")[0]
+
+        if(not maxPrice.isnumeric()):
             raise commands.ArgumentParsingError()
-        
-        maxPrice = args
+
+        currency = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
 
         # Mensagem de busca de jogo, com efeito de carregamento.
         messageContent    = self.message.searchMessage(language="en")[3]
@@ -420,7 +437,9 @@ class CommandsEnglish(Commands, commands.Cog):
             gameFinalPrice
         ) = await self.crawler.getGameRecommendationByPriceRange(
                 code     = maxPriceCode, 
-                maxPrice = float(maxPrice)
+                maxPrice = float(maxPrice),
+                currency = currency,
+                language = LANGUAGE
             )
 
         embedGameRecommendationByPrice = EmbedGameRecommendationByPrice(
@@ -466,7 +485,7 @@ class CommandsEnglish(Commands, commands.Cog):
             crawler      = self.crawler,
             embedColor   = self.color,
             gameToSearch = gameToSearch,
-            language     = "en"
+            language     = LANGUAGE
         )
 
         if(embedGameReview != None):
