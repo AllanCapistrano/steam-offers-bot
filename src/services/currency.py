@@ -47,12 +47,12 @@ class Currency:
     ]
         self.defaultCurrency = "BRL"
 
-    def defineCurrency(self, args: list, defaultCurrency: str = "br") -> str:
+    def defineCurrency(self, args: tuple | str, defaultCurrency: str = "br") -> str:
         """ Define a moeda do comando utilizado.
 
         Parameters
         -----------
-        args: :class:`str`
+        args: :class:`tuple` | :class: `str`
             Lista de argumentos do comando.
         defaultCurrency: :class:`str`
             Moeda padrão do comando
@@ -62,22 +62,25 @@ class Currency:
         currency: :class:`str`
         """
 
-        if(len(args) > 0):
-            index = 0
+        if(type(args) is tuple):
+            if(len(args) > 0):
+                index = 0
 
-            for commandArg in args:
-                if(commandArg == "|"):
-                    try:
-                        currency = self.formatCurrency(args[index + 1])
-                    except:
-                        currency = defaultCurrency
-                    
-                    break
-                
-                index += 1
+                for commandArg in args:
+                    if(commandArg == "|"):
+                        try:
+                            return self.formatCurrency(args[index + 1])
+                        except:
+                            return defaultCurrency
+                        
+                    index += 1
 
-            return currency
-        
+        elif(type(args) is str):
+            if(args.find(" | ") != -1):
+                command = args.split(" | ")
+
+                return self.formatCurrency(command[1])
+
         return defaultCurrency
 
     def currencyExists(self, c: str) -> bool:
