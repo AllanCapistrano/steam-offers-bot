@@ -251,8 +251,8 @@ class Crawler:
     async def getSpecificGame(
         self, 
         gameName: str, 
-        currency: str,
-        language: str
+        language: str,
+        currency: str = "br"
     ) -> tuple[str, str, str, str, str, str, str]:
         """Função responsável por retornar as informações e um jogo específico.
 
@@ -260,10 +260,10 @@ class Crawler:
         -----------
         gameName: :class:`str`
             Nome do jogo que se deseja obter informações.
-        currency: :class:`str`
-            Moeda que se deseja ver o preço.
         language: :class:`str`
             Linguagem que se deseja visualizar a página do jogo. 
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
 
         Returns
         -----------
