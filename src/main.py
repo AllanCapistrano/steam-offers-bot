@@ -91,10 +91,8 @@ async def on_reaction_add(reaction: Reaction, user: User):
             message.embeds[0].title.find("recomendado 🕹️") != -1 or
             message.embeds[0].title.find("🎮 Recommended") != -1
         ):
-            gameUrlEmbed = message.embeds[0].fields[1].value
             gameName     = message.embeds[0].fields[0].value
         else: # Caso o comando seja $genre ou $maxprice
-            gameUrlEmbed   = message.embeds[0].fields[0].value
             temp           = message.embeds[0].title.split(" ")
             gameName       = ""
             x              = 2
@@ -105,17 +103,11 @@ async def on_reaction_add(reaction: Reaction, user: User):
 
             gameName = gameName.strip()
 
-        gameUrl = search(r"\((.*?)\)", gameUrlEmbed).group(1)
-        gameIMG = message.embeds[0].image.url
-
         embedGameReview = await gameReviewEmbed(
-            crawler    = crawler,
-            embedColor = COLOR,
-            gameUrl    = gameUrl,
-            gameName   = gameName,
-            gameIMG    = gameIMG,
-            searchUrl  = None,
-            language   = language
+            crawler      = crawler,
+            embedColor   = COLOR,
+            gameToSearch = gameName,
+            language     = language
         )
 
         await message.channel.send(embed=embedGameReview)
@@ -145,6 +137,7 @@ async def on_reaction_add(reaction: Reaction, user: User):
             crawler      = crawler, 
             embedColor   = COLOR, 
             gameToSearch = gameName,
+            currency     = "br" if language == None else "us",
             language     = language
         )
 
