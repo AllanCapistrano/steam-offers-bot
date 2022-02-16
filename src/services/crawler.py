@@ -465,8 +465,8 @@ class Crawler:
     async def getGameByLink(
         self, 
         url: str,
-        currency: str,
-        language:str
+        language:str,
+        currency: str = "br"
     ) -> tuple[str, str, str, str, str]:
         """Função responsável por retornar um jogo com base no link enviado.
 
