@@ -9,7 +9,6 @@ from services.currency import Currency
 
 # ------------------------------ Constants ----------------------------------- #
 IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
-URL        = "https://store.steampowered.com/specials?cc=br#p=0&tab="
 # ---------------------------------------------------------------------------- #
 
 class Commands(commands.Cog):
@@ -42,7 +41,6 @@ class Commands(commands.Cog):
         self.crawler   = Crawler()
         self.currency  = Currency()
         self.imgGenre  = IMG_GENRES
-        self.url       = URL
 
     async def sendGameTabToUser(
         self, 
