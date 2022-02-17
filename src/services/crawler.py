@@ -127,8 +127,8 @@ class Crawler:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getDailyGamesUrls, soup)
             thread1 = executor.submit(getDailyGamesImages, soup)
-            thread2 = executor.submit(getDailyGamesOriginalPrice, soup)
-            thread3 = executor.submit(getDailyGamesFinalPrice, soup)
+            thread2 = executor.submit(getDailyGamesOriginalPrice, soup, language)
+            thread3 = executor.submit(getDailyGamesFinalPrice, soup, language)
             
         urls   = thread0.result()
         images = thread1.result()
