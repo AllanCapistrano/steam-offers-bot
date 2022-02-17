@@ -1,8 +1,7 @@
 from time import sleep
-from typing import Literal
 
 from discord.ext import commands
-from discord.ext.commands import Bot, Context, CommandError
+from discord.ext.commands import Context, CommandError
 
 from commands.commands import Commands
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
