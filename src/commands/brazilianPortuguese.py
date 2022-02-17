@@ -219,21 +219,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "np"
         ]
     )
-    async def newAndTrending(self, ctx: Context):
+    async def newAndTrending(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"NewReleases", divId="NewReleasesRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency, 
+                language = LANGUAGE,
+                category = "NewReleases",
+                divId    = "NewReleasesRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
     
     @gameTab.command(
@@ -243,21 +250,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "mv"
         ]
     )
-    async def topSellers(self, ctx: Context):
+    async def topSellers(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"TopSellers", divId="TopSellersRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency, 
+                language = LANGUAGE,
+                category = "TopSellers",
+                divId    = "TopSellersRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
 
     @gameTab.command(
@@ -267,21 +281,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "jp"
         ]
     )
-    async def beingPlayed(self, ctx: Context):
+    async def beingPlayed(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"ConcurrentUsers", divId="ConcurrentUsersRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency,
+                language = LANGUAGE,
+                category = "ConcurrentUsers",
+                divId    = "ConcurrentUsersRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
 
     @gameTab.command(
@@ -293,21 +314,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "pv"
         ]
     )
-    async def prePurchase(self, ctx: Context):
+    async def prePurchase(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"ComingSoon", divId="ComingSoonRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency,
+                language = LANGUAGE,
+                category = "ComingSoon",
+                divId    ="ComingSoonRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
     
     @commands.command(name="jogo")
