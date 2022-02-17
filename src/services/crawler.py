@@ -165,7 +165,6 @@ class Crawler:
             Lista contento as informações dos jogos.
         """
         
-        # Rever linguagem daqui
         soup = self.reqUrl(f"{URL_SPECIALS}cc=br&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
