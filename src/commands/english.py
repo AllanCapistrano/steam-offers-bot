@@ -99,7 +99,7 @@ class CommandsEnglish(Commands, commands.Cog):
             gamesUrls, 
             gamesImages, 
             gamesContents
-        ) = await self.crawler.getSpotlightOffers()
+        ) = await self.crawler.getSpotlightOffers(language=LANGUAGE)
         x = len(gamesUrls)
 
         if(

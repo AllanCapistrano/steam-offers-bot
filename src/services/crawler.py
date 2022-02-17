@@ -146,9 +146,14 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # -------------------------- Spotlight ----------------------------------- #
-    async def getSpotlightOffers(self) -> tuple[list, list, list]:
+    async def getSpotlightOffers(self, language: str = "brazilian") -> tuple[list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em destaque.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo.
 
         Returns
         -----------
@@ -161,7 +166,7 @@ class Crawler:
         """
         
         # Rever linguagem daqui
-        soup = self.reqUrl(f"{URL_SPECIALS}cc=br&l=brazilian")
+        soup = self.reqUrl(f"{URL_SPECIALS}cc=br&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getSpotlightUrls, soup)
