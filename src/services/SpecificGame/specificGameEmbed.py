@@ -26,7 +26,7 @@ async def specificGameEmbed(
     currency: :class:`str`
         Moeda que se deseja ver o preço.
     language: :class:`str`
-        Linguagem que se deseja visualizar a página do jogo.
+        Idioma que se deseja visualizar a página do jogo.
 
     Returns
     ----------
