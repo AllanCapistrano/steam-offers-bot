@@ -304,8 +304,8 @@ class Crawler:
                 thread0 = executor.submit(getSpecificGameUrl, game)
                 thread1 = executor.submit(getSpecificGameImage, game)
                 thread2 = executor.submit(getSpecificGameName, game)
-                thread3 = executor.submit(getSpecificGameOriginalPrice, game, haveDiscount)
-                thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount)
+                thread3 = executor.submit(getSpecificGameOriginalPrice, game, haveDiscount, language)
+                thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount, language)
                 thread5 = executor.submit(
                     self.getGameDescription, 
                     self.reqUrl(thread0.result() + f"&l={language}")
@@ -440,8 +440,8 @@ class Crawler:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getRecommendationByPriceRangeNames, soup)
             thread1 = executor.submit(getRecommendationByPriceRangeImages, soup)
-            thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup)
-            thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup)
+            thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup, language)
+            thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup, language)
             thread4 = executor.submit(getRecommendationByPriceRangeUrls, soup)
                 
         gameNames        = thread0.result()
@@ -496,8 +496,8 @@ class Crawler:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getGameByLinkName, soup)
             thread1 = executor.submit(getGameByLinkImage, soup)
-            thread2 = executor.submit(getGameByLinkOriginalPrice, soup)
-            thread3 = executor.submit(getGameByLinkFinalPrice, soup)
+            thread2 = executor.submit(getGameByLinkOriginalPrice, soup, language)
+            thread3 = executor.submit(getGameByLinkFinalPrice, soup, language)
             thread4 = executor.submit(
                 self.getGameDescription, 
                 soup
