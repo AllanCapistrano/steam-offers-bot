@@ -108,7 +108,7 @@ class Crawler:
         currency: :class:`str`
             Moeda que se deseja ver o preço.
         language: :class:`str`
-            Linguagem que se deseja visualizar a página do jogo. 
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -138,8 +138,8 @@ class Crawler:
             originalPrices, 
             finalPrices
         ) = handlePriceIssues(
-                originalPrices=thread2.result(), 
-                finalPrices=thread3.result()
+                originalPrices = thread2.result(), 
+                finalPrices    = thread3.result(),
             )
 
         return urls, images, originalPrices, finalPrices
@@ -273,7 +273,7 @@ class Crawler:
         gameName: :class:`str`
             Nome do jogo que se deseja obter informações.
         language: :class:`str`
-            Linguagem que se deseja visualizar a página do jogo. 
+            Idioma que se deseja visualizar a página do jogo. 
         currency: :class:`str`
             Moeda que se deseja ver o preço.
 
@@ -340,7 +340,7 @@ class Crawler:
         currency: :class:`str`
             Moeda que se deseja ver o preço.
         language: :class:`str`
-            Linguagem que se deseja visualizar a página do jogo. 
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -405,7 +405,7 @@ class Crawler:
         currency: :class:`str`
             Moeda que se deseja ver o preço.
         language: :class:`str`
-            Linguagem que se deseja visualizar a página do jogo. 
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -477,7 +477,7 @@ class Crawler:
         currency: :class:`str`
             Moeda que se deseja ver o preço.
         language: :class:`str`
-            Linguagem que se deseja visualizar a página do jogo. 
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -512,8 +512,8 @@ class Crawler:
             orginalPrice, 
             finalPrice
         ) = handlePriceIssues(
-                originalPrices=[thread2.result()], 
-                finalPrices=[thread3.result()]
+                originalPrices = [thread2.result()], 
+                finalPrices    = [thread3.result()],
             )
 
         return name, image, orginalPrice[0], finalPrice[0], description
