@@ -202,18 +202,20 @@ class Crawler:
     # ------------------------- Tab Content ---------------------------------- #
     async def getTabContent(
         self, 
-        url: str, 
-        divId: str,
-        language: str = None
+        currency: str, 
+        language: str,
+        category: str,
+        divId: str
     ) -> tuple[list, list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em uma aba específica.
 
         Parameters
         -----------
-        url: :class:`str`
-        divId: :class:`str`
+        currency: :class:`str`
         language: :class:`str`
+        category: :class:`str`
+        divId: :class:`str`
 
         Returns
         -----------
@@ -228,7 +230,8 @@ class Crawler:
         images: :class:`list`
             Lista com as imagens dos jogos.
         """
-        
+
+        url  = f"https://store.steampowered.com/specials?cc={currency}#p=0&l={language}&tab={category}"
         soup = self.reqUrl(url)
 
         for tabContent in soup.find_all('div', id=divId):
