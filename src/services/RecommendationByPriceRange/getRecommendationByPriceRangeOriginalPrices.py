@@ -1,13 +1,16 @@
 from bs4 import BeautifulSoup
 from re import sub
 
-def getRecommendationByPriceRangeOriginalPrices(soup: BeautifulSoup) -> list:
+def getRecommendationByPriceRangeOriginalPrices(soup: BeautifulSoup, language: str) -> list:
     """ Função responsável por retornar uma lista contendo os preços originais 
     dos jogos que estão na faixa de preço especificada.
 
     Parameters
     -----------
     soup: :class:`BeautifulSoup`
+    language: :class: `str`
+         Idioma que se deseja visualizar a página do jogo. 
+
 
     Returns
     -----------
@@ -22,7 +25,10 @@ def getRecommendationByPriceRangeOriginalPrices(soup: BeautifulSoup) -> list:
                 for listSpanGamesPrices in listDivGamesPrices.find_all("span"):
                     originalPrices.append(listSpanGamesPrices.contents[0].contents[0])
             else:
-                originalPrices.append("Não disponível!")
+                if(language == "brazilian"):
+                    originalPrices.append("Não disponível!")
+                elif(language == "english"):
+                    originalPrices.append("Not available!")
         else:
             temp = sub(r"\s+", "" , listDivGamesPrices.contents[0])
 
