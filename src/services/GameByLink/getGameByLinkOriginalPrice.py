@@ -1,12 +1,14 @@
 from bs4 import BeautifulSoup
 from re import sub
 
-def getGameByLinkOriginalPrice(soup: BeautifulSoup) -> str:
+def getGameByLinkOriginalPrice(soup: BeautifulSoup, language: str) -> str:
     """ Função responsável por retornar o preço original do jogo.
 
     Parameters
     -----------
-    soup: :class:`BeautifulSoup`,
+    soup: :class:`BeautifulSoup`
+    language: :class: `str`
+         Idioma que se deseja visualizar a página do jogo. 
 
     Returns
     -----------
@@ -20,7 +22,10 @@ def getGameByLinkOriginalPrice(soup: BeautifulSoup) -> str:
             searchPrice = soup.find(class_="game_purchase_action_bg").contents[1].contents[0]
 
             if(searchPrice == "\n"):
-                return "Não disponível!"
+                if(language == "brazilian"):
+                    return "Não disponível!"
+                elif(language == "english"):
+                    return "Not available!"
 
             temp = sub(r"\s+", "" , searchPrice)
 
@@ -29,4 +34,7 @@ def getGameByLinkOriginalPrice(soup: BeautifulSoup) -> str:
             
             return temp
         except:
-            return "Não disponível!"
+            if(language == "brazilian"):
+                return "Não disponível!"
+            elif(language == "english"):
+                return "Not available!"
