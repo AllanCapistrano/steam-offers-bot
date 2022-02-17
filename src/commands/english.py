@@ -1,7 +1,8 @@
 from time import sleep
+from typing import Literal
 
 from discord.ext import commands
-from discord.ext.commands import Context, CommandError
+from discord.ext.commands import Bot, Context, CommandError
 
 from commands.commands import Commands
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
@@ -19,8 +20,39 @@ from embeds.embedDailyGame import EmbedDailyGame
 # ------------------------------ Constants ----------------------------------- #
 LANGUAGE         = "english"
 DEFAULT_CURRENCY = "us"
+URL              = f"https://store.steampowered.com/specials?cc={DEFAULT_CURRENCY}#p=0&l={LANGUAGE}&tab="
 # ---------------------------------------------------------------------------- #
 class CommandsEnglish(Commands, commands.Cog):
+    def __init__(
+        self,
+        client: Bot, 
+        prefix: str, 
+        color: Literal, 
+        urlInvite: str,
+        reactions: list
+    ) -> None:
+        """ Método construtor.
+
+        Parameters
+        -----------
+        client: :class:`Bot`
+        prefix: :class:`str`
+        color: :class:`Literal`
+        urlInvite: :class:`str`
+        reactions: :class:`list`
+        """
+        
+        Commands.__init__(
+            self,
+            client=client,
+            prefix=prefix,
+            color=color,
+            urlInvite=urlInvite,
+            reactions=reactions
+        )
+        
+        self.url = URL
+
     @commands.Cog.listener()
     async def on_ready(self):
         print(f"\nO {self.client.user.name} está escutando os comandos em Inglês.")
