@@ -120,6 +120,7 @@ class Message:
                 titleList.append("🎮 Jogo de __{}__ recomendado 🕹️".format(genre))
 
             titleList.append("💰 Jogo: {} 💰".format(gameName)) # $preçomáximo
+            titleList.append("💵 Moedas Disponíveis 💵") # $ajuda moedas
         elif(language == "en"):
             titleList.append("Here is the link to invite:") # $invite
             titleList.append("🎮 Spotlight 🎮") # $spotlight or $sl
@@ -129,6 +130,7 @@ class Message:
             titleList.append("👾 Game: {} 👾".format(gameName)) # $game
             titleList.append("🎮 Recommended __{}__ game  🕹️".format(genre)) # $genre
             titleList.append("💰 Game: {} 💰".format(gameName)) # $maxprice
+            titleList.append("💵 Supported Currencies 💵") # $help currency
 
         return titleList
 
@@ -453,3 +455,153 @@ class Message:
             msgList.append("😞 **Something went wrong! Try again.**")
 
         return msgList
+
+    def helpCurrencies(self, language: str = None) -> list:
+        """ Conteúdo do comando $help currency.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma do comando.
+
+        Returns
+        -----------
+        msgList: :class:`list`
+        """
+        
+        msgList = []
+
+        if(language == None):
+            msgList.append("Dirham")
+            msgList.append("Peso (Argentina)")
+            msgList.append("Dólar (Austrália)")
+            msgList.append("Real (Brasil)")
+            msgList.append("Dólar (Canadá)")
+            msgList.append("Franco (Suíça)")
+            msgList.append("Peso (Chile)")
+            msgList.append("Chinese Renminbi (yuan)")
+            msgList.append("Peso (Colômbia)")
+            msgList.append("Cólon (Costa Rica)")
+            msgList.append("Euro (União Europeia)")
+            msgList.append("Libra (Reino Unido)")
+            msgList.append("Dólar (Hong Kong)")
+            msgList.append("Novo shekel (Israel)")
+            msgList.append("Rupia (Indonésia)")
+            msgList.append("Rupia (Índia)")
+            msgList.append("Iene (Japão)")
+            msgList.append("Won (Coreia do Sul)")
+            msgList.append("Dinar (Kuwait)")
+            msgList.append("Tenge (Cazaquistão)")
+            msgList.append("Peso (México)")
+            msgList.append("Ringuite (Malásia)")
+            msgList.append("Coroa (Noruega)")
+            msgList.append("Dólar (Nova Zelândia)")
+            msgList.append("Sol (Peru)")
+            msgList.append("Peso (Filipinas)")
+            msgList.append("Złoty (Polônia)")
+            msgList.append("Rial (Catar)")
+            msgList.append("Rublo (Rússia)")
+            msgList.append("Rial (Arábia Saudita)")
+            msgList.append("Dólar (Singapura)")
+            msgList.append("Baht (Tailândia)")
+            msgList.append("Lira (Turquia)")
+            msgList.append("Dólar (Taiwan)")
+            msgList.append("Grívnia (Ucrânia)")
+            msgList.append("Dólar (Estados Unidos)")
+            msgList.append("Peso (Uruguai)")
+            msgList.append("Dong (Vietnã)")
+            msgList.append("Rande (África do Sul)")
+        elif(language == "en"):
+            msgList.append("United Arab Emirates Dirham")
+            msgList.append("Argentine Peso")
+            msgList.append("Australian Dollars")
+            msgList.append("Brazilian Reals")
+            msgList.append("Canadian Dollars")
+            msgList.append("Swiss Francs")
+            msgList.append("Chilean Peso")
+            msgList.append("Chinese Renminbi (yuan)")
+            msgList.append("Colombian Peso")
+            msgList.append("Costa Rican Colón")
+            msgList.append("European Union Euro")
+            msgList.append("United Kingdom Pound")
+            msgList.append("Hong Kong Dollar")
+            msgList.append("Israeli New Shekel")
+            msgList.append("Indonesian Rupiah")
+            msgList.append("Indian Rupee")
+            msgList.append("Japanese Yen")
+            msgList.append("South Korean Won")
+            msgList.append("Kuwaiti Dinar")
+            msgList.append("Kazakhstani Tenge")
+            msgList.append("Mexican Peso")
+            msgList.append("Malaysian Ringgit")
+            msgList.append("Norwegian Krone")
+            msgList.append("New Zealand Dollar")
+            msgList.append("Peruvian Sol")
+            msgList.append("Philippine Peso")
+            msgList.append("Polish Złoty")
+            msgList.append("Qatari Riyal")
+            msgList.append("Russian Rouble")
+            msgList.append("Saudi Riyal")
+            msgList.append("Singapore Dollar")
+            msgList.append("Thai Baht")
+            msgList.append("Turkish Lira")
+            msgList.append("New Taiwan Dollar")
+            msgList.append("Ukrainian Hryvnia")
+            msgList.append("United States Dollar")
+            msgList.append("Uruguayan Peso")
+            msgList.append("Vietnamese Dong")
+            msgList.append("South African Rand")
+
+        return msgList
+
+    def currenciesValues(self) -> list:
+        """ Conteúdo do comando $help currency.
+
+        Returns
+        -----------
+        currencyList: :class:`list`
+        """
+        
+        currencyList = []
+
+        currencyList.append("AED")
+        currencyList.append("ARS")
+        currencyList.append("AUD")
+        currencyList.append("BRL")
+        currencyList.append("CAD")
+        currencyList.append("CHF")
+        currencyList.append("CLP")
+        currencyList.append("CNY")
+        currencyList.append("COP")
+        currencyList.append("CRC")
+        currencyList.append("EUR")
+        currencyList.append("GBP")
+        currencyList.append("HKD")
+        currencyList.append("ILS")
+        currencyList.append("IDR")
+        currencyList.append("INR")
+        currencyList.append("JPY")
+        currencyList.append("KRW")
+        currencyList.append("KWD")
+        currencyList.append("KZT")
+        currencyList.append("MXN")
+        currencyList.append("MYR")
+        currencyList.append("NOK")
+        currencyList.append("NZD")
+        currencyList.append("PEN")
+        currencyList.append("PHP")
+        currencyList.append("PLN")
+        currencyList.append("QAR")
+        currencyList.append("RUB")
+        currencyList.append("SAR")
+        currencyList.append("SGD")
+        currencyList.append("THB")
+        currencyList.append("TRY")
+        currencyList.append("TWD")
+        currencyList.append("UAH")
+        currencyList.append("USD")
+        currencyList.append("UYU")
+        currencyList.append("VND")
+        currencyList.append("ZAR")
+
+        return currencyList
