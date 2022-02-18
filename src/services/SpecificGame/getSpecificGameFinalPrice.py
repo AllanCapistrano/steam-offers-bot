@@ -1,13 +1,15 @@
 from bs4 import BeautifulSoup
 from re import sub
 
-def getSpecificGameFinalPrice(soup: BeautifulSoup, haveDiscount: bool) -> str:
+def getSpecificGameFinalPrice(soup: BeautifulSoup, haveDiscount: bool, language: str) -> str:
     """ Função responsável por retornar o preço com desconto do jogo.
 
     Parameters
     -----------
     soup: :class:`BeautifulSoup`,
     haveDiscount :class:`bool`
+    language: :class: `str`
+         Idioma que se deseja visualizar a página do jogo. 
 
     Returns
     -----------
@@ -15,19 +17,27 @@ def getSpecificGameFinalPrice(soup: BeautifulSoup, haveDiscount: bool) -> str:
     """
     
     if(haveDiscount):
-        return  sub(r"\s+", "" , soup.find(class_="search_price").contents[3])
+        return soup.find(class_="search_price").contents[3]
     else:
         try:
             searchPrice = soup.find(class_="search_price").contents[0]
 
             if(searchPrice == "\n"):
-                return "Não disponível!"
+                if(language == "brazilian"):
+                    return "Não disponível!"
+                elif(language == "english"):
+                    return "Not available!"
 
             temp = sub(r"\s+", "" , searchPrice)
 
             if(temp.find("Gratuito") != -1):
                 return "Gratuito p/ Jogar"
+            elif(temp.find("Free") != -1):
+                return "Free To Play"
             
             return temp
         except:
-            return "Não disponível!"
+            if(language == "brazilian"):
+                return "Não disponível!"
+            elif(language == "english"):
+                return "Not available!"

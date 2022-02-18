@@ -1,6 +1,5 @@
 import os
 import asyncio
-from re import search
 
 import discord
 from discord import User, Reaction
@@ -13,6 +12,7 @@ from services.crawler import Crawler
 from services.messages import Message
 from services.GameReview.gameReviewEmbed import gameReviewEmbed
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
+from embeds.embedCurrency import EmbedCurrency
 
 # Permite a leitura do arquivo .env
 load_dotenv()
@@ -24,6 +24,8 @@ INVITE          = "https://discord.com/oauth2/authorize?client_id=71485236024102
 TOKEN           = os.getenv("DISCORD_TOKEN")
 REACTION_REVIEW = "👍"
 REACTION_GAME   = "🎮"
+REACTION_NEXT   = "➡️"
+REACTION_BACK   = "⬅️"
 # ---------------------------------------------------------------------------- #
 
 intents           = discord.Intents.default()
@@ -84,17 +86,15 @@ async def on_reaction_add(reaction: Reaction, user: User):
         message.author == client.user    and 
         not user.bot
     ):
-        language = None if message.embeds[0].title.find("Jogo") != -1 else "en"
+        language = None if message.embeds[0].title.find("Jogo") != -1 else "english"
 
         # Caso o comando seja $genre
         if(
             message.embeds[0].title.find("recomendado 🕹️") != -1 or
             message.embeds[0].title.find("🎮 Recommended") != -1
         ):
-            gameUrlEmbed = message.embeds[0].fields[1].value
             gameName     = message.embeds[0].fields[0].value
         else: # Caso o comando seja $genre ou $maxprice
-            gameUrlEmbed   = message.embeds[0].fields[0].value
             temp           = message.embeds[0].title.split(" ")
             gameName       = ""
             x              = 2
@@ -105,17 +105,11 @@ async def on_reaction_add(reaction: Reaction, user: User):
 
             gameName = gameName.strip()
 
-        gameUrl = search(r"\((.*?)\)", gameUrlEmbed).group(1)
-        gameIMG = message.embeds[0].image.url
-
         embedGameReview = await gameReviewEmbed(
-            crawler    = crawler,
-            embedColor = COLOR,
-            gameUrl    = gameUrl,
-            gameName   = gameName,
-            gameIMG    = gameIMG,
-            searchUrl  = None,
-            language   = language
+            crawler      = crawler,
+            embedColor   = COLOR,
+            gameToSearch = gameName,
+            language     = language
         )
 
         await message.channel.send(embed=embedGameReview)
@@ -129,7 +123,7 @@ async def on_reaction_add(reaction: Reaction, user: User):
         message.author == client.user    and
         not user.bot
     ):
-        language = None if message.embeds[0].title.find("Análise") != -1 else "en"
+        language = None if message.embeds[0].title.find("Análise") != -1 else "english"
 
         temp     = message.embeds[0].title.split(" ")
         gameName = ""
@@ -145,10 +139,65 @@ async def on_reaction_add(reaction: Reaction, user: User):
             crawler      = crawler, 
             embedColor   = COLOR, 
             gameToSearch = gameName,
+            currency     = "br" if language == None else "us",
             language     = language
         )
 
         await message.channel.send(embed=embedSpecificGame)
+    elif(
+        reaction.emoji                                == REACTION_NEXT and
+        (
+            message.embeds[0].title.find("Moedas")    != -1 or
+            message.embeds[0].title.find("Supported") != -1
+        ) and
+        user.id                                       != client.user.id and
+        not user.bot
+    ):
+        embedHelpCurrency = EmbedCurrency(
+            color   = COLOR,
+            message = customMessage
+        )
+
+        await reaction.message.remove_reaction(REACTION_NEXT, reaction.message.author)
+        await reaction.message.remove_reaction(REACTION_NEXT, user)
+
+        await reaction.message.add_reaction(REACTION_BACK)
+
+        if(message.embeds[0].title.find("Moedas") != -1):
+            await reaction.message.edit(
+                embed=embedHelpCurrency.embedCurrencyPortuguese(start=24, end=39)
+            )
+        elif(message.embeds[0].title.find("Supported") != -1):
+            await reaction.message.edit(
+                embed=embedHelpCurrency.embedCurrencyEnglish(start=24, end=39)
+            )
+    elif(
+        reaction.emoji                                == REACTION_BACK and
+        (
+            message.embeds[0].title.find("Moedas")    != -1 or
+            message.embeds[0].title.find("Supported") != -1
+        ) and
+        user.id                                       != client.user.id and
+        not user.bot
+    ):
+        embedHelpCurrency = EmbedCurrency(
+            color   = COLOR,
+            message = customMessage
+        )
+
+        await reaction.message.remove_reaction(REACTION_BACK, reaction.message.author)
+        await reaction.message.remove_reaction(REACTION_BACK, user)
+
+        await reaction.message.add_reaction(REACTION_NEXT)
+
+        if(message.embeds[0].title.find("Moedas") != -1):
+            await reaction.message.edit(
+                embed=embedHelpCurrency.embedCurrencyPortuguese(end=24)
+            )
+        elif(message.embeds[0].title.find("Supported") != -1):
+            await reaction.message.edit(
+                embed=embedHelpCurrency.embedCurrencyEnglish(end=24)
+            )
 
 # Mudar o Status do bot automaticamente e de forma aleatória.
 async def changeStatus():
@@ -175,7 +224,7 @@ client.add_cog(
         prefix=PREFIX, 
         color=COLOR, 
         urlInvite=INVITE,
-        reactions=[REACTION_REVIEW, REACTION_GAME]
+        reactions=[REACTION_REVIEW, REACTION_GAME, REACTION_NEXT, REACTION_BACK]
     )
 )
 # Permite que o Bot escute os comandos em Inglês.
@@ -185,7 +234,7 @@ client.add_cog(
         prefix=PREFIX, 
         color=COLOR, 
         urlInvite=INVITE,
-        reactions=[REACTION_REVIEW, REACTION_GAME]
+        reactions=[REACTION_REVIEW, REACTION_GAME, REACTION_NEXT, REACTION_BACK]
     )
 )
 

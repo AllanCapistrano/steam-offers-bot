@@ -46,11 +46,11 @@ from services.GameReview.getReviewTotalAmount import getReviewTotalAmount
 from services.GameReview.getReviewSumary import getReviewSumary
 
 # ------------------------------ Constants ----------------------------------- #
-URL_MAIN = 'https://store.steampowered.com/?cc=br&l=brazilian'
-URL_SPECIALS = 'https://store.steampowered.com/specials?cc=br&l=brazilian'
-URL_GAME = 'https://store.steampowered.com/search/?cc=br&l=brazilian&term='
-URL_GENRE = 'https://store.steampowered.com/category/'
-URL_PRICE_RANGE = 'https://store.steampowered.com/search/?l=brazilian'
+URL_MAIN = "https://store.steampowered.com/?cc=br&l=brazilian"
+URL_SPECIALS = "https://store.steampowered.com/specials?"
+URL_GAME = "https://store.steampowered.com/search/?"
+URL_GENRE = "https://store.steampowered.com/category/"
+URL_PRICE_RANGE = "https://store.steampowered.com/search/?"
 # ---------------------------------------------------------------------------- #
 class Crawler:
     # -------------------------- Request Url --------------------------------- #
@@ -95,9 +95,20 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # -------------------------- Daily Games --------------------------------- #
-    async def getDailyGamesOffers(self) -> tuple[list, list, list, list]:
+    async def getDailyGamesOffers(
+        self,
+        currency: str,
+        language: str
+    ) -> tuple[list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em promoção.
+
+        Parameters
+        -----------
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -111,34 +122,38 @@ class Crawler:
             Lista com os preços com o desconto aplicado dos jogos.
         """
         
-        soup = self.reqUrl(URL_SPECIALS)
+        soup = self.reqUrl(f"{URL_SPECIALS}cc={currency}&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getDailyGamesUrls, soup)
             thread1 = executor.submit(getDailyGamesImages, soup)
-            thread2 = executor.submit(getDailyGamesOriginalPrice, soup)
-            thread3 = executor.submit(getDailyGamesFinalPrice, soup)
+            thread2 = executor.submit(getDailyGamesOriginalPrice, soup, language)
+            thread3 = executor.submit(getDailyGamesFinalPrice, soup, language)
             
-
-        urls           = thread0.result()
-        images         = thread1.result()
+        urls   = thread0.result()
+        images = thread1.result()
 
         # Verificação de incoerências nos preços.
         (
             originalPrices, 
             finalPrices
         ) = handlePriceIssues(
-                originalPrices=thread2.result(), 
-                finalPrices=thread3.result()
+                originalPrices = thread2.result(), 
+                finalPrices    = thread3.result(),
             )
 
         return urls, images, originalPrices, finalPrices
     # ------------------------------------------------------------------------ #
 
     # -------------------------- Spotlight ----------------------------------- #
-    async def getSpotlightOffers(self) -> tuple[list, list, list]:
+    async def getSpotlightOffers(self, language: str = "brazilian") -> tuple[list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em destaque.
+
+        Parameters
+        -----------
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo.
 
         Returns
         -----------
@@ -150,7 +165,7 @@ class Crawler:
             Lista contento as informações dos jogos.
         """
         
-        soup = self.reqUrl(URL_SPECIALS)
+        soup = self.reqUrl(f"{URL_SPECIALS}cc=br&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getSpotlightUrls, soup)
@@ -185,13 +200,21 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Tab Content ---------------------------------- #
-    async def getTabContent(self, url: str, divId: str) -> tuple[list, list, list, list, list]:
+    async def getTabContent(
+        self, 
+        currency: str, 
+        language: str,
+        category: str,
+        divId: str
+    ) -> tuple[list, list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em uma aba específica.
 
         Parameters
         -----------
-        url: :class:`str`
+        currency: :class:`str`
+        language: :class:`str`
+        category: :class:`str`
         divId: :class:`str`
 
         Returns
@@ -207,7 +230,8 @@ class Crawler:
         images: :class:`list`
             Lista com as imagens dos jogos.
         """
-        
+
+        url  = f"https://store.steampowered.com/specials?cc={currency}#p=0&l={language}&tab={category}"
         soup = self.reqUrl(url)
 
         for tabContent in soup.find_all('div', id=divId):
@@ -231,20 +255,34 @@ class Crawler:
         if(gameWithoutPricing):
             for x in range(len(hasPrice) - 1):
                 if(not hasPrice[x]):
-                    originalPrices.insert(x, 'Preço indisponível!')
-                    finalPrices.insert(x, 'Preço indisponível!')
+                    if(language == None):
+                        originalPrices.insert(x, 'Preço indisponível!')
+                        finalPrices.insert(x, 'Preço indisponível!')
+                    elif(language == "english"):
+                        originalPrices.insert(x, 'Not available!')
+                        finalPrices.insert(x, 'Not available!')
+
 
         return names, urls, originalPrices, finalPrices, images
     # ------------------------------------------------------------------------ #
 
     # ------------------------ Specific Game --------------------------------- #
-    async def getSpecificGame(self, gameName: str) -> tuple[str, str, str, str, str, str, str]:
+    async def getSpecificGame(
+        self, 
+        gameName: str, 
+        language: str,
+        currency: str = "br"
+    ) -> tuple[str, str, str, str, str, str, str]:
         """Função responsável por retornar as informações e um jogo específico.
 
         Parameters
         -----------
         gameName: :class:`str`
             Nome do jogo que se deseja obter informações.
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo. 
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
 
         Returns
         -----------
@@ -262,7 +300,7 @@ class Crawler:
             Url de busca do jogo, caso o jogo especificado não seja o encontrado.
         """
         
-        searchUrl = URL_GAME + gameName
+        searchUrl = f"{URL_GAME}cc={currency}&l={language}&term={gameName}"
         soup = self.reqUrl(searchUrl)
 
         try:
@@ -273,11 +311,11 @@ class Crawler:
                 thread0 = executor.submit(getSpecificGameUrl, game)
                 thread1 = executor.submit(getSpecificGameImage, game)
                 thread2 = executor.submit(getSpecificGameName, game)
-                thread3 = executor.submit(getSpecificGameOriginalPrice, game, haveDiscount)
-                thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount)
+                thread3 = executor.submit(getSpecificGameOriginalPrice, game, haveDiscount, language)
+                thread4 = executor.submit(getSpecificGameFinalPrice, game, haveDiscount, language)
                 thread5 = executor.submit(
                     self.getGameDescription, 
-                    self.reqUrl(thread0.result() + "&l=brazilian")
+                    self.reqUrl(thread0.result() + f"&l={language}")
                 )
 
             url          = thread0.result()
@@ -293,7 +331,12 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ---------------------- Recommendation By Genre ------------------------- #
-    async def getGameRecommendationByGenre(self, genre: str) -> tuple[str, str, str, str, str, str]:
+    async def getGameRecommendationByGenre(
+        self, 
+        genre: str,
+        currency: str,
+        language: str
+    ) -> tuple[str, str, str, str, str, str]:
         """Função responsável por recomendar um jogo com base em gênero 
         especificado.
 
@@ -301,6 +344,10 @@ class Crawler:
         -----------
         genre: :class:`str`
             Gênero do jogo.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -315,13 +362,12 @@ class Crawler:
         gameImage: :class:`list`
             Imagem do jogo.
         """
-        
-        genre = genreFormatting(genre)
 
+        genre         = genreFormatting(genre)
         pos           = randint(0, len(TabContent) - 1)
         tabContent    = TabContent(pos).name
         tabContentRow = TabContentRow(pos).name
-        url           = URL_GENRE + '{}/?l=brazilian&cc=br#p=0&tab={}'.format(genre, tabContent)
+        url           = f"{URL_GENRE}{genre}/?l={language}&cc={currency}#p=0&tab={tabContent}"
 
         try:
             (
@@ -330,9 +376,13 @@ class Crawler:
                 gamesOriginalPrices, 
                 gamesFinalPrices, 
                 gamesImages
-            ) = await self.getTabContent(url, tabContentRow)
+            ) = await self.getTabContent(
+                    url      = url, 
+                    divId    = tabContentRow,
+                    language = language
+                )
             
-            index            = randint(0, len(gamesNames) - 1)
+            index             = randint(0, len(gamesNames) - 1)
             gameName          = gamesNames[index]
             gameUrl           = gamesUrls[index]
             gameOriginalPrice = gamesOriginalPrices[index]
@@ -345,15 +395,24 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ----------------- Recommendation By Price Range ------------------------ #
-    async def getGameRecommendationByPriceRange(self, code: str, maxPrice: float) -> tuple[str, str, str, str, str]:
+    async def getGameRecommendationByPriceRange(
+        self, code: str, 
+        maxPrice: str,
+        currency: str,
+        language:str
+    ) -> tuple[str, str, str, str, str]:
         """Função que retorna um jogo com base numa faixa de preço especificada.
 
         Parameters
         -----------
         code :class:`str`
             Código do preço.
-        maxPrice: :class:`float`
+        maxPrice: :class:`str`
             Faixa de preço.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -370,14 +429,14 @@ class Crawler:
         """
         
         if(code == "rZ04j"): # Preço maior que R$ 120,00
-            url      = URL_PRICE_RANGE
-            maxPrice = 0.0
+            url      = f"{URL_PRICE_RANGE}l={language}&cc={currency}"
+            maxPrice = "0"
         elif(code == "19Jfc"):  # Preço menor que R$ 10,00
-            url      = URL_PRICE_RANGE + '&maxprice=10&cc=br'
-            maxPrice = 10.0
+            url      = f"{URL_PRICE_RANGE}l={language}&maxprice=10&cc={currency}"
+            maxPrice = "10"
         else:
-            url = URL_PRICE_RANGE + '&maxprice={}&cc=br'.format(maxPrice)
-        
+            url = f"{URL_PRICE_RANGE}l={language}&maxprice={maxPrice}&cc={currency}"
+
         soup             = self.reqUrl(url)
         gameNames        = []
         gameImages       = []
@@ -388,8 +447,8 @@ class Crawler:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getRecommendationByPriceRangeNames, soup)
             thread1 = executor.submit(getRecommendationByPriceRangeImages, soup)
-            thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup)
-            thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup)
+            thread2 = executor.submit(getRecommendationByPriceRangeOriginalPrices, soup, language)
+            thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup, language)
             thread4 = executor.submit(getRecommendationByPriceRangeUrls, soup)
                 
         gameNames        = thread0.result()
@@ -398,7 +457,7 @@ class Crawler:
         gameFinalPrices  = thread3.result()
         gameUrls         = thread4.result()
 
-        index = verifyPriceRange(maxPrice=maxPrice, gameFinalPrices=gameFinalPrices)
+        index = verifyPriceRange(maxPrice=float(maxPrice), gameFinalPrices=gameFinalPrices)
 
         gameName        = gameNames[index]
         gameImage       = gameImages[index]
@@ -410,13 +469,22 @@ class Crawler:
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game By Link --------------------------------- #
-    async def getGameByLink(self, url: str) -> tuple[str, str, str, str, str]:
+    async def getGameByLink(
+        self, 
+        url: str,
+        language:str,
+        currency: str = "br"
+    ) -> tuple[str, str, str, str, str]:
         """Função responsável por retornar um jogo com base no link enviado.
 
         Parameters
         -----------
         url: :class:`str`
             URL do jogo enviada.
+        currency: :class:`str`
+            Moeda que se deseja ver o preço.
+        language: :class:`str`
+            Idioma que se deseja visualizar a página do jogo. 
 
         Returns
         -----------
@@ -430,13 +498,13 @@ class Crawler:
             Preço com desconto do jogo.
         """
         
-        soup = self.reqUrl(url + "?cc=br&l=brazilian")
+        soup = self.reqUrl(url + f"?cc={currency}&l={language}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getGameByLinkName, soup)
             thread1 = executor.submit(getGameByLinkImage, soup)
-            thread2 = executor.submit(getGameByLinkOriginalPrice, soup)
-            thread3 = executor.submit(getGameByLinkFinalPrice, soup)
+            thread2 = executor.submit(getGameByLinkOriginalPrice, soup, language)
+            thread3 = executor.submit(getGameByLinkFinalPrice, soup, language)
             thread4 = executor.submit(
                 self.getGameDescription, 
                 soup
@@ -451,8 +519,8 @@ class Crawler:
             orginalPrice, 
             finalPrice
         ) = handlePriceIssues(
-                originalPrices=[thread2.result()], 
-                finalPrices=[thread3.result()]
+                originalPrices = [thread2.result()], 
+                finalPrices    = [thread3.result()],
             )
 
         return name, image, orginalPrice[0], finalPrice[0], description
@@ -476,7 +544,7 @@ class Crawler:
             Quantidade total de análises do jogo.
         """
 
-        soup = self.reqUrl(url + "&l=brazilian")
+        soup = self.reqUrl(url)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getReviewSumary, soup)

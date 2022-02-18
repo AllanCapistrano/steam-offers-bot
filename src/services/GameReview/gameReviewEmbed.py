@@ -32,14 +32,17 @@ async def gameReviewEmbed(
             gameOriginalPrice,
             gameFinalPrice,
             gameDescription
-        ) = await crawler.getGameByLink(gameToSearch)
+        ) = await crawler.getGameByLink(
+                url      = gameToSearch,
+                language = language
+            )
 
         searchUrl = None
 
         if(language == None):
             gameURL = gameToSearch + "?l=brazilian"
-        elif(language == "en"):
-            gameURL = gameToSearch + "?l=english"
+        else:
+            gameURL = gameToSearch + f"?l={language}"
         
     else: # Caso seja passado o nome do jogo.
         (
@@ -50,7 +53,15 @@ async def gameReviewEmbed(
             gameFinalPrice,
             searchUrl,
             gameDescription
-        ) = await crawler.getSpecificGame(gameToSearch)
+        ) = await crawler.getSpecificGame(
+                gameName = gameToSearch,
+                language = language
+            )
+
+        if(language == None):
+            gameURL = gameURL + "&l=brazilian"
+        else:
+            gameURL = gameURL + f"&l={language}"
 
     if(
         gameURL   != None and
@@ -72,7 +83,7 @@ async def gameReviewEmbed(
             message     = Message()
         )
 
-        if(language == "en"):
+        if(language == "english"):
             return embedGameReview.embedGameReviewEnglish()
         
         return embedGameReview.embedGameReviewPortuguese()

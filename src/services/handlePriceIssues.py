@@ -30,5 +30,11 @@ def handlePriceIssues(originalPrices: list, finalPrices: list) -> tuple[list, li
             ):
                 originalPrices[x] = "Não disponível!"
                 finalPrices[x]    = "Não disponível!"
+            elif(
+                originalPrices[x] == "Not available!" or
+                finalPrices[x]    == "Not available!"
+            ):
+                originalPrices[x] = "Not available!"
+                finalPrices[x]    = "Not available!"
 
     return originalPrices, finalPrices

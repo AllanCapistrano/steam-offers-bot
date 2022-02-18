@@ -9,16 +9,24 @@ async def specificGameEmbed(
     crawler: Crawler,
     embedColor: Literal,
     gameToSearch: str,
-    language: str = None
+    currency: str = "br",
+    language: str = "brazilian"
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
     Parametrs
     ----------
     crawler: :class:`Crawler`
+        Crawler para realizar as buscas.
     embedColor: :class:`Literal`
+        Cor utilizada para customizar a Embed.
     gameToSearch :class:`str`
-    language :class:`str`
+        Jogo que se deseja buscar, pode ser tanto o nome quando o link da 
+        página do jogo na Steam.
+    currency: :class:`str`
+        Moeda que se deseja ver o preço.
+    language: :class:`str`
+        Idioma que se deseja visualizar a página do jogo.
 
     Returns
     ----------
@@ -32,14 +40,18 @@ async def specificGameEmbed(
             gameOriginalPrice,
             gameFinalPrice,
             gameDescription
-        ) = await crawler.getGameByLink(gameToSearch)
+        ) = await crawler.getGameByLink(
+                url      = gameToSearch,
+                currency = currency,
+                language = language
+            )
 
         searchUrl = None
 
         if(language == None):
-            gameURL = gameToSearch + "?l=brazilian"
-        elif(language == "en"):
-            gameURL = gameToSearch + "?l=english"
+            gameURL = gameToSearch + f"?l=brazilian"
+        else:
+            gameURL = gameToSearch + f"?l={language}"
     else:
         (
             gameName, 
@@ -49,7 +61,11 @@ async def specificGameEmbed(
             gameFinalPrice,
             searchUrl,
             gameDescription
-        ) = await crawler.getSpecificGame(gameToSearch)
+        ) = await crawler.getSpecificGame(
+                gameName = gameToSearch,
+                currency = currency,
+                language = language
+            )
 
     if(
         gameName          != None and
@@ -70,7 +86,7 @@ async def specificGameEmbed(
             message           = Message()
         )
 
-        if(language == "en"):
+        if(language == "english"):
             return embedSpecificGame.embedSpecificGameEnglish()
 
         return embedSpecificGame.embedSpecificGamePortuguese()

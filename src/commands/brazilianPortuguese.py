@@ -15,7 +15,11 @@ from embeds.embedGameRecommendationByPrice import EmbedGameRecommendationByPrice
 from embeds.embedGenre import EmbedGenre
 from embeds.embedSpotlightGame import EmbedSpotlightGame
 from embeds.embedDailyGame import EmbedDailyGame
+from embeds.embedCurrency import EmbedCurrency
 
+# ------------------------------ Constants ----------------------------------- #
+LANGUAGE = "brazilian"
+# ---------------------------------------------------------------------------- #
 class CommandsBrazilianPortuguese(Commands, commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
@@ -46,7 +50,8 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
         elif(
             ctx.subcommand_passed != "gênero" and 
             ctx.subcommand_passed != "genero" and 
-            ctx.subcommand_passed != "categoria"
+            ctx.subcommand_passed != "categoria" and
+            ctx.subcommand_passed != "moedas" 
         ):
             raise commands.CommandNotFound()
 
@@ -71,6 +76,17 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
         )
 
         await ctx.send(embed=embedHelpGameTab.embedHelpGameTabPortuguese())
+
+    @help.command(name="moedas")
+    async def helpCurrencies(self, ctx: Context):
+        embedHelpCurrency = EmbedCurrency(
+            color   = self.color,
+            message = self.message
+        )
+
+        messageSent = await ctx.send(embed=embedHelpCurrency.embedCurrencyPortuguese(end=24))
+
+        await messageSent.add_reaction(self.reactions[2])
 
     @commands.command(name="convite")
     async def invite(self, ctx: Context):
@@ -135,10 +151,11 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
                 x -= 1
 
     @commands.command(name="promoção", aliases=["promocao", "pr"])
-    async def dailyGamesOffers(self, ctx: Context):
+    async def dailyGamesOffers(self, ctx: Context, *args: str):
         # Mensagem de busca, com efeito de carregamento.
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
+        currency       = self.currency.defineCurrency(args=args)
         
         sleep(0.5)
         await searchMessage.edit(content=messageContent+" **.**")
@@ -151,7 +168,10 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             gamesImages,
             gamesOriginalPrices,
             gamesFinalPrices
-        ) = await self.crawler.getDailyGamesOffers()
+        ) = await self.crawler.getDailyGamesOffers(
+            currency = currency,
+            language = LANGUAGE
+        )
         x = len(gamesUrls)
 
         if(
@@ -212,21 +232,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "np"
         ]
     )
-    async def newAndTrending(self, ctx: Context):
+    async def newAndTrending(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"NewReleases", divId="NewReleasesRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency, 
+                language = LANGUAGE,
+                category = "NewReleases",
+                divId    = "NewReleasesRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
     
     @gameTab.command(
@@ -236,21 +263,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "mv"
         ]
     )
-    async def topSellers(self, ctx: Context):
+    async def topSellers(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"TopSellers", divId="TopSellersRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency, 
+                language = LANGUAGE,
+                category = "TopSellers",
+                divId    = "TopSellersRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
 
     @gameTab.command(
@@ -260,21 +294,28 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "jp"
         ]
     )
-    async def beingPlayed(self, ctx: Context):
+    async def beingPlayed(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"ConcurrentUsers", divId="ConcurrentUsersRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency,
+                language = LANGUAGE,
+                category = "ConcurrentUsers",
+                divId    = "ConcurrentUsersRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
 
     @gameTab.command(
@@ -286,26 +327,34 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             "pv"
         ]
     )
-    async def prePurchase(self, ctx: Context):
+    async def prePurchase(self, ctx: Context, *args: str):
+        currency = self.currency.defineCurrency(args=args)
+
         (
             gamesNames, 
             gamesUrls, 
             gamesOriginalPrices, 
             gamesFinalPrices, 
             gamesImages
-        ) = await self.crawler.getTabContent(url=self.url+"ComingSoon", divId="ComingSoonRows")
+        ) = await self.crawler.getTabContent(
+                currency = currency,
+                language = LANGUAGE,
+                category = "ComingSoon",
+                divId    ="ComingSoonRows"
+            )
 
         await self.sendGameTabToUser(
-            ctx=ctx,
-            gamesNames=gamesNames,
-            gamesUrls=gamesUrls,
-            gamesOriginalPrices=gamesOriginalPrices,
-            gamesFinalPrices=gamesFinalPrices
+            ctx                 = ctx,
+            gamesNames          = gamesNames,
+            gamesUrls           = gamesUrls,
+            gamesOriginalPrices = gamesOriginalPrices,
+            gamesFinalPrices    = gamesFinalPrices
         )
     
     @commands.command(name="jogo")
     async def specificGame(self, ctx: Context, *, args: str):
-        gameToSearch = args
+        gameToSearch = args.split(" | ")[0]
+        currency     = self.currency.defineCurrency(args=args)
 
         # Mensagem de busca de jogo, com efeito de carregamento.
         messageContent    = self.message.searchMessage()[1]
@@ -320,7 +369,9 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
         embedSpecificGame = await specificGameEmbed(
             crawler      = self.crawler, 
             embedColor   = self.color, 
-            gameToSearch = gameToSearch
+            gameToSearch = gameToSearch,
+            currency     = currency,
+            language     = LANGUAGE
         )
 
         if(embedSpecificGame != None):
@@ -337,7 +388,8 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
 
     @commands.command(name="gênero", aliases=["genero"])
     async def gameGenre(self, ctx: Context, *, args: str):
-        gameGenreToSearch = args
+        gameGenreToSearch = args.split(" | ")[0]
+        currency          = self.currency.defineCurrency(args=args)
 
         # Mensagem de busca, com efeito de carregamento.
         messageContent      = self.message.searchMessage()[2]
@@ -355,7 +407,11 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             gameOriginalPrice, 
             gameFinalPrice, 
             gameIMG
-        ) = await self.crawler.getGameRecommendationByGenre(gameGenreToSearch)
+        ) = await self.crawler.getGameRecommendationByGenre(
+                genre    = gameGenreToSearch,
+                currency = currency,
+                language = LANGUAGE
+            )
 
         if(
             gameName          != None and 
@@ -398,10 +454,12 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
         ]
     )
     async def maxPrice(self, ctx: Context, *, args: str):
-        if(not args.isnumeric()):
+        maxPrice = args.split(" | ")[0]
+
+        if(not maxPrice.isnumeric()):
             raise commands.ArgumentParsingError()
         
-        maxPrice = args
+        currency = self.currency.defineCurrency(args=args)
 
         # Mensagem de busca de jogo, com efeito de carregamento.
         messageContent    = self.message.searchMessage()[3]
@@ -428,7 +486,9 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             gameFinalPrice
         ) = await self.crawler.getGameRecommendationByPriceRange(
                 code     = maxPriceCode, 
-                maxPrice = float(maxPrice)
+                maxPrice = float(maxPrice),
+                currency = currency,
+                language = LANGUAGE
             )
 
         embedGameRecommendationByPrice = EmbedGameRecommendationByPrice(
