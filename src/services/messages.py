@@ -168,6 +168,7 @@ class Message:
             msgList.append("**Recomenda um jogo dada uma faixa máxima de preço. Obs: Não precisa dos [].**")
             msgList.append("**Mostra o resumo das análises de um jogo. Obs: Não precisa dos [].**")
             msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: Digite `{}ajuda categoria` para ver todas as categorias.**".format(prefix))
+            msgList.append("**Mostra todas as moedas disponíveis.**")
         elif(language == "en"):
             msgList.append("**[Click Here]({}) to see an image with all game genres.**".format(img))
             msgList.append("**Shows which games are on daily offer or free to play.**")
@@ -183,6 +184,7 @@ class Message:
             msgList.append("**Recommends a game by price range. Ps: Don't need the [].**")
             msgList.append("**Shows a summary of the reviews about the game. Ps: Don't need the [].**")
             msgList.append("**Send to you a private message with a list of games. PS: To see all categories, send `{}help gametab`**".format(prefix))
+            msgList.append("**Shows all the currencies you can use.**")
 
         return msgList
 

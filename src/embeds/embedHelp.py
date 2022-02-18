@@ -86,6 +86,11 @@ class EmbedHelp():
             value  = self.message.helpValues()[12], 
             inline = False
         )
+        self.embed.add_field(
+            name  = "```{}ajuda moedas```".format(self.prefix),
+            value = self.message.helpValues()[14],
+            inline= False
+        )
 
         return self.embed
 
@@ -148,6 +153,11 @@ class EmbedHelp():
             name   = "```{}review [game name]```".format(self.prefix),
             value  = self.message.helpValues(language="en")[12], 
             inline = False
+        )
+        self.embed.add_field(
+            name  = "```{}help currencies```".format(self.prefix),
+            value = self.message.helpValues(language="en")[14],
+            inline= False
         )
 
         return self.embed
