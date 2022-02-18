@@ -15,6 +15,7 @@ from embeds.embedGameRecommendationByPrice import EmbedGameRecommendationByPrice
 from embeds.embedGenre import EmbedGenre
 from embeds.embedSpotlightGame import EmbedSpotlightGame
 from embeds.embedDailyGame import EmbedDailyGame
+from embeds.embedCurrency import EmbedCurrency
 
 # ------------------------------ Constants ----------------------------------- #
 LANGUAGE         = "english"
@@ -46,7 +47,8 @@ class CommandsEnglish(Commands, commands.Cog):
             await ctx.send(embed=embedHelp.embedHelpEnglish())
         elif(
             ctx.subcommand_passed != "genre" and 
-            ctx.subcommand_passed != "gametab"
+            ctx.subcommand_passed != "gametab" and
+            ctx.subcommand_passed != "currencies" 
         ):
             raise commands.CommandNotFound()
 
@@ -71,6 +73,17 @@ class CommandsEnglish(Commands, commands.Cog):
         )
 
         await ctx.send(embed=embedHelpGameTab.embedHelpGameTabEnglish())
+
+    @help.command(name="currencies")
+    async def helpCurrencies(self, ctx: Context):
+        embedHelpCurrency = EmbedCurrency(
+            color   = self.color,
+            message = self.message
+        )
+
+        messageSent = await ctx.send(embed=embedHelpCurrency.embedCurrencyEnglish(end=24))
+
+        await messageSent.add_reaction(self.reactions[2])
 
     @commands.command(name="invite")
     async def invite(self, ctx: Context):
