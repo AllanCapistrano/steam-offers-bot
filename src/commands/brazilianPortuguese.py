@@ -35,9 +35,6 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
         if(isinstance(error, commands.DisabledCommand)):
             if(ctx.cog.qualified_name == "CommandsBrazilianPortuguese"):
                 await ctx.send(self.message.commandAlert()[5])
-        if(isinstance(error, commands.BadArgument)):
-            if(ctx.cog.qualified_name == "CommandsBrazilianPortuguese"):
-                await ctx.send(self.message.commandAlert()[2])
 
     @commands.group(name="ajuda", aliases=["comandos"])
     async def help(self, ctx: Context):
@@ -50,13 +47,8 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             )
 
             await ctx.send(embed=embedHelp.embedHelpPortuguese())
-        elif(
-            ctx.subcommand_passed != "gênero" and 
-            ctx.subcommand_passed != "genero" and 
-            ctx.subcommand_passed != "categoria" and
-            ctx.subcommand_passed != "moedas" 
-        ):
-            raise commands.BadArgument()
+        if(ctx.invoked_subcommand is None):
+            await ctx.send(self.message.commandAlert()[2])
 
     @help.command(name="gênero", aliases=["genero"])
     async def helpGenre(self, ctx: Context):
@@ -159,7 +151,7 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
         messageContent = self.message.searchMessage()[0]
         searchMessage  = await ctx.send(messageContent)
         currency       = self.currency.defineCurrency(args=args)
-        
+
         sleep(0.5)
         await searchMessage.edit(content=messageContent+" **.**")
         
