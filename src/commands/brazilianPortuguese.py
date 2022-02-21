@@ -47,7 +47,7 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
             )
 
             await ctx.send(embed=embedHelp.embedHelpPortuguese())
-        if(ctx.invoked_subcommand is None):
+        elif(ctx.invoked_subcommand is None):
             await ctx.send(self.message.commandAlert()[2])
 
     @help.command(name="gênero", aliases=["genero"])

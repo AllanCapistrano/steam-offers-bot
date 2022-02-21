@@ -45,7 +45,7 @@ class CommandsEnglish(Commands, commands.Cog):
             )
 
             await ctx.send(embed=embedHelp.embedHelpEnglish())
-        if(ctx.invoked_subcommand is None):
+        elif(ctx.invoked_subcommand is None):
             await ctx.send(self.message.commandAlert(language="en")[2])
 
     @help.command(name="genre")
