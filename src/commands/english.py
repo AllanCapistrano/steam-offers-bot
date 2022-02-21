@@ -33,6 +33,9 @@ class CommandsEnglish(Commands, commands.Cog):
         if(isinstance(error, commands.DisabledCommand)):
             if(ctx.cog.qualified_name == "CommandsEnglish"):
                 await ctx.send(self.message.commandAlert(language="en")[5])
+        if(isinstance(error, commands.BadArgument)):
+            if(ctx.cog.qualified_name == "CommandsEnglish"):
+                await ctx.send(self.message.commandAlert(language="en")[2])
 
     @commands.group(name="help", aliases=["commands"])
     async def help(self, ctx: Context):
@@ -50,7 +53,7 @@ class CommandsEnglish(Commands, commands.Cog):
             ctx.subcommand_passed != "gametab" and
             ctx.subcommand_passed != "currencies" 
         ):
-            raise commands.CommandNotFound()
+            raise commands.BadArgument()
 
     @help.command(name="genre")
     async def helpGenre(self, ctx: Context):
