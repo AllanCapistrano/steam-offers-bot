@@ -79,7 +79,7 @@ class EmbedDailyGame():
         embed: :class:`Embed`
         """
 
-        self.embed.title = self.message.title(language="en")[2]
+        self.embed.title = self.message.title(language="english")[2]
 
         self.embed.set_image(url=self.gameImg)
         self.embed.add_field(

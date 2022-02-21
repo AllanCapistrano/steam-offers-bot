@@ -56,12 +56,12 @@ class EmbedHelpGenre():
         embed: :class:`Embed`
         """
 
-        self.embed.title       = self.message.title(language="en")[4]
-        self.embed.description = self.message.gameGenres(language="en")
+        self.embed.title       = self.message.title(language="english")[4]
+        self.embed.description = self.message.gameGenres(language="english")
 
         self.embed.add_field(
             name   = "Didn't understand?",
-            value  = self.message.helpValues(language="en", img=self.imgGenres[1])[0],
+            value  = self.message.helpValues(language="english", img=self.imgGenres[1])[0],
             inline = False
         )
         self.embed.set_footer(text="Send {}genre [one of genres above]".format(self.prefix))

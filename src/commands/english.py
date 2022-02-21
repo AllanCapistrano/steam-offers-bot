@@ -29,10 +29,10 @@ class CommandsEnglish(Commands, commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.CommandNotFound)):
-            await ctx.send(self.message.commandAlert(language="en")[2])
+            await ctx.send(self.message.commandAlert(language=LANGUAGE)[2])
         if(isinstance(error, commands.DisabledCommand)):
             if(ctx.cog.qualified_name == "CommandsEnglish"):
-                await ctx.send(self.message.commandAlert(language="en")[5])
+                await ctx.send(self.message.commandAlert(language=LANGUAGE)[5])
 
     @commands.group(name="help", aliases=["commands"])
     async def help(self, ctx: Context):
@@ -46,7 +46,7 @@ class CommandsEnglish(Commands, commands.Cog):
 
             await ctx.send(embed=embedHelp.embedHelpEnglish())
         elif(ctx.invoked_subcommand is None):
-            await ctx.send(self.message.commandAlert(language="en")[2])
+            await ctx.send(self.message.commandAlert(language=LANGUAGE)[2])
 
     @help.command(name="genre")
     async def helpGenre(self, ctx: Context):
@@ -95,7 +95,7 @@ class CommandsEnglish(Commands, commands.Cog):
     @commands.command(name="spotlight", aliases=["sl"])
     async def spotlightOffers(self, ctx: Context):
         # Mensagem de busca, com efeito de carregamento.
-        messageContent = self.message.searchMessage(language="en")[0]
+        messageContent = self.message.searchMessage(language=LANGUAGE)[0]
         searchMessage  = await ctx.send(messageContent)
         
         sleep(0.5)
@@ -116,7 +116,7 @@ class CommandsEnglish(Commands, commands.Cog):
             len(gamesImages)   == 0 or
             len(gamesContents) == 0
         ):
-            await searchMessage.edit(content=self.message.noOffers(language="en")[0])
+            await searchMessage.edit(content=self.message.noOffers(language=LANGUAGE)[0])
         else:
             firstIteration = True
 
@@ -143,10 +143,10 @@ class CommandsEnglish(Commands, commands.Cog):
 
                 x -= 1
 
-    @commands.command(name="dailydeal ", aliases=["dd"])
+    @commands.command(name="dailydeal", aliases=["dd"])
     async def dailyGamesOffers(self, ctx: Context, *args: str):
         # Mensagem de busca, com efeito de carregamento.
-        messageContent = self.message.searchMessage(language="en")[0]
+        messageContent = self.message.searchMessage(language=LANGUAGE)[0]
         searchMessage  = await ctx.send(messageContent)
         currency       = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
         
@@ -173,7 +173,7 @@ class CommandsEnglish(Commands, commands.Cog):
             len(gamesOriginalPrices) == 0 or
             len(gamesFinalPrices)    == 0
         ):
-            await searchMessage.edit(content=self.message.noOffers(language="en")[1])
+            await searchMessage.edit(content=self.message.noOffers(language=LANGUAGE)[1])
         else:
             firstIteration = True
 
@@ -216,7 +216,7 @@ class CommandsEnglish(Commands, commands.Cog):
     async def gameTab(self, ctx: Context):
         # Caso o subcomando não seja passado ou seja inválido.
         if(ctx.invoked_subcommand is None):
-            await ctx.send(self.message.commandAlert(language="en", prefix=self.prefix)[3])
+            await ctx.send(self.message.commandAlert(language=LANGUAGE, prefix=self.prefix)[3])
         
     @gameTab.command(
         name="new-tranding", 
@@ -247,7 +247,7 @@ class CommandsEnglish(Commands, commands.Cog):
             gamesUrls           = gamesUrls,
             gamesOriginalPrices = gamesOriginalPrices,
             gamesFinalPrices    = gamesFinalPrices,
-            language            = "en"
+            language            = LANGUAGE
         )
     
     @gameTab.command(
@@ -279,7 +279,7 @@ class CommandsEnglish(Commands, commands.Cog):
             gamesUrls           = gamesUrls,
             gamesOriginalPrices = gamesOriginalPrices,
             gamesFinalPrices    = gamesFinalPrices,
-            language            = "en"
+            language            = LANGUAGE
         )
 
     @gameTab.command(
@@ -311,7 +311,7 @@ class CommandsEnglish(Commands, commands.Cog):
             gamesUrls           = gamesUrls,
             gamesOriginalPrices = gamesOriginalPrices,
             gamesFinalPrices    = gamesFinalPrices,
-            language            = "en"
+            language            = LANGUAGE
         )
 
     @gameTab.command(
@@ -343,7 +343,7 @@ class CommandsEnglish(Commands, commands.Cog):
             gamesUrls           = gamesUrls,
             gamesOriginalPrices = gamesOriginalPrices,
             gamesFinalPrices    = gamesFinalPrices,
-            language            = "en"
+            language            = LANGUAGE
         )
     
     @commands.command(name="game")
@@ -352,7 +352,7 @@ class CommandsEnglish(Commands, commands.Cog):
         currency     = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
 
         # Mensagem de busca de jogo, com efeito de carregamento.
-        messageContent    = self.message.searchMessage(language="en")[1]
+        messageContent    = self.message.searchMessage(language=LANGUAGE)[1]
         searchGameMessage = await ctx.send(messageContent + " __"+ gameToSearch + "__ .**")
         
         sleep(0.5)
@@ -373,13 +373,13 @@ class CommandsEnglish(Commands, commands.Cog):
             await searchGameMessage.edit(content="", embed=embedSpecificGame)
             await searchGameMessage.add_reaction(self.reactions[0])
         else:
-            await searchGameMessage.edit(content=self.message.noOffers(language="en")[2])
+            await searchGameMessage.edit(content=self.message.noOffers(language=LANGUAGE)[2])
 
     @specificGame.error
     async def specificGameError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
-                await ctx.send(self.message.commandAlert(language="en", prefix=self.prefix)[0])
+                await ctx.send(self.message.commandAlert(language=LANGUAGE, prefix=self.prefix)[0])
 
     @commands.command(name="genre")
     async def gameGenre(self, ctx: Context, *, args: str):
@@ -387,7 +387,7 @@ class CommandsEnglish(Commands, commands.Cog):
         currency          = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
 
         # Mensagem de busca, com efeito de carregamento.
-        messageContent      = self.message.searchMessage(language="en")[2]
+        messageContent      = self.message.searchMessage(language=LANGUAGE)[2]
         searchGenreMessage  = await ctx.send(messageContent + " __"+ gameGenreToSearch +"__ .**")
         
         sleep(0.5)
@@ -432,13 +432,13 @@ class CommandsEnglish(Commands, commands.Cog):
             )
             await searchGenreMessage.add_reaction(self.reactions[0])
         else:
-            await searchGenreMessage.edit(content=self.message.noOffers(language="en", prefix=self.prefix)[3])
+            await searchGenreMessage.edit(content=self.message.noOffers(language=LANGUAGE, prefix=self.prefix)[3])
 
     @gameGenre.error
     async def gameGenreError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
-                await ctx.send(self.message.commandAlert(prefix=self.prefix)[1])
+                await ctx.send(self.message.commandAlert(prefix=self.prefix, language=LANGUAGE)[1])
 
     @commands.command(name="maxprice")
     async def maxPrice(self, ctx: Context, *, args: str):
@@ -450,7 +450,7 @@ class CommandsEnglish(Commands, commands.Cog):
         currency = self.currency.defineCurrency(args=args, defaultCurrency=DEFAULT_CURRENCY)
 
         # Mensagem de busca de jogo, com efeito de carregamento.
-        messageContent    = self.message.searchMessage(language="en")[3]
+        messageContent    = self.message.searchMessage(language=LANGUAGE)[3]
         searchGameMessage = await ctx.send(messageContent + " "+ maxPrice + "__ .**")
         
         sleep(0.5)
@@ -500,16 +500,16 @@ class CommandsEnglish(Commands, commands.Cog):
     async def maxPriceError(self, ctx: Context, error: CommandError):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
-                await ctx.send(self.message.recommendationByPrice(language="en")[3])
+                await ctx.send(self.message.recommendationByPrice(language=LANGUAGE)[3])
         if(isinstance(error, commands.ArgumentParsingError)):
-            await ctx.send(self.message.recommendationByPrice(language="en")[0])
+            await ctx.send(self.message.recommendationByPrice(language=LANGUAGE)[0])
     
     @commands.command(name="review", aliases=["reviews"])
     async def review(self, ctx: Context, *, args: str):
         gameToSearch = args
 
         # Mensagem de busca, com efeito de carregamento.
-        messageContent = self.message.searchMessage(language="en")[0]
+        messageContent = self.message.searchMessage(language=LANGUAGE)[0]
         searchMessage  = await ctx.send(messageContent)
         
         sleep(0.5)
@@ -529,7 +529,7 @@ class CommandsEnglish(Commands, commands.Cog):
             await searchMessage.edit(content="", embed=embedGameReview)
             await searchMessage.add_reaction(self.reactions[1])
         else:
-            await searchMessage.edit(content=self.message.noOffers(language="en")[2])
+            await searchMessage.edit(content=self.message.noOffers(language=LANGUAGE)[2])
 
     @review.error
     async def reviewError(self, ctx: Context, error: CommandError):

@@ -98,7 +98,7 @@ class EmbedGameRecommendationByPrice():
         """
 
         self.embed.title = self.message.title(
-            language = "en",
+            language = "english",
             gameName = self.gameName
         )[7]
 
@@ -130,11 +130,11 @@ class EmbedGameRecommendationByPrice():
 
         if(self.maxPriceCode == "rZ04j"):
             self.embed.set_footer(
-                text = self.message.recommendationByPrice(language="en")[1]
+                text = self.message.recommendationByPrice(language="english")[1]
             )
         elif(self.maxPriceCode == "19Jfc"):
             self.embed.set_footer(
-                text = self.message.recommendationByPrice(language="en")[2]
+                text = self.message.recommendationByPrice(language="english")[2]
             )
 
         return self.embed

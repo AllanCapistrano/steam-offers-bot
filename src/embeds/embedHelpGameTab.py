@@ -74,22 +74,22 @@ class EmbedHelpGameTab():
 
         self.embed.add_field(
             name   = "```{0}gametab new-tranding``` or ```{0}gametab nt```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[3], 
+            value  = self.message.helpValues(language="english")[3], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{0}gametab top-sellers``` or ```{0}gametab ts```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[4], 
+            value  = self.message.helpValues(language="english")[4], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{0}gametab being-played ``` or ```{0}gametab bp```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[5], 
+            value  = self.message.helpValues(language="english")[5], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{0}gametab pre-purchase``` or ```{0}gametab pp```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[6], 
+            value  = self.message.helpValues(language="english")[6], 
             inline = False
         )
 

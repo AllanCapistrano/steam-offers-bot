@@ -77,10 +77,10 @@ class EmbedCurrency():
 
 
         namesEmbed  = self.message.currenciesValues()
-        valuesEmbed = self.message.helpCurrencies(language="en")
+        valuesEmbed = self.message.helpCurrencies(language="english")
         
         if(len(namesEmbed) == len(valuesEmbed)):
-            self.embed.title = self.message.title(language="en")[8]
+            self.embed.title = self.message.title(language="english")[8]
 
             for index in range(start, end):
                 self.embed.add_field(

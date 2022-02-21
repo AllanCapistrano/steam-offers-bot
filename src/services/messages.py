@@ -50,7 +50,7 @@ class Message:
                 "utilize o comando `{}help genre` para verificar ".format(prefix) + \
                 "a lista completa dos gêneros disponíveis.**"
             )
-        elif(language == "en"):
+        elif(language == "english"):
             # Mensagem de destaque.
             msgList.append(
                 "😟 **Can't find spotlights at the moment, try again later!**")
@@ -83,7 +83,7 @@ class Message:
         """
         if(language == None):
             return "** Cheque sua DM**"
-        elif(language == "en"):
+        elif(language == "english"):
             return "** Check your DM**"
 
     def title(self, language: str = None, genre: str = None , gameName: str = None) -> list:
@@ -121,7 +121,7 @@ class Message:
 
             titleList.append("💰 Jogo: {} 💰".format(gameName)) # $preçomáximo
             titleList.append("💵 Moedas Disponíveis 💵") # $ajuda moedas
-        elif(language == "en"):
+        elif(language == "english"):
             titleList.append("Here is the link to invite:") # $invite
             titleList.append("🎮 Spotlight 🎮") # $spotlight or $sl
             titleList.append("🕹️ Daily Deal 🕹️") # $dailydeal or $dd
@@ -169,7 +169,7 @@ class Message:
             msgList.append("**Mostra o resumo das análises de um jogo. Obs: Não precisa dos [].**")
             msgList.append("**Envia para a sua DM uma lista contendo diversos jogos. Obs: Digite `{}ajuda categoria` para ver todas as categorias.**".format(prefix))
             msgList.append("**Mostra todas as moedas disponíveis.**")
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("**[Click Here]({}) to see an image with all game genres.**".format(img))
             msgList.append("**Shows which games are on daily offer or free to play.**")
             msgList.append("**Shows which events or games are in the spotlight in the Steam.**")
@@ -205,7 +205,7 @@ class Message:
             msgList.append("**Bot para visualizar informações sobre jogos e promoções "
                 "na Steam sem precisar sair do Discord. Criado por ") # Informações.
             msgList.append("18 de Fevereiro de 2022") # Data da última atualização.
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("**Bot to show information about Steam games and "
                 "offers, without leaving Discord. Created by ") # Informações.
             msgList.append("February 18, 2022") # Data da última atualização.
@@ -264,7 +264,7 @@ class Message:
             alertList.append("⚠️ **Comando desabilitado temporariamente!**")
             alertList.append("⚠️ **Não consegui encontrar o comando especificado!**")
             alertList.append("⚠️ **Erro! Você não pode desabilitar este comando.**")
-        elif(language == "en"):
+        elif(language == "english"):
             alertList.append("⚠️ **You need to pass the name of the game! Ex: `{}game undertale`**".format(prefix))
             alertList.append("⚠️ **You need to pass the genre of the game! Ex: `{0}genre casual` \n Or try `{0}help genre` to see all genres.**".format(prefix))
             alertList.append("⚠️ **Invalid command!**")
@@ -322,7 +322,7 @@ class Message:
                 "Corrida`, `Corrida`, `Esporte em Equipe`, `Esportes`, `Esportes " + \
                 "Individuais`, `Pescaria e Caça`, `Simuladores de Esporte`, `Simulação " + \
                 "de Corrida`"
-        elif(language == "en"):
+        elif(language == "english"):
             return "`Action`, `Action Rogue-Like`, `Arcade & Rythm`, `Beat 'Em Up`, " + \
                 "`Fight & Martial Arts`, `First-Person Shooter`, `Platformer & Runner`, " + \
                 "`Third-Person Shooter`, `Role-Playing`, `Action RPG`, `Adventure RPG`, " + \
@@ -356,7 +356,7 @@ class Message:
             msgList.append("**🔎 Procurando pelo jogo")
             msgList.append("**🔎 Procurando por um jogo do gênero")
             msgList.append("**🔎 Procurando por um jogo de até __R$")
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("**🔎 Searching.**")
             msgList.append("**🔎 Searching for the game")
             msgList.append("**🔎 Searching for a game of the genre")
@@ -395,7 +395,7 @@ class Message:
             msgList.append(
                 "⚠️ **É necessário informar uma faixa máxima de preço.**"
             )
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append(
                 "⚠️ **Invalid price range! Try again. " + \
                 "\n PS: Don't use points or commas.**"
@@ -431,7 +431,7 @@ class Message:
 
         if(language == None):
             msgList.append("Não há análises disponíveis no momento.")
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("No reviews available.")
 
         return msgList
@@ -513,7 +513,7 @@ class Message:
             msgList.append("Peso (Uruguai)")
             msgList.append("Dong (Vietnã)")
             msgList.append("Rande (África do Sul)")
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("United Arab Emirates Dirham")
             msgList.append("Argentine Peso")
             msgList.append("Australian Dollars")

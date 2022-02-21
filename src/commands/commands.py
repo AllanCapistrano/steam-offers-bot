@@ -89,10 +89,7 @@ class Commands(commands.Cog):
                 len(gamesOriginalPrices) == 0 or
                 len(gamesFinalPrices)    == 0
             ):
-                if(language == None):
-                    await ctx.send(self.message.noOffers()[1])
-                if(language == "en"):
-                    await ctx.send(self.message.noOffers(language="en")[1])
+                await ctx.send(self.message.noOffers(language=language)[1])
             else:
                 messageConcat0 = ""
                 messageConcat1 = ""
@@ -116,7 +113,7 @@ class Commands(commands.Cog):
                         x -= 1
 
                     await ctx.send(member.mention + self.message.checkDm())
-                elif(language == "en"):
+                elif(language == "english"):
                     while(x > 0):
                         if(x >= (num/2)):
                             messageConcat0 = messageConcat0 + "**Name: **" + \
@@ -133,12 +130,12 @@ class Commands(commands.Cog):
                         
                         x -= 1
 
-                    await ctx.send(member.mention + self.message.checkDm(language="en"))
+                    await ctx.send(member.mention + self.message.checkDm(language=language))
                 
                 await member.send(messageConcat0)
                 await member.send(messageConcat1)
         else:
             if(language == None):
                 await ctx.send(self.message.somethingWentWrong()[0])
-            if(language == "en"):
-                await ctx.send(self.message.somethingWentWrong(language="en")[0])
+            if(language == "english"):
+                await ctx.send(self.message.somethingWentWrong(language=language)[0])

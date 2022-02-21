@@ -77,22 +77,22 @@ class EmbedBotInfo():
         embed: :class:`Embed`
         """
 
-        self.embed.title = self.message.title(language="en")[3]
+        self.embed.title = self.message.title(language="english")[3]
 
         self.embed.set_thumbnail(url=self.client.user.avatar_url)
         self.embed.add_field(
             name   = "Python", 
-            value  = self.message.infoValues(language="en")[0], 
+            value  = self.message.infoValues(language="english")[0], 
             inline = True
         )
         self.embed.add_field(
             name   = "discord.py", 
-            value  = self.message.infoValues(language="en")[1], 
+            value  = self.message.infoValues(language="english")[1], 
             inline = True
         )
         self.embed.add_field(
             name   = "About {}".format(self.client.user.name), 
-            value  = self.message.infoValues(language="en")[2] + 
+            value  = self.message.infoValues(language="english")[2] + 
             self.client.get_user(self.ownerId).name + "#" 
             + self.client.get_user(self.ownerId).discriminator + "**", 
             inline = False
@@ -104,7 +104,7 @@ class EmbedBotInfo():
         )
         self.embed.set_footer(
             text="Created May 26, 2020! | Last update on {}."
-            .format(self.message.infoValues(language="en")[3])
+            .format(self.message.infoValues(language="english")[3])
         )
 
         return self.embed

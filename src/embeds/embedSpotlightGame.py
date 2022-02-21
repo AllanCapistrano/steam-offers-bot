@@ -63,7 +63,7 @@ class EmbedSpotlightGame():
         embed: :class:`Embed`
         """
 
-        self.embed.title = self.message.title(language="en")[1]
+        self.embed.title = self.message.title(language="english")[1]
 
         self.embed.set_image(url=self.gameImg)
         self.embed.add_field(

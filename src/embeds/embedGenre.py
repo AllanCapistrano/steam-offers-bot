@@ -101,7 +101,7 @@ class EmbedGenre():
         """
 
         self.embed.title = self.message.title(
-            language="en",
+            language="english",
             genre=self.gameGenreToSearch
         )[6]
 

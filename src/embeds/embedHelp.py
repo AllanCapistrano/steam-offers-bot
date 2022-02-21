@@ -108,55 +108,55 @@ class EmbedHelp():
         )
         self.embed.add_field(
             name   = "```{0}dailydeal``` or ```{0}dd```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[1], 
+            value  = self.message.helpValues(language="english")[1], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{0}spotlight``` or ```{0}sl```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[2], 
+            value  = self.message.helpValues(language="english")[2], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{0}gametab [category]```".format(self.prefix),
             value  = self.message.helpValues(
-                language = "en", 
+                language = "english", 
                 prefix   = self.prefix
             )[13], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{}invite```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[7], 
+            value  = self.message.helpValues(language="english")[7], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{}info```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[8], 
+            value  = self.message.helpValues(language="english")[8], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{}game [game name]```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[9], 
+            value  = self.message.helpValues(language="english")[9], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{}genre [game genre]```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[10], 
+            value  = self.message.helpValues(language="english")[10], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{}maxprice [price]```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[11], 
+            value  = self.message.helpValues(language="english")[11], 
             inline = False
         )
         self.embed.add_field(
             name   = "```{}review [game name]```".format(self.prefix),
-            value  = self.message.helpValues(language="en")[12], 
+            value  = self.message.helpValues(language="english")[12], 
             inline = False
         )
         self.embed.add_field(
             name  = "```{}help currencies```".format(self.prefix),
-            value = self.message.helpValues(language="en")[14],
+            value = self.message.helpValues(language="english")[14],
             inline= False
         )
 

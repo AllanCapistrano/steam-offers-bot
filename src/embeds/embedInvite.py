@@ -53,7 +53,7 @@ class EmbedInvite():
         embed: :class:`Embed`
         """
         
-        self.embed.title = self.message.title(language="en")[0]
+        self.embed.title = self.message.title(language="english")[0]
         self.embed.set_thumbnail(url=self.client.user.avatar_url)
 
         return self.embed

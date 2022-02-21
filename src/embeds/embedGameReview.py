@@ -142,7 +142,7 @@ class EmbedGameReview():
             self.embed.set_image(url=self.gameImg)
             self.embed.add_field(
                 name   = "**PS:**", 
-                value  = self.message.noReviews(language="en")[0], 
+                value  = self.message.noReviews(language="english")[0], 
                 inline = False
             )
 
