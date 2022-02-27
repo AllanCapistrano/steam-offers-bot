@@ -19,6 +19,7 @@ class TestGetGameDescription(unittest.TestCase):
 
         description = self.crawler.getGameDescription(self.soup)
 
+        self.assertIsNotNone(description)
         self.assertIsInstance(description, str)
 
     @patch('bs4.BeautifulSoup', **{'return_value.raiseError.side_effect': Exception()})
