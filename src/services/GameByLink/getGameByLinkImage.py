@@ -11,5 +11,10 @@ def getGameByLinkImage(soup: BeautifulSoup) -> str:
     -----------
     image: :class:`str`
     """
+
+    try:
+        temp = soup.find(class_="game_header_image_ctn").contents[1].attrs["src"].replace("header", "capsule_231x87")
+    except:
+        temp = None
     
-    return soup.find(class_="game_header_image_ctn").contents[1].attrs["src"].replace("header", "capsule_231x87")
+    return temp
