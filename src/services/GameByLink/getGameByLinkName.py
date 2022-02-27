@@ -12,4 +12,9 @@ def getGameByLinkName(soup: BeautifulSoup) -> str:
     name: :class:`str`
     """
 
-    return soup.find(class_="apphub_AppName").contents[0]
+    try:
+        temp = soup.find(class_="apphub_AppName").contents[0]
+    except:
+        temp = None
+
+    return temp
