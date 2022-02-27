@@ -73,7 +73,7 @@ class Crawler:
         return soup
     # ------------------------------------------------------------------------ #
 
-    # -------------------------- Request Url --------------------------------- #
+    # ------------------------ Game Description ------------------------------ #
     def getGameDescription(self, soup: BeautifulSoup) -> str:
         """ Função responsável por retornar a descrição do jogo.
 
