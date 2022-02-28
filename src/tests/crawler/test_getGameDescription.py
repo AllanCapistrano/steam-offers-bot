@@ -11,8 +11,8 @@ class TestGetGameDescription(unittest.TestCase):
         self.crawler = Crawler()
         self.soup    = self.crawler.reqUrl("https://store.steampowered.com/app/391540/Undertale/")
 
-    def test_getGameByDescription(self):
-        """ Verifica se o método getGameByDescription() está funcionando 
+    def test_getGameDescription(self):
+        """ Verifica se o método getGameDescription() está funcionando 
         corretamente.
 
         """
@@ -23,8 +23,8 @@ class TestGetGameDescription(unittest.TestCase):
         self.assertIsInstance(description, str)
 
     @patch('bs4.BeautifulSoup', **{'return_value.raiseError.side_effect': Exception()})
-    def test_getGameByDescription_exception(self, mockedObjectConstructor):
-        """ Verifica se o método getGameByDescription() está capturando 
+    def test_getGameDescription_exception(self, mockedObjectConstructor):
+        """ Verifica se o método getGameDescription() está capturando 
         corretamente a exceção.
 
         """
