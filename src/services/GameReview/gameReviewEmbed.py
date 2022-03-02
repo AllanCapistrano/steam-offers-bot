@@ -58,16 +58,16 @@ async def gameReviewEmbed(
                 language = language
             )
 
-        if(language == None):
-            gameURL = gameURL + "&l=brazilian"
-        else:
-            gameURL = gameURL + f"&l={language}"
-
     if(
         gameURL   != None and
         gameIMG   != None and
         gameName  != None 
     ):
+        if(language == None):
+            gameURL = gameURL + "&l=brazilian"
+        else:
+            gameURL = gameURL + f"&l={language}"
+
         (
             sumary, 
             totalAmount
