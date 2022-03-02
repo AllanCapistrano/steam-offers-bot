@@ -46,10 +46,10 @@ from services.GameReview.getReviewTotalAmount import getReviewTotalAmount
 from services.GameReview.getReviewSumary import getReviewSumary
 
 # ------------------------------ Constants ----------------------------------- #
-URL_MAIN = "https://store.steampowered.com/?cc=br&l=brazilian"
-URL_SPECIALS = "https://store.steampowered.com/specials?"
-URL_GAME = "https://store.steampowered.com/search/?"
-URL_GENRE = "https://store.steampowered.com/category/"
+URL_MAIN        = "https://store.steampowered.com/?cc=br&l=brazilian"
+URL_SPECIALS    = "https://store.steampowered.com/specials?"
+URL_GAME        = "https://store.steampowered.com/search/?"
+URL_GENRE       = "https://store.steampowered.com/category/"
 URL_PRICE_RANGE = "https://store.steampowered.com/search/?"
 # ---------------------------------------------------------------------------- #
 class Crawler:
@@ -73,7 +73,7 @@ class Crawler:
         return soup
     # ------------------------------------------------------------------------ #
 
-    # -------------------------- Request Url --------------------------------- #
+    # ------------------------ Game Description ------------------------------ #
     def getGameDescription(self, soup: BeautifulSoup) -> str:
         """ Função responsável por retornar a descrição do jogo.
 
