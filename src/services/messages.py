@@ -292,7 +292,7 @@ class Message:
         """
         if(language == None):
             return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
-        elif(language == "en"):
+        elif(language == "english"):
             return "Not a game you're looking for? [Click Here]({}) to see the full list of games.".format(url)
 
     def gameGenres(self, language: str = None) -> str:
@@ -453,7 +453,7 @@ class Message:
 
         if(language == None):
             msgList.append("😞 **Algo de errado aconteceu! Tente novamente.**")
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("😞 **Something went wrong! Try again.**")
 
         return msgList
