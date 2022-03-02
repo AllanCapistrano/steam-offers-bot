@@ -11,5 +11,10 @@ def getSpecificGameImage(soup: BeautifulSoup) -> str:
     -----------
     image: :class:`str`
     """
+
+    try:
+        temp = soup.find("img").attrs["srcset"].split(" ")[2]
+    except:
+        temp = None
     
-    return soup.find("img").attrs["srcset"].split(" ")[2]
+    return temp

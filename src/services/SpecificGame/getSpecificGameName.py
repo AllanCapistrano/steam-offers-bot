@@ -11,5 +11,10 @@ def getSpecificGameName(soup: BeautifulSoup) -> str:
     -----------
     name: :class:`str`
     """
+
+    try:
+        temp = soup.find(class_="search_name").contents[1].contents[0]
+    except:
+        temp = None
     
-    return soup.find(class_="search_name").contents[1].contents[0]
+    return temp
