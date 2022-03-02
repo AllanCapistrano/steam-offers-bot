@@ -38,16 +38,16 @@ Toda e qualquer sugestão é bem-vinda, e pode ser enviada através do campo de 
 ## 📋 Lista de Comandos ##
 Comando | Descrição
 ------- | ---------
-`$help` | Exibe todos os comandos que o Bot pode executar com uma breve descrição.
+`$ajuda` | Exibe todos os comandos que o Bot pode executar com uma breve descrição.
 `$convite` | Gera o convite para que o Bot possa ser adicionado em outros servidores.
 `$promocao` ou `$pr` | Exibe quais jogos estão na promoção diária da Steam ou gratuitos por um tempo limitado
 `$destaque` ou `$dt` | Exibe os eventos que estão em destaque na Steam, ou os jogos em promoção que estão em destaque na loja.
-`$gametab [categoria]` | Envia para a sua DM uma lista contendo diversos jogos. Obs: digite `$help gametab` para ver todas as categorias.
+`$categoria [categoria]` | Envia para a sua DM uma lista contendo diversos jogos. Obs: digite `$ajuda categoria` para ver todas as categorias.
 `$botinfo` | Exibe as informações do Bot.
-`$game [nome do jogo]` ou `$game [link]` | Busca um jogo e exibe as suas informações.
-`$genre [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
-`$maxprice [preço]` | Recomenda um jogo dada uma faixa máxima de preço.
-`$review [nome do jogo]` ou `$review [link]` | Mostra o resumo das análises de um jogo.
+`$jogo [nome do jogo]` ou `$jogo [link]` | Busca um jogo e exibe as suas informações.
+`$gênero [gênero do jogo]` | Recomenda um jogo a partir do gênero especificado.
+`$preçomáximo [preço]` | Recomenda um jogo dada uma faixa máxima de preço.
+`$análise [nome do jogo]` ou `$análise [link]` | Mostra o resumo das análises de um jogo.
 
 ------------
 

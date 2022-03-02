@@ -132,7 +132,7 @@ class EmbedGameReview():
                     name   = "**PS:**", 
                     value  = self.message.wrongGame(
                         url      = self.searchUrl, 
-                        language = "en"
+                        language = "english"
                     ), 
                     inline = False
                 )

@@ -204,11 +204,11 @@ class Message:
         if(language == None):
             msgList.append("**Bot para visualizar informações sobre jogos e promoções "
                 "na Steam sem precisar sair do Discord. Criado por ") # Informações.
-            msgList.append("21 de Fevereiro de 2022") # Data da última atualização.
+            msgList.append("02 de Março de 2022") # Data da última atualização.
         elif(language == "english"):
             msgList.append("**Bot to show information about Steam games and "
                 "offers, without leaving Discord. Created by ") # Informações.
-            msgList.append("February 21, 2022") # Data da última atualização.
+            msgList.append("March 02, 2022") # Data da última atualização.
 
         return msgList
 
@@ -292,7 +292,7 @@ class Message:
         """
         if(language == None):
             return "Não era o jogo que estava buscando? [Clique Aqui]({}) para visualizar a lista completa dos jogos.".format(url)
-        elif(language == "en"):
+        elif(language == "english"):
             return "Not a game you're looking for? [Click Here]({}) to see the full list of games.".format(url)
 
     def gameGenres(self, language: str = None) -> str:
@@ -453,7 +453,7 @@ class Message:
 
         if(language == None):
             msgList.append("😞 **Algo de errado aconteceu! Tente novamente.**")
-        elif(language == "en"):
+        elif(language == "english"):
             msgList.append("😞 **Something went wrong! Try again.**")
 
         return msgList

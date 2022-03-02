@@ -104,7 +104,7 @@ class EmbedSpecificGame():
 
         self.embed.title = self.message.title(
             gameName = self.gameName,
-            language = "en"
+            language = "english"
         )[5]
 
         self.embed.set_image(url=self.gameImg)
@@ -144,7 +144,7 @@ class EmbedSpecificGame():
                 name   = "**PS:**", 
                 value  = self.message.wrongGame(
                     url      = self.searchUrl,
-                    language = "en"
+                    language = "english"
                 ), 
                 inline = False
             )
