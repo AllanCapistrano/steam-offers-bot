@@ -4,9 +4,9 @@ path.append("../../../") # Habilita a importação dos arquivo que etão em src/
 import unittest
 from unittest.mock import patch
 from services.crawler import Crawler
-from services.SpecificGame.getSpecificGameImage import getSpecificGameImage
+from services.SpecificGame.getSpecificGameName import getSpecificGameName
 
-class TestGetSpecificGameImage(unittest.TestCase):
+class TestGetSpecificGameName(unittest.TestCase):
     @classmethod
     def setUpClass(self) -> None:
         currency     = "us"
@@ -16,26 +16,27 @@ class TestGetSpecificGameImage(unittest.TestCase):
         soup         = self.crawler.reqUrl(f"https://store.steampowered.com/search/?cc={currency}&l={language}&term={gameName}")
         self.game    = soup.find(id='search_resultsRows').find(class_='search_result_row ds_collapse_flag')
 
-    def test_getSpecificGameImage(self):
-        """ Verifica se o método getSpecificGameImage() está funcionando 
+    def test_getSpecificGameName(self):
+        """ Verifica se o método getSpecificGameName() está funcionando 
         corretamente.
 
         """
 
-        image = getSpecificGameImage(soup=self.game)
+        name = getSpecificGameName(soup=self.game)
 
-        self.assertIsNotNone(image)
-        self.assertIsInstance(image, str)
+        self.assertIsNotNone(name)
+        self.assertIsInstance(name, str)
+        self.assertEqual(name, "Undertale")
 
     @patch('bs4.BeautifulSoup', **{'return_value.raiseError.side_effect': Exception()})
-    def test_getSpecificGameImage_exception(self, mockedObjectConstructor):
-        """ Verifica se o método getSpecificGameImage() está capturando 
+    def test_getSpecificGameName_exception(self, mockedObjectConstructor):
+        """ Verifica se o método getSpecificGameName() está capturando 
         corretamente a exceção.
 
         """
 
         mockedSoup = mockedObjectConstructor.return_value.raiseError.side_effect
-        ret        = getSpecificGameImage(soup=mockedSoup)
+        ret        = getSpecificGameName(soup=mockedSoup)
         
         self.assertIsNone(ret)
 
