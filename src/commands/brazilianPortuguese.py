@@ -206,10 +206,12 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
     @commands.command(name="botinfo")
     async def botInfo(self, ctx: Context):
         embedBotInfo = EmbedBotInfo(
-            client  = self.client,
-            color   = self.color,
-            message = self.message,
-            ownerId = self.ownerId
+            client       = self.client,
+            color        = self.color,
+            message      = self.message,
+            ownerId      = self.ownerId,
+            ownerName    = self.ownerName,
+            ownerPicture = self.ownerPicture
         )
 
         await ctx.send(embed=embedBotInfo.embedBotInfoPortuguese())

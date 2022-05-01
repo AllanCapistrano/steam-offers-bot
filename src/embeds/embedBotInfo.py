@@ -11,7 +11,9 @@ class EmbedBotInfo():
         client: Bot,
         color: Literal, 
         message: Message,
-        ownerId: int
+        ownerId: int,
+        ownerName: str,
+        ownerPicture: str
     ) -> None:
         """ Método construtor.
 
@@ -21,13 +23,17 @@ class EmbedBotInfo():
         color: :class:`Literal`
         message: :class:`Message`
         ownerId: :class:`int`
+        ownerId: :class:`str`
+        ownerId: :class:`str`
         """
 
-        self.client  = client
-        self.color   = color
-        self.message = message
-        self.ownerId = ownerId
-        self.embed   = Embed(color=self.color)
+        self.client       = client
+        self.color        = color
+        self.message      = message
+        self.ownerId      = ownerId
+        self.ownerName    = ownerName
+        self.ownerPicture = ownerPicture
+        self.embed        = Embed(color=self.color)
     
     def embedBotInfoPortuguese(self) -> Embed:
         """ Monta a Embed do comando de informações do Bot em Português.
@@ -53,14 +59,16 @@ class EmbedBotInfo():
         self.embed.add_field(
             name   = "Sobre {}".format(self.client.user.name), 
             value  = self.message.infoValues()[2] + 
-            self.client.get_user(self.ownerId).name + "#" 
-            + self.client.get_user(self.ownerId).discriminator + "**", 
+            "{} ({}#{}).**".format(
+                self.ownerName,
+                self.client.get_user(self.ownerId).name, 
+                self.client.get_user(self.ownerId).discriminator
+            ), 
             inline = False
         )
         self.embed.set_author(
-            name     = self.client.get_user(self.ownerId).name + "#" 
-            + self.client.get_user(self.ownerId).discriminator, 
-            icon_url = self.client.get_user(self.ownerId).avatar_url
+            name     = self.ownerName, 
+            icon_url = self.ownerPicture
         )
         self.embed.set_footer(
             text="Criado em 26 de Maio de 2020! | Última atualização em {}."
@@ -93,14 +101,16 @@ class EmbedBotInfo():
         self.embed.add_field(
             name   = "About {}".format(self.client.user.name), 
             value  = self.message.infoValues(language="english")[2] + 
-            self.client.get_user(self.ownerId).name + "#" 
-            + self.client.get_user(self.ownerId).discriminator + "**", 
+            "{} ({}#{}).**".format(
+                self.ownerName,
+                self.client.get_user(self.ownerId).name, 
+                self.client.get_user(self.ownerId).discriminator
+            ), 
             inline = False
         )
         self.embed.set_author(
-            name     = self.client.get_user(self.ownerId).name + "#" 
-            + self.client.get_user(self.ownerId).discriminator, 
-            icon_url = self.client.get_user(self.ownerId).avatar_url
+            name     = self.ownerName, 
+            icon_url = self.ownerPicture
         )
         self.embed.set_footer(
             text="Created May 26, 2020! | Last update on {}."

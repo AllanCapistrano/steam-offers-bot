@@ -31,16 +31,18 @@ class Commands(commands.Cog):
         reactions: :class:`list`
         """
     
-        self.client    = client
-        self.prefix    = prefix
-        self.color     = color
-        self.urlInvite = urlInvite
-        self.ownerId   = 259443927441080330
-        self.reactions = reactions
-        self.message   = Message()
-        self.crawler   = Crawler()
-        self.currency  = Currency()
-        self.imgGenre  = IMG_GENRES
+        self.client       = client
+        self.prefix       = prefix
+        self.color        = color
+        self.urlInvite    = urlInvite
+        self.ownerId      = 259443927441080330
+        self.ownerName    = "Allan Capistrano"
+        self.ownerPicture = "https://github.com/AllanCapistrano.png"
+        self.reactions    = reactions
+        self.message      = Message()
+        self.crawler      = Crawler()
+        self.currency     = Currency()
+        self.imgGenre     = IMG_GENRES
 
     async def sendGameTabToUser(
         self, 
