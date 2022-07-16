@@ -11,7 +11,7 @@ class EmbedGameReview():
         gameName: str,
         gameImg: str,
         searchUrl: str,
-        sumary: list,
+        summary: list,
         totalAmount: list,
         message: Message,
     ) -> None:
@@ -23,7 +23,7 @@ class EmbedGameReview():
         gameName: :class:`str`
         gameImg: :class:`str`
         searchUrl: :class:`str`
-        sumary: :class:`list`
+        summary: :class:`list`
         totalAmount: :class:`list`
         message: :class:`Message`
         """
@@ -32,7 +32,7 @@ class EmbedGameReview():
         self.gameName    = gameName
         self.gameImg     = gameImg
         self.searchUrl   = searchUrl
-        self.sumary      = sumary
+        self.summary     = summary
         self.totalAmount = totalAmount
         self.message     = message
         self.embed       = Embed(color=self.color)
@@ -45,31 +45,31 @@ class EmbedGameReview():
         embed: :class:`Embed`
         """
 
-        if(len(self.sumary) > 0):
-            if (self.sumary[0].find("positivas") != -1):
+        if(len(self.summary) > 0):
+            if (self.summary[0].find("positivas") != -1):
                 self.embed.title = "👍 Análise: {} 👍".format(self.gameName)
-            elif(self.sumary[0].find("negativas") != -1):
+            elif(self.summary[0].find("negativas") != -1):
                 self.embed.title = "👎 Análise: {} 👎".format(self.gameName)
             else:
                 self.embed.title = "👍 Análise: {} 👎".format(self.gameName)
             
             self.embed.set_image(url=self.gameImg)
 
-            if(len(self.sumary) == 1 and len(self.totalAmount) == 1):
+            if(len(self.summary) == 1 and len(self.totalAmount) == 1):
                 self.embed.add_field(
                     name   = "**Todas as análises:**", 
-                    value  = "{} (Qtd. de análises: {})".format(self.sumary[0], self.totalAmount[0]), 
+                    value  = "{} (Qtd. de análises: {})".format(self.summary[0], self.totalAmount[0]), 
                     inline = False
                 ) 
-            elif(len(self.sumary) == 2 and len(self.totalAmount) == 2):
+            elif(len(self.summary) == 2 and len(self.totalAmount) == 2):
                 self.embed.add_field(
                     name   = "**Análises Recentes:**", 
-                    value  = "{} (Qtd. de análises: {})".format(self.sumary[0], self.totalAmount[0]), 
+                    value  = "{} (Qtd. de análises: {})".format(self.summary[0], self.totalAmount[0]), 
                     inline = False
                 )
                 self.embed.add_field(
                     name   = "**Todas as análises:**", 
-                    value  = "{} (Qtd. de análises: {})".format(self.sumary[1], self.totalAmount[1]), 
+                    value  = "{} (Qtd. de análises: {})".format(self.summary[1], self.totalAmount[1]), 
                     inline = False
                 )
 
@@ -99,31 +99,31 @@ class EmbedGameReview():
         embed: :class:`Embed`
         """
 
-        if(len(self.sumary) > 0):
-            if (self.sumary[0].find("positivas") != -1):
+        if(len(self.summary) > 0):
+            if (self.summary[0].find("positivas") != -1):
                 self.embed.title = "👍 Review: {} 👍".format(self.gameName)
-            elif(self.sumary[0].find("negativas") != -1):
+            elif(self.summary[0].find("negativas") != -1):
                 self.embed.title = "👎 Review: {} 👎".format(self.gameName)
             else:
                 self.embed.title = "👍 Review: {} 👎".format(self.gameName)
             
             self.embed.set_image(url=self.gameImg)
 
-            if(len(self.sumary) == 1 and len(self.totalAmount) == 1):
+            if(len(self.summary) == 1 and len(self.totalAmount) == 1):
                 self.embed.add_field(
                     name   = "**All reviews:**", 
-                    value  = "{} (Number of reviews: {})".format(self.sumary[0], self.totalAmount[0]), 
+                    value  = "{} (Number of reviews: {})".format(self.summary[0], self.totalAmount[0]), 
                     inline = False
                 ) 
-            elif(len(self.sumary) == 2 and len(self.totalAmount) == 2):
+            elif(len(self.summary) == 2 and len(self.totalAmount) == 2):
                 self.embed.add_field(
                     name   = "**Recent reviews:**", 
-                    value  = "{} (Number of reviews: {})".format(self.sumary[0], self.totalAmount[0]), 
+                    value  = "{} (Number of reviews: {})".format(self.summary[0], self.totalAmount[0]), 
                     inline = False
                 )
                 self.embed.add_field(
                     name   = "**All reviews:**", 
-                    value  = "{} (Number of reviews: {})".format(self.sumary[1], self.totalAmount[1]), 
+                    value  = "{} (Number of reviews: {})".format(self.summary[1], self.totalAmount[1]), 
                     inline = False
                 )
 

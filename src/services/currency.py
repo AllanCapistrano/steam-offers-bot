@@ -113,7 +113,7 @@ class Currency:
 
         Returns
         -----------
-        formatedCurrency: :class:`str`
+        formattedCurrency: :class:`str`
         """
         
         if(self.currencyExists(currency)):

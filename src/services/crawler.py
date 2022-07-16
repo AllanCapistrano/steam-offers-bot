@@ -43,7 +43,7 @@ from services.GameByLink.getGameByLinkOriginalPrice import getGameByLinkOriginal
 from services.GameByLink.getGameByLinkFinalPrice import getGameByLinkFinalPrice
 
 from services.GameReview.getReviewTotalAmount import getReviewTotalAmount
-from services.GameReview.getReviewSumary import getReviewSumary
+from services.GameReview.getReviewSummary import getReviewSummary
 
 # ------------------------------ Constants ----------------------------------- #
 URL_MAIN        = "https://store.steampowered.com/?cc=br&l=brazilian"
@@ -294,7 +294,7 @@ class Crawler:
             Url do jogo.
         image: :class:`str`
             Imagem do jogo.
-        orginalPrice: :class:`str`
+        originalPrice: :class:`str`
             Preço original do jogo.
         finalPrice: :class:`str`
             Preço com desconto do jogo.
@@ -320,16 +320,16 @@ class Crawler:
                     self.reqUrl(thread0.result() + f"&l={language}")
                 )
 
-            url          = thread0.result()
-            image        = thread1.result()
-            name         = thread2.result()
-            orginalPrice = thread3.result()
-            finalPrice   = thread4.result()
-            description  = thread5.result()
+            url           = thread0.result()
+            image         = thread1.result()
+            name          = thread2.result()
+            originalPrice = thread3.result()
+            finalPrice    = thread4.result()
+            description   = thread5.result()
         except:
-            url = image = name = orginalPrice = finalPrice = description = None
+            url = image = name = originalPrice = finalPrice = description = None
 
-        return name, url, image, orginalPrice, finalPrice, searchUrl.replace(" ", "%20"), description
+        return name, url, image, originalPrice, finalPrice, searchUrl.replace(" ", "%20"), description
     # ------------------------------------------------------------------------ #
 
     # ---------------------- Recommendation By Genre ------------------------- #
@@ -426,7 +426,7 @@ class Crawler:
             Imagem do jogo.
         gameUrl: :class:`str`
             Url do jogo.
-        gameOrinalPrice: :class:`str`
+        gameOriginalPrice: :class:`str`
             Preço original do jogo.
         gameFinalPrice: :class:`str`
             Preço com desconto do jogo.
@@ -441,12 +441,12 @@ class Crawler:
         else:
             url = f"{URL_PRICE_RANGE}l={language}&maxprice={maxPrice}&cc={currency}"
 
-        soup             = self.reqUrl(url)
-        gameNames        = []
-        gameImages       = []
-        gameUrls         = []
-        gameOrinalPrices = []
-        gameFinalPrices  = []
+        soup               = self.reqUrl(url)
+        gameNames          = []
+        gameImages         = []
+        gameUrls           = []
+        gameOriginalPrices = []
+        gameFinalPrices    = []
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thread0 = executor.submit(getRecommendationByPriceRangeNames, soup)
@@ -455,21 +455,21 @@ class Crawler:
             thread3 = executor.submit(getRecommendationByPriceRangeFinalPrices, soup, language)
             thread4 = executor.submit(getRecommendationByPriceRangeUrls, soup)
                 
-        gameNames        = thread0.result()
-        gameImages       = thread1.result()
-        gameOrinalPrices = thread2.result()
-        gameFinalPrices  = thread3.result()
-        gameUrls         = thread4.result()
+        gameNames          = thread0.result()
+        gameImages         = thread1.result()
+        gameOriginalPrices = thread2.result()
+        gameFinalPrices    = thread3.result()
+        gameUrls           = thread4.result()
 
         index = verifyPriceRange(maxPrice=float(maxPrice), gameFinalPrices=gameFinalPrices)
 
-        gameName        = gameNames[index]
-        gameImage       = gameImages[index]
-        gameUrl         = gameUrls[index]
-        gameOrinalPrice = gameOrinalPrices[index]
-        gameFinalPrice  = gameFinalPrices[index]
+        gameName          = gameNames[index]
+        gameImage         = gameImages[index]
+        gameUrl           = gameUrls[index]
+        gameOriginalPrice = gameOriginalPrices[index]
+        gameFinalPrice    = gameFinalPrices[index]
 
-        return gameName, gameImage, gameUrl, gameOrinalPrice, gameFinalPrice
+        return gameName, gameImage, gameUrl, gameOriginalPrice, gameFinalPrice
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game By Link --------------------------------- #
@@ -496,7 +496,7 @@ class Crawler:
             Nome do jogo.
         image: :class:`str`
             Imagem do jogo.
-        orginalPrice: :class:`str`
+        originalPrice: :class:`str`
             Preço original do jogo.
         finalPrice: :class:`str`
             Preço com desconto do jogo.
@@ -514,20 +514,20 @@ class Crawler:
                 soup
             )
 
-        name          = thread0.result()
-        image         = thread1.result()
-        description   = thread4.result()
+        name        = thread0.result()
+        image       = thread1.result()
+        description = thread4.result()
 
         # Verificação de incoerências nos preços.
         (
-            orginalPrice, 
+            originalPrice, 
             finalPrice
         ) = handlePriceIssues(
                 originalPrices = [thread2.result()], 
                 finalPrices    = [thread3.result()],
             )
 
-        return name, image, orginalPrice[0], finalPrice[0], description
+        return name, image, originalPrice[0], finalPrice[0], description
     # ------------------------------------------------------------------------ #
 
     # ------------------------- Game Reviews --------------------------------- #
@@ -542,7 +542,7 @@ class Crawler:
 
         Returns
         -----------
-        sumary: :class:`str`
+        summary: :class:`str`
             Resumo das análises do jogo.
         totalAmount: :class:`str`
             Quantidade total de análises do jogo.
@@ -551,11 +551,11 @@ class Crawler:
         soup = self.reqUrl(url)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            thread0 = executor.submit(getReviewSumary, soup)
+            thread0 = executor.submit(getReviewSummary, soup)
             thread1 = executor.submit(getReviewTotalAmount, soup)
 
-        sumary      = thread0.result()
+        summary     = thread0.result()
         totalAmount = thread1.result()
 
-        return sumary, totalAmount
+        return summary, totalAmount
     # ------------------------------------------------------------------------ #

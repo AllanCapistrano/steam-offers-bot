@@ -17,12 +17,12 @@ class TestGetReviewTotalAmount(unittest.TestCase):
 
         """
 
-        sumary = getReviewTotalAmount(self.soup)
+        summary = getReviewTotalAmount(self.soup)
 
-        self.assertIsNotNone(sumary)
-        self.assertIsInstance(sumary, list)
-        self.assertGreaterEqual(len(sumary), 0)
-        self.assertLessEqual(len(sumary), 2)
+        self.assertIsNotNone(summary)
+        self.assertIsInstance(summary, list)
+        self.assertGreaterEqual(len(summary), 0)
+        self.assertLessEqual(len(summary), 2)
 
 if __name__ == "__main__":
     unittest.main()

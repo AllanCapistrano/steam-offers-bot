@@ -69,7 +69,7 @@ async def gameReviewEmbed(
             gameURL = gameURL + f"&l={language}"
 
         (
-            sumary, 
+            summary, 
             totalAmount
         ) = await crawler.getGameReview(gameURL)
 
@@ -78,7 +78,7 @@ async def gameReviewEmbed(
             gameName    = gameName,
             gameImg     = gameIMG,
             searchUrl   = searchUrl,
-            sumary      = sumary,
+            summary     = summary,
             totalAmount = totalAmount,
             message     = Message()
         )

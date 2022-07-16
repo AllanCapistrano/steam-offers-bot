@@ -61,13 +61,13 @@ async def on_message(message: str):
             
             # Caso tenha todos os parâmetros necessários.
             if(len(temp) == 7):
-                embedGameBylink = await specificGameEmbed(
+                embedGameByLink = await specificGameEmbed(
                     crawler      = crawler,
                     embedColor   = COLOR,
                     gameToSearch = message.content.lower()
                 )
 
-                searchGameUrl = await message.channel.send(embed=embedGameBylink)
+                searchGameUrl = await message.channel.send(embed=embedGameByLink)
                 await searchGameUrl.add_reaction(REACTION_REVIEW)
 
 @client.event

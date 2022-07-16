@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-def getReviewSumary(soup: BeautifulSoup) -> list:
+def getReviewSummary(soup: BeautifulSoup) -> list:
     """ Função responsável por retornar uma lista contendo o resumo das análises
     de um jogo.
 
@@ -10,14 +10,14 @@ def getReviewSumary(soup: BeautifulSoup) -> list:
 
     Returns
     -----------
-    sumary: :class:`list`
+    summary: :class:`list`
     """
     
-    sumary = []
+    summary = []
 
     for reviews in soup.find('div', id='userReviews').find_all('div', class_='summary'):
         for content in reviews.find_all('span', class_='game_review_summary'):
-            sumary.append(content.contents[0])
+            summary.append(content.contents[0])
             
 
-    return sumary
+    return summary

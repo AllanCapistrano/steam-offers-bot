@@ -73,7 +73,7 @@ class EmbedHelpGameTab():
         """
 
         self.embed.add_field(
-            name   = "```{0}gametab new-tranding``` or ```{0}gametab nt```".format(self.prefix),
+            name   = "```{0}gametab new-trending``` or ```{0}gametab nt```".format(self.prefix),
             value  = self.message.helpValues(language="english")[3], 
             inline = False
         )

@@ -37,7 +37,7 @@ class Message:
             # Mensagem de destaque.
             msgList.append(
                 "😟 **Nenhum destaque encontrado no momento, tente novamente mais tarde!**")
-            # Mensagem de promção.
+            # Mensagem de promoção.
             msgList.append(
                 "😟 **Nenhuma promoção encontrada no momento, tente novamente mais tarde!**")
             # Mensagem de jogo específico.
@@ -54,7 +54,7 @@ class Message:
             # Mensagem de destaque.
             msgList.append(
                 "😟 **Can't find spotlights at the moment, try again later!**")
-            # Mensagem de promção.
+            # Mensagem de promoção.
             msgList.append(
                 "😟 **Can't find daily deals at the moment, try again later!**")
             # Mensagem de jogo específico.

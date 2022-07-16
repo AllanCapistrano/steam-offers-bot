@@ -10,14 +10,14 @@ def getTabContentOriginalPrices(soup: BeautifulSoup) -> list:
 
     Returns
     -----------
-    orginalPrices: :class:`list`
+    originalPrices: :class:`list`
     """
     
-    orginalPrices = []
+    originalPrices = []
 
     for tabContent in soup.find_all("div", class_="discount_prices"):                
         if(len(tabContent) == 2):
-            orginalPrices.append(tabContent.contents[0].contents[0])
+            originalPrices.append(tabContent.contents[0].contents[0])
         elif(len(tabContent) == 1):
             temp = tabContent.contents[0].contents[0]
 
@@ -26,6 +26,6 @@ def getTabContentOriginalPrices(soup: BeautifulSoup) -> list:
             elif(temp.find("Free") != -1):
                 temp = "Free To Play"
 
-            orginalPrices.append(temp)
+            originalPrices.append(temp)
 
-    return orginalPrices
+    return originalPrices

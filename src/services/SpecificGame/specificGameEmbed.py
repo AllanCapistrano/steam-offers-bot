@@ -14,7 +14,7 @@ async def specificGameEmbed(
 ) -> Embed:
     """ Função responsável por montar a Embed de um jogo específico.
 
-    Parametrs
+    Parameters
     ----------
     crawler: :class:`Crawler`
         Crawler para realizar as buscas.

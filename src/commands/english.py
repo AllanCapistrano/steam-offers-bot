@@ -221,9 +221,9 @@ class CommandsEnglish(Commands, commands.Cog):
             await ctx.send(self.message.commandAlert(language=LANGUAGE, prefix=self.prefix)[3])
         
     @gameTab.command(
-        name="new-tranding", 
+        name="new-trending", 
         aliases=[
-            "newtranding",
+            "newtrending",
             "nt"
         ]
     )
