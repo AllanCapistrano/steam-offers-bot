@@ -20,7 +20,7 @@
 </p>
 
 <table>
-    <caption>Read this documentation in the following languages:</caption>
+    <caption>Leia este documento nos seguintes idiomas:</caption>
     <tbody>
         <tr>
             <td><a href="https://github.com/AllanCapistrano/steam-offers-bot/blob/main/README.md">English</a></td>
