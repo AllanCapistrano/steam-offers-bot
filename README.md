@@ -24,7 +24,7 @@
     <tbody>
         <tr>
             <td><a href="https://github.com/AllanCapistrano/steam-offers-bot/blob/main/README.md">English</a></td>
-            <td><a href="">Português do Brasil</a></td>
+            <td><a href="https://github.com/AllanCapistrano/steam-offers-bot/blob/main/README-pt-br.md">Português do Brasil</a></td>
         </tr>
     </tbody>
 </table>
