@@ -39,7 +39,6 @@
 If you use the Bot, don't forget to rate it in the following BotLists:
 
 - [Top gg](https://top.gg/bot/714852360241020929)
-- [Disbotlist](https://disbotlist.xyz/bot/714852360241020929)
 
 Any and all feedback is welcome, and you can leave your feedback in BotLists or project [issues](https://github.com/AllanCapistrano/SteamOffersBot/issues).
 
