@@ -1,6 +1,6 @@
 from enum import Enum
 
-class TabContent(Enum):
+class TabContentEnum(Enum):
     NewReleases     = 0
     TopSellers      = 1
     ConcurrentUsers = 2

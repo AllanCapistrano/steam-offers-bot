@@ -3,8 +3,8 @@ import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 
-from services.tabContent import TabContent
-from services.tabContentRow import TabContentRow
+from enums.tabContentEnum import TabContentEnum
+from enums.tabContentRowEnum import TabContentRowEnum
 from services.genreFormatting import genreFormatting
 from services.handlePriceIssues import handlePriceIssues
 
@@ -366,9 +366,9 @@ class Crawler:
         """
 
         genre         = genreFormatting(genre)
-        pos           = randint(0, len(TabContent) - 1)
-        tabContent    = TabContent(pos).name
-        tabContentRow = TabContentRow(pos).name
+        pos           = randint(0, len(TabContentEnum) - 1)
+        tabContent    = TabContentEnum(pos).name
+        tabContentRow = TabContentRowEnum(pos).name
         url           = f"{URL_GENRE}{genre}/?l={language}&cc={currency}#p=0&tab={tabContent}"
 
         try:

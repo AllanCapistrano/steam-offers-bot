@@ -1,6 +1,6 @@
 from enum import Enum
 
-class TabContentRow(Enum):
+class TabContentRowEnum(Enum):
     NewReleasesRows     = 0
     TopSellersRows      = 1
     ConcurrentUsersRows = 2
