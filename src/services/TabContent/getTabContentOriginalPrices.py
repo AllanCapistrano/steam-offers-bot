@@ -24,7 +24,7 @@ def getTabContentOriginalPrices(soup: BeautifulSoup) -> list:
             if(temp.find("Gratuito") != -1):
                 temp = "Gratuito p/ Jogar"
             elif(temp.find("Free") != -1):
-                return "Free To Play"
+                temp = "Free To Play"
 
             orginalPrices.append(temp)
 

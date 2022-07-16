@@ -205,7 +205,8 @@ class Crawler:
         currency: str, 
         language: str,
         category: str,
-        divId: str
+        divId: str,
+        url: str = None
     ) -> tuple[list, list, list, list, list]:
         """Função responsável por retornar as informações dos jogos que estão
         em uma aba específica.
@@ -230,8 +231,9 @@ class Crawler:
         images: :class:`list`
             Lista com as imagens dos jogos.
         """
+        tabContentUrl = f"https://store.steampowered.com/specials?cc={currency}#p=0&l={language}&tab={category}"
+        url  = tabContentUrl if url == None else url
 
-        url  = f"https://store.steampowered.com/specials?cc={currency}#p=0&l={language}&tab={category}"
         soup = self.reqUrl(url)
 
         for tabContent in soup.find_all('div', id=divId):
@@ -251,7 +253,7 @@ class Crawler:
             images                         = thread5.result()
 
         # Verifica se há pelo menos um jogo sem preço. Em caso afirmativo, 
-        # adiciona essa infomação na posição correta da lista.
+        # adiciona essa informação na posição correta da lista.
         if(gameWithoutPricing):
             for x in range(len(hasPrice) - 1):
                 if(not hasPrice[x]):
@@ -379,9 +381,11 @@ class Crawler:
             ) = await self.getTabContent(
                     url      = url, 
                     divId    = tabContentRow,
-                    language = language
+                    category = tabContent,
+                    language = language,
+                    currency = currency
                 )
-            
+                    
             index             = randint(0, len(gamesNames) - 1)
             gameName          = gamesNames[index]
             gameUrl           = gamesUrls[index]
