@@ -47,7 +47,7 @@ class Message:
             # Mensagem de gênero do jogo.
             msgList.append(
                 "😟 **Gênero não encontrado! Por favor verifique o gênero foi digitado ou " + \
-                "utilize o comando `{}help genre` para verificar ".format(prefix) + \
+                "utilize o comando `{}ajuda gênero` para verificar ".format(prefix) + \
                 "a lista completa dos gêneros disponíveis.**"
             )
         elif(language == "english"):
