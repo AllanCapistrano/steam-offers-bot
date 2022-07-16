@@ -204,11 +204,11 @@ class Message:
         if(language == None):
             msgList.append("**Bot para visualizar informações sobre jogos e promoções "
                 "na Steam sem precisar sair do Discord. Criado por ") # Informações.
-            msgList.append("15 de Julho de 2022") # Data da última atualização.
+            msgList.append("16 de Julho de 2022") # Data da última atualização.
         elif(language == "english"):
             msgList.append("**Bot to show information about Steam games and "
                 "offers, without leaving Discord. Created by ") # Informações.
-            msgList.append("July 15, 2022") # Data da última atualização.
+            msgList.append("July 16, 2022") # Data da última atualização.
 
         return msgList
 
