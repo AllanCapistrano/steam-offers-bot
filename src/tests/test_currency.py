@@ -4,7 +4,7 @@ path.append("../") # Habilita a importação dos arquivo que etão em src/*
 import unittest
 from services.currency import Currency
 
-class TestGetGameDescription(unittest.TestCase):
+class TestCurrency(unittest.TestCase):
     @classmethod
     def setUpClass(self) -> None:
         self.currency = Currency()
