@@ -575,5 +575,5 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
                 )[8]
             )
 
-async def setup(bot: Bot) -> None:
-    await bot.add_cog(CommandsBrazilianPortuguese(client=bot))
+async def setup(client: Bot) -> None:
+    await client.add_cog(CommandsBrazilianPortuguese(client=client))

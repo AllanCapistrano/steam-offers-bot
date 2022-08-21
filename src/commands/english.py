@@ -540,5 +540,5 @@ class CommandsEnglish(Commands, commands.Cog):
             if(error.param.name == "args"):
                 await ctx.send(self.message.commandAlert(prefix=self.prefix)[4])
 
-async def setup(bot: Bot) -> None:
-    await bot.add_cog(CommandsEnglish(client=bot))
+async def setup(client: Bot) -> None:
+    await client.add_cog(CommandsEnglish(client=client))
