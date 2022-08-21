@@ -198,8 +198,8 @@ class Message:
         
         msgList = []
 
-        msgList.append("**3.10.1**") # Versão Python
-        msgList.append("**1.7.3**") # Versão Discord.py
+        msgList.append("**3.10.5**") # Versão Python
+        msgList.append("**2.0.0**") # Versão Discord.py
 
         if(language == None):
             msgList.append("**Bot para visualizar informações sobre jogos e promoções "

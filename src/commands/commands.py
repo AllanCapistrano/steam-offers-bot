@@ -1,44 +1,47 @@
-from typing import Literal
+import os
 
 from discord.ext import commands
 from discord.ext.commands import Bot, Context
+from dotenv import load_dotenv
 
 from services.crawler import Crawler
 from services.messages import Message
 from services.currency import Currency
 
+# Permite a leitura do arquivo .env
+load_dotenv()
+
 # ------------------------------ Constants ----------------------------------- #
-IMG_GENRES = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
+IMG_GENRES      = ["https://i.imgur.com/q0NfeWX.png", "https://i.imgur.com/XkSXCZy.png"]
+PREFIX          = os.getenv("PREFIX")
+COLOR           = 0xa82fd2
+INVITE          = "https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440"
+REACTION_REVIEW = "👍"
+REACTION_GAME   = "🎮"
+REACTION_NEXT   = "➡️"
+REACTION_BACK   = "⬅️"
 # ---------------------------------------------------------------------------- #
 
 class Commands(commands.Cog):
     def __init__(
         self, 
         client: Bot, 
-        prefix: str, 
-        color: Literal, 
-        urlInvite: str,
-        reactions: list
     ) -> None:
         """ Método construtor.
 
         Parameters
         -----------
         client: :class:`Bot`
-        prefix: :class:`str`
-        color: :class:`Literal`
-        urlInvite: :class:`str`
-        reactions: :class:`list`
         """
-    
+
         self.client       = client
-        self.prefix       = prefix
-        self.color        = color
-        self.urlInvite    = urlInvite
+        self.prefix       = PREFIX
+        self.color        = COLOR
+        self.urlInvite    = INVITE
         self.ownerId      = 259443927441080330
         self.ownerName    = "Allan Capistrano"
         self.ownerPicture = "https://github.com/AllanCapistrano.png"
-        self.reactions    = reactions
+        self.reactions    = [REACTION_REVIEW, REACTION_GAME, REACTION_NEXT, REACTION_BACK]
         self.message      = Message()
         self.crawler      = Crawler()
         self.currency     = Currency()

@@ -1,7 +1,7 @@
 from time import sleep
 
 from discord.ext import commands
-from discord.ext.commands import Context, CommandError
+from discord.ext.commands import Context, CommandError, Bot
 
 from commands.commands import Commands
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
@@ -538,3 +538,6 @@ class CommandsEnglish(Commands, commands.Cog):
         if(isinstance(error, commands.MissingRequiredArgument)):
             if(error.param.name == "args"):
                 await ctx.send(self.message.commandAlert(prefix=self.prefix)[4])
+
+async def setup(bot: Bot) -> None:
+    await bot.add_cog(CommandsEnglish(client=bot))

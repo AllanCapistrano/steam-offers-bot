@@ -1,7 +1,7 @@
 from time import sleep
 
 from discord.ext import commands
-from discord.ext.commands import Context, CommandError
+from discord.ext.commands import Context, CommandError, Bot
 
 from commands.commands import Commands
 from services.SpecificGame.specificGameEmbed import specificGameEmbed
@@ -574,3 +574,6 @@ class CommandsBrazilianPortuguese(Commands, commands.Cog):
                     status  = status
                 )[8]
             )
+
+async def setup(bot: Bot) -> None:
+    await bot.add_cog(CommandsBrazilianPortuguese(client=bot))
