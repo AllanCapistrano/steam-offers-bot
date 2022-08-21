@@ -41,7 +41,7 @@ class EmbedInvite():
         """
         
         self.embed.title = self.message.title()[0]
-        self.embed.set_thumbnail(url=self.client.user.avatar_url)
+        self.embed.set_thumbnail(url=self.client.user.avatar)
 
         return self.embed
 
@@ -54,6 +54,6 @@ class EmbedInvite():
         """
         
         self.embed.title = self.message.title(language="english")[0]
-        self.embed.set_thumbnail(url=self.client.user.avatar_url)
+        self.embed.set_thumbnail(url=self.client.user.avatar)
 
         return self.embed

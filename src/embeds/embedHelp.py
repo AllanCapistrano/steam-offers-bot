@@ -39,7 +39,7 @@ class EmbedHelp():
 
         self.embed.set_author(
             name     = f"{self.client.user.name} lista de comandos:", 
-            icon_url = self.client.user.avatar_url
+            icon_url = self.client.user.avatar
         )
         self.embed.add_field(
             name   = "```{0}promoção``` ou ```{0}pr```".format(self.prefix),
@@ -87,9 +87,9 @@ class EmbedHelp():
             inline = False
         )
         self.embed.add_field(
-            name  = "```{}ajuda moedas```".format(self.prefix),
-            value = self.message.helpValues()[14],
-            inline= False
+            name   = "```{}ajuda moedas```".format(self.prefix),
+            value  = self.message.helpValues()[14],
+            inline = False
         )
 
         return self.embed
@@ -104,7 +104,7 @@ class EmbedHelp():
 
         self.embed.set_author(
             name     = f"{self.client.user.name} command list:", 
-            icon_url = self.client.user.avatar_url
+            icon_url = self.client.user.avatar
         )
         self.embed.add_field(
             name   = "```{0}dailydeal``` or ```{0}dd```".format(self.prefix),
@@ -155,9 +155,9 @@ class EmbedHelp():
             inline = False
         )
         self.embed.add_field(
-            name  = "```{}help currencies```".format(self.prefix),
-            value = self.message.helpValues(language="english")[14],
-            inline= False
+            name   = "```{}help currencies```".format(self.prefix),
+            value  = self.message.helpValues(language="english")[14],
+            inline = False
         )
 
         return self.embed

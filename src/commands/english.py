@@ -36,6 +36,7 @@ class CommandsEnglish(Commands, commands.Cog):
 
     @commands.group(name="help", aliases=["commands"])
     async def help(self, ctx: Context):
+
         if(ctx.subcommand_passed is None):
             embedHelp = EmbedHelp(
                 client    = self.client,

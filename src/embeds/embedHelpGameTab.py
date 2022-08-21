@@ -39,7 +39,7 @@ class EmbedHelpGameTab():
 
         self.embed.set_author(
             name     = f"{self.client.user.name} comando {self.prefix}categoria:", 
-            icon_url = self.client.user.avatar_url
+            icon_url = self.client.user.avatar
         )
         self.embed.add_field(
             name   = "```{0}categoria novidades-populares``` ou ```{0}categoria np```".format(self.prefix),

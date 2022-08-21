@@ -45,7 +45,7 @@ class EmbedBotInfo():
 
         self.embed.title = self.message.title()[3]
 
-        self.embed.set_thumbnail(url=self.client.user.avatar_url)
+        self.embed.set_thumbnail(url=self.client.user.avatar)
         self.embed.add_field(
             name   = "Python", 
             value  = self.message.infoValues()[0], 
@@ -87,7 +87,7 @@ class EmbedBotInfo():
 
         self.embed.title = self.message.title(language="english")[3]
 
-        self.embed.set_thumbnail(url=self.client.user.avatar_url)
+        self.embed.set_thumbnail(url=self.client.user.avatar)
         self.embed.add_field(
             name   = "Python", 
             value  = self.message.infoValues(language="english")[0], 
