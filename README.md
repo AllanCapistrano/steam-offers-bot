@@ -1,7 +1,7 @@
 # SteamOffersBot
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/allancapistrano) 
 
-![BotStatus](https://img.shields.io/badge/status-online-success) [![python](https://img.shields.io/badge/python-3.10.1-informational?logo=python)](https://www.python.org/) [![discord.py](https://img.shields.io/badge/discord.py-1.7.3-informational?logo=discord&&logoColor=white)](https://pypi.org/project/discord.py/) [![BotInvite](https://img.shields.io/badge/Discord_Invite-48568a?logo=discord&&logoColor=white)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
+![BotStatus](https://img.shields.io/badge/status-offline-critical) [![python](https://img.shields.io/badge/python-3.10.1-informational?logo=python)](https://www.python.org/) [![discord.py](https://img.shields.io/badge/discord.py-1.7.3-informational?logo=discord&&logoColor=white)](https://pypi.org/project/discord.py/) [![BotInvite](https://img.shields.io/badge/Discord_Invite-48568a?logo=discord&&logoColor=white)](https://discord.com/oauth2/authorize?client_id=714852360241020929&scope=bot&permissions=485440)
 
 ------------
 
